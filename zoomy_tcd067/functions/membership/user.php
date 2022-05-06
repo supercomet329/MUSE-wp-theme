@@ -1011,6 +1011,8 @@ function tcd_membership_action_reset_password() {
 				$error_messages = get_tcd_membership_user_form_fields_error_messages( 'reset_password_new_password', $formdata );
 			}
 
+			// 2022/05/06 TODO: パスワードの書式チェックを自前で用意したほうがよい By H.Okabe
+
 			if ( ! $error_messages ) {
 				// 新しいパスワードセット
 				reset_password( $user, $formdata['new_pass1'] );
@@ -1035,7 +1037,7 @@ function tcd_membership_action_reset_password() {
 				if ( current_user_can( 'read' ) ) {
 					$redirect = get_tcd_membership_memberpage_url( 'reset_password' );
 				} else {
-					$redirect = get_tcd_membership_memberpage_url( 'login' );
+					$redirect = get_tcd_membership_memberpage_url( 'reset_password' );
 				}
 				$redirect = add_query_arg( 'message', 'password_changed', $redirect );
 				wp_safe_redirect( $redirect );
