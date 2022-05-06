@@ -96,6 +96,7 @@ function tcd_membership_login_form($args = array())
 										<button type="button" class="btn text-white btn-block btn-twitter font-weight-bold"> <i class="fab fa-twitter"></i>   Twitterでログイン</button>
 									</p>
 									<p class="text-center text-muted mt-5 mb-0"><a href="<?php echo esc_attr( get_tcd_membership_memberpage_url( 'reset_password' ) ); ?>" class="fw-bold text-body"><u class="text-muted">パスワードを忘れた方</u></a></p>
+									<p class="text-center text-muted mt-1 mb-0"><a href="<?php echo esc_attr( get_tcd_membership_memberpage_url( 'registration' ) ); ?>" class="fw-bold text-body"><u class="text-muted">新規ユーザー登録</u></a></p>
 								</div>
 							</div>
 						</div>
