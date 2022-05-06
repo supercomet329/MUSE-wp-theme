@@ -408,8 +408,10 @@ function tcd_membership_action_registration() {
 				$error_messages[] = __( 'Please enter a password.', 'tcd-w' );
 			} elseif ( 8 > strlen( $formdata['pass1'] ) ) {
 				$error_messages[] = __( 'Passwords must be at least 8 characters.', 'tcd-w' );
-			} elseif ( empty( $formdata['pass2'] ) || $formdata['pass1'] !== $formdata['pass2'] ) {
-				$error_messages[] = __( 'Please enter the same password in both password fields.', 'tcd-w' );
+			}
+
+			if(! isset($formdata['flg_service_on']) || (int)$formdata['flg_service_on'] !== 1) {
+				$error_messages[] = __( '利用規約に同意をして下さい。', 'tcd-w' );
 			}
 		}
 

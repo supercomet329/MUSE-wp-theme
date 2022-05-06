@@ -142,7 +142,8 @@ function zoomy_scripts() {
 	if ( ! $dp_options ) $dp_options = get_design_plus_option();
 
 	// 共通
-	wp_enqueue_style( 'zoomy-style', get_stylesheet_uri(), array(), version_num() );
+	wp_enqueue_style( 'main-style', get_template_directory_uri() . '/assets/css/style.css', array(), version_num() );
+
 	wp_enqueue_script( 'zoomy-script', get_template_directory_uri() . '/js/functions.js', array( 'jquery' ), version_num(), true );
 	wp_localize_script( 'zoomy-script', 'TCD_FUNCTIONS', array(
 		'ajax_url' => admin_url( 'admin-ajax.php' ),
