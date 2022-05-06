@@ -51,76 +51,60 @@ function tcd_membership_login_form($args = array())
 	endif;
 ?>
 	<form id="<?php echo esc_attr($args['form_id']); ?>" class="p-membership-form p-membership-form--login<?php if (!$args['modal']) echo ' js-membership-form--normal'; ?>" action="<?php echo esc_attr(get_tcd_membership_memberpage_url('login')); ?>" method="post">
-		<h2 class="p-member-page-headline"><?php _e('Login', 'tcd-w'); ?></h2>
-		<div class="p-membership-form__body p-body<?php if ($args['modal']) echo ' p-modal__body'; ?>">
-			<?php
-			if (!empty($tcd_membership_vars['message'])) :
-			?>
-				<div class="p-membership-form__message"><?php echo wpautop($tcd_membership_vars['message']); ?></div>
-			<?php
-			endif;
-			if (!empty($tcd_membership_vars['error_message'])) :
-			?>
-				<div class="p-membership-form__error"><?php echo wpautop($tcd_membership_vars['error_message']); ?></div>
-			<?php
-			endif;
+		<section class="vh-100 bg-image">
+			<div class="mask d-flex align-items-center h-100 gradient-custom-3">
+				<div class="container">
+					<div class="row d-flex justify-content-center align-items-center h-100">
+						<div class="col-12 col-lg-9 col-xl-7">
+							<div class="card" style="border-radius: 15px;">
+								<div class="card-body shadow">
+									<h2 class="text-center my-3">Museにログイン</h2>
+									<form>
+										<?php if (!empty($tcd_membership_vars['message'])) : ?>
+											<div class="p-membership-form__message"><?php echo wpautop($tcd_membership_vars['message']); ?></div>
+										<?php endif; ?>
 
-			echo apply_filters('login_form_top', '', $args);
-			?>
-			<p class="p-membership-form__login-email"><input type="email" name="log" value="<?php echo esc_attr(isset($_REQUEST['log']) ? $_REQUEST['log'] : $args['value_username']); ?>" placeholder="<?php echo esc_attr($args['label_username']); ?>" required></p>
-			<p class="p-membership-form__login-password"><input type="password" name="pwd" value="" placeholder="<?php echo esc_attr($args['label_password']); ?>" required></p>
-			<?php
-			echo apply_filters('login_form_middle', '', $args);
-			?>
-			<div class="p-membership-form__button">
-				<button class="p-button p-rounded-button js-submit-button" type="submit"><?php echo esc_html($args['label_log_in']); ?></button>
-				<?php
-				if ($args['redirect']) :
-				?>
-					<input type="hidden" name="redirect_to" value="<?php echo esc_attr($args['redirect']); ?>">
-				<?php
-				endif;
-				if ($args['modal']) :
-				?>
-					<input type="hidden" name="ajax_login" value="1">
-				<?php
-				endif;
-				?>
+										<?php if (!empty($tcd_membership_vars['error_message'])) : ?>
+											<div class="p-membership-form__error"><?php echo wpautop($tcd_membership_vars['error_message']); ?></div>
+										<?php endif; ?>
+
+										<?php echo apply_filters('login_form_top', '', $args); ?>
+										<div class="row">
+											<div class="col-12">
+												<label class="form-label " for="">メール</label>
+											</div>
+											<div class="col-12 pb-3">
+												<input type="email" name="log" class="form-control form-control-lg" value="<?php echo esc_attr(isset($_REQUEST['log']) ? $_REQUEST['log'] : $args['value_username']); ?>" placeholder="example@gmail.com" required>
+											</div>
+											<div class="col-12">
+												<label class="form-label " for="">パスワード</label>
+											</div>
+											<div class="col-12 pb-3">
+												<input type="password" class="form-control form-control-lg" name="pwd" value="" placeholder="password" required>
+											</div>
+										</div>
+										<div class="d-flex justify-content-center pt-4 pb-2">
+											<button type="submit" class="btn btn-primary text-white btn-block btn-lg gradient-custom-4 font-weight-bold f-size-4">ログイン</button>
+										</div>
+									</form>
+
+									<p class="divider-text my-4">
+										<span class="bg-light">OR</span>
+									</p>
+
+									<p>
+										<button type="button" class="btn text-white btn-block btn-twitter font-weight-bold"> <i class="fab fa-twitter"></i>   Twitterでログイン</button>
+									</p>
+									<p class="text-center text-muted mt-5 mb-0"><a href="<?php echo esc_attr( get_tcd_membership_memberpage_url( 'reset_password' ) ); ?>" class="fw-bold text-body"><u class="text-muted">パスワードを忘れた方</u></a></p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
-			<?php
-			if ($args['remember']) :
-			?>
-				<p class="p-membership-form__login-remember"><label><input name="rememberme" type="checkbox" value="forever" <?php if ($args['value_remember']) echo ' checked'; ?>><?php echo esc_html($args['label_remember']); ?></label></p>
-			<?php
-			endif;
-			?>
-			<p class="p-membership-form__login-reset_password"><a href="<?php echo esc_attr(get_tcd_membership_memberpage_url('reset_password')); ?>"><?php esc_html_e('Lost your password?', 'tcd-w'); ?></a></p>
-			<?php
-			if ($dp_options['membership']['login_form_desc']) :
-				echo wpautop($dp_options['membership']['login_form_desc']);
-			endif;
-
-			echo apply_filters('login_form_bottom', '', $args);
-			?>
-		</div>
+		</section>
 	</form>
 	<?php
-	if (tcd_membership_users_can_register()) :
-	?>
-		<div class="p-membership-form__login-registration">
-			<?php
-			if ($dp_options['membership']['login_registration_desc']) :
-			?>
-				<div class="p-membership-form__body p-body<?php if ($args['modal']) echo ' p-modal__body'; ?> p-membership-form__desc"><?php echo wpautop($dp_options['membership']['login_registration_desc']); ?></div>
-			<?php
-			endif;
-			?>
-			<p class="p-membership-form__button">
-				<a class="p-button p-rounded-button" href="<?php echo esc_attr(get_tcd_membership_memberpage_url('registration')); ?>"><?php echo esc_html($dp_options['membership']['login_registration_button_label'] ? $dp_options['membership']['login_registration_button_label'] : __('Registration here.', 'tcd-w')); ?></a>
-			</p>
-		</div>
-	<?php
-	endif;
 
 	if (!$args['echo']) :
 		return ob_get_clean();

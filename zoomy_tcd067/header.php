@@ -9,6 +9,8 @@ if (!$dp_options) $dp_options = get_design_plus_option();
 <meta charset="utf-8">
 <link rel="shortcut icon" href="">
 <link rel="apple-touch-icon" href="">
+<?php wp_head(); ?>
+
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -16,7 +18,6 @@ if (!$dp_options) $dp_options = get_design_plus_option();
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
-<?php wp_head(); ?>
 <?php if ($dp_options['use_ogp']) {
 	ogp();
 } ?>
