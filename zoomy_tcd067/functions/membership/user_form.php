@@ -95,8 +95,8 @@ function tcd_membership_login_form($args = array())
 									<p>
 										<button type="button" class="btn text-white btn-block btn-twitter font-weight-bold"> <i class="fab fa-twitter"></i>   Twitterでログイン</button>
 									</p>
-									<p class="text-center text-muted mt-5 mb-0"><a href="<?php echo esc_attr( get_tcd_membership_memberpage_url( 'reset_password' ) ); ?>" class="fw-bold text-body"><u class="text-muted">パスワードを忘れた方</u></a></p>
-									<p class="text-center text-muted mt-1 mb-0"><a href="<?php echo esc_attr( get_tcd_membership_memberpage_url( 'registration' ) ); ?>" class="fw-bold text-body"><u class="text-muted">新規ユーザー登録</u></a></p>
+									<p class="text-center text-muted mt-5 mb-0"><a href="<?php echo esc_attr(get_tcd_membership_memberpage_url('reset_password')); ?>" class="fw-bold text-body"><u class="text-muted">パスワードを忘れた方</u></a></p>
+									<p class="text-center text-muted mt-1 mb-0"><a href="<?php echo esc_attr(get_tcd_membership_memberpage_url('registration')); ?>" class="fw-bold text-body"><u class="text-muted">新規ユーザー登録</u></a></p>
 								</div>
 							</div>
 						</div>
@@ -213,6 +213,7 @@ function tcd_membership_registration_form($args = array())
 
 /**
  * 本会員登録・アカウント作成フォーム
+ * TODO: 2022/05/08 HTMLが届いたら入れ替え by 岡部
  */
 function tcd_membership_registration_account_form($args = array())
 {
@@ -245,77 +246,42 @@ function tcd_membership_registration_account_form($args = array())
 	if (!empty($tcd_membership_vars['registration_account']['valid_registration_token'])) :
 	?>
 		<form id="<?php echo esc_attr($args['form_id']); ?>" class="p-membership-form p-membership-form--registration_account" action="<?php echo esc_attr(get_tcd_membership_memberpage_url('registration_account')); ?>" method="post">
-			<div class="p-membership-form__input">
-				<h2 class="p-member-page-headline--color"><?php echo esc_html($dp_options['membership']['registration_account_headline'] ? $dp_options['membership']['registration_account_headline'] : __('Registration Account', 'tcd-w')); ?></h2>
-				<div class="p-membership-form__body p-body">
-					<?php
-					if (!empty($tcd_membership_vars['error_message'])) :
-					?>
-						<div class="p-membership-form__error"><?php echo wpautop($tcd_membership_vars['error_message']); ?></div>
-					<?php
-					endif;
-					?>
-					<table class="p-membership-form__table">
-						<?php
-						render_tcd_membership_user_form_fields('registration_account', null, array(
-							'use_confirm' => true,
-							'indent' => 7,
-							'email_readonly' => isset($tcd_membership_vars['registration_account']['email']) ? $tcd_membership_vars['registration_account']['email'] : null
-						) + $args);
+			<section class="vh-100 bg-image">
+				<div class="mask d-flex align-items-center h-100 gradient-custom-3">
+					<div class="container">
+						<div class="row d-flex justify-content-center align-items-center h-100">
+							<div class="col-12 col-lg-9 col-xl-7">
+								<div class="card" style="border-radius: 15px;">
+									<div class="card-body shadow">
+										<h5 class="text-center font-weight-bold my-3">ユーザー情報の入力</h5>
 
-						echo apply_filters('tcd_membership_registration_account_form_table', '', $args);
-						?>
-					</table>
-					<?php
-					echo apply_filters('tcd_membership_registration_account_form', '', $args);
+										<?php
+										render_tcd_membership_user_form_fields(
+											'registration_account',
+											null,
+											[
+												'use_confirm' => true,
+												'indent' => 7,
+												'email_readonly' => isset($tcd_membership_vars['registration_account']['email']) ? $tcd_membership_vars['registration_account']['email'] : null
+											] + $args
+										);
 
-					if ($dp_options['membership']['registration_account_desc']) :
-					?>
-						<div class="p-membership-form__desc"><?php echo wpautop($dp_options['membership']['registration_account_desc']); ?></div>
-					<?php
-					endif;
-					?>
-					<div class="p-membership-form__button">
-						<button class="p-button p-rounded-button" type="submit"><?php _e('Next', 'tcd-w'); ?></button>
-						<input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd-membership-registration_account')); ?>">
-						<?php
-						if (!empty($tcd_membership_vars['registration_account']['registration_token'])) :
-						?>
-							<input type="hidden" name="token" value="<?php echo esc_attr($tcd_membership_vars['registration_account']['registration_token']); ?>">
-						<?php
-						endif;
-						?>
+										echo apply_filters('tcd_membership_registration_account_form_table', '', $args);
+										?>
+
+										<button class="btn btn-primary text-white btn-block btn-lg gradient-custom-4 font-weight-bold f-size-4">確認する</button>
+										<input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd-membership-registration_account')); ?>">
+										<?php if (!empty($tcd_membership_vars['registration_account']['registration_token'])) { ?>
+											<input type="hidden" name="token" value="<?php echo esc_attr($tcd_membership_vars['registration_account']['registration_token']); ?>">
+										<?php } ?>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class="p-membership-form__confirm">
-				<h2 class="p-member-page-headline--color"><?php _e('Input contents confirmation', 'tcd-w'); ?></h2>
-				<div class="p-membership-form__body p-body"></div>
-				<div class="p-membership-form__button">
-					<button class="p-button p-rounded-button js-submit-button"><?php echo _e('Register', 'tcd-w'); ?></button>
-					<button class="p-membership-form__back-button js-back-button"><?php _e('Back', 'tcd-w'); ?></button>
-				</div>
-			</div>
-			<?php
-			if ($dp_options['membership']['registration_account_complete_headline'] || $dp_options['membership']['registration_account_complete_desc']) :
-			?>
-				<div class="p-membership-form__complete">
-					<?php
-					if ($dp_options['membership']['registration_account_complete_headline']) :
-					?>
-						<h2 class="p-member-page-headline--color"><?php echo esc_html($dp_options['membership']['registration_account_complete_headline']); ?></h2>
-					<?php
-					endif;
-					if ($dp_options['membership']['registration_account_complete_desc']) :
-					?>
-						<div class="p-membership-form__body p-body p-membership-form__desc"></div>
-					<?php
-					endif;
-					?>
-				</div>
-			<?php
-			endif;
-			?>
+
+			</section>
 		</form>
 		<?php
 		if (!$args['echo']) :
@@ -350,9 +316,24 @@ function tcd_membership_registration_account_form($args = array())
 	// エラー画面
 	elseif (!empty($tcd_membership_vars['error_message'])) :
 	?>
-		<div class="p-membership-form__body p-body">
-			<div class="p-membership-form__error"><?php echo wpautop($tcd_membership_vars['error_message']); ?></div>
-		</div>
+		<section class="vh-100 bg-image">
+			<div class="mask d-flex align-items-center h-100 gradient-custom-3">
+				<div class="container">
+					<div class="row d-flex justify-content-center align-items-center h-100">
+						<div class="col-12 col-lg-9 col-xl-7">
+							<div class="card" style="border-radius: 15px;">
+								<div class="card-body shadow">
+									<h5 class="text-center font-weight-bold my-3">
+										<?php echo wpautop($tcd_membership_vars['error_message']); ?>
+									</h5>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</section>
 	<?php
 	endif;
 }
@@ -741,21 +722,25 @@ function render_tcd_membership_user_form_fields($form_type = null, $user = null,
 
 	ob_start();
 
-	if ($args['show_display_name']) :
+	if ($args['show_display_name']) {
 	?>
-		<tr>
-			<th><label for="display_name"><?php echo esc_html($args['label_display_name']) . $args['required_html']; ?></label></th>
-			<td><input type="text" name="display_name" value="<?php echo esc_attr(isset($_REQUEST['display_name']) ? $_REQUEST['display_name'] : $user->display_name); ?>" minlength="3" maxlength="50" required<?php if ($args['use_confirm']) echo ' data-confirm-label="' . esc_attr($args['label_display_name']) . '"'; ?>></td>
-		</tr>
+		<div class="row">
+			<div class="col-12 pb-3">
+				<label for="display_name"><?php echo esc_html($args['label_display_name']) . $args['required_html']; ?></label>
+				<input type="text" name="display_name" class="form-control form-control-lg" value="<?php echo esc_attr(isset($_REQUEST['display_name']) ? $_REQUEST['display_name'] : $user->display_name); ?>" minlength="3" maxlength="50" required<?php if ($args['use_confirm']) echo ' data-confirm-label="' . esc_attr($args['label_display_name']) . '"'; ?>>
+			</div>
+		</div>
 	<?php
-	endif;
+	}
 
 	if ($args['show_email_readonly'] && isset($args['email_readonly'])) :
 	?>
-		<tr>
-			<th><label for="email"><?php echo esc_html($args['label_email']); ?></label></th>
-			<td><input class="readonly-email" type="text" value="<?php echo esc_attr($args['email_readonly']); ?>" readonly<?php if ($args['use_confirm']) echo ' data-confirm-label="' . esc_attr($args['label_email']) . '"'; ?>></td>
-		</tr>
+		<div class="row">
+			<div class="col-12 pb-3">
+				<label for="email"><?php echo esc_html($args['label_email']); ?></label>
+				<input class="readonly-email form-control form-control-lg" type="text" value="<?php echo esc_attr($args['email_readonly']); ?>" readonly<?php if ($args['use_confirm']) echo ' data-confirm-label="' . esc_attr($args['label_email']) . '"'; ?>>
+			</div>
+		</div>
 	<?php
 	elseif ($args['show_email']) :
 	?>
@@ -820,47 +805,60 @@ function render_tcd_membership_user_form_fields($form_type = null, $user = null,
 		endif;
 	endif;
 
-	if (!empty($args['show_gender'])) :
+	if (!empty($args['show_gender'])) {
 		?>
-		<tr>
-			<th><label for="gender"><?php
-									echo esc_html($args['label_gender']);
-									if ($args['required_gender']) :
-										echo $args['required_html'];
-									endif;
-									?></label></th>
-			<td class="p-membership-form__table-radios"><?php echo get_tcd_user_profile_input_radio('gender', $gender_options, isset($_REQUEST['gender']) ? $_REQUEST['gender'] : $user->gender, 'man'); ?></td>
-		</tr>
-	<?php
-	endif;
+		<div class="row">
+			<div class="col-12 pb-3">
+				<label for="gender">
+					<?php
+					echo esc_html($args['label_gender']);
+					if ($args['required_gender']) :
+						echo $args['required_html'];
+					endif;
+					?>
+				</label>
+				<?php echo get_tcd_user_profile_input_radio('gender', $gender_options, isset($_REQUEST['gender']) ? $_REQUEST['gender'] : $user->gender, 'man'); ?>
+			</div>
+		</div>
 
-	if (!empty($args['show_area'])) :
-	?>
-		<tr>
-			<th><label for="area"><?php
-									echo esc_html($args['label_area']);
-									if ($args['required_area']) :
-										echo $args['required_html'];
-									endif;
-									?></label></th>
-			<td><?php echo get_tcd_user_profile_input_area(isset($_REQUEST['area']) ? $_REQUEST['area'] : $user->area, $args['required_area'], $args['use_confirm'] ? $args['label_area'] : null); ?></td>
-		</tr>
 	<?php
-	endif;
+	}
 
-	if ($args['show_birthday']) :
+	if (!empty($args['show_area'])) {
 	?>
-		<tr>
-			<th><label for="birthday"><?php
-										echo esc_html($args['label_birthday']);
-										if ($args['required_birthday']) :
-											echo $args['required_html'];
-										endif;
-										?></label></th>
-			<td class="p-membership-form__table-birthday"><?php echo get_tcd_user_profile_input_birthday('_birthday', isset($_REQUEST['_birthday']) ? $_REQUEST['_birthday'] : $user->_birthday, $args['required_birthday'], $args['use_confirm'] ? $args['label_birthday'] : null); ?></td>
-		</tr>
+		<div class="row">
+			<div class="col-12 pb-3">
+				<label for="area">
+					<?php
+					echo esc_html($args['label_area']);
+					if ($args['required_area']) :
+						echo $args['required_html'];
+					endif;
+					?>
+				</label>
+				<?php echo get_tcd_user_profile_input_area(isset($_REQUEST['area']) ? $_REQUEST['area'] : $user->area, $args['required_area'], $args['use_confirm'] ? $args['label_area'] : null); ?>
+			</div>
+		</div>
 	<?php
-	endif;
+	}
+
+	if ($args['show_birthday']) {
+	?>
+		<div class="row">
+			<div class="col-12 pb-3">
+				<label for="birthday">
+					<?php
+					echo esc_html($args['label_birthday']);
+					if ($args['required_birthday']) :
+						echo $args['required_html'];
+					endif;
+					?>
+				</label>
+				<?php echo get_tcd_user_profile_input_birthday('_birthday', isset($_REQUEST['_birthday']) ? $_REQUEST['_birthday'] : $user->_birthday, $args['required_birthday'], $args['use_confirm'] ? $args['label_birthday'] : null); ?>
+			</div>
+		</div>
+	<?php
+	}
 
 	if ($args['show_company']) :
 	?>
@@ -1015,61 +1013,79 @@ function render_tcd_membership_user_form_fields($form_type = null, $user = null,
 	<?php
 	endif;
 
-	if ($args['show_mail_magazine']) :
+	if ($args['show_mail_magazine']) {
 	?>
-		<tr>
-			<th><label for="mail_magazine"><?php
-											echo esc_html($args['label_mail_magazine']);
-											if ($args['required_mail_magazine']) :
-												echo $args['required_html'];
-											endif;
-											?></label></th>
-			<td class="p-membership-form__table-radios"><?php echo get_tcd_user_profile_input_radio('mail_magazine', $receive_options, isset($_REQUEST['mail_magazine']) ? $_REQUEST['mail_magazine'] : $user->mail_magazine, 'yes', $args['use_confirm'] ? $args['label_mail_magazine'] : null); ?></td>
-		</tr>
-	<?php
-	endif;
 
-	if ($args['show_member_news_notify']) :
-	?>
-		<tr>
-			<th><label for="member_news_notify"><?php
-												echo esc_html($args['label_member_news_notify']);
-												if ($args['required_member_news_notify']) :
-													echo $args['required_html'];
-												endif;
-												?></label></th>
-			<td class="p-membership-form__table-radios"><?php echo get_tcd_user_profile_input_radio('member_news_notify', $notify_options, isset($_REQUEST['member_news_notify']) ? $_REQUEST['member_news_notify'] : $user->member_news_notify, 'yes', $args['use_confirm'] ? $args['label_member_news_notify'] : null); ?></td>
-		</tr>
+		<div class="row">
+			<div class="col-12 pb-3">
+				<label for="mail_magazine">
+					<?php
+					echo esc_html($args['label_mail_magazine']);
+					if ($args['required_mail_magazine']) :
+						echo $args['required_html'];
+					endif;
+					?>
+				</label>
+				<?php echo get_tcd_user_profile_input_radio('mail_magazine', $receive_options, isset($_REQUEST['mail_magazine']) ? $_REQUEST['mail_magazine'] : $user->mail_magazine, 'yes', $args['use_confirm'] ? $args['label_mail_magazine'] : null); ?>
+			</div>
+		</div>
 	<?php
-	endif;
+	}
 
-	if ($args['show_social_notify']) :
+	if ($args['show_member_news_notify']) {
 	?>
-		<tr>
-			<th><label for="social_notify"><?php
-											echo esc_html($args['label_social_notify']);
-											if ($args['required_social_notify']) :
-												echo $args['required_html'];
-											endif;
-											?></label></th>
-			<td class="p-membership-form__table-radios"><?php echo get_tcd_user_profile_input_radio('social_notify', $notify_options, isset($_REQUEST['social_notify']) ? $_REQUEST['social_notify'] : $user->social_notify, 'yes', $args['use_confirm'] ? $args['label_social_notify'] : null); ?></td>
-		</tr>
+		<div class="row">
+			<div class="col-12 pb-3">
+				<label for="member_news_notify">
+					<?php
+					echo esc_html($args['label_member_news_notify']);
+					if ($args['required_member_news_notify']) :
+						echo $args['required_html'];
+					endif;
+					?>
+				</label>
+				<?php echo get_tcd_user_profile_input_radio('member_news_notify', $notify_options, isset($_REQUEST['member_news_notify']) ? $_REQUEST['member_news_notify'] : $user->member_news_notify, 'yes', $args['use_confirm'] ? $args['label_member_news_notify'] : null); ?>
+			</div>
+		</div>
 	<?php
-	endif;
+	}
 
-	if ($args['show_messages_notify']) :
+	if ($args['show_social_notify']) {
 	?>
-		<tr>
-			<th><label for="messages_notify"><?php
-												echo esc_html($args['label_messages_notify']);
-												if ($args['required_messages_notify']) :
-													echo $args['required_html'];
-												endif;
-												?></label></th>
-			<td class="p-membership-form__table-radios"><?php echo get_tcd_user_profile_input_radio('messages_notify', $notify_options, isset($_REQUEST['messages_notify']) ? $_REQUEST['messages_notify'] : $user->messages_notify, 'yes', $args['use_confirm'] ? $args['label_messages_notify'] : null); ?></td>
-		</tr>
+		<div class="row">
+			<div class="col-12 pb-3">
+				<label for="social_notify">
+					<?php
+					echo esc_html($args['label_social_notify']);
+					if ($args['required_social_notify']) :
+						echo $args['required_html'];
+					endif;
+					?>
+				</label>
+				<?php echo get_tcd_user_profile_input_radio('social_notify', $notify_options, isset($_REQUEST['social_notify']) ? $_REQUEST['social_notify'] : $user->social_notify, 'yes', $args['use_confirm'] ? $args['label_social_notify'] : null); ?>
+			</div>
+		</div>
+	<?php
+	}
+
+	if ($args['show_messages_notify']) {
+	?>
+
+		<div class="row">
+			<div class="col-12 pb-3">
+				<label for="messages_notify">
+					<?php
+					echo esc_html($args['label_messages_notify']);
+					if ($args['required_messages_notify']) :
+						echo $args['required_html'];
+					endif;
+					?>
+				</label>
+				<?php echo get_tcd_user_profile_input_radio('messages_notify', $notify_options, isset($_REQUEST['messages_notify']) ? $_REQUEST['messages_notify'] : $user->messages_notify, 'yes', $args['use_confirm'] ? $args['label_messages_notify'] : null); ?>
+			</div>
+		</div>
 <?php
-	endif;
+	}
 
 	$html = ob_get_clean();
 
