@@ -280,8 +280,8 @@ function tcd_membership_registration_account_form($args = array())
 						</div>
 					</div>
 				</div>
-
 			</section>
+
 		</form>
 		<?php
 		if (!$args['echo']) :
@@ -417,66 +417,93 @@ function tcd_membership_edit_profile_form($args = array())
 	endif;
 	?>
 	<form id="<?php echo esc_attr($args['form_id']); ?>" class="p-membership-form js-membership-form--normal" action="<?php echo esc_attr(get_tcd_membership_memberpage_url('edit_profile')); ?>" enctype="multipart/form-data" method="post">
-		<div class="p-membership-form__body p-body">
-			<?php
-			if (!empty($tcd_membership_vars['message'])) :
-			?>
-				<div class="p-membership-form__message"><?php echo wpautop($tcd_membership_vars['message']); ?></div>
-			<?php
-			endif;
-			?>
-			<?php
-			if (!empty($tcd_membership_vars['error_message'])) :
-			?>
-				<div class="p-membership-form__error"><?php echo wpautop($tcd_membership_vars['error_message']); ?></div>
-			<?php
-			endif;
-			?>
-			<div class="p-edit-profile__image-upload">
-				<div class="p-edit-profile__image-upload__header_image">
-					<h2 class="p-member-page-headline"><?php _e('Header image', 'tcd-w'); ?></h2>
-					<?php
-					tcd_membership_image_upload_field(array(
-						'drop_attribute' => ' data-max-width="1920" data-max-height="500" data-max-crop="1"',
-						'indent' => 7,
-						'input_name' => 'header_image',
-						'overlay_desc' => __('It will be the image to be displayed in the header of the profile page.', 'tcd-w'),
-						'image_url' => $user->header_image
-					));
-					?>
-					<p class="p-membership-form__remark"><?php printf(__('Recommend image size. Width:%dpx or more, Height:%dpx or more', 'tcd-w'), 1450, 500); ?><br><?php _e('* Please select a local photo file, or drag and drop.', 'tcd-w'); ?></p>
-				</div>
-				<div class="p-edit-profile__image-upload__profile_image">
-					<h2 class="p-member-page-headline"><?php _e('Profile image', 'tcd-w'); ?></h2>
-					<?php
-					tcd_membership_image_upload_field(array(
-						'drop_attribute' => ' data-max-width="300" data-max-height="300" data-max-crop="1"',
-						'echo' => true,
-						'indent' => 7,
-						'input_name' => 'profile_image',
-						'image_url' => $user->profile_image,
-						'show_delete_button' => false
-					));
-					?>
-					<p class="p-membership-form__remark"><?php printf(__('Recommend image size. Width:%dpx or more, Height:%dpx or more', 'tcd-w'), 200, 200); ?><br><?php _e('* Please select a local photo file, or drag and drop.', 'tcd-w'); ?></p>
+		<main role="main">
+			<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">タイムライン切り替え</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<div class="cp_ipradio">
+								<ul style="list-style: none;">
+									<li class="list_item">
+										<label>
+											<input type="radio" class="option-input" name="a" checked>
+											　通常モード
+										</label>
+									</li>
+									<li class="list_item">
+										<label>
+											<input type="radio" class="option-input" name="a">
+											　ピクチャーモード
+										</label>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+							<button type="button" class="btn btn-primary">Save changes</button>
+						</div>
+					</div>
 				</div>
 			</div>
-			<h2 class="p-member-page-headline"><?php _e('Edit Profile', 'tcd-w'); ?></h2>
-			<table class="p-membership-form__table">
-				<?php
-				render_tcd_membership_user_form_fields('edit_profile', $user, $args);
+			<?php
+			// TODO: 2022/05/09 画像アップロード
+			?>
+			<div class="cover-area">
+				<img src="https://i.imgur.com/Qtrsrk5.jpg" class="img-fluid">
+				<div class="mt-2 mr-4 float-right"><a href="#" class="text-info font-weight-bold text-decoration-none">カバー画像を変更</a></div>
+			</div>
 
-				echo apply_filters('tcd_membership_edit_profile_form_table', '', $args);
-				?>
-			</table>
 			<?php
-			echo apply_filters('tcd_membership_edit_profile_form', '', $args);
+			// TODO: 2022/05/09 画像アップロード
 			?>
-			<div class="p-membership-form__button">
-				<button class="p-button p-rounded-button p-submit-button" type="submit"><?php _e('Save', 'tcd-w'); ?></button>
-				<input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd-membership-edit_profile')); ?>">
+			<div class="container profile-area">
+				<div class="icon">
+					<img src="https://i.imgur.com/JgYD2nQ.jpg" class="rounded-circle" width="80">
+				</div>
+				<div class="mt-3"><a href="#" class="text-info font-weight-bold text-decoration-none">アイコン画像を変更</a></div>
 			</div>
-		</div>
+
+			<section class="vh-100 bg-image mt-5">
+				<div class="mask d-flex align-items-center gradient-custom-3">
+					<div class="container">
+						<div class="row d-flex justify-content-center align-items-center">
+							<div class="col-12 col-lg-9 col-xl-7">
+								<?php
+								if (!empty($tcd_membership_vars['message'])) :
+								?>
+									<div class="p-membership-form__message"><?php echo wpautop($tcd_membership_vars['message']); ?></div>
+								<?php
+								endif;
+								?>
+								<?php
+								if (!empty($tcd_membership_vars['error_message'])) :
+								?>
+									<div class="p-membership-form__error"><?php echo wpautop($tcd_membership_vars['error_message']); ?></div>
+								<?php
+								endif;
+								?>
+								<?php
+								render_tcd_membership_user_form_fields('edit_profile', $user, $args);
+
+								echo apply_filters('tcd_membership_edit_profile_form_table', '', $args);
+								?>
+								<div class="d-flex justify-content-center pt-4 pb-2">
+									<button type="submit" class="btn btn-primary text-white btn-block btn-lg gradient-custom-4 font-weight-bold f-size-4">プロフィールを保存</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</main>
+		<input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd-membership-edit_profile')); ?>">
 	</form>
 	<?php
 	if (!$args['echo']) :
@@ -652,33 +679,40 @@ function get_tcd_membership_user_form_fields_settings($form_type = null, $add_se
 			'validate_messages_notify' => $dp_options['membership']['use_messages_notify']
 		);
 	} elseif ('edit_profile' === $form_type) {
+		// FIXED: 2022/05/09 不要な項目の削除 by 岡部
 		$fields_settings = array(
 			'show_display_name' => true,
-			'show_fullname' => $dp_options['membership']['show_profile_fullname'],
-			'show_area' => $dp_options['membership']['show_profile_area'],
-			'show_birthday' => $dp_options['membership']['show_profile_birthday'],
-			'show_company' => $dp_options['membership']['show_profile_company'],
-			'show_job' => $dp_options['membership']['show_profile_job'],
+			'show_email' => true,
+			// 'show_fullname' => $dp_options['membership']['show_profile_fullname'],
+			// 'show_area' => $dp_options['membership']['show_profile_area'],
+			// 'show_birthday' => $dp_options['membership']['show_profile_birthday'],
+			// 'show_company' => $dp_options['membership']['show_profile_company'],
+			// 'show_job' => $dp_options['membership']['show_profile_job'],
 			'show_description' => $dp_options['membership']['show_profile_desc'],
 			'show_website' => $dp_options['membership']['show_profile_website'],
-			'show_facebook' => $dp_options['membership']['show_profile_facebook'],
-			'show_twitter' => $dp_options['membership']['show_profile_twitter'],
-			'show_instagram' => $dp_options['membership']['show_profile_instagram'],
-			'show_youtube' => $dp_options['membership']['show_profile_youtube'],
-			'show_tiktok' => $dp_options['membership']['show_profile_tiktok'],
+			// Add 2022/05/09 H.Okabe
+			'show_telphone' => true,
+			// 'show_facebook' => $dp_options['membership']['show_profile_facebook'],
+			// 'show_twitter' => $dp_options['membership']['show_profile_twitter'],
+			// 'show_instagram' => $dp_options['membership']['show_profile_instagram'],
+			// 'show_youtube' => $dp_options['membership']['show_profile_youtube'],
+			// 'show_tiktok' => $dp_options['membership']['show_profile_tiktok'],
 			'validate_display_name' => true,
-			'validate_fullname' => $dp_options['membership']['show_profile_fullname'],
-			'validate_area' => $dp_options['membership']['show_profile_area'],
-			'validate_birthday' => $dp_options['membership']['show_profile_birthday'],
-			'validate_company' => $dp_options['membership']['show_profile_company'],
-			'validate_job' => $dp_options['membership']['show_profile_job'],
+			'validate_email' => true,
+			// 'validate_fullname' => $dp_options['membership']['show_profile_fullname'],
+			// 'validate_area' => $dp_options['membership']['show_profile_area'],
+			// 'validate_birthday' => $dp_options['membership']['show_profile_birthday'],
+			// 'validate_company' => $dp_options['membership']['show_profile_company'],
+			// 'validate_job' => $dp_options['membership']['show_profile_job'],
 			'validate_description' => $dp_options['membership']['show_profile_desc'],
 			'validate_website' => $dp_options['membership']['show_profile_website'],
-			'validate_facebook' => $dp_options['membership']['show_profile_facebook'],
-			'validate_twitter' => $dp_options['membership']['show_profile_twitter'],
-			'validate_instagram' => $dp_options['membership']['show_profile_instagram'],
-			'validate_youtube' => $dp_options['membership']['show_profile_youtube'],
-			'validate_tiktok' => $dp_options['membership']['show_profile_tiktok']
+			// Add 2022/05/09 H.Okabe
+			'validate_telphone' => true,
+			// 'validate_facebook' => $dp_options['membership']['show_profile_facebook'],
+			// 'validate_twitter' => $dp_options['membership']['show_profile_twitter'],
+			// 'validate_instagram' => $dp_options['membership']['show_profile_instagram'],
+			// 'validate_youtube' => $dp_options['membership']['show_profile_youtube'],
+			// 'validate_tiktok' => $dp_options['membership']['show_profile_tiktok']
 		);
 	} elseif ('change_password' === $form_type) {
 		$fields_settings = array(
@@ -732,7 +766,53 @@ function render_tcd_membership_user_form_fields($form_type = null, $user = null,
 		</div>
 	<?php
 	}
+	?>
+	<?php
+	if ($args['show_description']) :
+	?>
 
+		<h6 class="text-left font-weight-bold mt-3">
+			<?php
+			echo esc_html($args['label_description']);
+			if ($args['required_description']) :
+				echo $args['required_html'];
+			endif;
+			?>
+		</h6>
+		<div class="row">
+			<div class="col-12 pb-3">
+				<textarea class="form-control form-control-lg" name="description" id="" cols="30" rows="3"><?php echo esc_textarea(isset($_REQUEST['description']) ? $_REQUEST['description'] : $user->description); ?></textarea>
+			</div>
+		</div>
+	<?php
+	endif;
+	?>
+
+
+	<?php
+	if ($args['show_website']) :
+	?>
+
+		<h6 class="text-left font-weight-bold mt-3">
+			<label for="user_url">
+				<?php
+				echo esc_html($args['label_website']);
+				if ($args['required_website']) :
+					echo $args['required_html'];
+				endif;
+				?>
+			</label>
+		</h6>
+		<div class="row">
+			<div class="col-12 pb-3">
+				<input type="url" name="website_url" class="form-control form-control-lg" value="<?php echo esc_attr(isset($_REQUEST['website_url']) ? $_REQUEST['website_url'] : $user->user_url); ?>" />
+			</div>
+		</div>
+	<?php
+	endif;
+	?>
+
+	<?php
 	if ($args['show_email_readonly'] && isset($args['email_readonly'])) :
 	?>
 		<div class="row">
@@ -744,16 +824,35 @@ function render_tcd_membership_user_form_fields($form_type = null, $user = null,
 	<?php
 	elseif ($args['show_email']) :
 	?>
-		<tr>
-			<th><label for="email"><?php echo esc_html($args['label_email']) . $args['required_html']; ?></label></th>
-			<td><input type="email" id="email" name="email" value="<?php echo esc_attr(isset($_REQUEST['email']) ? $_REQUEST['email'] : $user->user_email); ?>" maxlength="100" required<?php if ($args['use_confirm']) echo ' data-confirm-label="' . esc_attr($args['label_email']) . '"'; ?>></td>
-		</tr>
-		<?php
+		<h6 class="text-left font-weight-bold mt-3"><label for="email"><?php echo esc_html($args['label_email']) . $args['required_html']; ?></label></h6>
+		<div class="row">
+			<div class="col-12 pb-3">
+				<input type="email" id="email" name="email" class="form-control form-control-lg" value="<?php echo esc_attr(isset($_REQUEST['email']) ? $_REQUEST['email'] : $user->user_email); ?>" />
+			</div>
+		</div>
+	<?php
 	endif;
+	?>
 
+	<?php
+	if ($args['show_telphone']) :
+	?>
+
+		<h6 class="text-left font-weight-bold mt-3">電話番号</h6>
+		<div class="row">
+			<div class="col-12 pb-3">
+				<input type="tel" name="telphone" id="" class="form-control form-control-lg" value="<?php echo esc_attr(isset($_REQUEST['telphone']) ? $_REQUEST['telphone'] : $user->telphone); ?>" />
+			</div>
+		</div>
+
+	<?php
+	endif;
+	?>
+
+	<?php
 	if ($args['show_fullname']) :
 		if ('type1' === $dp_options['membership']['fullname_type']) :
-		?>
+	?>
 			<tr>
 				<th><label for="last_name"><?php
 											echo esc_html($args['label_fullname']);
@@ -893,41 +992,9 @@ function render_tcd_membership_user_form_fields($form_type = null, $user = null,
 		</tr>
 	<?php
 	endif;
-
-	if ($args['show_description']) :
 	?>
-		<tr>
-			<th><label for="description"><?php
-											echo esc_html($args['label_description']);
-											if ($args['required_description']) :
-												echo $args['required_html'];
-											endif;
-											?></label></th>
-			<td><textarea name="description" rows="10" <?php
-														if ($args['required_description']) echo ' required';
-														if ($args['use_confirm']) echo ' data-confirm-label="' . esc_attr($args['label_description']) . '"';
-														?>><?php echo esc_textarea(isset($_REQUEST['description']) ? $_REQUEST['description'] : $user->description); ?></textarea></td>
-		</tr>
-	<?php
-	endif;
 
-	if ($args['show_website']) :
-	?>
-		<tr>
-			<th><label for="user_url"><?php
-										echo esc_html($args['label_website']);
-										if ($args['required_website']) :
-											echo $args['required_html'];
-										endif;
-										?></label></th>
-			<td><input type="url" name="website_url" value="<?php echo esc_attr(isset($_REQUEST['website_url']) ? $_REQUEST['website_url'] : $user->user_url); ?>" <?php
-																																									if ($args['required_website']) echo ' required';
-																																									if ($args['use_confirm']) echo ' data-confirm-label="' . esc_attr($args['label_website']) . '"';
-																																									?>></td>
-		</tr>
 	<?php
-	endif;
-
 	if ($args['show_facebook']) :
 	?>
 		<tr>
@@ -1255,6 +1322,15 @@ function get_tcd_membership_user_form_fields_error_messages($form_type = null, $
 		}
 	}
 
+	// 2022/05/09 H.Okabe
+	if ($args['validate_telphone']) {
+		if (!empty($data['telphone'])) {
+			if (!preg_match('/^0[0-9]{1,4}-[0-9]{1,4}-[0-9]{3,4}\z/', $data['telphone'])) {
+				$error_messages[] = '電話番号を正しく入力してください';
+			}
+		}
+	}
+
 	if ($args['validate_mail_magazine']) {
 		// ラジオのため$args['required_validate_mail_magazine'] は無視します
 		if (empty($data['mail_magazine']) || !array_key_exists($data['mail_magazine'], $receive_options)) {
@@ -1353,7 +1429,9 @@ function tcd_membership_user_form_fields_save_metas($form_type = null, $data, $u
 		'mail_magazine',
 		'member_news_notify',
 		'social_notify',
-		'messages_notify'
+		'messages_notify',
+		// ADD 2022/05/09 H.Okabe Add
+		'telphone'
 	) as $meta_key) {
 		if ($args['show_' . $meta_key]) {
 			$metadata[$meta_key] = isset($data[$meta_key]) ? tcd_membership_sanitize_content($data[$meta_key]) : 'yes';
