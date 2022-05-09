@@ -25,7 +25,11 @@ if (!$dp_options) $dp_options = get_design_plus_option();
 </head>
 
 <body <?php body_class(); ?>>
+<?php if(isset($_GET['memberpage']) && $_GET['memberpage'] === 'add_photo') { ?>
+	<header class="p-b-10">
+<?php } else { ?>
 	<header class="pb-3">
+<?php } ?>
 		<nav class="navbar navbar-light bg-light fixed-top shadow">
 			<!-- <div class="container d-flex justify-content-between"> -->
 			<a href="<?php echo esc_url( get_tcd_membership_memberpage_url( 'edit_profile' ) ); ?>"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/profile.jpg" alt="profile" class="rounded-circle" width="100" height="100"></a>
