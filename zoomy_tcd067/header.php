@@ -52,7 +52,26 @@ $json['registration_url'] = home_url('/') . "member/registration/";
 				<a href="/"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/logo.png" alt="logo" width="100" height="100"></a>
 				<!-- <strong>Muse</strong> -->
 				<div>
-					<img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/change.png" alt="change" data-toggle="modal" data-target="#exampleModal" width="100" height="100">
+					<?php
+					$getParams = '?picuture_mode=normal';
+					if (isset($_GET['picuture_mode'])) {
+						$viewMode = $_GET['picuture_mode'];
+					} else {
+						if (isset($_COOKIE['muse_picuture_mode'])) {
+							$viewMode = $_COOKIE['muse_picuture_mode'];
+						}
+					}
+
+					if ($viewMode === 'picture') {
+						$getParams = '?picuture_mode=normal';
+					} else {
+						$getParams = '?picuture_mode=picture';
+					}
+					?>
+					<a href="/<?php echo $getParams; ?>">
+						<!-- img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/change.png" alt="change" data-toggle="modal" data-target="#exampleModal" width="100" height="100" -->
+						<img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/change.png" alt="change" width="100" height="100">
+					</a>
 				</div>
 				<!-- <strong data-toggle="modal" data-target="#exampleModal">TimeLine</strong> -->
 				<!-- </div> -->
