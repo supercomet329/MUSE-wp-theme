@@ -259,7 +259,7 @@ function get_author_list_total($target_user_id, $list_type)
 /**
  * 投稿者記事数・フォロー一覧を取得
  */
-function list_author_post($target_user_id, $list_type)
+function list_author_post($target_user_id = NULL, $list_type = 'photo')
 {
 	global $dp_options, $wpdb, $wp_query;
 
@@ -277,27 +277,24 @@ function list_author_post($target_user_id, $list_type)
 		} else {
 			$where_post_status = "AND wp_posts.post_status = 'publish'";
 		}
-		$sql = "
-			SELECT * 
-			FROM 
-				{$wpdb->posts} 
-			INNER JOIN
-				wp_postmeta
-			ON
-				wp_posts.ID = wp_postmeta.post_id
-			WHERE 
-				wp_posts.post_type = %s 
-			AND 
-				wp_posts.post_author = %d
-			AND
-				wp_postmeta.meta_key = 'main_image'
-			{$where_post_status}
-		";
+
+		$sql = '';
+		$sql .= 'SELECT * ';
+		$sql .= 'FROM wp_posts ';
+		$sql .= 'INNER JOIN wp_postmeta ';
+		$sql .= 'ON wp_posts.ID = wp_postmeta.post_id ';
+		$sql .= 'WHERE wp_posts.post_type = %s ';
+		if (!is_null($target_user_id)) {
+			$sql .= 'AND wp_posts.post_author = %d ';
+		}
+		$sql .= 'AND wp_postmeta.meta_key = \'main_image\' ';
+		$sql .= $where_post_status;
+		$sql .= ' ORDER BY post_date DESC ';
 
 		$result = $wpdb->get_results($wpdb->prepare($sql, $dp_options['photo_slug'], $target_user_id));
 
 		$return = [];
-		if(!is_null($result)) {
+		if (!is_null($result)) {
 			$return = $result;
 		}
 		return $return;
