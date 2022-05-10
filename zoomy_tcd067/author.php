@@ -48,9 +48,11 @@ get_header();
 		<div class="icon">
 			<img src="<?php echo esc_url($author->profile_image); ?>" class="rounded-circle" width="80">
 		</div>
+		<?php if(get_current_user_id() === (int)$author->ID) { ?>
 		<div class="name d-flex justify-content-between">
 			<a href="<?php echo esc_url(get_tcd_membership_memberpage_url('edit_profile')); ?>" class="btn-sm btn-primary" role="button" aria-pressed="true">プロフィール編集</a>
 		</div>
+		<?php } ?>
 		<div class="username"><?php echo esc_html($author->display_name); ?></div>
 		<div class="mt-3 self-introduction">
 			<?php echo esc_html($author->description); ?>

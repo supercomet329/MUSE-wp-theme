@@ -25,6 +25,7 @@ if (!$dp_options) $dp_options = get_design_plus_option();
 </head>
 
 <body <?php body_class(); ?>>
+
 <?php if(isset($_GET['memberpage']) && $_GET['memberpage'] === 'add_photo') { ?>
 	<header class="p-b-10">
 <?php } else { ?>
@@ -32,7 +33,7 @@ if (!$dp_options) $dp_options = get_design_plus_option();
 <?php } ?>
 		<nav class="navbar navbar-light bg-light fixed-top shadow">
 			<!-- <div class="container d-flex justify-content-between"> -->
-			<a href="<?php echo get_author_posts_url( 2 ); ?>"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/profile.jpg" alt="profile" class="rounded-circle" width="100" height="100"></a>
+			<a href="<?php echo get_author_posts_url( get_current_user_id() ); ?>"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/profile.jpg" alt="profile" class="rounded-circle" width="100" height="100"></a>
 			<!-- <strong>UserName</strong> -->
 			<a href="picture_mode.html"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/logo.png" alt="logo" width="100" height="100"></a>
 			<!-- <strong>Muse</strong> -->
