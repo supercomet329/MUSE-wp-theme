@@ -946,6 +946,6 @@ add_action('after_setup_theme', 'exclude_theme_support');
  */
 add_action('init', function() {
 	if(isset($_GET['picuture_mode'])) {
-		setcookie('muse_picuture_mode', $_GET['picuture_mode'], strtotime('+30 day'));
+		setcookie('muse_picuture_mode', $_GET['picuture_mode'], strtotime('+30 day'), '/');
 	}
 });

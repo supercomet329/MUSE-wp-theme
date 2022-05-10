@@ -47,7 +47,13 @@ $json['registration_url'] = home_url('/') . "member/registration/";
 			<?php } ?>
 			<nav class="navbar navbar-light bg-light fixed-top shadow">
 				<!-- <div class="container d-flex justify-content-between"> -->
-				<a href="<?php echo get_author_posts_url(get_current_user_id()); ?>"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/profile.jpg" alt="profile" class="rounded-circle" width="100" height="100"></a>
+					<?php
+						$url = get_tcd_membership_memberpage_url('login');
+						if(get_current_user_id() > 0) { 
+							$url = get_author_posts_url(get_current_user_id());
+						}
+					?>
+				<a href="<?php echo $url; ?>"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/profile.jpg" alt="profile" class="rounded-circle" width="100" height="100"></a>
 				<!-- <strong>UserName</strong> -->
 				<a href="/"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/logo.png" alt="logo" width="100" height="100"></a>
 				<!-- <strong>Muse</strong> -->
