@@ -61,7 +61,7 @@ if (!$dp_options) $dp_options = get_design_plus_option();
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
-                                <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/iine.jpg" alt="iine" width="60px">
+                                <img class="js-toggle-like p-has-icon" data-post-id="<?php echo $one_photo->ID; ?>" src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/iine.jpg" alt="iine" width="60px">
                                 <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/gem.jpg" alt="gem" width="60px">
                             </div>
                             <div class="add-more">>>and more</div>
