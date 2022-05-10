@@ -24,6 +24,7 @@ function tcd_membership_memberpage_init()
 			// ADD 2022/05/10 H.Okabe
 			'followers',
 			'follows',
+			'likes',
 		),
 		'memberpage_guest_types' => array(
 			'login',
@@ -47,6 +48,7 @@ function tcd_membership_memberpage_init()
 			// ADD 2022/05/10 H.Okabe
 			'followers',
 			'follows',
+			'likes',
 		),
 		'memberpage_image_upload_types' => array(
 			'add_photo',

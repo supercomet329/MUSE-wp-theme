@@ -262,44 +262,77 @@ function get_author_list_total($target_user_id, $list_type)
  */
 function muse_list_follow($user_id = NULL)
 {
-    global $wpdb, $user_ids;
+	global $wpdb, $user_ids;
 
-    $sql = '';
-    $sql .= 'SELECT * ';
-    $sql .= 'FROM wp_tcd_membership_actions ';
+	$sql = '';
+	$sql .= 'SELECT * ';
+	$sql .= 'FROM wp_tcd_membership_actions ';
 	$sql .= 'WHERE type = \'follow\' ';
-    if (!is_null($user_id)) {
-        $sql .= 'AND user_id = %d ';
-    }
+	if (!is_null($user_id)) {
+		$sql .= 'AND user_id = %d ';
+	}
 
-    $result = $wpdb->get_results($wpdb->prepare($sql, $user_id));
+	$result = $wpdb->get_results($wpdb->prepare($sql, $user_id));
 
-    $return = [];
-    if (!is_null($result)) {
-        $return = $result;
-    }
-    return $return;
+	$return = [];
+	if (!is_null($result)) {
+		$return = $result;
+	}
+	return $return;
 }
 
+function muse_list_like($user_id = NULL)
+{
+	global $wpdb, $user_ids;
+
+	$sql = '';
+	$sql .= 'SELECT * ';
+	$sql .= 'FROM wp_tcd_membership_actions ';
+	$sql .= 'INNER JOIN wp_posts ';
+	$sql .= 'ON wp_posts.ID = wp_tcd_membership_actions.post_id ';
+	$sql .= 'INNER JOIN wp_postmeta ';
+	$sql .= 'ON wp_posts.ID = wp_postmeta.post_id ';
+	$sql .= 'WHERE wp_posts.post_type = %s ';
+	if (!is_null($user_id)) {
+		$sql .= 'AND wp_tcd_membership_actions.user_id = %d ';
+	}
+	$sql .= 'AND wp_postmeta.meta_key = \'main_image\' ';
+	$sql .= ' ORDER BY wp_tcd_membership_actions.created_gmt DESC ';
+
+	$result = $wpdb->get_results($wpdb->prepare($sql, 'photo', $user_id));
+
+	$return = [];
+	if (!is_null($result)) {
+		$return = $result;
+	}
+	return $return;
+}
+
+/**
+ * フォローされているユーザーの一覧を取得
+ *
+ * @param int $target_user_id
+ * @return object
+ */
 function muse_list_followers($target_user_id = NULL)
 {
-    global $wpdb, $user_ids;
+	global $wpdb, $user_ids;
 
-    $sql = '';
-    $sql .= 'SELECT * ';
-    $sql .= 'FROM wp_tcd_membership_actions ';
+	$sql = '';
+	$sql .= 'SELECT * ';
+	$sql .= 'FROM wp_tcd_membership_actions ';
 	$sql .= 'WHERE type = \'follow\' ';
-    if (!is_null($target_user_id)) {
-        $sql .= 'AND target_user_id = %d ';
-    }
+	if (!is_null($target_user_id)) {
+		$sql .= 'AND target_user_id = %d ';
+	}
 
-    $result = $wpdb->get_results($wpdb->prepare($sql, $target_user_id));
+	$result = $wpdb->get_results($wpdb->prepare($sql, $target_user_id));
 
-    $return = [];
-    if (!is_null($result)) {
-        $return = $result;
-    }
-    return $return;
+	$return = [];
+	if (!is_null($result)) {
+		$return = $result;
+	}
+	return $return;
 }
 
 /**

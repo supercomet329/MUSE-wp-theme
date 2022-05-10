@@ -67,6 +67,7 @@ get_template_part( 'functions/membership/messages' );
 // ADD 2022/05/10 H.Okabe
 get_template_part( 'functions/membership/follows' );
 get_template_part( 'functions/membership/followers' );
+get_template_part( 'functions/membership/likes' );
 
 // load options
 global $dp_options;
