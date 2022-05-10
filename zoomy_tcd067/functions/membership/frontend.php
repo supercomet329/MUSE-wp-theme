@@ -260,7 +260,28 @@ function get_author_list_total($target_user_id, $list_type)
  * フォローしているユーザー一覧の取得
  * Add 2022/05/10 by H.Okabe
  */
-function muse_list_follow($target_user_id = NULL)
+function muse_list_follow($user_id = NULL)
+{
+    global $wpdb, $user_ids;
+
+    $sql = '';
+    $sql .= 'SELECT * ';
+    $sql .= 'FROM wp_tcd_membership_actions ';
+	$sql .= 'WHERE type = \'follow\' ';
+    if (!is_null($user_id)) {
+        $sql .= 'AND user_id = %d ';
+    }
+
+    $result = $wpdb->get_results($wpdb->prepare($sql, $user_id));
+
+    $return = [];
+    if (!is_null($result)) {
+        $return = $result;
+    }
+    return $return;
+}
+
+function muse_list_followers($target_user_id = NULL)
 {
     global $wpdb, $user_ids;
 
@@ -269,7 +290,7 @@ function muse_list_follow($target_user_id = NULL)
     $sql .= 'FROM wp_tcd_membership_actions ';
 	$sql .= 'WHERE type = \'follow\' ';
     if (!is_null($target_user_id)) {
-        $sql .= 'AND user_id = %d ';
+        $sql .= 'AND target_user_id = %d ';
     }
 
     $result = $wpdb->get_results($wpdb->prepare($sql, $target_user_id));

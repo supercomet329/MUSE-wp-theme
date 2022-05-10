@@ -3,7 +3,7 @@
 /**
  * フォローしている一覧取得
  */
-function tcd_membership_action_follows()
+function tcd_membership_action_followers()
 {
     global $tcd_membership_vars;
 
@@ -18,6 +18,6 @@ function tcd_membership_action_follows()
 
     // テンプレート指定
     $tcd_membership_vars['template'] = 'muse_followers';
-    $tcd_membership_vars['list_follow'] = muse_list_follow($user->ID);
+    $tcd_membership_vars['list_follow'] = muse_list_followers($user->ID);
 }
-add_action('tcd_membership_action-follows', 'tcd_membership_action_follows');
+add_action('tcd_membership_action-followers', 'tcd_membership_action_followers');
