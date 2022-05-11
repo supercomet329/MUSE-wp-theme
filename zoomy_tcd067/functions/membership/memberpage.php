@@ -25,6 +25,8 @@ function tcd_membership_memberpage_init()
 			'followers',
 			'follows',
 			'likes',
+			'request',
+			'comfirm_request',
 		),
 		'memberpage_guest_types' => array(
 			'login',
@@ -49,6 +51,8 @@ function tcd_membership_memberpage_init()
 			'followers',
 			'follows',
 			'likes',
+			'request',
+			'comfirm_request',
 		),
 		'memberpage_image_upload_types' => array(
 			'add_photo',
@@ -56,6 +60,7 @@ function tcd_membership_memberpage_init()
 			'add_blog',
 			'edit_blog',
 			'edit_profile',
+			'request',
 		)
 	);
 

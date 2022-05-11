@@ -336,6 +336,95 @@ function muse_list_followers($target_user_id = NULL)
 }
 
 /**
+ * 依頼詳細の取得
+ *
+ * @param int $request_id
+ * @return object
+ */
+function get_request($request_id)
+{
+	global $dp_options, $wpdb, $wp_query;
+
+	$sql = '';
+	$sql .= 'SELECT ';
+	$sql .= 'post_title,';
+	$sql .= 'post_content,';
+	$sql .= '(';
+	$sql .= 'SELECT meta_value ';
+	$sql .= 'FROM wp_postmeta  ';
+	$sql .= ' WHERE post_id = ' . $request_id;
+	$sql .= ' AND meta_key    = \'url\'';
+	$sql .= ') as url, ';
+
+	$sql .= '(';
+	$sql .= 'SELECT meta_value ';
+	$sql .= 'FROM wp_postmeta  ';
+	$sql .= ' WHERE post_id = ' . $request_id;
+	$sql .= ' AND meta_key    = \'money\'';
+	$sql .= ') as money, ';
+
+	$sql .= '(';
+	$sql .= 'SELECT meta_value ';
+	$sql .= 'FROM wp_postmeta  ';
+	$sql .= ' WHERE post_id = ' . $request_id;
+	$sql .= ' AND meta_key    = \'sales_format\'';
+	$sql .= ') as sales_format, ';
+
+	$sql .= '(';
+	$sql .= 'SELECT meta_value ';
+	$sql .= 'FROM wp_postmeta  ';
+	$sql .= ' WHERE post_id = ' . $request_id;
+	$sql .= ' AND meta_key    = \'deadline\'';
+	$sql .= ') as deadline, ';
+
+	$sql .= '(';
+	$sql .= 'SELECT meta_value ';
+	$sql .= 'FROM wp_postmeta  ';
+	$sql .= ' WHERE post_id = ' . $request_id;
+	$sql .= ' AND meta_key    = \'receptions_count\'';
+	$sql .= ') as receptions_count, ';
+
+	$sql .= '(';
+	$sql .= 'SELECT meta_value ';
+	$sql .= 'FROM wp_postmeta  ';
+	$sql .= ' WHERE post_id = ' . $request_id;
+	$sql .= ' AND meta_key    = \'delivery_request\'';
+	$sql .= ') as delivery_request, ';
+
+	$sql .= '(';
+	$sql .= 'SELECT meta_value ';
+	$sql .= 'FROM wp_postmeta  ';
+	$sql .= ' WHERE post_id = ' . $request_id;
+	$sql .= ' AND meta_key    = \'special_report\'';
+	$sql .= ') as special_report, ';
+
+	$sql .= '(';
+	$sql .= 'SELECT meta_value ';
+	$sql .= 'FROM wp_postmeta  ';
+	$sql .= ' WHERE post_id = ' . $request_id;
+	$sql .= ' AND meta_key    = \'request_file_url\'';
+	$sql .= ') as request_file_url, ';
+
+	$sql .= '(';
+	$sql .= 'SELECT meta_value ';
+	$sql .= 'FROM wp_postmeta  ';
+	$sql .= ' WHERE post_id = ' . $request_id;
+	$sql .= ' AND meta_key    = \'request_file_name\'';
+	$sql .= ') as request_file_name ';
+
+	$sql .= 'FROM wp_posts ';
+	$sql .= 'WHERE id = ' . $request_id;
+
+	$result = $wpdb->get_results($wpdb->prepare($sql));
+
+	$return = [];
+	if (!is_null($result)) {
+		$return = $result;
+	}
+	return $return;
+}
+
+/**
  * 投稿者記事数・フォロー一覧を取得
  */
 function list_author_post($target_user_id = NULL, $list_type = 'photo')

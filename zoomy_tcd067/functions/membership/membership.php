@@ -68,6 +68,9 @@ get_template_part( 'functions/membership/messages' );
 get_template_part( 'functions/membership/follows' );
 get_template_part( 'functions/membership/followers' );
 get_template_part( 'functions/membership/likes' );
+get_template_part( 'functions/membership/request' );
+get_template_part( 'functions/membership/comfirm_request' );
+
 
 // load options
 global $dp_options;
