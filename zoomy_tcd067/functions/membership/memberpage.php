@@ -30,6 +30,7 @@ function tcd_membership_memberpage_init()
 			'list_order',
 			'modify_request',
 			'list_received',
+			'confirm_received',
 		), 
 		'memberpage_guest_types' => array(
 			'login',
@@ -59,6 +60,7 @@ function tcd_membership_memberpage_init()
 			'list_order',
 			'modify_request',
 			'list_received',
+			'confirm_received',
 		),
 		'memberpage_image_upload_types' => array(
 			'add_photo',

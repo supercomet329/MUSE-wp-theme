@@ -60,14 +60,6 @@ get_header();
             <div class="col-12 border-bottom">
                 <?php echo nl2br($tcd_membership_vars['requestData']['special_report']); ?>
             </div>
-            <form action="">
-                <div class="col-12 pt-2">
-                    <label for="" class="">メッセージを検索</label>
-                </div>
-                <div class="col-12">
-                    <input type="text" name="" id="search_text" class="form-control" placeholder="検索ワードを入力">
-                </div>
-            </form>
             <div class="col-12 pt-2 ">
                 メッセージ一覧
             </div>
@@ -84,15 +76,6 @@ get_header();
                 </ul>
             </div>
             <div class="col-12">
-                <div class="form-group">
-                    <label for=""></label>
-                    <textarea class="form-control" rows="6" placeholder="ここにメッセージを入力"></textarea>
-                </div>
-            </div>
-            <div class="col-12">
-                <input type="file" name="file">
-            </div>
-            <div class="col-12">
                 <?php if ($tcd_membership_vars['requestData']['viewReceivedButton']) { ?>
                     <div class="d-flex justify-content-center pt-4 pb-2">
                         <button id="buttonReceived" type="button" class="btn btn-primary text-white btn-block gradient-custom-4 font-weight-bold">受注する
@@ -101,34 +84,23 @@ get_header();
                 <?php } ?>
 
                 <div class="d-flex justify-content-center pt-1 pb-2">
-                    <button id="addComment" type="button" class="btn btn-primary text-white btn-block gradient-custom-4 font-weight-bold">投稿する
+                    <button id="addComment" type="submit" class="btn btn-primary text-white btn-block gradient-custom-4 font-weight-bold">受託する
+                    </button><br />
+                </div>
+                <div class="d-flex justify-content-center pt-1 pb-2">
+                    <button id="back" type="button" class="btn btn-secondary text-white btn-block gradient-custom-4 font-weight-bold">戻る
                     </button><br />
                 </div>
             </div>
         </div>
-        <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd_membership_comfirm_request')); ?>">
+        <input type="hidden" name="nonce"   value="<?php echo esc_attr(wp_create_nonce('tcd_membership_comfirm_request')); ?>">
         <input type="hidden" name="post_id" value="<?php echo $tcd_membership_vars['requestData']['post_id']; ?>">
+        <input type="hidden" name="request_type" value="confirm">
     </form>
 </div>
 <script>
-    $('#buttonReceived').on('click', function() {
-        $('#comfirm_request').attr('action', "<?php echo get_tcd_membership_memberpage_url('confirm_received'); ?>");
-        $('#comfirm_request').append($('<input/>', {
-            type: 'hidden',
-            name: 'request_type',
-            value: 'confirm'
-        }));
-        $('#comfirm_request').append($('<input/>', {
-            type: 'hidden',
-            name: 'post_id',
-            value: '<?php echo $tcd_membership_vars['requestData']['post_id']; ?>'
-        }));
-        $('#comfirm_request').append($('<input/>', {
-            type: 'hidden',
-            name: 'nonce',
-            value: '<?php echo esc_attr(wp_create_nonce('tcd_membership_comfirm_request')); ?>'
-        }));
-        $('#comfirm_request').submit();
+    $('#back').on('click', function() {
+        window.location.href = "<?php echo get_tcd_membership_memberpage_url('comfirm_request'); ?>&request_id=<?php echo $tcd_membership_vars['requestData']['post_id']; ?>";
     });
 </script>
 <?php

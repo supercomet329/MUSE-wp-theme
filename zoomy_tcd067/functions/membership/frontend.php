@@ -399,10 +399,11 @@ function get_request($request_id)
 
 	$sql = '';
 	$sql .= 'SELECT ';
-	$sql .= 'ID as post_id,';
-	$sql .= 'post_title,';
-	$sql .= 'post_content,';
-	$sql .= 'post_author,';
+	$sql .= 'wp_posts.ID as post_id,';
+	$sql .= 'wp_posts.post_title AS post_title,';
+	$sql .= 'wp_posts.post_content AS post_content,';
+	$sql .= 'wp_posts.post_author AS post_author,';
+	$sql .= 'wp_tcd_membership_actions.user_id AS user_id,';
 	$sql .= '(';
 	$sql .= 'SELECT meta_value ';
 	$sql .= 'FROM wp_postmeta  ';
@@ -467,7 +468,9 @@ function get_request($request_id)
 	$sql .= ') as request_file_name ';
 
 	$sql .= 'FROM wp_posts ';
-	$sql .= 'WHERE id = ' . $request_id;
+	$sql .= 'LEFT JOIN wp_tcd_membership_actions';
+	$sql .= ' ON wp_tcd_membership_actions.post_id = wp_posts.ID ';
+	$sql .= 'WHERE wp_posts.ID = ' . $request_id;
 
 	$result = $wpdb->get_results($wpdb->prepare($sql));
 

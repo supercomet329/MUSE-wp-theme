@@ -10,6 +10,7 @@ function tcd_membership_action_comfirm_request()
 
     $request_id = $_GET['request_id'];
     $rowResuestData = get_request($request_id);
+
     if (count($rowResuestData) <= 0) {
         wp_safe_redirect(user_trailingslashit(home_url()));
         exit;
@@ -21,6 +22,7 @@ function tcd_membership_action_comfirm_request()
     $user = wp_get_current_user();
     $deadLineClass = new DateTime($rowResuestData[0]->deadline);
     $requestData = [];
+    $requestData['post_id'] = $rowResuestData[0]->post_id;
     $requestData['title'] = $rowResuestData[0]->post_title;
     $requestData['content'] = $rowResuestData[0]->post_content;
     $requestData['url'] = $rowResuestData[0]->url;
@@ -33,7 +35,14 @@ function tcd_membership_action_comfirm_request()
     $requestData['request_file_url'] = $rowResuestData[0]->request_file_url;
     $requestData['request_file_name'] = $rowResuestData[0]->request_file_name;
     $requestData['deadline'] = $deadLineClass->format('Y/m/d');
+    $requestData['post_author'] = $rowResuestData[0]->post_author;
+    $requestData['user_id']     = $user->ID;
 
+    $viewReceivedButton = false;
+    if((int)$rowResuestData[0]->post_author !== $user->ID && is_null($rowResuestData[0]->user_id)) {
+        $viewReceivedButton = true;
+    }
+    $requestData['viewReceivedButton'] = $viewReceivedButton;
 
     nocache_headers();
     if (!$user) {
