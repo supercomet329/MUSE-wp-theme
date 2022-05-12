@@ -374,8 +374,10 @@ function get_request($request_id)
 
 	$sql = '';
 	$sql .= 'SELECT ';
+	$sql .= 'ID as post_id,';
 	$sql .= 'post_title,';
 	$sql .= 'post_content,';
+	$sql .= 'post_author,';
 	$sql .= '(';
 	$sql .= 'SELECT meta_value ';
 	$sql .= 'FROM wp_postmeta  ';
