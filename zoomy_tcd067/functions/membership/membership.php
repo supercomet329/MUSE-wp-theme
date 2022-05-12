@@ -70,10 +70,11 @@ get_template_part( 'functions/membership/followers' );
 get_template_part( 'functions/membership/likes' );
 get_template_part( 'functions/membership/request' );
 get_template_part( 'functions/membership/comfirm_request' );
-get_template_part( 'functions/membership/list_order' );
+get_template_part( 'functions/membership/list_my_order' );
 get_template_part( 'functions/membership/modify_request' );
 get_template_part( 'functions/membership/list_received' );
 get_template_part( 'functions/membership/confirm_received' );
+get_template_part( 'functions/membership/list_all_order' );
 
 // load options
 global $dp_options;

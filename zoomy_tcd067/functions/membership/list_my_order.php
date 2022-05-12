@@ -3,7 +3,7 @@
 /**
  * 作品依頼発注一覧ページ
  */
-function tcd_membership_action_list_order()
+function tcd_membership_action_list_my_order()
 {
     global $tcd_membership_vars;
 
@@ -20,7 +20,7 @@ function tcd_membership_action_list_order()
     $listOrder = listOrderByPostAuthor($user->ID);
 
     // テンプレート指定
-    $tcd_membership_vars['template']  = 'muse_list_order';
+    $tcd_membership_vars['template']  = 'muse_list_my_order';
     $tcd_membership_vars['list_order'] = $listOrder;
 }
-add_action('tcd_membership_action-list_order', 'tcd_membership_action_list_order');
+add_action('tcd_membership_action-list_my_order', 'tcd_membership_action_list_my_order');
