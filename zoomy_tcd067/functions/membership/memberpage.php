@@ -27,7 +27,8 @@ function tcd_membership_memberpage_init()
 			'likes',
 			'request',
 			'comfirm_request',
-		),
+			'list_order',
+		), 
 		'memberpage_guest_types' => array(
 			'login',
 			'registration',
@@ -53,6 +54,7 @@ function tcd_membership_memberpage_init()
 			'likes',
 			'request',
 			'comfirm_request',
+			'list_order',
 		),
 		'memberpage_image_upload_types' => array(
 			'add_photo',
@@ -60,6 +62,7 @@ function tcd_membership_memberpage_init()
 			'add_blog',
 			'edit_blog',
 			'edit_profile',
+			// ADD 2022/05/10 H.Okabe
 			'request',
 		)
 	);
