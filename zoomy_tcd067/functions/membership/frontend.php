@@ -309,6 +309,52 @@ function listOrderByPostAuthor($postAuthor)
 }
 
 /**
+ * オーダー一覧の取得
+ *
+ * @param [type] $post_title
+ * @param [type] $post_content
+ * @return void
+ */
+function listOrder($post_title, $post_content, $display_name)
+{
+	global $wpdb;
+
+	$sql = '';
+	$sql .= 'SELECT ';
+	$sql .= 'wp_posts.ID AS post_id ';
+	$sql .= ',wp_posts.post_author AS post_author ';
+	$sql .= ',wp_posts.post_date AS post_date ';
+	$sql .= ',wp_posts.post_title AS post_title ';
+	$sql .= ',wp_posts.post_content AS post_content ';
+	$sql .= ',wp_tcd_membership_actions.user_id AS contractor_user_id ';
+	$sql .= 'FROM wp_posts ';
+	$sql .= ' INNER JOIN wp_users ';
+	$sql .= ' ON wp_users.ID = wp_posts.post_author ';
+	$sql .= 'LEFT JOIN wp_tcd_membership_actions ';
+	$sql .= 'ON wp_posts.ID = wp_tcd_membership_actions.post_id ';
+	$sql .= 'WHERE wp_posts.post_type = %s ';
+
+	if ($display_name) {
+		$sql .= 'AND wp_users.display_name LIKE \'%' . $display_name . '%\' ';
+	}
+
+	if ($post_title) {
+		$sql .= 'AND wp_posts.post_title LIKE \'%' . $post_title . '%\' ';
+	}
+
+	if ($post_content) {
+		$sql .= 'AND wp_posts.post_content LIKE \'%' . $post_content . '%\' ';
+	}
+
+	$sql .= ' AND NOT EXISTS (';
+	$sql .= ' SELECT * FROM wp_tcd_membership_actions WHERE type=\'received\' AND wp_tcd_membership_actions.post_id = wp_posts.ID';
+	$sql .= ')';
+
+	$result = $wpdb->get_results($wpdb->prepare($sql, 'request'));
+	return $result;
+}
+
+/**
  * 受注一覧の取得
  */
 function listReceivedByUserId($user_id)
