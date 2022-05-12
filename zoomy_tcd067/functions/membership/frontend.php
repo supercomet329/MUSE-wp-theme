@@ -308,6 +308,31 @@ function listOrderByPostAuthor($postAuthor)
 	return $result;
 }
 
+/**
+ * 受注一覧の取得
+ */
+function listReceivedByUserId($user_id)
+{
+	global $wpdb;
+
+	$sql = '';
+	$sql .= 'SELECT ';
+	$sql .= 'wp_posts.ID AS post_id ';
+	$sql .= ',wp_posts.post_author AS post_author ';
+	$sql .= ',wp_posts.post_date AS post_date ';
+	$sql .= ',wp_posts.post_title AS post_title ';
+	$sql .= ',wp_posts.post_content AS post_content ';
+	$sql .= ',wp_tcd_membership_actions.user_id AS contractor_user_id ';
+	$sql .= 'FROM wp_tcd_membership_actions ';
+	$sql .= 'LEFT JOIN wp_posts ';
+	$sql .= 'ON wp_posts.ID = wp_tcd_membership_actions.post_id ';
+	$sql .= 'WHERE wp_tcd_membership_actions.user_id = %d ';
+	$sql .= 'AND wp_posts.post_type = %s ';
+
+	$result = $wpdb->get_results($wpdb->prepare($sql, $user_id, 'request'));
+	return $result;
+}
+
 function muse_list_like($user_id = NULL)
 {
 	global $wpdb, $user_ids;

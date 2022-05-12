@@ -72,6 +72,7 @@ get_template_part( 'functions/membership/request' );
 get_template_part( 'functions/membership/comfirm_request' );
 get_template_part( 'functions/membership/list_order' );
 get_template_part( 'functions/membership/modify_request' );
+get_template_part( 'functions/membership/list_received' );
 
 // load options
 global $dp_options;
