@@ -310,7 +310,9 @@ function tcd_membership_action_login() {
 			if ( ! empty( $_REQUEST['redirect_to'] ) ) {
 				$redirect_to = $_REQUEST['redirect_to'];
 			} else {
-				$redirect_to = get_tcd_membership_memberpage_url( 'news' );
+				// FIXED 2022/05/13 ログインした際の遷移先をTOPページに
+				// $redirect_to = get_tcd_membership_memberpage_url( 'news' );
+				$redirect_to = '/';
 			}
 			wp_safe_redirect( $redirect_to );
 			exit;
