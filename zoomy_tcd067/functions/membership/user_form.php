@@ -245,7 +245,7 @@ function tcd_membership_registration_account_form($args = array())
 	// 正常トークンフラグがある場合はフォーム表示
 	if (!empty($tcd_membership_vars['registration_account']['valid_registration_token'])) :
 	?>
-		<form id="<?php echo esc_attr($args['form_id']); ?>" class="p-membership-form p-membership-form--registration_account" action="<?php echo esc_attr(get_tcd_membership_memberpage_url('registration_account')); ?>" method="post">
+		<form class="p-membership-form p-membership-form--registration_account" action="<?php echo esc_attr(get_tcd_membership_memberpage_url('registration_account')); ?>" method="post">
 			<section class="vh-100 bg-image">
 				<div class="mask d-flex align-items-center h-100 gradient-custom-3">
 					<div class="container">
@@ -269,7 +269,9 @@ function tcd_membership_registration_account_form($args = array())
 										echo apply_filters('tcd_membership_registration_account_form_table', '', $args);
 										?>
 
-										<button class="btn btn-primary text-white btn-block btn-lg gradient-custom-4 font-weight-bold f-size-4">確認する</button>
+										<button type="submit" class="btn btn-primary text-white btn-block gradient-custom-4 font-weight-bold">
+											確認する
+										</button>
 										<input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd-membership-registration_account')); ?>">
 										<?php if (!empty($tcd_membership_vars['registration_account']['registration_token'])) { ?>
 											<input type="hidden" name="token" value="<?php echo esc_attr($tcd_membership_vars['registration_account']['registration_token']); ?>">

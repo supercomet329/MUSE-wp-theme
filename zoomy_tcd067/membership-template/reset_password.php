@@ -30,7 +30,7 @@ get_header();
 										新しいパスワードを設定いたしました。ログイン画面へ戻り、新しいパスワードでログインしてください。
 									</h6>
 									<div class="d-flex justify-content-center pt-4 pb-2">
-										<button type="button" class="btn btn-primary text-white btn-block btn-lg gradient-custom-4 font-weight-bold f-size-4">ログイン画面へ</button>
+										<button id="go_login" type="button" class="btn btn-primary text-white btn-block btn-lg gradient-custom-4 font-weight-bold f-size-4">ログイン画面へ</button>
 									</div>
 								</div>
 							</div>
@@ -39,6 +39,11 @@ get_header();
 				</div>
 			</div>
 		</section>
+		<script>
+			$('#go_login').on('click', function() {
+				window.location.href = "<?php echo esc_html(get_tcd_membership_memberpage_title('login')); ?>";
+			});
+		</script>
 	<?php
 	// フォーム表示
 	else :
