@@ -442,6 +442,31 @@ function muse_list_like($user_id = NULL)
 }
 
 /**
+ * 記事詳細の取得
+ */
+function get_post_data($post_id = NULL)
+{
+	global $wpdb, $user_ids;
+
+	$sql = '';
+	$sql .= 'SELECT * ';
+	$sql .= 'FROM wp_posts ';
+	$sql .= 'INNER JOIN wp_postmeta ';
+	$sql .= 'ON wp_posts.ID = wp_postmeta.post_id ';
+	$sql .= 'WHERE wp_posts.post_type = %s ';
+	$sql .= 'AND wp_posts.ID = %s ';
+	$sql .= 'AND wp_postmeta.meta_key = \'main_image\' ';
+
+	$result = $wpdb->get_results($wpdb->prepare($sql, 'photo', $post_id));
+
+	$return = [];
+	if (!is_null($result)) {
+		$return = $result;
+	}
+	return $return;
+}
+
+/**
  * フォローされているユーザーの一覧を取得
  *
  * @param int $target_user_id
