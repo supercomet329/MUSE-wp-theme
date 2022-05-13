@@ -379,6 +379,41 @@ function listReceivedByUserId($user_id)
 	return $result;
 }
 
+/**
+ * 投稿画像の一覧を取得
+ *
+ * @return void
+ */
+function muse_list_post()
+{
+	global $wpdb;
+
+	$sql = '';
+	$sql .= 'SELECT ';
+	$sql .= 'wp_posts.ID AS post_id ';
+	$sql .= ',wp_postmeta.meta_value AS main_image ';
+	$sql .= 'FROM wp_posts ';
+	$sql .= 'INNER JOIN wp_postmeta ';
+	$sql .= 'ON wp_posts.ID = wp_postmeta.post_id ';
+	$sql .= 'WHERE wp_posts.post_type = %s ';
+	$sql .= 'AND wp_postmeta.meta_key = \'main_image\' ';
+	$sql .= ' ORDER BY wp_posts.post_date DESC ';
+
+	$result = $wpdb->get_results($wpdb->prepare($sql, 'photo'));
+
+	$return = [];
+	if (!is_null($result)) {
+		$return = $result;
+	}
+	return $return;
+}
+
+/**
+ * いいねの一覧を取得
+ *
+ * @param int $user_id
+ * @return void
+ */
 function muse_list_like($user_id = NULL)
 {
 	global $wpdb, $user_ids;
