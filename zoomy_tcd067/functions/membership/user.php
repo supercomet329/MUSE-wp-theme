@@ -397,19 +397,19 @@ function tcd_membership_action_registration() {
 			$error_messages[] = __( 'Invalid nonce token.', 'tcd-w' );
 		} else {
 			if ( empty( $formdata['email'] ) ) {
-				$error_messages[] = __( 'Please enter an email address.', 'tcd-w' );
+				$error_messages[] = __( 'メールアドレスを入力してください。', 'tcd-w' );
 			} elseif ( ! is_email( $formdata['email'] ) ) {
-				$error_messages[] = __( 'E-mail address format is incorrect.', 'tcd-w' );
+				$error_messages[] = __( 'メールアドレス形式が正しくありません', 'tcd-w' );
 			} elseif ( 100 < strlen( $formdata['email'] ) ) {
-				$error_messages[] = __( 'E-mail address must be 100 characters or less.', 'tcd-w' );
+				$error_messages[] = __( 'メールアドレスは100文字以内で入力をお願い致します。', 'tcd-w' );
 			} elseif ( email_exists( $formdata['email'] ) ) {
-				$error_messages[] = __( 'This email is already registered, please choose another one.', 'tcd-w' );
+				$error_messages[] = __( 'このメールアドレスは登録済です。', 'tcd-w' );
 			}
 
 			if ( empty( $formdata['pass1'] ) ) {
-				$error_messages[] = __( 'Please enter a password.', 'tcd-w' );
+				$error_messages[] = __( 'パスワードを入力してください。.', 'tcd-w' );
 			} elseif ( 8 > strlen( $formdata['pass1'] ) ) {
-				$error_messages[] = __( 'Passwords must be at least 8 characters.', 'tcd-w' );
+				$error_messages[] = __( 'パスワードは8文字以上で入力してください。', 'tcd-w' );
 			}
 
 			if(! isset($formdata['flg_service_on']) || (int)$formdata['flg_service_on'] !== 1) {
