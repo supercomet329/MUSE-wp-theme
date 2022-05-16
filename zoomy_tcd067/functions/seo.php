@@ -108,7 +108,8 @@ function save_seo_meta_box( $post_id ) {
 // titleタグの出力 --------------------------------------------------------------------------------
 function seo_title( $title ) {
 
-	global $post, $page, $paged;
+	// global $post, $page, $paged;
+	global $post, $page, $paged, $tcd_membership_vars;
 
 	if ( is_single() && get_post_meta( $post->ID, 'tcd-w_meta_title', true ) or is_page() && get_post_meta( $post->ID, 'tcd-w_meta_title', true ) ) {
 		$title['title'] = get_post_meta( $post->ID, 'tcd-w_meta_title', true );
@@ -127,8 +128,38 @@ function seo_title( $title ) {
 	} elseif ( is_author() ) {
 		global $wp_query;
 		$curauth = $wp_query->get_queried_object();
-		$title['title'] = sprintf( __( 'Archive for %s', 'tcd-w'), $curauth->display_name );
+		$title['title'] = sprintf( __( 'ユーザープロフィール %s', 'tcd-w'), $curauth->display_name );
 	}
+
+	if(isset($tcd_membership_vars['template'])) {
+		$userObj = get_currentuserinfo();
+		if($tcd_membership_vars['memberpage_type'] === 'follows') {
+			$title['title'] = sprintf( __( 'フォロー一覧 %s', 'tcd-w'), $userObj->display_name );	
+		} else if($tcd_membership_vars['memberpage_type'] === 'followers') {
+			$title['title'] = sprintf( __( 'フォロワー一覧 %s', 'tcd-w'), $userObj->display_name );	
+		} else if($tcd_membership_vars['memberpage_type'] === 'likes') {
+			$title['title'] = sprintf( __( 'いいね一覧 %s', 'tcd-w'), $userObj->display_name );	
+		} else if($tcd_membership_vars['memberpage_type'] === 'request') {
+			$title['title'] = sprintf( __( '発注一覧 %s', 'tcd-w'), $userObj->display_name );	
+		} else if($tcd_membership_vars['memberpage_type'] === 'comfirm_request') {
+			$title['title'] = sprintf( __( '発注 %s', 'tcd-w'), $userObj->display_name );	
+		} else if($tcd_membership_vars['memberpage_type'] === 'comfirm_request') {
+			$title['title'] = sprintf( __( '発注確認 %s', 'tcd-w'), $userObj->display_name );	
+		} else if($tcd_membership_vars['memberpage_type'] === 'list_my_order') {
+			$title['title'] = sprintf( __( 'オーダー一覧 %s', 'tcd-w'), $userObj->display_name );	
+		} else if($tcd_membership_vars['memberpage_type'] === 'modify_request') {
+			$title['title'] = sprintf( __( '発注情報変更 %s', 'tcd-w'), $userObj->display_name );	
+		} else if($tcd_membership_vars['memberpage_type'] === 'list_received') {
+			$title['title'] = sprintf( __( '受注一覧 %s', 'tcd-w'), $userObj->display_name );	
+		} else if($tcd_membership_vars['memberpage_type'] === '受注一覧') {
+			$title['title'] = sprintf( __( '受注一覧 %s', 'tcd-w'), $userObj->display_name );	
+		} else if($tcd_membership_vars['memberpage_type'] === 'list_post') {
+			$title['title'] = sprintf( __( '投稿一覧 %s', 'tcd-w'), $userObj->display_name );	
+		} else if($tcd_membership_vars['memberpage_type'] === 'confirm_post') {
+			$title['title'] = sprintf( __( '投稿詳細 %s', 'tcd-w'), $userObj->display_name );	
+		}
+	}
+
 	return $title;
 }
 add_filter( 'document_title_parts', 'seo_title', 10 );
