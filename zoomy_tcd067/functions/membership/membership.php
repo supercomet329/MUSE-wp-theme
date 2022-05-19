@@ -64,6 +64,20 @@ get_template_part( 'functions/membership/report' );
 // TCD Membership messages
 get_template_part( 'functions/membership/messages' );
 
+// ADD 2022/05/10 H.Okabe
+get_template_part( 'functions/membership/follows' );
+get_template_part( 'functions/membership/followers' );
+get_template_part( 'functions/membership/likes' );
+get_template_part( 'functions/membership/request' );
+get_template_part( 'functions/membership/comfirm_request' );
+get_template_part( 'functions/membership/list_my_order' );
+get_template_part( 'functions/membership/modify_request' );
+get_template_part( 'functions/membership/list_received' );
+get_template_part( 'functions/membership/confirm_received' );
+get_template_part( 'functions/membership/list_all_order' );
+get_template_part( 'functions/membership/list_order' );
+get_template_part( 'functions/membership/list_post' );
+
 // load options
 global $dp_options;
 if ( ! $dp_options ) $dp_options = get_design_plus_option();

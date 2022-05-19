@@ -310,7 +310,9 @@ function tcd_membership_action_login() {
 			if ( ! empty( $_REQUEST['redirect_to'] ) ) {
 				$redirect_to = $_REQUEST['redirect_to'];
 			} else {
-				$redirect_to = get_tcd_membership_memberpage_url( 'news' );
+				// FIXED 2022/05/13 ログインした際の遷移先をTOPページに
+				// $redirect_to = get_tcd_membership_memberpage_url( 'news' );
+				$redirect_to = '/';
 			}
 			wp_safe_redirect( $redirect_to );
 			exit;
@@ -395,21 +397,23 @@ function tcd_membership_action_registration() {
 			$error_messages[] = __( 'Invalid nonce token.', 'tcd-w' );
 		} else {
 			if ( empty( $formdata['email'] ) ) {
-				$error_messages[] = __( 'Please enter an email address.', 'tcd-w' );
+				$error_messages[] = __( 'メールアドレスを入力してください。', 'tcd-w' );
 			} elseif ( ! is_email( $formdata['email'] ) ) {
-				$error_messages[] = __( 'E-mail address format is incorrect.', 'tcd-w' );
+				$error_messages[] = __( 'メールアドレス形式が正しくありません', 'tcd-w' );
 			} elseif ( 100 < strlen( $formdata['email'] ) ) {
-				$error_messages[] = __( 'E-mail address must be 100 characters or less.', 'tcd-w' );
+				$error_messages[] = __( 'メールアドレスは100文字以内で入力をお願い致します。', 'tcd-w' );
 			} elseif ( email_exists( $formdata['email'] ) ) {
-				$error_messages[] = __( 'This email is already registered, please choose another one.', 'tcd-w' );
+				$error_messages[] = __( 'このメールアドレスは登録済です。', 'tcd-w' );
 			}
 
 			if ( empty( $formdata['pass1'] ) ) {
-				$error_messages[] = __( 'Please enter a password.', 'tcd-w' );
+				$error_messages[] = __( 'パスワードを入力してください。.', 'tcd-w' );
 			} elseif ( 8 > strlen( $formdata['pass1'] ) ) {
-				$error_messages[] = __( 'Passwords must be at least 8 characters.', 'tcd-w' );
-			} elseif ( empty( $formdata['pass2'] ) || $formdata['pass1'] !== $formdata['pass2'] ) {
-				$error_messages[] = __( 'Please enter the same password in both password fields.', 'tcd-w' );
+				$error_messages[] = __( 'パスワードは8文字以上で入力してください。', 'tcd-w' );
+			}
+
+			if(! isset($formdata['flg_service_on']) || (int)$formdata['flg_service_on'] !== 1) {
+				$error_messages[] = __( '利用規約に同意をして下さい。', 'tcd-w' );
 			}
 		}
 
@@ -1009,6 +1013,8 @@ function tcd_membership_action_reset_password() {
 				$error_messages = get_tcd_membership_user_form_fields_error_messages( 'reset_password_new_password', $formdata );
 			}
 
+			// 2022/05/06 TODO: パスワードの書式チェックを自前で用意したほうがよい By H.Okabe
+
 			if ( ! $error_messages ) {
 				// 新しいパスワードセット
 				reset_password( $user, $formdata['new_pass1'] );
@@ -1033,7 +1039,7 @@ function tcd_membership_action_reset_password() {
 				if ( current_user_can( 'read' ) ) {
 					$redirect = get_tcd_membership_memberpage_url( 'reset_password' );
 				} else {
-					$redirect = get_tcd_membership_memberpage_url( 'login' );
+					$redirect = get_tcd_membership_memberpage_url( 'reset_password' );
 				}
 				$redirect = add_query_arg( 'message', 'password_changed', $redirect );
 				wp_safe_redirect( $redirect );

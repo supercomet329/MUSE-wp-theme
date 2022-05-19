@@ -5,8 +5,23 @@ get_header();
 ?>
 <main class="l-main">
 <?php
-get_template_part( 'template-parts/index-slider' );
+// get_template_part( 'template-parts/index-slider' );
+$viewMode = 'normal';
+if(isset($_GET['picuture_mode'])) {
+	$viewMode = $_GET['picuture_mode'];
+} else {
+	if(isset($_COOKIE['muse_picuture_mode'])) {
+		$viewMode = $_COOKIE['muse_picuture_mode'];
+	}
+}
 
+if($viewMode === 'picture') {
+	get_template_part( 'template-parts/muse_top_picture' );
+} else {
+	get_template_part( 'template-parts/muse_top_nomal' );
+}
+
+/**
 // コンテンツビルダー
 if ( ! empty( $dp_options['contents_builder'] ) ) :
 	// 重複記事除外用配列
@@ -364,5 +379,6 @@ if ( ! empty( $dp_options['contents_builder'] ) ) :
 endif;
 ?>
 </main>
+<?php  */ ?>
 <?php
 get_footer();
