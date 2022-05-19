@@ -46,13 +46,14 @@ if (!$dp_options) $dp_options = get_design_plus_option();
 
         foreach ($list_photo as $one_photo) {
             $user_info = get_userdata($one_photo->post_author);
+            $dataClass = new DateTime($one_photo->post_modified);
         ?>
             <div class="pt-1">
                 <div class="card shadow-sm">
                     <div>
                         <div>
                             <img class="rounded-circle profile-icon" src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_85053177_M.jpg" alt="" width="60px" height="60px">
-                            <div class="user-name"><?php echo $user_info->display_name; ?> <?php echo date('H:i', $one_photo->post_modified); ?></div>
+                            <div class="user-name"><?php echo $user_info->display_name; ?> <?php echo $dataClass->format('H:i'); ?></div>
                             <div class="float-right pr-3 pt-4 see_more">・・・</div>
                         </div>
                         <div class="pb-1 pl-5 tweet-text"><?php echo $one_photo->post_title; ?></div>

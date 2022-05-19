@@ -60,6 +60,7 @@ $json['registration_url'] = home_url('/') . "member/registration/";
 				<div>
 					<?php
 					$getParams = '?picuture_mode=normal';
+					$viewMode  = '';
 					if (isset($_GET['picuture_mode'])) {
 						$viewMode = $_GET['picuture_mode'];
 					} else {
