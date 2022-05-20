@@ -34,12 +34,17 @@ function tcd_membership_memberpage_init()
 			'list_order',
 			'list_post',
 			'confirm_post',
+			'terms',
+			'agreement',
 		), 
 		'memberpage_guest_types' => array(
 			'login',
 			'registration',
 			'registration_account',
-			'reset_password'
+			'reset_password',
+			// ADD 2022/05/20 H.Okabe
+			'terms',
+			'agreement',
 		),
 		'memberpage_static_member_menu_types' => array(
 			'news',
@@ -185,9 +190,13 @@ function tcd_membership_memberpage_wp()
 		$is_query_string_memberpage = false;
 
 		if ($tcd_membership_vars['memberpage_page'] && is_page($tcd_membership_vars['memberpage_page']->ID)) {
+
 			if (!empty($_REQUEST['memberpage'])) {
+				var_dump(__LINE__);exit;
+
 				$is_query_string_memberpage = true;
 			} else {
+
 				$tcd_membership_vars['memberpage_type'] = 'news';
 			}
 		} elseif (!$tcd_membership_vars['memberpage_page'] && is_front_page()) {
@@ -202,6 +211,7 @@ function tcd_membership_memberpage_wp()
 	}
 
 	if ($tcd_membership_vars['memberpage_type']) {
+
 		// 未ログインの場合にアクセスできるmemberpage_typeでなければログインページへリダイレクト
 		if (!current_user_can('read') && !in_array($tcd_membership_vars['memberpage_type'], $tcd_membership_vars['memberpage_guest_types'])) {
 			$current_url = (is_ssl() ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
