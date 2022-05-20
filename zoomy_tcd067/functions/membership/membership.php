@@ -80,6 +80,7 @@ get_template_part( 'functions/membership/list_post' );
 get_template_part( 'functions/membership/confirm_post' );
 get_template_part( 'functions/membership/terms' );
 get_template_part( 'functions/membership/agreement' );
+get_template_part( 'functions/membership/profile' );
 
 // load options
 global $dp_options;

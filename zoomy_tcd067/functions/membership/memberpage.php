@@ -36,6 +36,7 @@ function tcd_membership_memberpage_init()
 			'confirm_post',
 			'terms',
 			'agreement',
+			'profile'
 		), 
 		'memberpage_guest_types' => array(
 			'login',
@@ -45,6 +46,7 @@ function tcd_membership_memberpage_init()
 			// ADD 2022/05/20 H.Okabe
 			'terms',
 			'agreement',
+			'profile'
 		),
 		'memberpage_static_member_menu_types' => array(
 			'news',
