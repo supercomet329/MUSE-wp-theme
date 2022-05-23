@@ -1,217 +1,396 @@
+header img {
+  width: 100px;
+  height: 100px;
+}
+
+header .change-logo {
+  width: 60px;
+  height: 60px;
+}
+
+footer img {
+  width: 60px;
+  height: 60px;
+}
+
+footer nav .notifications{
+  position: relative;
+}
+
+footer nav .messages{
+  position: relative;
+}
+
+.tweet-area .profile-icon {
+  width: 100px;
+  height: 100px;
+}
+
+.header-text {
+  font-size: 32px;
+  font-weight: bold;
+  color: #3c7fc3;
+}
+
+.unread-count {
+  position: absolute;
+  bottom: 20px;
+  right: -2px;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  font-size: 11px;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background-color: rgb(252, 158, 173);
+}
+
+header nav {
+  border-bottom: solid 2px #3c7fc3;
+}
+
+footer nav {
+  border-top: solid 2px #3c7fc3;
+}
+
+ul.horizontal-list {
+  margin-top: 10px;
+  padding-left: 0% !important;
+	overflow-x: auto;
+	white-space: nowrap;
+}
+ul.horizontal-list li.item {
+	display: inline-block;
+	margin-top: 24px;
+	margin-bottom: 10px;
+  margin-right: 22px;
+}
+ul.horizontal-list li.item img {
+  width: 100px;
+  height: 100px;
+}
+
+.tweet-area {
+  margin:0; padding-left:0; padding-right:0;
+}
+
+.tweet-area .text-area {
+  font-weight: bold;
+  color: black;
+  font-size: 18px;
+  margin-left:10px;
+  margin-top: -2px;
+}
+
+.tweet-area .post-time {
+  font-size: 14px;
+  color: #e2d2d2;
+}
+
+.timeline-image img {
+	width: 100%;
+  height: 60vh;;
+  object-fit: cover;
+}
+
+.logo-area img{
+  width: 80px;
+  height: 80px;
+}
+
+.logo-area {
+  margin: 10px 0;
+  padding-left: 15px;
+}
+
 .content {
-    display: flex;
+  display: flex;
 }
-
 .main-color {
-    background: rgb(253, 125, 51);
+  background: rgb(253, 125, 51);
 }
-
 .content-item {
-    width: 33%;
-    margin: 1px;
-    height: 500px;
+  width: 33%;
+  margin: 1px;
+  height: 500px;
 }
-
 .content-item img {
-    object-fit: cover;
-    width: 100%;
-    max-height: 500px;
+  object-fit: cover;
+  width: 100%;
+  max-height: 500px;
 }
 
 .cover-area {
-    width: 100%;
+  width: 100%;
 }
-
 .cover-area img {
-    object-fit: cover;
-    width: 100%;
-    max-height: 300px;
+  object-fit: cover;
+  width: 100%;
+  max-height: 300px;
 }
 
 .see_more {
-    display: inline-block;
-    font-family: 'Courier New', Courier, monospace;
+  display: inline-block;
+  font-family: 'Courier New', Courier, monospace;
 }
 
 .card .tweet-image {
-    object-fit: cover;
-    max-width: 100%;
-    max-height: 750px;
+  object-fit: cover;
+  max-width: 100%;
+  max-height: 750px;
 }
 
 .profile-area .icon img {
-    width: 120px;
-    max-height: 120px;
+  width: 120px;
+  max-height: 120px;
 }
 
 .profile-area {
-    margin-top: -60px;
+  margin-top: -60px;
 }
 
 .profile-area .username {
-    margin-left: 2%;
+  margin-left: 2%;
 }
 
 .profile-area .name {
-    margin-left: 2%;
+  margin-left: 2%;
 }
 
 .card .user-name {
-    font-style: italic;
-    display: inline;
+  font-style: italic;
+  display: inline;
 }
 
 .card .tweet-text {
-    font-size: 0.8rem;
-    font-style: normal;
+  font-size: 0.8rem;
+  font-style: normal;
 }
 
 .card .add-more {
-    /* padding-top: 0.5rem;
+  /* padding-top: 0.5rem;
   font-size: 1.2rem; */
-    font-style: normal;
+  font-style: normal;
 }
 
 .image-list {
-    width: 100%;
+  width: 100%;
 }
 
 .divider-text {
-    position: relative;
-    text-align: center;
-    margin-top: 15px;
-    margin-bottom: 15px;
+  position: relative;
+  text-align: center;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 
 .divider-text span {
-    padding: 7px;
-    font-size: 12px;
-    position: relative;
-    z-index: 2;
+  padding: 7px;
+  font-size: 12px;
+  position: relative;
+  z-index: 2;
 }
 
 .divider-text:after {
-    content: "";
-    position: absolute;
-    width: 100%;
-    border-bottom: 1px solid #ddd;
-    top: 55%;
-    left: 0;
-    z-index: 1;
+  content: "";
+  position: absolute;
+  width: 100%;
+  border-bottom: 1px solid #ddd;
+  top: 55%;
+  left: 0;
+  z-index: 1;
 }
 
 .btn-facebook {
-    text-align: center;
-    background-color: #405D9D !important;
-    color: #fff;
+  text-align: center;
+  background-color: #405D9D !important;
+  color: #fff;
 }
 
 .btn-twitter {
-    text-align: center;
-    background-color: #42AEEC !important;
-    color: #fff;
+  text-align: center;
+  background-color: #42AEEC !important;
+  color: #fff;
 }
-
 .p-b-10 {
-    padding-bottom: 10em;
+  padding-bottom: 10em;
 }
-
 .f-size-1 {
-    font-size: 1.25rem;
+  font-size: 1.25rem;
 }
-
 .f-size-2 {
-    font-size: 1.5rem;
+  font-size: 1.5rem;
 }
-
 .f-size-3 {
-    font-size: 1.75rem;
+  font-size: 1.75rem;
 }
-
 .f-size-4 {
-    font-size: 2.0rem;
+  font-size: 2.0rem;
 }
-
 .self-introduction {
-    border: 0.9px rgba(90, 90, 90, 0.473) solid;
+  border: 0.9px rgba(90, 90, 90, 0.473) solid;
+  width:100%;
+  height:100px;
+  margin-left: 2%;
+}
+
+@media only screen and (max-width: 1024px) {
+  header {
+    padding-bottom: 5em;
+  }
+
+  footer {
+    padding-bottom: 3em;
+  }
+
+  body .popular_artist {
+    padding-bottom: 3em;
+  }
+
+  header nav {
+    border-bottom: solid 2px #3c7fc3;
+  }
+
+  header img{
+    width: 50px;
+    height: 50px;
+  }
+
+  header .change-logo {
+    width: 30px;
+    height: 30px;
+  }
+
+  footer img {
+    width: 25px;
+    height: 25px;
+  }
+
+  .unread-count {
+    bottom: -3px;
+    right: -10px;
+    width: 25px;
+    height: 25px;
+  }
+
+  .attention-artist {
+    padding-top: 100px;
+  }
+
+  .horizontal-list {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .horizontal-list::-webkit-scrollbar {
+    display:none;
+  }
+
+  .tweet-area .profile-icon {
+    width: 50px;
+    height: 50px;
+  }
+
+  .header-text {
+    font-size: 16px;
+    font-weight: bold;
+    color: #3c7fc3;
+    text-align: center;
+  }
+
+  .profile-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .logo-area img{
+    width: 40px;
+    height: 40px;
+  }
+
+  .p-b-10{
+    padding-bottom: 4em;
+  }
+  .see_more {
+    display: inline-block;
+    font-size: 0.6em;
+    font-family: 'Courier New', Courier, monospace;
+  }
+  .card .user-name {
+    font-size: 0.75rem;
+    font-style: italic;
+    display: inline;
+  }
+  .card .tweet-text {
+    font-size: 0.75rem;
+    font-style: normal;
+  }
+  .btn-group img {
+    width: 25px;
+    height: 20px;
+  }
+  .card .tweet-image {
+    object-fit: cover;
+    max-width: 100%;
+    max-height: 250px;
+  }
+  .card .add-more {
+    /* padding-top: 0.5rem; */
+    font-size: 0.6rem;
+    font-style: normal;
+  }
+  .content-item {
+    width: 33%;
+    margin: 1px;
+    height: 120px;
+  }
+  .content-item img {
+    object-fit: cover;
     width: 100%;
-    height: 100px;
-    margin-left: 2%;
+    max-height: 120px;
+  }
+  .cover-area img {
+    object-fit: cover;
+    width: 100%;
+    height: 200px;
+  }
+  .profile-area .icon img {
+    width: 80px;
+    max-height: 120px;
+  }
+  .profile-area {
+    margin-top: -40px;
+  }
+  .profile-area .name {
+    margin-left: 3%;
+    font-size: 0.8em;
+  }
+  .profile-area .username {
+    margin-left: 3%;
+    font-size: 0.8em;
+  }
+
+  ul.horizontal-list li.item img {
+    width: 50px;
+    height: 50px;
+  }
 }
 
-@media screen and (max-width: 600px) {
-    header img,
-    footer img {
-        width: 28px;
-        height: 28px;
-    }
-    .profile-icon {
-        width: 28px;
-        height: 28px;
-    }
-    .p-b-10 {
-        padding-bottom: 4em;
-    }
-    .see_more {
-        display: inline-block;
-        font-size: 0.6em;
-        font-family: 'Courier New', Courier, monospace;
-    }
-    .card .user-name {
-        font-size: 0.75rem;
-        font-style: italic;
-        display: inline;
-    }
-    .card .tweet-text {
-        font-size: 0.75rem;
-        font-style: normal;
-    }
-    .btn-group img {
-        width: 25px;
-        height: 20px;
-    }
-    .card .tweet-image {
-        object-fit: cover;
-        max-width: 100%;
-        max-height: 250px;
-    }
-    .card .add-more {
-        /* padding-top: 0.5rem; */
-        font-size: 0.6rem;
-        font-style: normal;
-    }
-    .content-item {
-        width: 33%;
-        margin: 1px;
-        height: 120px;
-    }
-    .content-item img {
-        object-fit: cover;
-        width: 100%;
-        max-height: 120px;
-    }
-    .cover-area img {
-        object-fit: cover;
-        width: 100%;
-        height: 200px;
-    }
-    .profile-area .icon img {
-        width: 80px;
-        max-height: 120px;
-    }
-    .profile-area {
-        margin-top: -40px;
-    }
-    .profile-area .name {
-        margin-left: 3%;
-        font-size: 0.8em;
-    }
-    .profile-area .username {
-        margin-left: 3%;
-        font-size: 0.8em;
-    }
-}
+@media only screen and (min-width: 1025px) {
+  header {
+    padding-bottom: 9em;
+  }
 
+  footer {
+    padding-top: 5em;
+  }
+
+  body .popular_artist {
+    padding-bottom: 6em;
+  }
+}
 
 /* membership form image upload */
 
@@ -478,67 +657,8 @@ body.is-drag-over .p-membership-form__image-upload-tiny__drop.is-drag-over .p-me
     }
 }
 
-.p-membership-form__error {
-    background-color: #f2dede;
-    border: 1px solid #eed3d7;
-    border-radius: 5px;
-    color: #b94a48;
-    padding: 9px 15px;
-}
 
-div.p-membership-form__message,
-div.p-membership-form__error {
-    line-height: 2;
-    margin-bottom: 50px;
-}
-
-.p-membership-form__message p,
-.p-membership-form__error p {
-    margin-bottom: 1em !important;
-}
-
-div.p-membership-form__message> :last-child,
-div.p-membership-form__error> :last-child {
-    margin-bottom: 0 !important;
-}
-
-.p-membership-form__button .p-membership-form__error {
-    margin-bottom: 0;
-    margin-top: 20px;
-}
-
-@media only screen and (max-width: 991px) {
-    div.p-membership-form__message,
-    div.p-membership-form__error {
-        line-height: 2;
-        margin-bottom: 40px;
-    }
-    .p-membership-form__remark {
-        font-size: 12px;
-    }
-    .p-membership-form input[type="text"],
-    .p-membership-form input[type="email"],
-    .p-membership-form input[type="url"],
-    .p-membership-form input[type="password"] {
-        height: 40px;
-        line-height: 38px;
-        padding: 0 20px;
-    }
-    .p-membership-form textarea {
-        padding: 8px 20px;
-    }
-    .p-membership-form select {
-        height: 40px;
-        padding: 0 20px;
-    }
-    .p-membership-form__button {
-        margin-top: 30px;
-    }
-    .p-membership-form__button .p-membership-form__back-button {
-        display: block;
-        margin: 20px auto 0;
-        position: static;
-        text-align: center;
-        width: 100px;
-    }
+/* ページタイトル文字の大きさ */
+.contents-title{
+  font-size: 20px;
 }
