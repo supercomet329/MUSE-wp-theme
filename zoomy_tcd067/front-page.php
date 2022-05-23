@@ -18,7 +18,7 @@ if(isset($_GET['picuture_mode'])) {
 if($viewMode === 'picture') {
 	get_template_part( 'template-parts/muse_top_picture' );
 } else {
-	get_template_part( 'template-parts/muse_top_nomal' );
+	get_template_part( 'template-parts/muse_top_timeline' );
 }
 
 /**
