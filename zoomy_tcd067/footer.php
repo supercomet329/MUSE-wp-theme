@@ -15,7 +15,7 @@ if (!$dp_options) $dp_options = get_design_plus_option();
 			</div>
 			<div class="messages">
 				<a href="<?php echo esc_url(get_tcd_membership_memberpage_url('list_message')); ?>"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/message_blue.png" alt="message"></a>
-				<p class="unread-count top-left rounded-circle">2000</p>
+				<p class="unread-count top-left rounded-circle"><?php echo count_tcd_membership_information(); ?></p>
 			</div>
 		</nav>
 	</footer>
