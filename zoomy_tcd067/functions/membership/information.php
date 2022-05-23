@@ -3,7 +3,7 @@
 /**
  * お知らせ既読の件数の取得
  */
-function count_tcd_membership_information($user_id = null)
+function count_non_read_muse_information($user_id = null)
 {
     global $wpdb;
 
@@ -30,7 +30,7 @@ function count_tcd_membership_information($user_id = null)
 /**
  * お知らせ既読の登録
  */
-function add_tcd_membership_information($user_id = null, $post_id = null)
+function add_muse_information($user_id = null, $post_id = null)
 {
     global $wpdb;
 
