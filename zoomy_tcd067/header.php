@@ -68,7 +68,7 @@ if (get_current_user_id() > 0) {
 			}
 			?>
 
-			<a href="<a href=" <?php echo $url; ?>">
+			<a href="<?php echo $url; ?>">
 				<img src="<?php echo $profile_image; ?>" alt="profile" class="rounded-circle">
 			</a>
 			<a href="/">
