@@ -31,5 +31,6 @@ if (!$dp_options) $dp_options = get_design_plus_option();
 <script src="<?php echo get_template_directory_uri(); ?>/js/membership.js"></script>
 <!-- Javascript(js/muse.js)読み込み -->
 <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/muse.js"></script>
-
+<!-- Javascript(js/validate.js)読み込み -->
+<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/validate.js"></script>
 </html>
