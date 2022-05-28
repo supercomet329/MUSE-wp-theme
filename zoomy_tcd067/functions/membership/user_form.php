@@ -142,69 +142,56 @@ function tcd_membership_registration_form($args = array())
 		endif;
 	endif;
 
+	$email = '';
+	if(isset($_REQUEST['complete_email'])) {
+		$email = $_REQUEST['complete_email'];
+	}
+
+	if(isset($_REQUEST['email'])) {
+		$email = $_REQUEST['email'];
+	}
+
 	if (!$args['echo']) :
 		ob_start();
 	endif;
 	?>
-	<form id="<?php echo esc_attr($args['form_id']); ?>" class="p-membership-form p-membership-form--registration<?php if (!empty($tcd_membership_vars['registration']['complete'])) echo ' is-complete'; ?>" action="<?php echo esc_attr(get_tcd_membership_memberpage_url('registration')); ?>" method="post">
-		<section class="vh-100 bg-image">
-			<div class="mask d-flex align-items-center h-100 gradient-custom-3">
-				<div class="container">
-					<div class="row d-flex justify-content-center align-items-center h-100">
-						<div class="col-12 col-lg-9 col-xl-7">
-							<div class="card" style="border-radius: 15px;">
-								<div class="card-body">
-									<h2 class="text-uppercase text-center my-3">アカウント新規作成</h2>
-									<form>
-										<div class="row">
-											<div class="col-12">
-												<label class="form-label" for="">メール</label>
-											</div>
-											<div class="col-12 pb-3">
-												<input type="email" name="email" class="form-control form-control-lg" value="<?php echo esc_attr(isset($_REQUEST['email']) ? $_REQUEST['email'] : ''); ?>" placeholder="example@gmail.com" maxlength="100" required>
-											</div>
-											<div class="col-12">
-												<label class="form-label" for="">パスワード</label>
-											</div>
-											<div class="col-12 pb-3">
-												<input type="password" name="pass1" class="form-control form-control-lg" value="" placeholder="password" minlength="8" required>
-											</div>
-										</div>
-										<div class="form-check text-center mt-3 mb-4">
-											<input class="form-check-input" name="flg_service_on" type="checkbox" value="1" id="" />
-											<label class="form-check-label" for="">
-												<a href="/terms/" target="_blank" class="text-body"><u class="text-muted">利用規約</u></a>に同意する。
-											</label>
-										</div>
-										<div class="d-flex justify-content-center pb-2">
-											<button class="btn btn-primary text-white btn-block btn-lg gradient-custom-4 font-weight-bold f-size-4" type="submit">登　録</button>
-											<input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd-membership-registration')); ?>">
-										</div>
-									</form>
-
-									<p class="divider-text my-4">
-										<span class="bg-light">OR</span>
-									</p>
-
-									<p>
-										<button type="button" class="btn text-white btn-block btn-twitter font-weight-bold f-size-4"> <i class="fab fa-twitter"></i> Twitterで登録</button>
-									</p>
-									<p class="text-center mt-5 mb-0">すでにアカウントをお持ちですか? <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('login')); ?>" class="fw-bold text-body"><u class="text-muted">ログイン</u></a></p>
-								</div>
-								<?php if (!empty($tcd_membership_vars['error_message'])) : ?>
-									<div class="p-membership-form__error"><?php echo wpautop($tcd_membership_vars['error_message']); ?></div>
-								<?php endif; ?>
-
-								<?php if (isset($tcd_membership_vars['registration']['complete'])) : ?>
-									<div class="p-membership-form__error">登録されたメールアドレスにメールを送信しました。</div>
-								<?php endif; ?>
-							</div>
+	<div class="pt-sm-5 mt-sm-5">
+		<div class="container pt-5">
+			<form action="<?php echo esc_attr(get_tcd_membership_memberpage_url('registration')); ?>" method="post">
+				<div class="row">
+					<div class="col-12">
+						<h1 class="text-center mt-3 mb-4 contents-title font-weight-bold">会員登録</h1>
+					</div>
+					<div class="col-12">
+						<div class="emailSentMsg" id="emailSentMsg">
+							<?php if (isset($tcd_membership_vars['registration']['complete'])) : ?>
+								<p>下記のメールアドレスに仮登録メールを送信いたしました。</p>
+							<?php endif; ?>
 						</div>
 					</div>
+					<div class="col-12">
+						<label for="email" class="label-text">メールアドレス</label>
+					</div>
+					<div class="col-12 pt-2 pb-2">
+						<input class="form-control email-form" type="email" name="email" id="email" placeholder="aaaa@muse.co.jp" value="<?php echo esc_attr($email); ?>" required>
+						<input name="pass1" type="hidden" value="dummy_pass" />
+					</div>
+					<div class="col-12 text-center pt-4">
+						<input class="form-check-input" type="checkbox" value="1" id="terms" name="flg_service_on">
+						<label class="form-check-label terms-check pb-2" for="terms">
+							<p class="agree">
+								<a href="<?php echo esc_attr(get_tcd_membership_memberpage_url('terms')); ?>" target="_blank" rel="noreferrer" class="terms-link">会員規約</a>に同意をしてください
+							</p>
+						</label>
+					</div>
+					<div class="col-12 text-center pt-3">
+						<button type="submit" class="btn btn-primary text-white submit-btn" id="register-btn" disabled>仮登録</button>
+					</div>
 				</div>
-			</div>
-		</section>
-	</form>
+				<input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd-membership-registration')); ?>">
+			</form>
+		</div>
+	</div>
 	<?php
 	if (!$args['echo']) :
 		return ob_get_clean();
