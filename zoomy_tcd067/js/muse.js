@@ -110,9 +110,9 @@ function checkLoginInput() {
     var loginPassword = false;
 
     // メールアドレスの値取得
-    var emailVal = $('#loginEmail').val();
+    var emailVal = jQuery('#loginEmail').val();
     // パスワードの値取得
-    var passwordVal = $('#loginPassword').val();
+    var passwordVal = jQuery('#loginPassword').val();
 
     // メールアドレスが入力されているかを確認
     if (emailVal.length > 0) {
@@ -135,7 +135,7 @@ function checkLoginInput() {
     if (loginEmail === true && loginPassword === true) {
         disabledFlag = false;
     }
-    $('#login-btn').attr('disabled', disabledFlag);
+    jQuery('#login-btn').attr('disabled', disabledFlag);
 }
 
 // 画像サイズの検証
