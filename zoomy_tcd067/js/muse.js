@@ -1,15 +1,15 @@
 // 通常新規登録ページ(sign_up.html)
 // 入力項目のフォーカスが外れた際に処理を実行
-$(function() {
+jQuery(function($) {
     // メールアドレスのフォーカスが外れた際にcheckInput実行
     $('#email').on('blur', function() {
         checkInput();
     });
     // 会員規約がクリックされた際にcheckInput実行
     $('#terms').on('click', function() {
-        checkInput();
-    })
-    // 仮登録ボタンを押された際に、メール送信済みメッセージを表示
+            checkInput();
+        })
+        // 仮登録ボタンを押された際に、メール送信済みメッセージを表示
     $('#register-btn').on('click', function() {
         showEmailSentMsg();
     })
@@ -41,7 +41,7 @@ function checkInput() {
  * パスワードリセットページ
  */
 // 入力項目のフォーカスが外れた際に処理を実行
-$(function() {
+jQuery(function($) {
     // メールアドレスのフォーカスが外れた際にcheckPwResetInput実行
     $('#pwResetEmail').on('blur', function() {
         checkPwResetInput();
@@ -89,7 +89,7 @@ function showTypeEmailMsg() {
  * ログインページ(login.html)
  */
 // 入力項目のフォーカスが外れた際に処理を実行
-$(function() {
+jQuery(function($) {
     // メールアドレスのフォーカスが外れた際にcheckLoginInput実行
     $('#loginEmail').on('blur', function() {
         checkLoginInput();
@@ -166,7 +166,7 @@ function showEmailSentMsg() {
  * 本登録ページ(register.html)
  */
 // 入力項目のフォーカスが外れた際に処理を実行
-$(function() {
+jQuery(function($) {
     // ユーザーネームのフォーカスが外れた際にcheckRegisterInput実行
     $('#username').on('blur', function() {
         checkRegisterInput();
