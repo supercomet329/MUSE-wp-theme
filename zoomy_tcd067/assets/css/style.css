@@ -21,13 +21,53 @@ footer nav .messages{
   position: relative;
 }
 
+ul.list-area {
+  margin:0; padding:0;
+  list-style: none;
+}
+
+ul.list-area li {
+  padding-bottom: 10px;
+  border-bottom: dashed 1px #e0e0e0;
+}
+
+ul.list-area li img {
+  width: 100px;
+  height: 100px;
+  margin-right: 30px;
+}
+
+ul.list-area li span.btn-area{
+  margin-left: auto;
+  margin-bottom: auto;
+  margin-top: auto;
+}
+
+ul.list-area li span.created_at{
+  margin-left: auto;
+  margin-bottom: auto;
+  font-size: 10px;
+  color: #948f8f;
+}
+
+ul.list-area li span.content{
+  font-weight: normal;
+  font-size: 10px;
+  color: #948f8f;
+}
+
+ul.list-area li span.name{
+  font-weight: bold;
+  font-size: 16px;
+}
+
 .tweet-area .profile-icon {
   width: 100px;
   height: 100px;
 }
 
-.header-text {
-  font-size: 32px;
+.item-text {
+  font-size: 25px;
   font-weight: bold;
   color: #3c7fc3;
 }
@@ -53,6 +93,17 @@ header nav {
 
 footer nav {
   border-top: solid 2px #3c7fc3;
+}
+
+body .title {
+  margin-top: 10px;
+  font-size: 30px;
+  font-weight: bold;
+  color: #3c7fc3;
+}
+
+input[type="file"] {
+  display: none;
 }
 
 ul.horizontal-list {
@@ -91,7 +142,7 @@ ul.horizontal-list li.item img {
 
 .timeline-image img {
 	width: 100%;
-  height: 60vh;;
+  height: 60vh;
   object-fit: cover;
 }
 
@@ -108,27 +159,123 @@ ul.horizontal-list li.item img {
 .content {
   display: flex;
 }
+
 .main-color {
-  background: rgb(253, 125, 51);
+  background-color: #3c7fc3 !important;
+}
+
+.follow-btn, .following-btn{
+  width: 120px;
+  height: 30px;
+}
+
+.outline-btn {
+  font-weight: 2px;
+}
+
+.subtext {
+  font-size: 10px;
+  color: #e0e0e0;
+}
+
+.save-btn {
+  background-color: #f54337 !important;
+  width: 50%;
+  height: 40px;
+  border-radius:10px !important;
+}
+
+.confirm-area textarea {
+  width: 100% !important;
+}
+
+.regist-on {
+  background-color: #f54337 !important;
+}
+
+.regist-off {
+  background:gray !important;
+}
+
+.search-btn {
+  background-color: #3c7fc3 !important;
+  width: 50%;
+  height: 40px;
+  border-radius:10px !important;
+  font-size: 20px !important;
+}
+
+.outline-btn:hover {
+  background-color: #3c7fc3 !important;
+  width: #ddd;
+}
+
+.border-bottom-dashed {
+  border-bottom: dashed 2px #e0e0e0;
+}
+
+.following-list {
+  width: 33%;
+  margin-right: 2px;
+  margin-left: 2px;
+  margin-top: 1px;
+  margin-bottom: 1px;
+  height: 300px;
+}
+.following-list img {
+  width: 200px;
+  height: 200px;
+}
+.following-list button {
+  margin-top: 3px;
+  font-size: 16px;
 }
 .content-item {
+  position: relative;
   width: 33%;
   margin: 1px;
   height: 500px;
 }
-.content-item img {
+.content-item img.image-list {
   object-fit: cover;
   width: 100%;
   max-height: 500px;
 }
+.content-item img.profile {
+  position: absolute;
+  top: 25px;
+  left: 25px;
+  width: 100px;
+  height: 100px;
+}
 
 .cover-area {
   width: 100%;
+  position: relative;
 }
-.cover-area img {
+
+.cover-area .cover-image {
   object-fit: cover;
   width: 100%;
   max-height: 300px;
+  z-index: -1;
+}
+
+.cover-area .camera-image {
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  z-index: 10;
+}
+
+.profile-edit-area .profile-image {
+  width: 100px;
+  height: 100px;
 }
 
 .see_more {
@@ -142,21 +289,66 @@ ul.horizontal-list li.item img {
   max-height: 750px;
 }
 
+.profile-area .icon {
+  position: relative;
+}
+
 .profile-area .icon img {
   width: 120px;
-  max-height: 120px;
+  height: 120px;
+}
+
+.profile-area .favorite-area {
+  border-top: dashed 1px #e0e0e0;
+  border-bottom: dashed 1px #e0e0e0;
+}
+
+.profile-area .favorite-area img {
+  width: 60px;
+  height: 60px;
 }
 
 .profile-area {
   margin-top: -60px;
 }
 
-.profile-area .username {
+.profile-area .username, .profile-area .name {
   margin-left: 2%;
 }
 
-.profile-area .name {
-  margin-left: 2%;
+.profile-area .screen_id {
+  font-weight: normal;
+  color: #948f8f;
+  font-size: 13px;
+}
+
+.profile-area .edit-btn {
+  position: absolute; bottom: 0px; right: 0px;
+}
+
+.profile-area .request-btn {
+  position: absolute; bottom: 0px; right: 7em;
+}
+
+.profile-area .follower, .profile-area .follow{
+  font-size: 14px;
+  float: right;
+  margin-right: 10px;
+  font-weight: normal;
+  color: #000;
+}
+
+body .profile-edit-area .title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #3c7fc3;
+}
+
+body .profile-edit-area input, body .profile-edit-area textarea {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  outline: none;
 }
 
 .card .user-name {
@@ -236,9 +428,132 @@ ul.horizontal-list li.item img {
   margin-left: 2%;
 }
 
+.modal {
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: none;
+}
+
+.bigimg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+}
+
+.close-btn {
+  color: #fff;
+  font-size: 40px;
+  position: absolute;
+  left: 20px;
+  top: 0;
+}
+
+.close-btn a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.production-title {
+  height: 40px; background-color: #f8f8f8;
+}
+
+.search-box{
+  font-size: 30px;
+  width:85%;
+  height:60px;
+  border-radius:20px;
+  border:none;
+  outline:0;
+  margin-bottom:40px;
+  background:#eee;
+}
+
+.select-box {
+  font-size: 20px;
+  padding-left: 10px;
+  width:100%;
+  height:60px;
+  border-radius:20px;
+  border:none;
+  outline:0;
+  margin-bottom:40px;
+  background:#eee;
+  position: relative;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.select-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.select-wrap:after {
+  content: "";
+  position: absolute;
+  right: 15px;
+  top: 25px;
+  width: 25px;
+  height: 25px;
+  border-top: 5px solid #3c7fc3;
+  border-left: 5px solid #3c7fc3;
+  transform: translateY(-50%) rotate(-135deg);
+  font-size: 20px;
+  pointer-events: none;
+}
+
+.container .tab button {
+  font-size: 24px;
+  width: 160px;
+  height: 60px;
+}
+
+.container .tab button:hover {
+  opacity: 0.9;
+}
+
+.selected-tab {
+  background-color: #3c7fc3 !important;
+  color: #fff !important;
+}
+
+.not-selected-tab {
+  background-color: #bbdefb !important;
+  color: #000 !important;;
+}
+
+.container .search-post {
+  height: 100px;
+}
+
+img.search-option {
+  width: 80px;
+  height: 80px;
+}
+
+.confirm-image-area img{
+  width: 100%;
+  height: 30vh;
+  object-fit: cover;
+}
+
 @media only screen and (max-width: 1024px) {
   header {
-    padding-bottom: 5em;
+    padding-bottom: 4.2em;
+  }
+
+  header nav {
+    height: 68px;
+  }
+
+  header nav a.text-title, header nav a.cencel{
+    font-size: 16px;
+    text-decoration: none;
   }
 
   footer {
@@ -263,7 +578,14 @@ ul.horizontal-list li.item img {
     height: 30px;
   }
 
+  .item-text {
+    font-size: 16px;
+    font-weight: bold;
+    color: #3c7fc3;
+  }
+
   footer img {
+    margin-top: 6px;
     width: 25px;
     height: 25px;
   }
@@ -275,8 +597,18 @@ ul.horizontal-list li.item img {
     height: 25px;
   }
 
-  .attention-artist {
-    padding-top: 100px;
+  body .title {
+    margin-top: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #3c7fc3;
+  }
+
+  body .title {
+    margin-top: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #3c7fc3;
   }
 
   .horizontal-list {
@@ -288,16 +620,13 @@ ul.horizontal-list li.item img {
     display:none;
   }
 
+  .border-bottom-dashed {
+    border-bottom: dashed 1px #e0e0e0;
+  }
+
   .tweet-area .profile-icon {
     width: 50px;
     height: 50px;
-  }
-
-  .header-text {
-    font-size: 16px;
-    font-weight: bold;
-    color: #3c7fc3;
-    text-align: center;
   }
 
   .profile-icon {
@@ -341,24 +670,46 @@ ul.horizontal-list li.item img {
     font-size: 0.6rem;
     font-style: normal;
   }
+  .following-list {
+    width: 33%;
+    margin-right: 2px;
+    margin-left: 2px;
+    margin-top: 1px;
+    margin-bottom: 1px;
+    height: 120px;
+  }
+  .following-list img{
+    width: 50px;
+    height: 50px;
+  }
+  .following-list button{
+    font-size: 11px;
+  }
   .content-item {
     width: 33%;
     margin: 1px;
     height: 120px;
   }
-  .content-item img {
+  .content-item img.image-list {
     object-fit: cover;
     width: 100%;
     max-height: 120px;
   }
-  .cover-area img {
+  .content-item img.profile {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    width: 35px;
+    height: 35px;
+  }
+  .cover-area .cover-image {
     object-fit: cover;
     width: 100%;
     height: 200px;
   }
   .profile-area .icon img {
-    width: 80px;
-    max-height: 120px;
+    width: 90px;
+    height: 90px;
   }
   .profile-area {
     margin-top: -40px;
@@ -372,15 +723,110 @@ ul.horizontal-list li.item img {
     font-size: 0.8em;
   }
 
+  .profile-area .favorite-area img {
+    width: 30px;
+    height: 30px;
+  }
+
+  .profile-area .follower, .profile-area .follow{
+    font-size: 11px;
+  }
+
+  body .profile-edit-area .title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #3c7fc3;
+  }
+
+  .cover-area .camera-image, .profile-edit-area .profile-image {
+    width: 70px;
+    height: 70px;
+  }
+
+  .selected-icon {
+    border-top: solid 2px #3c7fc3;
+    border-bottom: solid 2px #3c7fc3 ;
+  }
+
   ul.horizontal-list li.item img {
     width: 50px;
     height: 50px;
+  }
+
+  ul.list-area li img {
+    width: 50px;
+    height: 50px;
+    margin-right: 30px;
+  }
+
+  .container .tab button {
+    font-size: 12px;
+    width: 80px;
+    height: 30px;
+  }
+
+  .search-box{
+    font-size: 16px;
+    width:85%;
+    height:30px;
+    border-radius:10px;
+    border:none;
+    outline:0;
+    margin-bottom:40px;
+    background:#eee;
+  }
+
+  .select-box {
+    font-size: 16px;
+    width:100%;
+    height:30px;
+    border-radius:10px;
+    border:none;
+    outline:0;
+    margin-bottom:40px;
+    background:#eee;
+    position: relative;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+
+  .select-wrap:after {
+    content: "";
+    position: absolute;
+    right: 10px;
+    top: 15px;
+    width: 15px;
+    height: 15px;
+    border-top: 4px solid #3c7fc3;
+    border-left: 4px solid #3c7fc3;
+    transform: translateY(-50%) rotate(-135deg);
+    font-size: 20px;
+    pointer-events: none;
+  }
+
+  .container .search-post {
+    height: 50px;
+  }
+
+  img.search-option {
+    width: 40px;
+    height: 40px;
   }
 }
 
 @media only screen and (min-width: 1025px) {
   header {
-    padding-bottom: 9em;
+    padding-bottom: 7.4em;
+  }
+
+  header nav {
+    height: 118px;
+  }
+
+  header nav a.text-title, header nav a.cencel{
+    font-size: 25px;
+    text-decoration: none;
   }
 
   footer {
@@ -389,6 +835,11 @@ ul.horizontal-list li.item img {
 
   body .popular_artist {
     padding-bottom: 6em;
+  }
+
+  .selected-icon {
+    border-top: solid 3px #3c7fc3;
+    border-bottom: solid 3px #3c7fc3 ;
   }
 }
 
@@ -661,4 +1112,202 @@ body.is-drag-over .p-membership-form__image-upload-tiny__drop.is-drag-over .p-me
 /* ページタイトル文字の大きさ */
 .contents-title{
   font-size: 20px;
+  color: #3c7fc3;
+}
+
+/* 通常新規登録ページ */
+/* フォーム送信ボタン */
+.submit-btn {
+    background-color: #3c7fc3 !important;
+    border-color: #3c7fc3 !important;
+    width: 190px !important;
+    height: 45px !important;
+    border-radius: 10px !important;
+    font-size: 15px !important;
+}
+/* ラベル */
+.label-text {
+    font-size: 16px;
+    font-weight: bold;
+    padding-left: 10px;
+}
+/* Email入力フォーム */
+.email-form {
+    border-radius: 300px !important;
+    border: none !important;
+    background-color: #e7e7e7 !important;
+    height: 29px !important;
+}
+/* 会員規約リンク */
+.terms-link {
+    font-size: 12px;
+    font-weight: bold;
+}
+/* 会員規約非リンク文字 */
+.agree {
+    color: #000000;
+    font-size: 12px;
+    font-weight: bold;
+}
+/* 会員規約チェックボックス */
+input[type=checkbox] {
+    display: none;
+}
+.terms-check {
+    box-sizing: border-box;
+    padding: 5px 30px;
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    width: auto;
+}
+/* 会員規約チェックボックスが押される前 */
+.terms-check::before {
+    content: '';
+    display: block;
+    background: #ffffff;
+    border: 1px solid #231815;
+    border-radius: 6px;
+    width: 18px;
+    height: 18px;
+    margin-top: -18px;
+    position: absolute;
+    top: 50%;
+    left: 5px;
+}
+/* 会員規約チェックボックスが押された後 */
+.terms-check::after {
+    content: '';
+    display: block;
+    border-right: 2px solid #3c7fc3;
+    border-bottom: 2px solid #3c7fc3;
+    position: absolute;
+    top: 50%;
+    left: 11px;
+    width: 6px;
+    height: 9px;
+    margin-top: -15px;
+    transform: rotate(45deg);
+    opacity: 0;
+}
+input[type=checkbox]:checked + .terms-check::after {
+    opacity: 1;
+}
+/* 仮登録ボタン */
+#register-btn:disabled {
+    background-color: #75b8ff !important;
+    border: #75b8ff !important;
+}
+
+/* パスワードリセットページ */
+/* Email入力フォーム */
+.resetpw-email {
+    border-radius: 300px !important;
+    border: none !important;
+    background-color: #e7e7e7 !important;
+    height: 29px !important;
+}
+/* パスワードリセット注意書き */
+.resetpw-notes {
+    font-size: 12px;
+    color: #e02126;
+    width: 90%;
+    margin-top: 40px;
+}
+/* メールアドレス未入力メッセージ */
+#emailErrMsg {
+    font-size: 12px;
+    color: #e02126;
+    margin-bottom: -20px;
+}
+
+/* ログインページ */
+/* ログイン情報記憶チェックボックス */
+.remember {
+    color: #000000;
+    font-size: 10px;
+}
+/* パスワードリセットリンク */
+.reset-password {
+    text-align: right;
+    margin-bottom: 10px;
+}
+.reset-password-link {
+    color: #ff3366; 
+    font-size: 16px;
+    font-weight: bold;
+}
+/* 横線 */
+.hr-line {
+    width: 100%;
+    margin: 0;
+    border-top: 2px dotted #e7e7e7;
+}
+/* Twitterでログインするボタン */
+.login-with-sns {
+    text-align: center;
+}
+.twitter-btn {
+    border-radius: 300px;
+    border: none;
+    background-color: #1D9BF0;
+    height: 25px;
+    width: 95%;
+    color: #ffffff;
+    font-size: 16px;
+}
+/* Twitterアイコン */
+.twitter-icon {
+    height: 24px;
+    width: 24px;
+    margin-top: -4px;
+}
+/* Googleでログインする */
+.google-btn {
+    border-radius: 300px;
+    border: none;
+    background-color: #ffffff;
+    height: 25px;
+    width: 95%;
+    color: #616161;
+    font-size: 16px;
+    border: 1px solid #616161;
+    padding: 0 6px;
+}
+/* Googleアイコン */
+.google-icon {
+    height: 13.5px;
+    width: 13.5px;
+    margin-top: -5px;
+    margin-right: 18px;
+}
+/* 新規会員登録 */
+.register-notes {
+    text-align: center;
+}
+.register-notes-text {
+    color: #e02126;
+    font-size: 12px;
+    width: 90%;
+    display: inline-block;
+    text-align: left;
+}
+/* メールアドレス送信済みメッセージ */
+.emailSentMsg {
+    color: #3c7fc3;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: -8px;
+    padding-bottom: 8px;
+}
+
+/* 本登録ページ */
+/* 本登録入力フォーム */
+.register-form {
+    border-radius: 300px !important;
+    border: none !important;
+    background-color: #e7e7e7 !important;
+    height: 29px !important;
+    color: #616161 !important;
 }
