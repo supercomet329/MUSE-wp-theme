@@ -539,6 +539,7 @@ function tcd_membership_action_registration_account() {
 		if ( $action_meta ) {
 			$registration = get_tcd_membership_action_by_id( $action_meta->action_id );
 			$registration_email = get_tcd_membership_action_meta( $action_meta->action_id, 'registration_email' );
+			// 20220529 Fiexed H.Okabe
 			$registration_password = get_tcd_membership_action_meta( $action_meta->action_id, 'registration_password' );
 			$registration_expire = get_tcd_membership_action_meta( $action_meta->action_id, 'registration_expire' );
 			if ( empty( $registration->type ) || 'registration' !== $registration->type || ! $registration_email || ! $registration_password ) {
@@ -559,6 +560,8 @@ function tcd_membership_action_registration_account() {
 				$tcd_membership_vars['registration_account']['email'] = $registration_email;
 				$tcd_membership_vars['registration_account']['password'] = $registration_password;
 				$tcd_membership_vars['registration_account']['registration_token'] = $registration_token;
+				// 20220529 Fiexed パスワードをPOSTの値に置き換える
+				$registration_password = $_REQUEST['pass1'];
 			}
 		} else {
 			$tcd_membership_vars['error_message'] = __( 'Invalid token.', 'tcd-w' );

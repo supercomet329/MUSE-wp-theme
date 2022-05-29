@@ -91,11 +91,11 @@ function showTypeEmailMsg() {
 // 入力項目のフォーカスが外れた際に処理を実行
 jQuery(function($) {
     // メールアドレスのフォーカスが外れた際にcheckLoginInput実行
-    $('#loginEmail').on('blur', function() {
+    jQuery('#loginEmail').on('blur', function() {
         checkLoginInput();
     });
     // パスワードのフォーカスが外れた際にcheckLoginInput実行
-    $('#loginPassword').on('blur', function() {
+    jQuery('#loginPassword').on('blur', function() {
         checkLoginInput();
     })
 });
@@ -168,19 +168,19 @@ function showEmailSentMsg() {
 // 入力項目のフォーカスが外れた際に処理を実行
 jQuery(function($) {
     // ユーザーネームのフォーカスが外れた際にcheckRegisterInput実行
-    $('#username').on('blur', function() {
+    jQuery('#username').on('blur', function() {
         checkRegisterInput();
     });
     // 名前のフォーカスが外れた際にcheckRegisterInput実行
-    $('#name').on('blur', function() {
+    jQuery('#name').on('blur', function() {
         checkRegisterInput();
     });
     // パスワードのフォーカスが外れた際にcheckRegisterInput実行
-    $('#password').on('blur', function() {
+    jQuery('#password').on('blur', function() {
         checkRegisterInput();
     });
     // パスワードを再入力のフォーカスが外れた際にcheckRegisterInput実行
-    $('#password_confirmation').on('blur', function() {
+    jQuery('#password_confirmation').on('blur', function() {
         checkRegisterInput();
     });
 });
@@ -197,13 +197,13 @@ function checkRegisterInput() {
     var pwConfirm = false;
 
     // ユーザーネームの値取得
-    var usernameVal = $('#username').val();
+    var usernameVal = jQuery('#username').val();
     // 名前の値取得
-    var nameVal = $('#name').val();
+    var nameVal = jQuery('#name').val();
     // パスワードの値取得
-    var passwordVal = $('#password').val();
+    var passwordVal = jQuery('#password').val();
     // パスワードを再入力の値取得
-    var pwConfirmVal = $('#password_confirmation').val();
+    var pwConfirmVal = jQuery('#password_confirmation').val();
 
     // ユーザーネームが入力されているかを確認
     if (usernameVal.length > 0) {
@@ -239,5 +239,5 @@ function checkRegisterInput() {
     if (username === true && name === true && password === true && pwConfirm === true) {
         disabledFlag = false;
     }
-    $('#register-btn').attr('disabled', disabledFlag);
+    jQuery('#register-btn').attr('disabled', disabledFlag);
 }
