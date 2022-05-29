@@ -57,12 +57,12 @@ function checkPwResetInput() {
     var pwResetEmail = false;
 
     // メールアドレスの値取得
-    var pwResetEmailVal = $('#pwResetEmail').val();
+    var pwResetEmailVal = jQuery('#pwResetEmail').val();
 
     // メールアドレスが入力されているかを確認
     if (pwResetEmailVal.length > 0) {
         // メールアドレスが入力されている場合、エラーメッセージを非表示
-        $('#emailErrMsg').hide();
+        jQuery('#emailErrMsg').hide();
         // メールアドレスに空白文字が含まれていないかを確認
         if (!pwResetEmailVal.match(/[\x20\u3000]/)) {
             // メールアドレスのフォーマットを確認
@@ -77,7 +77,7 @@ function checkPwResetInput() {
     if (pwResetEmail === true) {
         disabledFlag = false;
     }
-    $('#resetpw-btn').attr('disabled', disabledFlag);
+    jQuery('#resetpw-btn').attr('disabled', disabledFlag);
 }
 
 // メールアドレスが入力されていない場合、メッセージを表示

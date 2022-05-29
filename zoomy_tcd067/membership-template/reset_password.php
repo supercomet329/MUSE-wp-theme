@@ -1,6 +1,12 @@
 <?php
 global $dp_options, $tcd_membership_vars;
 
+$email = '';
+$messageComplete = false;
+if (isset($tcd_membership_vars['reset_password'])) {
+	$email = $tcd_membership_vars['reset_password']['email'];
+	$messageComplete = '下記のメールアドレスにメールを送信致しました。';
+}
 get_header();
 ?>
 <main class="l-main has-bg--pc">
@@ -101,36 +107,41 @@ get_header();
 			// メールアドレス入力フォーム表示
 			else :
 			?>
+				<div class="pt-sm-5 mt-sm-5">
+					<div class="container pt-5">
+						<form method="POST" action="<?php echo esc_attr(get_tcd_membership_memberpage_url('reset_password')); ?>">
+							<div class="row">
+								<div class="col-12">
+									<h1 class="text-center mb-4 contents-title font-weight-bold">パスワード再発行</h1>
+								</div>
+								<div class="col-12">
+									<label for="email" class="label-text">メールアドレス</label>
+								</div>
+								<div class="col-12 pt-2 pb-2">
+									<input class="form-control resetpw-email" type="email" name="email" id="pwResetEmail" placeholder="aaaa@muse.co.jp" value="<?php echo esc_attr($email); ?>" required>
+									<?php
+									if ($messageComplete) {
+									?>
+										<p>下記のメールアドレスに仮登録メールを送信いたしました。</p>
+									<?php }
+									/** endif */ ?>
 
-				<section class="vh-100 bg-image">
-					<div class="mask d-flex align-items-center h-100 gradient-custom-3">
-						<div class="container">
-							<div class="row d-flex justify-content-center align-items-center h-100">
-								<div class="col-12 col-lg-9 col-xl-7">
-									<div class="card" style="border-radius: 15px;">
-										<div class="card-body shadow">
-											<h4 class="text-center font-weight-bold my-3">ログインできない場合</h4>
-											<h6 class="text-center my-4" style="color: grey;">
-												メールアドレスまたは電話番号を入力してください。パスワードをリセットするためのリンクをお送りします。
-											</h6>
-											<form>
-												<div class="row">
-													<div class="col-12 pb-3">
-														<input type="email" id="email" name="email" class="form-control form-control-lg" value="<?php echo esc_attr(isset($_REQUEST['email']) ? $_REQUEST['email'] : ''); ?>" placeholder="メールアドレス" required>
-													</div>
-												</div>
-												<div class="d-flex justify-content-center pt-4 pb-2">
-													<button type="submit" class="btn btn-primary text-white btn-block btn-lg gradient-custom-4 font-weight-bold f-size-4">リンクを送信</button>
-												</div>
-											</form>
-										</div>
-									</div>
+								</div>
+								<div class="col-12">
+									<div class="inputEmailMsg" id="inputEmailMsg"></div>
+								</div>
+								<div class="col-12">
+									<p class="resetpw-notes" style="margin: 40px auto 0 auto;">入力されたメールアドレスにパスワード再発行のメールをお送りします。</p>
+								</div>
+
+								<div class="col-12 text-center pt-3">
+									<button type="submit" class="btn btn-primary text-white submit-btn" id="resetpw-btn" disabled>パスワード再発行</button>
 								</div>
 							</div>
-						</div>
+							<input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd-membership-reset_password')); ?>">
+						</form>
 					</div>
-					<input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd-membership-reset_password')); ?>">
-				</section>
+				</div>
 			<?php
 			endif;
 			?>
