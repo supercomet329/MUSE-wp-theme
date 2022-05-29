@@ -113,19 +113,18 @@ get_header();
 							<div class="row">
 								<div class="col-12">
 									<h1 class="text-center mb-4 contents-title font-weight-bold">パスワード再発行</h1>
+									<div class="emailSentMsg" id="emailSentMsg">
+										<?php if ($messageComplete) { ?>
+											<p>下記のメールアドレスに仮登録メールを送信いたしました。</p>
+										<?php } ?>
+									</div>
+
 								</div>
 								<div class="col-12">
 									<label for="email" class="label-text">メールアドレス</label>
 								</div>
 								<div class="col-12 pt-2 pb-2">
 									<input class="form-control resetpw-email" type="email" name="email" id="pwResetEmail" placeholder="aaaa@muse.co.jp" value="<?php echo esc_attr($email); ?>" required>
-									<?php
-									if ($messageComplete) {
-									?>
-										<p>下記のメールアドレスに仮登録メールを送信いたしました。</p>
-									<?php }
-									/** endif */ ?>
-
 								</div>
 								<div class="col-12">
 									<div class="inputEmailMsg" id="inputEmailMsg"></div>
