@@ -45,6 +45,11 @@ function tcd_membership_login_form($args = array())
 		ob_start();
 	endif;
 
+	$successMessage = '';
+	if (isset($_GET['message']) && $_GET['message'] === 'registration_account_complete') {
+		$successMessage = '新規ユーザーを作成致しました。';
+	}
+
 	if (!$args['value_username'] && !empty($_COOKIE['tcd_login_email'])) :
 		$tcd_login_email = $_COOKIE['tcd_login_email'];
 		// メールアドレスでなければ復号化
@@ -68,6 +73,11 @@ function tcd_membership_login_form($args = array())
 				<div class="row">
 					<div class="col-12">
 						<h1 class="text-center mb-4 contents-title font-weight-bold">ログイン</h1>
+						<div class="emailSentMsg" id="emailSentMsg">
+							<?php if (!empty($successMessage)) : ?>
+								<p><?php echo $successMessage; ?></p>
+							<?php endif; ?>
+						</div>
 					</div>
 					<div class="col-12">
 						<label for="email" class="label-text">メールアドレス</label>
@@ -230,7 +240,7 @@ function tcd_membership_login_form($args = array())
 
 		/**
 		 * 本会員登録・アカウント作成フォーム
-		 * TODO: 2022/05/08 HTMLが届いたら入れ替え by 岡部
+		 *
 		 */
 		function tcd_membership_registration_account_form($args = array())
 		{
@@ -262,45 +272,60 @@ function tcd_membership_login_form($args = array())
 			// 正常トークンフラグがある場合はフォーム表示
 			if (!empty($tcd_membership_vars['registration_account']['valid_registration_token'])) :
 	?>
-		<form class="p-membership-form p-membership-form--registration_account" action="<?php echo esc_attr(get_tcd_membership_memberpage_url('registration_account')); ?>" method="post">
-			<section class="vh-100 bg-image">
-				<div class="mask d-flex align-items-center h-100 gradient-custom-3">
-					<div class="container">
-						<div class="row d-flex justify-content-center align-items-center h-100">
-							<div class="col-12 col-lg-9 col-xl-7">
-								<div class="card" style="border-radius: 15px;">
-									<div class="card-body shadow">
-										<h5 class="text-center font-weight-bold my-3">ユーザー情報の入力</h5>
+		<div class="pt-sm-5 mt-sm-5">
+			<div class="container pt-5">
+				<form class="validateRegisterForm p-membership-form p-membership-form--registration_account" action="<?php echo esc_attr(get_tcd_membership_memberpage_url('registration_account')); ?>" method="post">
+					<div class="row">
+						<div class="col-12">
+							<h1 class="text-center mt-1 mb-4 contents-title font-weight-bold">会員登録</h1>
+						</div>
 
-										<?php
-										render_tcd_membership_user_form_fields(
-											'registration_account',
-											null,
-											[
-												'use_confirm' => true,
-												'indent' => 7,
-												'email_readonly' => isset($tcd_membership_vars['registration_account']['email']) ? $tcd_membership_vars['registration_account']['email'] : null
-											] + $args
-										);
+						<?php
+						render_tcd_membership_user_form_fields(
+							'registration_account',
+							null,
+							[
+								'use_confirm' => true,
+								'indent' => 7,
+								'email_readonly' => isset($tcd_membership_vars['registration_account']['email']) ? $tcd_membership_vars['registration_account']['email'] : null
+							] + $args
+						);
 
-										echo apply_filters('tcd_membership_registration_account_form_table', '', $args);
-										?>
+						echo apply_filters('tcd_membership_registration_account_form_table', '', $args);
+						?>
 
-										<button type="submit" class="btn btn-primary text-white btn-block gradient-custom-4 font-weight-bold">
-											確認する
-										</button>
-										<input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd-membership-registration_account')); ?>">
-										<?php if (!empty($tcd_membership_vars['registration_account']['registration_token'])) { ?>
-											<input type="hidden" name="token" value="<?php echo esc_attr($tcd_membership_vars['registration_account']['registration_token']); ?>">
-										<?php } ?>
-									</div>
-								</div>
-							</div>
+						<div class="col-12 pt-4">
+							<label for="password" class="label-text">パスワード</label>
+						</div>
+						<div class="col-12 pb-2">
+							<input class="form-control register-form" type="password" name="pass1" id="password" placeholder="Musepass1" required>
+						</div>
+						<div class="col-12 pt-4">
+							<label for="password_confirmation" class="label-text">パスワードを再入力</label>
+						</div>
+						<div class="col-12 pb-4">
+							<input class="form-control register-form" type="password" name="pass2" id="password_confirmation" placeholder="Musepass1" required>
+						</div>
+						<div class="col-12 text-center pt-3">
+							<button type="submit" class="btn btn-primary text-white submit-btn" id="register-btn" disabled>新規登録</button>
 						</div>
 					</div>
-				</div>
-			</section>
-		</form>
+					<input type="hidden" name="gender" value="notselected" />
+					<input type="hidden" name="area" value="" />
+					<input type="hidden" name="mail_magazine" value="yes" />
+					<input type="hidden" name="member_news_notify" value="yes" />
+					<input type="hidden" name="social_notify" value="yes" />
+					<input type="hidden" name="messages_notify" value="yes" />
+					<input type="hidden" name="_birthday[year]" value="" />
+					<input type="hidden" name="_birthday[month]" value="" />
+					<input type="hidden" name="_birthday[day]" value="" />
+					<input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd-membership-registration_account')); ?>">
+					<?php if (!empty($tcd_membership_vars['registration_account']['registration_token'])) { ?>
+						<input type="hidden" name="token" value="<?php echo esc_attr($tcd_membership_vars['registration_account']['registration_token']); ?>">
+					<?php } ?>
+				</form>
+			</div>
+		</div>
 		<?php
 				if (!$args['echo']) :
 					return ob_get_clean();
@@ -534,7 +559,7 @@ function tcd_membership_login_form($args = array())
 		function get_tcd_membership_user_form_fields_settings($form_type = null, $add_settings = array())
 		{
 			global $dp_options;
-
+			// var_dump($dp_options);exit;
 			$default_fields_settings = array(
 				'form_type' => $form_type,
 				'indent' => 6,
@@ -636,44 +661,46 @@ function tcd_membership_login_form($args = array())
 
 			if ('registration' === $form_type) {
 			} elseif ('registration_account' === $form_type) {
+				// FIXED: 2022/05/29 不要な項目の削除 by 岡部
 				$fields_settings = array(
 					'show_display_name' => true,
 					'show_email_readonly' => true,
-					'show_fullname' => $dp_options['membership']['show_registration_fullname'],
-					'show_gender' => $dp_options['membership']['show_registration_gender'],
-					'show_area' => $dp_options['membership']['show_registration_area'],
-					'show_birthday' => $dp_options['membership']['show_registration_birthday'],
-					'show_company' => $dp_options['membership']['show_registration_company'],
-					'show_job' => $dp_options['membership']['show_registration_job'],
-					'show_description' => $dp_options['membership']['show_registration_desc'],
-					'show_website' => $dp_options['membership']['show_registration_website'],
-					'show_facebook' => $dp_options['membership']['show_registration_facebook'],
-					'show_twitter' => $dp_options['membership']['show_registration_twitter'],
-					'show_instagram' => $dp_options['membership']['show_registration_instagram'],
-					'show_youtube' => $dp_options['membership']['show_registration_youtube'],
-					'show_tiktok' => $dp_options['membership']['show_registration_tiktok'],
-					'show_mail_magazine' => $dp_options['membership']['use_mail_magazine'],
-					'show_member_news_notify' => $dp_options['membership']['use_member_news_notify'],
-					'show_social_notify' => $dp_options['membership']['use_social_notify'],
-					'show_messages_notify' => $dp_options['membership']['use_messages_notify'],
+					'show_fullname' => true,
+					//					'show_gender' => $dp_options['membership']['show_registration_gender'],
+					//					'show_area' => $dp_options['membership']['show_registration_area'],
+					//					'show_birthday' => $dp_options['membership']['show_registration_birthday'],
+					//					'show_company' => $dp_options['membership']['show_registration_company'],
+					//					'show_job' => $dp_options['membership']['show_registration_job'],
+					//					'show_description' => $dp_options['membership']['show_registration_desc'],
+					//					'show_website' => $dp_options['membership']['show_registration_website'],
+					//					'show_facebook' => $dp_options['membership']['show_registration_facebook'],
+					//					'show_twitter' => $dp_options['membership']['show_registration_twitter'],
+					//					'show_instagram' => $dp_options['membership']['show_registration_instagram'],
+					//					'show_youtube' => $dp_options['membership']['show_registration_youtube'],
+					//					'show_tiktok' => $dp_options['membership']['show_registration_tiktok'],
+					//					'show_mail_magazine' => $dp_options['membership']['use_mail_magazine'],
+					//					'show_member_news_notify' => $dp_options['membership']['use_member_news_notify'],
+					//					'show_social_notify' => $dp_options['membership']['use_social_notify'],
+					//					'show_messages_notify' => $dp_options['membership']['use_messages_notify'],
 					'validate_display_name' => true,
 					'validate_fullname' => $dp_options['membership']['show_registration_fullname'],
-					'validate_gender' => $dp_options['membership']['show_registration_gender'],
-					'validate_area' => $dp_options['membership']['show_registration_area'],
-					'validate_birthday' => $dp_options['membership']['show_registration_birthday'],
-					'validate_company' => $dp_options['membership']['show_registration_company'],
-					'validate_job' => $dp_options['membership']['show_registration_job'],
-					'validate_description' => $dp_options['membership']['show_registration_desc'],
-					'validate_website' => $dp_options['membership']['show_registration_website'],
-					'validate_facebook' => $dp_options['membership']['show_registration_facebook'],
-					'validate_twitter' => $dp_options['membership']['show_registration_twitter'],
-					'validate_instagram' => $dp_options['membership']['show_registration_instagram'],
-					'validate_youtube' => $dp_options['membership']['show_registration_youtube'],
-					'validate_tiktok' => $dp_options['membership']['show_registration_tiktok'],
-					'validate_mail_magazine' => $dp_options['membership']['use_mail_magazine'],
-					'validate_member_news_notify' => $dp_options['membership']['use_member_news_notify'],
-					'validate_social_notify' => $dp_options['membership']['use_social_notify'],
-					'validate_messages_notify' => $dp_options['membership']['use_messages_notify']
+					'validate_change_password' => true
+					//					'validate_gender' => $dp_options['membership']['show_registration_gender'],
+					//					'validate_area' => $dp_options['membership']['show_registration_area'],
+					//					'validate_birthday' => $dp_options['membership']['show_registration_birthday'],
+					//					'validate_company' => $dp_options['membership']['show_registration_company'],
+					//					'validate_job' => $dp_options['membership']['show_registration_job'],
+					//					'validate_description' => $dp_options['membership']['show_registration_desc'],
+					//					'validate_website' => $dp_options['membership']['show_registration_website'],
+					//					'validate_facebook' => $dp_options['membership']['show_registration_facebook'],
+					//					'validate_twitter' => $dp_options['membership']['show_registration_twitter'],
+					//					'validate_instagram' => $dp_options['membership']['show_registration_instagram'],
+					//					'validate_youtube' => $dp_options['membership']['show_registration_youtube'],
+					//					'validate_tiktok' => $dp_options['membership']['show_registration_tiktok'],
+					//					'validate_mail_magazine' => $dp_options['membership']['use_mail_magazine'],
+					//					'validate_member_news_notify' => $dp_options['membership']['use_member_news_notify'],
+					//					'validate_social_notify' => $dp_options['membership']['use_social_notify'],
+					//					'validate_messages_notify' => $dp_options['membership']['use_messages_notify']
 				);
 			} elseif ('edit_account' === $form_type) {
 				$fields_settings = array(
@@ -717,6 +744,7 @@ function tcd_membership_login_form($args = array())
 					// 'show_tiktok' => $dp_options['membership']['show_profile_tiktok'],
 					'validate_display_name' => true,
 					'validate_email' => true,
+					'validate_change_password' => true,
 					// 'validate_fullname' => $dp_options['membership']['show_profile_fullname'],
 					// 'validate_area' => $dp_options['membership']['show_profile_area'],
 					// 'validate_birthday' => $dp_options['membership']['show_profile_birthday'],
@@ -776,11 +804,11 @@ function tcd_membership_login_form($args = array())
 
 			if ($args['show_display_name']) {
 	?>
-		<div class="row">
-			<div class="col-12 pb-3">
-				<label for="display_name"><?php echo esc_html($args['label_display_name']) . $args['required_html']; ?></label>
-				<input type="text" name="display_name" class="form-control form-control-lg" value="<?php echo esc_attr(isset($_REQUEST['display_name']) ? $_REQUEST['display_name'] : $user->display_name); ?>" minlength="3" maxlength="50" required<?php if ($args['use_confirm']) echo ' data-confirm-label="' . esc_attr($args['label_display_name']) . '"'; ?>>
-			</div>
+		<div class="col-12">
+			<label for="username" class="label-text">ユーザーネーム</label>
+		</div>
+		<div class="col-12 pb-2">
+			<input class="form-control register-form" type="text" name="display_name" id="username" placeholder="username" value="<?php echo esc_attr(isset($_REQUEST['display_name']) ? $_REQUEST['display_name'] : $user->display_name); ?>" required>
 		</div>
 	<?php
 			}
@@ -833,12 +861,7 @@ function tcd_membership_login_form($args = array())
 	<?php
 			if ($args['show_email_readonly'] && isset($args['email_readonly'])) :
 	?>
-		<div class="row">
-			<div class="col-12 pb-3">
-				<label for="email"><?php echo esc_html($args['label_email']); ?></label>
-				<input class="readonly-email form-control form-control-lg" type="text" value="<?php echo esc_attr($args['email_readonly']); ?>" readonly<?php if ($args['use_confirm']) echo ' data-confirm-label="' . esc_attr($args['label_email']) . '"'; ?>>
-			</div>
-		</div>
+		<input class="readonly-email form-control form-control-lg" type="hidden" value="<?php echo esc_attr($args['email_readonly']); ?>" readonly<?php if ($args['use_confirm']) echo ' data-confirm-label="' . esc_attr($args['label_email']) . '"'; ?>>
 	<?php
 			elseif ($args['show_email']) :
 	?>
@@ -871,6 +894,14 @@ function tcd_membership_login_form($args = array())
 			if ($args['show_fullname']) :
 				if ('type1' === $dp_options['membership']['fullname_type']) :
 	?>
+			<div class="col-12 pt-4">
+				<label for="name" class="label-text">名前</label>
+			</div>
+			<div class="col-12 pb-2">
+				<input class="form-control register-form" type="text" name="last_name" id="name" placeholder="namae" value="<?php echo esc_attr(isset($_REQUEST['last_name']) ? $_REQUEST['last_name'] : $user->last_name); ?>" required>
+				<input class="form-control register-form" type="hidden" name="first_name" id="name" placeholder="namae" value="aaa" required>
+			</div>
+			<?php /**
 			<tr>
 				<th><label for="last_name"><?php
 											echo esc_html($args['label_fullname']);
@@ -893,6 +924,7 @@ function tcd_membership_login_form($args = array())
 					?>
 				</td>
 			</tr>
+					 */ ?>
 		<?php
 				else :
 		?>
@@ -1259,7 +1291,7 @@ function tcd_membership_login_form($args = array())
 				}
 
 				if (!$user || !$user->ID) {
-					$error_messages[] = __('Require login.', 'tcd-w');
+					// $error_messages[] = __('Require login.', 'tcd-w');
 				} elseif (empty($data['current_pass'])) {
 					$error_messages[] = __('Please enter a current password.', 'tcd-w');
 				} elseif (!wp_check_password($data['current_pass'], $user->user_pass, $user->ID)) {

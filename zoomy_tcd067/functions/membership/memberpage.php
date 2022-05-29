@@ -194,7 +194,6 @@ function tcd_membership_memberpage_wp()
 		if ($tcd_membership_vars['memberpage_page'] && is_page($tcd_membership_vars['memberpage_page']->ID)) {
 
 			if (!empty($_REQUEST['memberpage'])) {
-				var_dump(__LINE__);exit;
 
 				$is_query_string_memberpage = true;
 			} else {
