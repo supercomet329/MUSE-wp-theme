@@ -454,100 +454,129 @@ function tcd_membership_login_form($args = array())
 			$args = apply_filters('tcd_membership_edit_profile_form_args', $args);
 
 			$user = wp_get_current_user();
+			$profileImageData = get_user_meta(get_current_user_id(), 'profile_image', true);
+			$profile_image = get_template_directory_uri() . '/assets/img/icon/non_profile_image.png';
+			if (!empty($profileImageData)) {
+				$profile_image = $profileImageData;
+			}
+
+			$headerImageData = get_user_meta(get_current_user_id(), 'header_image', true);
+			$header_image = get_template_directory_uri() . '/assets/img/add_image360-250.png';
+			if (!empty($headerImageData)) {
+				$header_image = $headerImageData;
+			}
+
+			$last_name = '';
+			$lastNameData = get_user_meta(get_current_user_id(), 'last_name', true);
+			if (!empty($lastNameData)) {
+				$last_name = $lastNameData;
+			}
+
+			$description = '';
+			$descriptionData = get_user_meta(get_current_user_id(), 'description', true);
+			if (!empty($lastNameData)) {
+				$description = $descriptionData;
+			}
+
+			$area = '';
+			$areaData = get_user_meta(get_current_user_id(), 'area', true);
+			if (!empty($areaData)) {
+				$area = $areaData;
+			}
+
+			$birthday = '';
+			$birthdayData = get_user_meta(get_current_user_id(), 'birthday', true);
+			if (!empty($birthdayData)) {
+				$birthday = $birthdayData;
+			}
+
+			$successMessage = '';
+			if (isset($_GET['message']) && $_GET['message'] === 'updated') {
+				$successMessage = 'プロフィール情報の更新を行いました。';
+			}
 
 			if (!$args['echo']) :
 				ob_start();
 			endif;
 	?>
-	<form id="<?php echo esc_attr($args['form_id']); ?>" class="p-membership-form js-membership-form--normal" action="<?php echo esc_attr(get_tcd_membership_memberpage_url('edit_profile')); ?>" enctype="multipart/form-data" method="post">
-		<main role="main">
-			<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-				<div class="modal-dialog" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title" id="exampleModalLabel">タイムライン切り替え</h5>
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-						<div class="modal-body">
-							<div class="cp_ipradio">
-								<ul style="list-style: none;">
-									<li class="list_item">
-										<label>
-											<input type="radio" class="option-input" name="a" checked>
-											　通常モード
-										</label>
-									</li>
-									<li class="list_item">
-										<label>
-											<input type="radio" class="option-input" name="a">
-											　ピクチャーモード
-										</label>
-									</li>
-								</ul>
-							</div>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-							<button type="button" class="btn btn-primary">Save changes</button>
-						</div>
-					</div>
+	<form action="<?php echo esc_attr(get_tcd_membership_memberpage_url('edit_profile')); ?>" enctype="multipart/form-data" method="post">
+		<div class="cover-area">
+			<img src="<?php echo esc_url($header_image); ?>" class="img-fluid cover-image" id="cover_image">
+			<label>
+				<input type="file" name="header_image" id="cover_img_file_input" accept="image/png, image/jpeg">
+				<img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/camera_BGblue.png" class="camera-image rounded-circle" id="camera_image" alt="camera-image">
+			</label>
+		</div>
+		<div class="emailSentMsg" id="emailSentMsg">
+			<?php if (!empty($successMessage)) : ?>
+				<p><?php echo $successMessage; ?></p>
+			<?php endif; ?>
+		</div>
+
+		<?php
+			/**
+			render_tcd_membership_user_form_fields('edit_profile', $user, $args);
+			echo apply_filters('tcd_membership_edit_profile_form_table', '', $args);
+			 */
+		?>
+		<div class="container">
+			<div class="row profile-edit-area">
+				<div class="col-12 text-center pt-3">
+					<label>
+						<input type="file" name="profile_image" id="profile_img_file_input" accept="image/png, image/jpeg">
+						<img src="<?php echo esc_url($profile_image); ?>" class="profile-image rounded-circle" id="profile_image">
+					</label>
+				</div>
+				<div class="col-6 text-center title border-bottom-dashed">
+					<div style="margin-bottom: 10px;">名前</div>
+				</div>
+				<input type="text" name="last_name" value="<?php echo esc_attr($last_name); ?>" class="col-6 border-bottom-dashed">
+				<div class="col-6 text-center title border-bottom-dashed">
+					<div style="margin-bottom: 10px;">ユーザーネーム</div>
+				</div>
+				<input type="text" name="display_name" value="<?php echo esc_attr($user->data->display_name); ?>" class="col-6 border-bottom-dashed">
+				<div class="col-6 text-center title border-bottom-dashed" style="margin-top: 25px;">
+					プロフィール
+				</div>
+				<textarea name="description" class="col-6 border-bottom-dashed" cols="50" rows="3"><?php echo esc_attr($description); ?></textarea>
+				<div class="col-6 text-center title border-bottom-dashed">
+					<div style="margin-bottom: 10px;">生年月日</div>
+				</div>
+				<input type="text" name="birthday" value="<?php echo esc_attr($birthday); ?>" class="col-6 border-bottom-dashed">
+				<div class="col-6 text-center title border-bottom-dashed">
+					<div style="margin-bottom: 10px;">所在地</div>
+				</div>
+				<input type="text" value="<?php echo esc_attr($area); ?>" name="area" class="col-6 border-bottom-dashed ">
+				<div class="col-6 text-center title pt-2 border-bottom-dashed my-auto">
+					<div style="margin-bottom: 10px;">webサイト</div>
+				</div>
+				<input type="text" value="<?php echo esc_attr($user->data->user_url); ?>" name="website_url" class="col-6 border-bottom-dashed text-primary">
+				<div class="col-12 text-center my-4">
+					<button type="submit" class="btn btn-lg btn-danger save-btn">　保存　</button>
 				</div>
 			</div>
-			<?php
-			// TODO: 2022/05/09 画像アップロード
-			?>
-			<div class="cover-area">
-				<img src="https://i.imgur.com/Qtrsrk5.jpg" class="img-fluid">
-				<div class="mt-2 mr-4 float-right"><a href="#" class="text-info font-weight-bold text-decoration-none">カバー画像を変更</a></div>
-			</div>
-
-			<?php
-			// TODO: 2022/05/09 画像アップロード
-			?>
-			<div class="container profile-area">
-				<div class="icon">
-					<img src="https://i.imgur.com/JgYD2nQ.jpg" class="rounded-circle" width="80">
-				</div>
-				<div class="mt-3"><a href="#" class="text-info font-weight-bold text-decoration-none">アイコン画像を変更</a></div>
-			</div>
-
-			<section class="vh-100 bg-image mt-5">
-				<div class="mask d-flex align-items-center gradient-custom-3">
-					<div class="container">
-						<div class="row d-flex justify-content-center align-items-center">
-							<div class="col-12 col-lg-9 col-xl-7">
-								<?php
-								if (!empty($tcd_membership_vars['message'])) :
-								?>
-									<div class="p-membership-form__message"><?php echo wpautop($tcd_membership_vars['message']); ?></div>
-								<?php
-								endif;
-								?>
-								<?php
-								if (!empty($tcd_membership_vars['error_message'])) :
-								?>
-									<div class="p-membership-form__error"><?php echo wpautop($tcd_membership_vars['error_message']); ?></div>
-								<?php
-								endif;
-								?>
-								<?php
-								render_tcd_membership_user_form_fields('edit_profile', $user, $args);
-
-								echo apply_filters('tcd_membership_edit_profile_form_table', '', $args);
-								?>
-								<div class="d-flex justify-content-center pt-4 pb-2">
-									<button type="submit" class="btn btn-primary text-white btn-block btn-lg gradient-custom-4 font-weight-bold f-size-4">プロフィールを保存</button>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</section>
-		</main>
+		</div>
 		<input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd-membership-edit_profile')); ?>">
 	</form>
+	<script>
+		jQuery(function() {
+			jQuery('#cover_img_file_input').change(function() {
+				let file = this.files[0];
+				let fileInput = jQuery('#cover_img_file_input').get(0);
+				let image = jQuery('#cover_image').get(0);
+				validateImageSize(file, fileInput)
+				replaceImage(file, image);
+			});
+
+			jQuery('#profile_img_file_input').change(function() {
+				let file = this.files[0];
+				let fileInput = jQuery('#profile_img_file_input').get(0);
+				let image = jQuery('#profile_image').get(0);
+				validateImageSize(file, fileInput)
+				replaceImage(file, image);
+			});
+		});
+	</script>
 	<?php
 			if (!$args['echo']) :
 				return ob_get_clean();
@@ -714,7 +743,7 @@ function tcd_membership_login_form($args = array())
 					'show_social_notify' => $dp_options['membership']['use_social_notify'],
 					'show_messages_notify' => $dp_options['membership']['use_messages_notify'],
 					'validate_display_name' => true,
-					'validate_email' => true,
+					// 'validate_email' => true,
 					'validate_gender' => $dp_options['membership']['show_account_gender'],
 					'validate_area' => $dp_options['membership']['show_account_area'],
 					'validate_birthday' => $dp_options['membership']['show_account_birthday'],
@@ -727,10 +756,10 @@ function tcd_membership_login_form($args = array())
 				// FIXED: 2022/05/09 不要な項目の削除 by 岡部
 				$fields_settings = array(
 					'show_display_name' => true,
-					'show_email' => true,
+					// 'show_email' => true,
 					// 'show_fullname' => $dp_options['membership']['show_profile_fullname'],
 					// 'show_area' => $dp_options['membership']['show_profile_area'],
-					// 'show_birthday' => $dp_options['membership']['show_profile_birthday'],
+					'show_birthday' => $dp_options['membership']['show_profile_birthday'],
 					// 'show_company' => $dp_options['membership']['show_profile_company'],
 					// 'show_job' => $dp_options['membership']['show_profile_job'],
 					'show_description' => $dp_options['membership']['show_profile_desc'],
@@ -743,11 +772,11 @@ function tcd_membership_login_form($args = array())
 					// 'show_youtube' => $dp_options['membership']['show_profile_youtube'],
 					// 'show_tiktok' => $dp_options['membership']['show_profile_tiktok'],
 					'validate_display_name' => true,
-					'validate_email' => true,
-					'validate_change_password' => true,
+					//'validate_email' => true,
+					// 'validate_change_password' => true,
 					// 'validate_fullname' => $dp_options['membership']['show_profile_fullname'],
 					// 'validate_area' => $dp_options['membership']['show_profile_area'],
-					// 'validate_birthday' => $dp_options['membership']['show_profile_birthday'],
+					'validate_birthday' => $dp_options['membership']['show_profile_birthday'],
 					// 'validate_company' => $dp_options['membership']['show_profile_company'],
 					// 'validate_job' => $dp_options['membership']['show_profile_job'],
 					'validate_description' => $dp_options['membership']['show_profile_desc'],
@@ -1329,6 +1358,15 @@ function tcd_membership_login_form($args = array())
 			}
 
 			if ($args['validate_birthday']) {
+
+				// 20220529 Fixed 生年月日の対応 H.Okabe
+				if (!empty($data['birthday'])) {
+					$explodeBirthDay = explode('/', $data['birthday']);
+					$data['_birthday']['year']  = $explodeBirthDay[0];
+					$data['_birthday']['month'] = $explodeBirthDay[1];
+					$data['_birthday']['day']   = $explodeBirthDay[2];
+				}
+
 				if ($args['required_birthday'] && (empty($data['_birthday']['year']) || empty($data['_birthday']['month']) || empty($data['_birthday']['day']))) {
 					$error_messages[] = sprintf(__('Please select a %s.', 'tcd-w'), $args['label_birthday']);
 				}
@@ -1445,10 +1483,22 @@ function tcd_membership_login_form($args = array())
 			}
 
 			if ($args['show_birthday']) {
-				$meta_key = '_birthday';
-				$metadata[$meta_key] = isset($data[$meta_key]) ? $data[$meta_key] : '';
-				$meta_key2 = 'birthday';
-				$metadata[$meta_key2] = get_tcd_user_profile_birthday($metadata[$meta_key]);
+
+				// 20220529 Fixed H.Okabe 生年月日の対応
+				if (!empty($data['birthday'])) {
+					$explodeBirthDay = explode('/', $data['birthday']);
+					$data['_birthday']['year']  = $explodeBirthDay[0];
+					$data['_birthday']['month'] = $explodeBirthDay[1];
+					$data['_birthday']['day']   = $explodeBirthDay[2];
+
+					if (checkdate($data['_birthday']['month'], $data['_birthday']['day'], $data['_birthday']['year'])) {
+						// 日付データがおかしい場合はDBに登録をしない
+						$meta_key = '_birthday';
+						$metadata[$meta_key] = isset($data[$meta_key]) ? $data[$meta_key] : '';
+						$meta_key2 = 'birthday';
+						$metadata[$meta_key2] = get_tcd_user_profile_birthday($metadata[$meta_key]);
+					}
+				}
 			}
 
 			foreach (array(
