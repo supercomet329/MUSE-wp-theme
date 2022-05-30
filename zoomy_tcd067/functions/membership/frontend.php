@@ -384,8 +384,12 @@ function listReceivedByUserId($user_id)
  *
  * @return void
  */
-function muse_list_post()
+function muse_list_post($user_id = NULL)
 {
+	if(is_null($user_id)) {
+		$user_id = get_current_user_id();
+	}
+
 	global $wpdb;
 
 	$sql = '';
@@ -397,9 +401,10 @@ function muse_list_post()
 	$sql .= 'ON wp_posts.ID = wp_postmeta.post_id ';
 	$sql .= 'WHERE wp_posts.post_type = %s ';
 	$sql .= 'AND wp_postmeta.meta_key = \'main_image\' ';
+	$sql .= 'AND wp_posts.post_author = %d ';
 	$sql .= ' ORDER BY wp_posts.post_date DESC ';
 
-	$result = $wpdb->get_results($wpdb->prepare($sql, 'photo'));
+	$result = $wpdb->get_results($wpdb->prepare($sql, 'photo', $user_id));
 
 	$return = [];
 	if (!is_null($result)) {
