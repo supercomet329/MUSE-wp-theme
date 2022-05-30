@@ -1311,3 +1311,16 @@ input[type=checkbox]:checked + .terms-check::after {
     height: 29px !important;
     color: #616161 !important;
 }
+
+/* パスワード再設定 */
+/* エラーメッセージ */
+.pwResetErrMsg {
+    color: #e02126;
+    font-size: 12px;
+    margin-bottom: -19px;
+}
+/* #inputPwConfirmErrMsg {
+    color: #e02126;
+    font-size: 12px;
+    margin-bottom: -19px;
+} */

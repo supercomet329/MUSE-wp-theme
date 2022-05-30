@@ -50,6 +50,10 @@ function tcd_membership_login_form($args = array())
 		$successMessage = '新規ユーザーを作成致しました。';
 	}
 
+	if (isset($_GET['reset_password']) && $_GET['reset_password'] === 'complete') {
+		$successMessage = 'パスワードの変更を完了しました。';
+	}
+
 	if (!$args['value_username'] && !empty($_COOKIE['tcd_login_email'])) :
 		$tcd_login_email = $_COOKIE['tcd_login_email'];
 		// メールアドレスでなければ復号化

@@ -2,15 +2,15 @@
 // 入力項目のフォーカスが外れた際に処理を実行
 jQuery(function($) {
     // メールアドレスのフォーカスが外れた際にcheckInput実行
-    $('#email').on('blur', function() {
+    jQuery('#email').on('blur', function() {
         checkInput();
     });
     // 会員規約がクリックされた際にcheckInput実行
-    $('#terms').on('click', function() {
+    jQuery('#terms').on('click', function() {
             checkInput();
         })
         // 仮登録ボタンを押された際に、メール送信済みメッセージを表示
-    $('#register-btn').on('click', function() {
+    jQuery('#register-btn').on('click', function() {
         showEmailSentMsg();
     })
 });
@@ -43,7 +43,7 @@ function checkInput() {
 // 入力項目のフォーカスが外れた際に処理を実行
 jQuery(function($) {
     // メールアドレスのフォーカスが外れた際にcheckPwResetInput実行
-    $('#pwResetEmail').on('blur', function() {
+    jQuery('#pwResetEmail').on('blur', function() {
         checkPwResetInput();
     });
 });
@@ -82,7 +82,7 @@ function checkPwResetInput() {
 
 // メールアドレスが入力されていない場合、メッセージを表示
 function showTypeEmailMsg() {
-    $('#inputEmailMsg').empty().append("<p id=\"emailErrMsg\">メールアドレスを入力してください</p>");
+    jQuery('#inputEmailMsg').empty().append("<p id=\"emailErrMsg\">メールアドレスを入力してください</p>");
 }
 
 /**
@@ -159,7 +159,7 @@ function replaceImage(file, image) {
 
 // メール送信済みメッセージを表示
 function showEmailSentMsg() {
-    $('#emailSentMsg').append("<p>下記のメールアドレスに仮登録メールを送信いたしました。</p>");
+    jQuery('#emailSentMsg').append("<p>下記のメールアドレスに仮登録メールを送信いたしました。</p>");
 }
 
 /**
@@ -240,4 +240,98 @@ function checkRegisterInput() {
         disabledFlag = false;
     }
     jQuery('#register-btn').attr('disabled', disabledFlag);
+}
+
+/**
+ * パスワードリセットページ(pass_reset.html)
+ */
+// 入力項目のフォーカスが外れた際に処理を実行
+jQuery(function($) {
+    // パスワードのフォーカスが外れた際にcheckSetPwInput実行
+    jQuery('#newPw').on('blur', function() {
+        checkSetPwInput();
+        showTypePwMsg();
+    });
+    // 新しいパスワードを再入力のフォーカスが外れた際にcheckSetPwInput実行
+    jQuery('#newPwConfirm').on('blur', function() {
+        checkSetPwInput();
+        showTypePwConfirmMsg();
+    });
+});
+
+// 入力項目を確認し、新規登録ボタン有効化/無効化切り替え
+function checkSetPwInput() {
+    // 新規登録ボタン有効化フラグ
+    var disabledFlag = true;
+
+    // 入力項目フラグ定義
+    var flagNewPw = false;
+    var flagNewPwConfirm = false;
+
+    // パスワードの値取得
+    var newPwVal = jQuery('#newPw').val();
+    // パスワードを再入力の値取得
+    var newPwConfirmVal = jQuery('#newPwConfirm').val();
+
+    // パスワードが入力されているかを確認
+    if (newPwVal.length > 0) {
+        // パスワードが入力されている場合、エラーメッセージを非表示
+        jQuery('#inputPwErrMsg').hide();
+        // パスワードに空白文字が含まれていないかを確認
+        if (!newPwVal.match(/[\x20\u3000]/)) {
+            // パスワードのフォーマットを確認
+            var flagNewPw = validatePassword(newPwVal);
+            if (flagNewPw === false) {
+                // パスワードのフォーマットが正しくない場合、エラーメッセージを表示
+                showPwValidateMsg();
+            }
+        }
+    }
+
+    // パスワードを再入力が入力されているかを確認
+    if (newPwConfirmVal.length > 0) {
+        // パスワードを再入力が入力されている場合、エラーメッセージを非表示
+        jQuery('#inputPwConfirmErrMsg').hide();
+        // パスワードとパスワードを再入力の値が同じかを確認
+        if (newPwVal === newPwConfirmVal) {
+            flagNewPwConfirm = true;
+        } else {
+            // パスワードが合っていない場合、エラーメッセージを表示
+            showPwNotMatchMsg();
+        }
+    }
+
+    // 入力項目の値が正しい場合、新規登録ボタンを有効化
+    if (flagNewPw === true && flagNewPwConfirm === true) {
+        disabledFlag = false;
+    }
+    jQuery('#setpw-btn').attr('disabled', disabledFlag);
+}
+
+// パスワードが入力されていない場合、メッセージを表示
+function showTypePwMsg() {
+    // パスワードの値取得
+    var newPwLength = jQuery('#newPw').val().length;
+    if (newPwLength <= 0) {
+        jQuery('#inputPwMsg').empty().append("<p id=\"inputPwErrMsg\" class=\"pwResetErrMsg\">パスワードを入力してください</p>");
+    }
+}
+
+// パスワードを再入力が入力されていない場合、メッセージを表示
+function showTypePwConfirmMsg() {
+    // パスワードを再入力の値取得
+    var newPwConfirmLength = jQuery('#newPwConfirm').val().length;
+    if (newPwConfirmLength <= 0) {
+        jQuery('#inputPwConfirmMsg').empty().append("<p id=\"inputPwConfirmErrMsg\" class=\"pwResetErrMsg\">パスワードを入力してください</p>");
+    }
+}
+
+// パスワードのフォーマットが正しくない場合、メッセージを表示
+function showPwValidateMsg() {
+    jQuery('#inputPwMsg').empty().append("<p id=\"inputPwErrMsg\" class=\"pwResetErrMsg\">パスワードは半角英小文字、大文字、数字を含む9文字以上32文字以内を入力してください</p>");
+}
+
+// パスワードが合っていない場合、メッセージを表示
+function showPwNotMatchMsg() {
+    jQuery('#inputPwConfirmMsg').empty().append("<p id=\"inputPwConfirmErrMsg\" class=\"pwResetErrMsg\">パスワードが一致しません</p>");
 }
