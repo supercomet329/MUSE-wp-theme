@@ -944,8 +944,17 @@ add_action('after_setup_theme', 'exclude_theme_support');
 /**
  * Add 2022/05/10
  */
-add_action('init', function() {
-	if(isset($_GET['picuture_mode'])) {
+add_action('init', function () {
+	if (isset($_GET['picuture_mode'])) {
 		setcookie('muse_picuture_mode', $_GET['picuture_mode'], strtotime('+30 day'), '/');
 	}
 });
+
+function init_session_start()
+{
+	// セッションが開始されていなければここで開始
+	if (session_status() !== PHP_SESSION_ACTIVE) {
+		session_start();
+	}
+}
+add_action('init', 'init_session_start');

@@ -257,6 +257,43 @@ function get_author_list_total($target_user_id, $list_type)
 }
 
 /**
+ * 投稿の画像の一覧を取得
+ *
+ * @param string  $txtSearch
+ * @param boolean $r18Flag
+ * @param string  $order
+ * @return void
+ */
+function muse_list_image($txtSearch, $r18Flag, $order)
+{
+	global $dp_options, $wpdb;
+
+	$sql = '';
+	$sql .= 'SELECT * ';
+	$sql .= 'FROM wp_posts ';
+	$sql .= 'WHERE wp_posts.post_type = \'photo\' ';
+	$sql .= 'AND wp_posts.post_status = \'publish\' ';
+
+	if (!empty($txtSearch)) {
+		$sql .= 'AND wp_posts.post_title   LIKE \'%' . $txtSearch . '%\' ';
+		$sql .= 'AND wp_posts.post_content LIKE \'%' . $txtSearch . '%\' ';
+	}
+
+	if (!$r18Flag) {
+		// R18フラグがfalseの場合はR18の商品を表示させない
+		$sql .= ' AND NOT EXISTS ( ';
+			$sql .= 'SELECT * ';
+			$sql .= 'FROM wp_postmeta ';
+			$sql .= 'WHERE meta_key = \'r18\' ';
+			$sql .= 'AND wp_posts.ID = wp_postmeta.post_id ';
+		$sql .= ' ) ';
+	}
+	$sql .= 'ORDER BY wp_posts.post_date ' . $order;
+//	var_dump($sql);exit;
+	return $wpdb->get_results($wpdb->prepare($sql));
+}
+
+/**
  * フォローしているユーザー一覧の取得
  * Add 2022/05/10 by H.Okabe
  */
@@ -386,7 +423,7 @@ function listReceivedByUserId($user_id)
  */
 function muse_list_post($user_id = NULL)
 {
-	if(is_null($user_id)) {
+	if (is_null($user_id)) {
 		$user_id = get_current_user_id();
 	}
 

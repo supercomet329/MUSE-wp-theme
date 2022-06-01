@@ -5,11 +5,13 @@ jQuery(function($) {
     jQuery('#email').on('blur', function() {
         checkInput();
     });
+
     // 会員規約がクリックされた際にcheckInput実行
     jQuery('#terms').on('click', function() {
-            checkInput();
-        })
-        // 仮登録ボタンを押された際に、メール送信済みメッセージを表示
+        checkInput();
+    });
+
+    // 仮登録ボタンを押された際に、メール送信済みメッセージを表示
     jQuery('#register-btn').on('click', function() {
         showEmailSentMsg();
     })
@@ -335,3 +337,146 @@ function showPwValidateMsg() {
 function showPwNotMatchMsg() {
     jQuery('#inputPwConfirmMsg').empty().append("<p id=\"inputPwConfirmErrMsg\" class=\"pwResetErrMsg\">パスワードが一致しません</p>");
 }
+
+// 検索オプションのモーダル開閉
+jQuery(function($) {
+    var open = jQuery('.modal-open'),
+        container = jQuery('.modal-container');
+
+    //開くボタンをクリックしたらモーダルを表示する
+    open.on('click', function() {
+        container.addClass('active');
+        return false;
+    });
+
+    //モーダルの外側をクリックしたらモーダルを閉じる
+    $(document).on('click', function(e) {
+        if (!$(e.target).closest('.modal-body').length) {
+            container.removeClass('active');
+        }
+    });
+});
+
+// フロントの検索文字列に文字が入力された場合に同期する
+jQuery(function($) {
+    jQuery('#front_search_box').on('blur', function() {
+        var search_txt = jQuery('#front_search_box').val();
+        jQuery('#modal_search_box').val(search_txt);
+    })
+});
+
+// タブの選択機能（post_search.html）
+jQuery(function($) {
+    jQuery('#desc').click(function() {
+        jQuery('#desc').addClass('selected-tab');
+        jQuery('#desc').removeClass('not-selected-tab');
+        jQuery('#asc').addClass('not-selected-tab');
+    });
+    jQuery('#asc').click(function() {
+        jQuery('#asc').addClass('selected-tab');
+        jQuery('#asc').removeClass('not-selected-tab');
+        jQuery('#desc').addClass('not-selected-tab');
+    });
+});
+
+// 画像変更（profile_edit.html）
+jQuery(function($) {
+    jQuery('#cover_img_file_input').change(function() {
+        let file = this.files[0];
+        let fileInput = jQuery('#cover_img_file_input').get(0);
+        let image = jQuery('#cover_image').get(0);
+        validateImageSize(file, fileInput)
+        replaceImage(file, image);
+    });
+
+    jQuery('#profile_img_file_input').change(function() {
+        let file = this.files[0];
+        let fileInput = jQuery('#profile_img_file_input').get(0);
+        let image = jQuery('#profile_image').get(0);
+        validateImageSize(file, fileInput)
+        replaceImage(file, image);
+    });
+});
+
+// 名前・ユーザーネーム入力確認（profile_edit.html）
+jQuery(function($) {
+    // 名前のフォーカスが外れた際にcheck_ProfileInput実行
+    jQuery('#name_box').on('blur', function() {
+        check_ProfileInput();
+    });
+    // ユーザーネームのフォーカスが外れた際にcheck_ProfileInput実行
+    jQuery('#user_name_box').on('blur', function() {
+        check_ProfileInput();
+    })
+});
+
+// 名前・ユーザーネーム入力判定
+function check_ProfileInput() {
+
+    // 保存ボタン有効化フラグ
+    var disabledFlag = true;
+
+    // 入力項目フラグ定義
+    var name = false;
+    var user_name = false;
+
+    // 名前の値取得
+    var nameVal = jQuery('#name_box').val();
+    // ユーザーネームの値取得
+    var user_nameVal = jQuery('#user_name_box').val();
+
+    // 名前が入力されているかを確認
+    if (nameVal.length > 0) {
+        var name = true;
+    } else {
+        alert('名前を入力してください');
+    }
+
+    // ユーザーネームが入力されているかを確認
+    if (user_nameVal.length > 0) {
+        var user_name = true;
+    } else {
+        alert('ユーザーネームを入力してください');
+    }
+
+    // 入力されている場合、保存ボタンを有効化
+    if (name === true && user_name === true) {
+        disabledFlag = false;
+    }
+
+    // ボタンの「disabled」の置き換え
+    jQuery('#save-btn').attr('disabled', disabledFlag);
+}
+
+// URL入力確認（profile_edit.html）
+jQuery(function($) {
+    // URLのフォーカスが外れた際にcheck_Profile_url_Input実行
+    jQuery('#url_box').on('blur', function() {
+        check_Profile_url_Input();
+    });
+});
+
+function check_Profile_url_Input() {
+
+    // 入力項目フラグ定義
+    var urlflg = false;
+    // URLの値取得
+    var urlVal = jQuery('#url_box').val();
+    // URLが入力されているかを確認
+    if (urlVal.length > 0) {
+        // URLの空白を確認
+        if (!urlVal.match(/[\x20\u3000]/)) {
+            // URLのフォーマットを確認
+            var urlflg = validateUrl(urlVal);
+            if (urlflg === false) {
+                alert('URLの形式を確認してください');
+                urlflg = true;
+            } else(urlflg === true)
+            urlflg = false;
+        } else {
+            alert('URLに空白があります');
+            urlflg = true;
+        };
+        jQuery('#save-btn').attr('disabled', urlflg);
+    };
+};
