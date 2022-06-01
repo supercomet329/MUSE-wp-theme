@@ -391,13 +391,13 @@ jQuery(function($) {
                 if (data.result == 'added') {
                     // $(el).addClass('p-button-following').removeClass('p-button-follow').html(data.text);
 
-                    $(el).removeClass('js-toggle-follow btn btn-primary btn-sm text-white btn-block btn-lg gradient-custom-4 font-weight-bold f-size-2');
-                    $(el).addClass('js-toggle-follow btn btn-light btn-sm text-dark btn-block btn-lg gradient-custom-4 font-weight-bold f-size-2');
+                    $(el).removeClass('js-toggle-follow btn rounded-pill btn-outline-primary outline-btn btn-sm');
+                    $(el).addClass('js-toggle-follow btn btn-primary rounded-pill btn-sm text-white btn-lg main-color');
                     $(el).text('フォロー中');
                 } else if (data.result == 'removed') {
                     // $(el).addClass('p-button-follow').removeClass('p-button-following').html(data.text);
-                    $(el).removeClass('js-toggle-follow btn btn-light btn-sm text-dark btn-block btn-lg gradient-custom-4 font-weight-bold f-size-2');
-                    $(el).addClass('js-toggle-follow btn btn-primary btn-sm text-white btn-block btn-lg gradient-custom-4 font-weight-bold f-size-2');
+                    $(el).removeClass('js-toggle-follow btn btn-primary rounded-pill btn-sm text-white btn-lg main-color');
+                    $(el).addClass('js-toggle-follow btn rounded-pill btn-outline-primary outline-btn btn-sm');
                     $(el).text('フォローする');
                 } else if (data.message) {
                     showModalAlert(data.message);
