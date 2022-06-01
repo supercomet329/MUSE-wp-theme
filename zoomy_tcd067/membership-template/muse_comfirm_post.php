@@ -7,66 +7,46 @@ if (is_tcd_membership_preview_photo()) :
     return;
 endif;
 
+$profileImageData = get_user_meta($tcd_membership_vars['postData']['post_author'], 'profile_image', true);
+$profile_image = get_template_directory_uri() . '/assets/img/icon/non_profile_image.png';
+if (!empty($profileImageData)) {
+    $profile_image = $profileImageData;
+}
+
 get_header();
 ?>
-<div class="container pt-2">
-    <form id="js-membership-edit-photo" class="p-membership-form js-membership-form--normal" action="" enctype="multipart/form-data" method="post">
-        <input type="file" name="file" id="file-input" accept="image/png, image/jpeg">
-        <div class="card py-2" id="preview_container">
-            <div id="img_preview" class="img-preview d-flex align-items-center">
-                <img src="<?php echo get_template_directory_uri(); ?>/assets/img/add_image360-250.png" style="margin-left: auto; margin-right: auto; display:block;">
-            </div>
-        </div>
-        <div class="row pt-4">
-            <div class="col-12">
-                <label for="title">タイトル</label>
-            </div>
-            <div class="col-12 pb-3">
-                <?php echo esc_attr($tcd_membership_vars['postData']['post_title']); ?>
-            </div>
-            <div class="col-12">
-                <label for="details">詳細</label>
-            </div>
-            <div class="col-12 pb-3">
-               <?php echo esc_attr($tcd_membership_vars['postData']['post_content']); ?>
-            </div>
-            <!-- TODO: オークションどうする? -->
-            <div class="col-12">
-                販売形式
-            </div>
-            <div class="col-12 pb-3">
-                通常販売
-                <!-- オークション -->
-            </div>
-            <div class="col-12">
-                <label for="selling_price">販売価格</label>
-            </div>
-            <div class="col-12 pb-3">
-                1,000円
-            </div>
-            <div class="col-12">
-                <label for="bin_price">即決価格</label>
-            </div>
-            <div class="col-12 pb-3">
-            1,000円
-            </div>
-            <div class="col-12">
-                オークション開始日時
-            </div>
-            <div class="col-12 pb-2">
-                指定しない
-                <!--
-                    開始時間指定: 2022/05/24 00:00:00
-                -->
-            </div>
-            <div class="col-12 pb-1">
-                オークション終了日時: 2022/06/01 17:00
-            </div>
-            <div class="col-12 pb-1">
-                オークション自動延長: あり
-            </div>
-        </div>
-    </form>
+<div class="col-12 mt-3 tweet-area d-flex align-items-center">
+    <img src="<?php echo $profile_image; ?>" class="rounded-circle profile-icon">
+    <span class="pl-2"><?php echo $tcd_membership_vars['user']['display_name']; ?></span>
+    <span class="follow-area ml-auto">
+        <?php if ($tcd_membership_vars['postData']['post_author'] !== get_current_user_id()) { ?>
+            <?php if (is_following($tcd_membership_vars['postData']['post_author'])) { ?>
+                <button type="button" data-user-id="<?php echo esc_attr($tcd_membership_vars['postData']['post_author']); ?>" class="btn btn-primary rounded-pill btn-sm text-white btn-lg main-color js-toggle-follow">フォロー中</button>
+            <?php } else { ?>
+                <button type="button" data-user-id="<?php echo esc_attr($tcd_membership_vars['postData']['post_author']); ?>" class="btn rounded-pill btn-outline-primary outline-btn btn-sm js-toggle-follow">フォローする</button>
+            <?php }
+            /** endif */ ?>
+        <?php }
+        /** endif */ ?>
+    </span>
+</div>
+<div class="d-flex align-items-center justify-content-center font-weight-bold production-title">
+    <?php echo $tcd_membership_vars['postData']['post_title']; ?>
+</div>
+<div class="timeline-image">
+    <img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_40272765_M.jpg" alt="">
+</div>
+
+<div class="logo-area border-bottom-dashed pb-2">
+    <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/iine_on.png" alt="iine">
+    <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/social_tipping_on.png" alt="social_tipping_on">
+</div>
+
+<div class="mb-2">
+    <?php echo nl2br($tcd_membership_vars['postData']['post_content']); ?>
+</div>
+<div class="mb-2 subtext">
+    <?php echo $tcd_membership_vars['postData']['post_date']; ?>
 </div>
 <?php
 get_footer();
