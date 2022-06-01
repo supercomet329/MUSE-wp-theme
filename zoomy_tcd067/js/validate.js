@@ -15,5 +15,17 @@ function validatePassword(passwordVal) {
  */
 function validateEmail(emailVal) {
     // メールアドレス形式の場合trueを返す
-    return /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}\.[A-Za-z0-9]{1,}$/.test(emailVal);
+    
+    return /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_-]{1,}\.[A-Za-z0-9]{1,}\.{0,1}[A-Za-z0-9]{1,}$/.test(emailVal);
+}
+
+/**
+ * URLのフォーマットを確認
+ * @param {string=} urlVal URL
+ * @returns {boolean} フォーマットが正しい場合はtrueを返す
+ */
+function validateUrl(urlVal) {
+    // URL形式の場合trueを返す
+    
+    return /^(https?|ftp)(:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)$/.test(urlVal);
 }
