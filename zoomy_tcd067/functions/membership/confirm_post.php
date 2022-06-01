@@ -23,7 +23,7 @@ function tcd_membership_action_confirm_post()
 
     $postData = [];
     $postData['post_id']      = $rowPostData[0]->ID;
-    $postData['post_author']  = $rowPostData[0]->post_author;
+    $postData['post_author']  = (int)$rowPostData[0]->post_author;
     $postData['post_title']   = $rowPostData[0]->post_title;
     $postData['post_content'] = $rowPostData[0]->post_content;
     $postData['post_date']    = $postDate;

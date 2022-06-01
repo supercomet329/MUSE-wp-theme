@@ -37,10 +37,22 @@ get_header();
     <img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_40272765_M.jpg" alt="">
 </div>
 
-<div class="logo-area border-bottom-dashed pb-2">
-    <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/iine_on.png" alt="iine">
-    <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/social_tipping_on.png" alt="social_tipping_on">
-</div>
+<?php if ($tcd_membership_vars['postData']['post_author'] !== get_current_user_id()) { ?>
+
+    <div class="logo-area border-bottom-dashed pb-2">
+
+        <?php
+        $like_image = 'iine.png';
+        if (is_liked($tcd_membership_vars['postData']['post_id'], false)) {
+            $like_image = 'iine_on.png';
+        }
+        ?>
+        <img class="js-toggle-like" data-post-id="<?php echo $tcd_membership_vars['postData']['post_id']; ?>" src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/<?php echo $like_image; ?>" alt="iine">
+        <?php /** TODO: 決済方法が決まってから投げ銭部の対応 */ ?>
+        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/social_tipping_on.png" alt="social_tipping_on">
+    </div>
+<?php }
+/** endif */ ?>
 
 <div class="mb-2">
     <?php echo nl2br($tcd_membership_vars['postData']['post_content']); ?>
