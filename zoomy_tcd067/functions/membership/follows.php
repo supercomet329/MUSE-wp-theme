@@ -17,7 +17,7 @@ function tcd_membership_action_follows()
     }
 
     // テンプレート指定
-    $tcd_membership_vars['template'] = 'muse_followers';
+    $tcd_membership_vars['template'] = 'muse_follow';
     $tcd_membership_vars['list_follow'] = muse_list_follow($user->ID);
 }
 add_action('tcd_membership_action-follows', 'tcd_membership_action_follows');

@@ -478,9 +478,10 @@ function tcd_membership_login_form($args = array())
 
 			$description = '';
 			$descriptionData = get_user_meta(get_current_user_id(), 'description', true);
-			if (!empty($lastNameData)) {
+			if (!empty($descriptionData)) {
 				$description = $descriptionData;
 			}
+
 
 			$area = '';
 			$areaData = get_user_meta(get_current_user_id(), 'area', true);
