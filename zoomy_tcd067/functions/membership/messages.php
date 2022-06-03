@@ -776,7 +776,9 @@ function tcd_membership_messages_add_message( $sender_user_id, $recipient_user_i
 	$message = force_balance_tags( $message );
 
 	// メッセージ暗号化フラグ
-	$is_message_encript = apply_filters( 'tcd_membership_messages_add_message_is_message_encript', true );
+	// 20220603 FIXED メッセージを暗号化にしない
+	// $is_message_encript = apply_filters( 'tcd_membership_messages_add_message_is_message_encript', true );
+	$is_message_encript = apply_filters( 'tcd_membership_messages_add_message_is_message_encript', false );
 	if ( $is_message_encript ) {
 		// openssl_encrypt(), openssl_decrypt()が存在すれば暗号化
 		if ( function_exists( 'openssl_encrypt' ) && function_exists( 'openssl_decrypt' ) ) {
