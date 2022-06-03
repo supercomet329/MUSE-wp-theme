@@ -14,6 +14,13 @@ get_header();
                 foreach ($tcd_membership_vars['list_follow'] as $one_follow) {
                     $user_info = get_userdata($one_follow->user_id);
 
+                    $description = '';
+                    $descriptionData = get_user_meta($one_follow->user_id, 'description', true);
+                    // プロフィールの取得
+                    if (!empty($descriptionData)) {
+                        $description = $descriptionData;
+                    }
+
                     $profileImageData = get_user_meta($one_follow->user_id, 'profile_image', true);
                     $profile_image = get_template_directory_uri() . '/assets/img/icon/non_profile_image.png';
                     if (!empty($profileImageData)) {
