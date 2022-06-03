@@ -43,9 +43,9 @@ function checkInput() {
  * パスワードリセットページ
  */
 // 入力項目のフォーカスが外れた際に処理を実行
-$(function() {
+jQuery(function($) {
     // メールアドレスのフォーカスが外れた際にcheckPwResetInput実行
-    $('#pwResetEmail').on('blur', function() {
+    jQuery('#pwResetEmail').on('blur', function() {
         checkPwResetInput();
     });
 });
@@ -59,12 +59,12 @@ function checkPwResetInput() {
     var pwResetEmail = false;
 
     // メールアドレスの値取得
-    var pwResetEmailVal = $('#pwResetEmail').val();
+    var pwResetEmailVal = jQuery('#pwResetEmail').val();
 
     // メールアドレスが入力されているかを確認
     if (pwResetEmailVal.length > 0) {
         // メールアドレスが入力されている場合、エラーメッセージを非表示
-        $('#emailErrMsg').hide();
+        jQuery('#emailErrMsg').hide();
         // メールアドレスに空白文字が含まれていないかを確認
         if (!pwResetEmailVal.match(/[\x20\u3000]/)) {
             // メールアドレスのフォーマットを確認
@@ -79,25 +79,25 @@ function checkPwResetInput() {
     if (pwResetEmail === true) {
         disabledFlag = false;
     }
-    $('#resetpw-btn').attr('disabled', disabledFlag);
+    jQuery('#resetpw-btn').attr('disabled', disabledFlag);
 }
 
 // メールアドレスが入力されていない場合、メッセージを表示
 function showTypeEmailMsg() {
-    $('#inputEmailMsg').empty().append("<p id=\"emailErrMsg\">メールアドレスを入力してください</p>");
+    jQuery('#inputEmailMsg').empty().append("<p id=\"emailErrMsg\">メールアドレスを入力してください</p>");
 }
 
 /**
  * ログインページ(login.html)
  */
 // 入力項目のフォーカスが外れた際に処理を実行
-$(function() {
+jQuery(function($) {
     // メールアドレスのフォーカスが外れた際にcheckLoginInput実行
-    $('#loginEmail').on('blur', function() {
+    jQuery('#loginEmail').on('blur', function() {
         checkLoginInput();
     });
     // パスワードのフォーカスが外れた際にcheckLoginInput実行
-    $('#loginPassword').on('blur', function() {
+    jQuery('#loginPassword').on('blur', function() {
         checkLoginInput();
     });
 });
@@ -112,9 +112,9 @@ function checkLoginInput() {
     var loginPassword = false;
 
     // メールアドレスの値取得
-    var emailVal = $('#loginEmail').val();
+    var emailVal = jQuery('#loginEmail').val();
     // パスワードの値取得
-    var passwordVal = $('#loginPassword').val();
+    var passwordVal = jQuery('#loginPassword').val();
 
     // メールアドレスが入力されているかを確認
     if (emailVal.length > 0) {
@@ -137,7 +137,7 @@ function checkLoginInput() {
     if (loginEmail === true && loginPassword === true) {
         disabledFlag = false;
     }
-    $('#login-btn').attr('disabled', disabledFlag);
+    jQuery('#login-btn').attr('disabled', disabledFlag);
 }
 
 // 画像サイズの検証
@@ -161,28 +161,28 @@ function replaceImage(file, image) {
 
 // メール送信済みメッセージを表示
 function showEmailSentMsg() {
-    $('#emailSentMsg').append("<p>下記のメールアドレスに仮登録メールを送信いたしました。</p>");
+    jQuery('#emailSentMsg').append("<p>下記のメールアドレスに仮登録メールを送信いたしました。</p>");
 }
 
 /**
  * 本登録ページ(register.html)
  */
 // 入力項目のフォーカスが外れた際に処理を実行
-$(function() {
+jQuery(function($) {
     // ユーザーネームのフォーカスが外れた際にcheckRegisterInput実行
-    $('#username').on('blur', function() {
+    jQuery('#username').on('blur', function() {
         checkRegisterInput();
     });
     // 名前のフォーカスが外れた際にcheckRegisterInput実行
-    $('#name').on('blur', function() {
+    jQuery('#name').on('blur', function() {
         checkRegisterInput();
     });
     // パスワードのフォーカスが外れた際にcheckRegisterInput実行
-    $('#password').on('blur', function() {
+    jQuery('#password').on('blur', function() {
         checkRegisterInput();
     });
     // パスワードを再入力のフォーカスが外れた際にcheckRegisterInput実行
-    $('#password_confirmation').on('blur', function() {
+    jQuery('#password_confirmation').on('blur', function() {
         checkRegisterInput();
     });
 });
@@ -199,13 +199,13 @@ function checkRegisterInput() {
     var pwConfirmFlg = false;
 
     // ユーザーネームの値取得
-    var usernameVal = $('#username').val();
+    var usernameVal = jQuery('#username').val();
     // 名前の値取得
-    var nameVal = $('#name').val();
+    var nameVal = jQuery('#name').val();
     // パスワードの値取得
-    var passwordVal = $('#password').val();
+    var passwordVal = jQuery('#password').val();
     // パスワードを再入力の値取得
-    var pwConfirmVal = $('#password_confirmation').val();
+    var pwConfirmVal = jQuery('#password_confirmation').val();
 
     // ユーザーネームが入力されているかを確認
     if (usernameVal.length > 0) {
@@ -226,7 +226,7 @@ function checkRegisterInput() {
     // パスワードが入力されているかを確認
     if (passwordVal.length > 0) {
         // パスワードが入力されている場合、エラーメッセージを非表示
-        $('#inputPwErrMsg').hide();
+        jQuery('#inputPwErrMsg').hide();
         // パスワードに空白文字が含まれていないかを確認
         if (!passwordVal.match(/[\x20\u3000]/)) {
             // パスワードのフォーマットを確認
@@ -243,7 +243,7 @@ function checkRegisterInput() {
     // パスワードを再入力が入力されているかを確認
     if (pwConfirmVal.length > 0) {
         // パスワードを再入力が入力されている場合、エラーメッセージを非表示
-        $('#inputPwConfirmErrMsg').hide();
+        jQuery('#inputPwConfirmErrMsg').hide();
         // パスワードとパスワードを再入力の値が同じかを確認
         if (passwordVal === pwConfirmVal) {
             pwConfirmFlg = true;
@@ -257,21 +257,21 @@ function checkRegisterInput() {
     if (usernameFlag === true && nameFlg === true && passwordFlg === true && pwConfirmFlg === true) {
         disabledFlag = false;
     }
-    $('#register-btn').attr('disabled', disabledFlag);
+    jQuery('#register-btn').attr('disabled', disabledFlag);
 }
 
 /**
  * パスワードリセットページ(pass_reset.html)
  */
 // 入力項目のフォーカスが外れた際に処理を実行
-$(function() {
+jQuery(function($) {
     // パスワードのフォーカスが外れた際にcheckSetPwInput実行
-    $('#newPw').on('blur', function() {
+    jQuery('#newPw').on('blur', function() {
         checkSetPwInput();
         showTypePwMsg();
     });
     // 新しいパスワードを再入力のフォーカスが外れた際にcheckSetPwInput実行
-    $('#newPwConfirm').on('blur', function() {
+    jQuery('#newPwConfirm').on('blur', function() {
         checkSetPwInput();
         showTypePwConfirmMsg();
     });
@@ -287,14 +287,14 @@ function checkSetPwInput() {
     var flagNewPwConfirm = false;
 
     // パスワードの値取得
-    var newPwVal = $('#newPw').val();
+    var newPwVal = jQuery('#newPw').val();
     // パスワードを再入力の値取得
-    var newPwConfirmVal = $('#newPwConfirm').val();
+    var newPwConfirmVal = jQuery('#newPwConfirm').val();
 
     // パスワードが入力されているかを確認
     if (newPwVal.length > 0) {
         // パスワードが入力されている場合、エラーメッセージを非表示
-        $('#inputPwErrMsg').hide();
+        jQuery('#inputPwErrMsg').hide();
         // パスワードに空白文字が含まれていないかを確認
         if (!newPwVal.match(/[\x20\u3000]/)) {
             // パスワードのフォーマットを確認
@@ -309,7 +309,7 @@ function checkSetPwInput() {
     // パスワードを再入力が入力されているかを確認
     if (newPwConfirmVal.length > 0) {
         // パスワードを再入力が入力されている場合、エラーメッセージを非表示
-        $('#inputPwConfirmErrMsg').hide();
+        jQuery('#inputPwConfirmErrMsg').hide();
         // パスワードとパスワードを再入力の値が同じかを確認
         if (newPwVal === newPwConfirmVal) {
             flagNewPwConfirm = true;
@@ -323,97 +323,97 @@ function checkSetPwInput() {
     if (flagNewPw === true && flagNewPwConfirm === true) {
         disabledFlag = false;
     }
-    $('#setpw-btn').attr('disabled', disabledFlag);
+    jQuery('#setpw-btn').attr('disabled', disabledFlag);
 }
 
 // パスワードが入力されていない場合、メッセージを表示
 function showTypePwMsg() {
     // パスワードの値取得
-    var newPwLength = $('#newPw').val().length;
+    var newPwLength = jQuery('#newPw').val().length;
     if (newPwLength <= 0) {
-        $('#inputPwMsg').empty().append("<p id=\"inputPwErrMsg\" class=\"pwResetErrMsg\">パスワードを入力してください</p>");
+        jQuery('#inputPwMsg').empty().append("<p id=\"inputPwErrMsg\" class=\"pwResetErrMsg\">パスワードを入力してください</p>");
     }
 }
 
 // パスワードを再入力が入力されていない場合、メッセージを表示
 function showTypePwConfirmMsg() {
     // パスワードを再入力の値取得
-    var newPwConfirmLength = $('#newPwConfirm').val().length;
+    var newPwConfirmLength = jQuery('#newPwConfirm').val().length;
     if (newPwConfirmLength <= 0) {
-        $('#inputPwConfirmMsg').empty().append("<p id=\"inputPwConfirmErrMsg\" class=\"pwResetErrMsg\">パスワードを入力してください</p>");
+        jQuery('#inputPwConfirmMsg').empty().append("<p id=\"inputPwConfirmErrMsg\" class=\"pwResetErrMsg\">パスワードを入力してください</p>");
     }
 }
 
 // パスワードのフォーマットが正しくない場合、メッセージを表示
 function showPwValidateMsg() {
-    $('#inputPwMsg').empty().append("<p id=\"inputPwErrMsg\" class=\"pwResetErrMsg\">パスワードは半角英小文字、大文字、数字を含む9文字以上32文字以内を入力してください</p>");
+    jQuery('#inputPwMsg').empty().append("<p id=\"inputPwErrMsg\" class=\"pwResetErrMsg\">パスワードは半角英小文字、大文字、数字を含む9文字以上32文字以内を入力してください</p>");
 }
 
 // パスワードに空欄がある場合、メッセージを表示
 function showPwValidateMsg2() {
-    $('#inputPwMsg').empty().append("<p id=\"inputPwErrMsg\" class=\"pwResetErrMsg\">パスワードにスペースは含めないでください</p>");
+    jQuery('#inputPwMsg').empty().append("<p id=\"inputPwErrMsg\" class=\"pwResetErrMsg\">パスワードにスペースは含めないでください</p>");
 }
 
 // パスワードが合っていない場合、メッセージを表示
 function showPwNotMatchMsg() {
-    $('#inputPwConfirmMsg').empty().append("<p id=\"inputPwConfirmErrMsg\" class=\"pwResetErrMsg\">パスワードが一致しません</p>");
+    jQuery('#inputPwConfirmMsg').empty().append("<p id=\"inputPwConfirmErrMsg\" class=\"pwResetErrMsg\">パスワードが一致しません</p>");
 }
 
 // 検索オプションのモーダル開閉
-$(function(){
-	var open = $('.modal-open'),
-		container = $('.modal-container');
+jQuery(function($) {
+    var open = jQuery('.modal-open'),
+        container = jQuery('.modal-container');
 
-	//開くボタンをクリックしたらモーダルを表示する
-	open.on('click',function(){	
-		container.addClass('active');
-		return false;
-	});
+    //開くボタンをクリックしたらモーダルを表示する
+    open.on('click', function() {
+        container.addClass('active');
+        return false;
+    });
 
-	//モーダルの外側をクリックしたらモーダルを閉じる
-	$(document).on('click',function(e) {
-		if(!$(e.target).closest('.modal-body').length) {
-			container.removeClass('active');
-		}
-	});
+    //モーダルの外側をクリックしたらモーダルを閉じる
+    $(document).on('click', function(e) {
+        if (!$(e.target).closest('.modal-body').length) {
+            container.removeClass('active');
+        }
+    });
 });
 
 // タブの選択機能（post_search.html,request_searched_list.html）
-$(function() {
+jQuery(function($) {
 
-    $('#front_search_box').on('blur', function() {
+    jQuery('#front_search_box').on('blur', function() {
         var search_txt = jQuery('#front_search_box').val();
-        $('#modal_search_box').val(search_txt);
+        jQuery('#modal_search_box').val(search_txt);
     });
 
-    $('#desc').click(function() {
+    jQuery('#desc').click(function() {
         selectTab($(this));
     });
 
-    $('#asc').click(function() {
+    jQuery('#asc').click(function() {
         selectTab($(this));
     });
 
-    $('#low').click(function() {
+    jQuery('#low').click(function() {
         selectTab($(this));
     });
 
-    $('#high').click(function() {
+    jQuery('#high').click(function() {
         selectTab($(this));
     });
 
 });
 
 // キープ済み、キープの選択機能（request_searched_list.html,request_received_list_html）
-$(function () {
+jQuery(function($) {
     $(document).on('click', '.keep_off', function() {
-      let keep_on = $('<div class="border rounded-pill py-1 px-1 f-size-10 font-weight-bold keep_on">キープ<br><img src="assets/img/icon/keep_on.png" alt="keep-on" class="keep-on"></div>');
-      $(this).replaceWith(keep_on);
+        let keep_on = jQuery('<div class="border rounded-pill py-1 px-1 f-size-10 font-weight-bold keep_on">キープ<br><img src="assets/img/icon/keep_on.png" alt="keep-on" class="keep-on"></div>');
+        $(this).replaceWith(keep_on);
     });
 
     $(document).on('click', '.keep_on', function() {
-      let keep_off = $('<div class="border rounded-pill py-1 px-1 f-size-10 font-weight-bold keep_off">キープ済み<br><img src="assets/img/icon/keep_off.png" alt="keep-off" class="keep-off"></div>');
-      $(this).replaceWith(keep_off);
+        let keep_off = jQuery('<div class="border rounded-pill py-1 px-1 f-size-10 font-weight-bold keep_off">キープ済み<br><img src="assets/img/icon/keep_off.png" alt="keep-off" class="keep-off"></div>');
+        $(this).replaceWith(keep_off);
     });
 });
 
@@ -421,67 +421,67 @@ $(function () {
  * 作品依頼（通常依頼）提案ページ
  */
 // ファイルが選択された際、ファイル名を表示
-$('#requestFile').on('change', function() {
+jQuery('#requestFile').on('change', function() {
     // 添付されたファイルを取得
     var selectedFile = $(this).prop('files')[0];
     // ファイルが存在している場合
     if (selectedFile) {
         // 選択されたファイルが10文字以上ある場合、10文字以下を「...」で省略
-        var selectedFileName = selectedFile.name.length > 10 ? (selectedFile.name).slice(0,10)+"..." : selectedFile.name;
+        var selectedFileName = selectedFile.name.length > 10 ? (selectedFile.name).slice(0, 10) + "..." : selectedFile.name;
         // ファイル名を表示
-        $('#outputFileName').text(selectedFileName);
+        jQuery('#outputFileName').text(selectedFileName);
     }
 });
 
 // 入力項目のフォーカスが外れた際に処理を実行
-$(function() {
+jQuery(function($) {
     // 依頼タイトルのフォーカスが外れた際にcheckRequestInput実行
-    $('#requestTitle').on('blur', function() {
+    jQuery('#requestTitle').on('blur', function() {
         checkRequestInput();
         typeRequestTitleMsg();
     });
     // 作品タイトルのフォーカスが外れた際にcheckRequestInput実行
-    $('#workTitle').on('blur', function() {
+    jQuery('#workTitle').on('blur', function() {
         checkRequestInput();
         typeWorkTitleMsg();
     });
     // 本文のフォーカスが外れた際にcheckRequestInput実行
-    $('#text').on('blur', function() {
+    jQuery('#text').on('blur', function() {
         checkRequestInput();
         typeTextMsg();
     });
     // 構図のフォーカスが外れた際にcheckRequestInput実行
-    $('#composition').on('blur', function() {
+    jQuery('#composition').on('blur', function() {
         checkRequestInput();
         typeCompositionMsg();
     });
     // キャラクターのフォーカスが外れた際にcheckRequestInput実行
-    $('#character').on('blur', function() {
+    jQuery('#character').on('blur', function() {
         checkRequestInput();
         typeCharacterMsg();
     });
     // 参考URLのフォーカスが外れた際にcheckRequestInput実行
-    $('#refUrl').on('blur', function() {
+    jQuery('#refUrl').on('blur', function() {
         checkRequestInput();
         typeRefUrlMsg();
     });
     // 予算のフォーカスが外れた際にcheckRequestInput実行
-    $('#budget').on('blur', function() {
+    jQuery('#budget').on('blur', function() {
         checkRequestInput();
         typeBudgetMsg();
     });
     // 応募期限（年）のフォーカスが外れた際にcheckRequestInput実行
-    $('#appDeadlineY').on('blur', function() {
+    jQuery('#appDeadlineY').on('blur', function() {
         checkRequestInput();
         typeAppDeadlineMsg();
     });
     // 応募期限（月）のフォーカスが外れた際にcheckRequestInput実行
-    $('#appDeadlineM').on('blur', function() {
+    jQuery('#appDeadlineM').on('blur', function() {
         checkRequestInput();
         typeAppDeadlineMsg();
     });
     // 応募期限（日）のフォーカスが外れた際にcheckRequestInput実行
-    $('#appDeadlineD').on('blur', function() {
+    jQuery('#appDeadlineD').on('blur', function() {
         checkRequestInput();
         typeAppDeadlineMsg();
     });
@@ -503,30 +503,30 @@ function checkRequestInput() {
     var flagAppDeadline = false;
 
     // 依頼タイトルの値取得
-    var requestTitleVal = $('#requestTitle').val();
+    var requestTitleVal = jQuery('#requestTitle').val();
     // 作品タイトルの値取得
-    var workTitleVal = $('#workTitle').val();
+    var workTitleVal = jQuery('#workTitle').val();
     // 本文の値取得
-    var textVal = $('#text').val();
+    var textVal = jQuery('#text').val();
     // 構図の値取得
-    var compositionVal = $('#composition').val();
+    var compositionVal = jQuery('#composition').val();
     // キャラクターの値取得
-    var characterVal = $('#character').val();
+    var characterVal = jQuery('#character').val();
     // 参考URLの値取得
-    var refUrlVal = $('#refUrl').val();
+    var refUrlVal = jQuery('#refUrl').val();
     // 予算の値取得
-    var budgetVal = $('#budget').val();
+    var budgetVal = jQuery('#budget').val();
     // 応募期限（年）の値取得
-    var appDeadlineYVal = $('#appDeadlineY').val();
+    var appDeadlineYVal = jQuery('#appDeadlineY').val();
     // 応募期限（月）の値取得
-    var appDeadlineMVal = $('#appDeadlineM').val();
+    var appDeadlineMVal = jQuery('#appDeadlineM').val();
     // 応募期限（日）の値取得
-    var appDeadlineDVal = $('#appDeadlineD').val();
+    var appDeadlineDVal = jQuery('#appDeadlineD').val();
 
     // 依頼タイトルが入力されているかを確認
     if (requestTitleVal.length > 0) {
         // 依頼タイトルが入力されている場合、エラーメッセージを非表示
-        $('#inputRequestErrMsg').hide();
+        jQuery('#inputRequestErrMsg').hide();
         // 依頼タイトルに空白文字が含まれていないかを確認
         if (!requestTitleVal.match(/[\x20\u3000]/)) {
             flagRequestTitle = true;
@@ -536,7 +536,7 @@ function checkRequestInput() {
     // 作品タイトルが入力されているかを確認
     if (workTitleVal.length > 0) {
         // 作品タイトルが入力されている場合、エラーメッセージを非表示
-        $('#inputWorkErrMsg').hide();
+        jQuery('#inputWorkErrMsg').hide();
         // 作品タイトルに空白文字が含まれていないかを確認
         if (!workTitleVal.match(/[\x20\u3000]/)) {
             flagWorkTitle = true;
@@ -546,7 +546,7 @@ function checkRequestInput() {
     // 本文が入力されているかを確認
     if (textVal.length > 0) {
         // 本文が入力されている場合、エラーメッセージを非表示
-        $('#inputTextErrMsg').hide();
+        jQuery('#inputTextErrMsg').hide();
         // 本文に空白文字が含まれていないかを確認
         if (!textVal.match(/[\x20\u3000]/)) {
             flagText = true;
@@ -556,7 +556,7 @@ function checkRequestInput() {
     // 構図が入力されているかを確認
     if (compositionVal.length > 0) {
         // 構図が入力されている場合、エラーメッセージを非表示
-        $('#inputCompositionErrMsg').hide();
+        jQuery('#inputCompositionErrMsg').hide();
         // 構図に空白文字が含まれていないかを確認
         if (!compositionVal.match(/[\x20\u3000]/)) {
             flagComposition = true;
@@ -566,7 +566,7 @@ function checkRequestInput() {
     // キャラクターが入力されているかを確認
     if (characterVal.length > 0) {
         // キャラクターが入力されている場合、エラーメッセージを非表示
-        $('#inputCharacterErrMsg').hide();
+        jQuery('#inputCharacterErrMsg').hide();
         // キャラクターに空白文字が含まれていないかを確認
         if (!characterVal.match(/[\x20\u3000]/)) {
             flagCharacter = true;
@@ -581,7 +581,7 @@ function checkRequestInput() {
             flagRefUrl = validateUrl(refUrlVal);
             if (flagRefUrl === true) {
                 // 参考URLが入力されている場合、エラーメッセージを非表示
-                $('#validRefUrlErrMsg').hide();
+                jQuery('#validRefUrlErrMsg').hide();
             }
         }
     } else {
@@ -592,7 +592,7 @@ function checkRequestInput() {
     // 予算が入力されているかを確認
     if (budgetVal.length > 0) {
         // 予算が入力されている場合、エラーメッセージを非表示
-        $('#inputBudgetErrMsg').hide();
+        jQuery('#inputBudgetErrMsg').hide();
         // 予算に空白文字が含まれていないかを確認
         if (!budgetVal.match(/[\x20\u3000]/)) {
             flagBudget = true;
@@ -605,25 +605,25 @@ function checkRequestInput() {
         yearValidated = validateYear(appDeadlineYVal);
         if (yearValidated === true) {
             // 年のフォーマットが正しい場合、エラーメッセージを非表示
-            $('#dateFormatYErrMsg').hide();
+            jQuery('#dateFormatYErrMsg').hide();
             // 応募期限（月）が入力されている場合
             if (appDeadlineMVal.length > 0) {
                 // 月のフォーマットを確認
                 monthValidated = validateMonth(appDeadlineMVal);
                 if (monthValidated === true) {
                     // 月のフォーマットが正しい場合、エラーメッセージを非表示
-                    $('#dateFormatMErrMsg').hide();
+                    jQuery('#dateFormatMErrMsg').hide();
                     // 応募期限（日）が入力されている場合
                     if (appDeadlineDVal.length > 0) {
                         // 日のフォーマットを確認
                         dayValidated = validateDay(appDeadlineDVal);
                         if (dayValidated === true) {
                             // 日のフォーマットが正しい場合、エラーメッセージを非表示
-                            $('#dateFormatDErrMsg').hide();
+                            jQuery('#dateFormatDErrMsg').hide();
                             // 応募期限フラグをtrueに設定
                             flagAppDeadline = true;
                             // 年月日が設定されている場合、エラーメッセージを非表示
-                            $('#inputAppDeadlineMsg').hide();
+                            jQuery('#inputAppDeadlineMsg').hide();
                         } else {
                             dateFormatDInvalidMsg();
                         }
@@ -641,149 +641,149 @@ function checkRequestInput() {
     if (flagRequestTitle === true && flagWorkTitle === true && flagText === true && flagComposition === true && flagCharacter === true && flagRefUrl === true && flagBudget === true && flagAppDeadline === true) {
         disabledFlag = false;
     }
-    $('#requestBtn').attr('disabled', disabledFlag);
+    jQuery('#requestBtn').attr('disabled', disabledFlag);
 }
 
 // 依頼タイトルが入力されていない場合、メッセージを表示
 function typeRequestTitleMsg() {
     // 依頼タイトルの値取得
-    var requestTitleLength = $('#requestTitle').val().length;
+    var requestTitleLength = jQuery('#requestTitle').val().length;
     if (requestTitleLength <= 0) {
-        $('#inputRequestTitle').empty().append("<p id=\"inputRequestErrMsg\" class=\"inputRequestErrMsg\">依頼タイトルを入力してください</p>");
+        jQuery('#inputRequestTitle').empty().append("<p id=\"inputRequestErrMsg\" class=\"inputRequestErrMsg\">依頼タイトルを入力してください</p>");
     }
 }
 // 作品タイトルが入力されていない場合、メッセージを表示
 function typeWorkTitleMsg() {
     // 作品タイトルの値取得
-    var workTitleLength = $('#workTitle').val().length;
+    var workTitleLength = jQuery('#workTitle').val().length;
     if (workTitleLength <= 0) {
-        $('#inputWorkTitle').empty().append("<p id=\"inputWorkErrMsg\" class=\"inputRequestErrMsg mt-1\">作品タイトルを入力してください</p>");
+        jQuery('#inputWorkTitle').empty().append("<p id=\"inputWorkErrMsg\" class=\"inputRequestErrMsg mt-1\">作品タイトルを入力してください</p>");
     }
 }
 // 本文が入力されていない場合、メッセージを表示
 function typeTextMsg() {
     // 本文の値取得
-    var textLength = $('#text').val().length;
+    var textLength = jQuery('#text').val().length;
     if (textLength <= 0) {
-        $('#inputText').empty().append("<p id=\"inputTextErrMsg\" class=\"inputRequestErrMsg mt-1\">本文タイトルを入力してください</p>");
+        jQuery('#inputText').empty().append("<p id=\"inputTextErrMsg\" class=\"inputRequestErrMsg mt-1\">本文タイトルを入力してください</p>");
     }
 }
 // 構図が入力されていない場合、メッセージを表示
 function typeCompositionMsg() {
     // 構図の値取得
-    var compositionLength = $('#composition').val().length;
+    var compositionLength = jQuery('#composition').val().length;
     if (compositionLength <= 0) {
-        $('#inputComposition').empty().append("<p id=\"inputCompositionErrMsg\" class=\"inputRequestErrMsg mt-1\">構図を入力してください</p>");
+        jQuery('#inputComposition').empty().append("<p id=\"inputCompositionErrMsg\" class=\"inputRequestErrMsg mt-1\">構図を入力してください</p>");
     }
 }
 // キャラクターが入力されていない場合、メッセージを表示
 function typeCharacterMsg() {
     // キャラクターの値取得
-    var characterLength = $('#character').val().length;
+    var characterLength = jQuery('#character').val().length;
     if (characterLength <= 0) {
-        $('#inputCharacter').empty().append("<p id=\"inputCharacterErrMsg\" class=\"inputRequestErrMsg mt-1\">キャラクターを入力してください</p>");
+        jQuery('#inputCharacter').empty().append("<p id=\"inputCharacterErrMsg\" class=\"inputRequestErrMsg mt-1\">キャラクターを入力してください</p>");
     }
 }
 // 参考URLの形式が正しくない場合、メッセージを表示
 function typeRefUrlMsg() {
     // 参考URLの値を取得
-    var refUrlVal = $('#refUrl').val();
+    var refUrlVal = jQuery('#refUrl').val();
     // 参考URLの形式を確認
     refUrlValid = validateUrl(refUrlVal);
     if (refUrlVal.length > 0) {
         if (refUrlValid === false) {
-            $('#validRefUrl').empty().append("<p id=\"validRefUrlErrMsg\" class=\"inputRequestErrMsg mt-1\">参考URLの形式が間違っています</p>");
+            jQuery('#validRefUrl').empty().append("<p id=\"validRefUrlErrMsg\" class=\"inputRequestErrMsg mt-1\">参考URLの形式が間違っています</p>");
         }
     }
 }
 // 予算が入力されていない場合、メッセージを表示
 function typeBudgetMsg() {
     // 予算の値取得
-    var budgetLength = $('#budget').val().length;
+    var budgetLength = jQuery('#budget').val().length;
     if (budgetLength <= 0) {
-        $('#inputBudget').empty().append("<p id=\"inputBudgetErrMsg\" class=\"inputRequestErrMsg mt-1\">予算を入力してください</p>");
+        jQuery('#inputBudget').empty().append("<p id=\"inputBudgetErrMsg\" class=\"inputRequestErrMsg mt-1\">予算を入力してください</p>");
     }
 }
 // 応募期限が入力されていない場合、メッセージを表示
 function typeAppDeadlineMsg() {
     // 応募期限（年）の値取得
-    var appDeadlineYLength = $('#appDeadlineY').val().length;
+    var appDeadlineYLength = jQuery('#appDeadlineY').val().length;
     // 応募期限（月）の値取得
-    var appDeadlineMLength = $('#appDeadlineM').val().length;
+    var appDeadlineMLength = jQuery('#appDeadlineM').val().length;
     // 応募期限（日）の値取得
-    var appDeadlineDLength = $('#appDeadlineD').val().length;
+    var appDeadlineDLength = jQuery('#appDeadlineD').val().length;
     // 応募期限の年月日がそれぞれ入力されていない場合、エラーメッセージを表示
     if (appDeadlineYLength <= 0 || appDeadlineMLength <= 0 || appDeadlineDLength <= 0) {
-        $('#inputAppDeadline').empty().append("<p id=\"inputAppDeadlineMsg\" class=\"inputRequestErrMsg mt-1\">応募期限を年月日それぞれ入力してください</p>");
+        jQuery('#inputAppDeadline').empty().append("<p id=\"inputAppDeadlineMsg\" class=\"inputRequestErrMsg mt-1\">応募期限を年月日それぞれ入力してください</p>");
     }
 }
 // 応募期限（年）のフォーマットが正しくない場合、メッセージを表示
 function dateFormatYInvalidMsg() {
-    $('#inputAppDeadline').empty().append("<p id=\"dateFormatYErrMsg\" class=\"inputRequestErrMsg mt-1\">年のフォーマットが正しくありません</p>");
+    jQuery('#inputAppDeadline').empty().append("<p id=\"dateFormatYErrMsg\" class=\"inputRequestErrMsg mt-1\">年のフォーマットが正しくありません</p>");
 }
 // 応募期限（月）のフォーマットが正しくない場合、メッセージを表示
 function dateFormatMInvalidMsg() {
-    $('#inputAppDeadline').empty().append("<p id=\"dateFormatMErrMsg\" class=\"inputRequestErrMsg mt-1\">月のフォーマットが正しくありません</p>");
+    jQuery('#inputAppDeadline').empty().append("<p id=\"dateFormatMErrMsg\" class=\"inputRequestErrMsg mt-1\">月のフォーマットが正しくありません</p>");
 }
 // 応募期限（日）のフォーマットが正しくない場合、メッセージを表示
 function dateFormatDInvalidMsg() {
-    $('#inputAppDeadline').empty().append("<p id=\"dateFormatDErrMsg\" class=\"inputRequestErrMsg mt-1\">日付のフォーマットが正しくありません</p>");
+    jQuery('#inputAppDeadline').empty().append("<p id=\"dateFormatDErrMsg\" class=\"inputRequestErrMsg mt-1\">日付のフォーマットが正しくありません</p>");
 }
 
 // タブの選択表示
 function selectTab(target) {
-    let sortTabs = $('#sort_tab > button').siblings();
+    let sortTabs = jQuery('#sort_tab > button').siblings();
     sortTabs.removeClass('selected-tab');
     sortTabs.addClass('not-selected-tab');
     target.removeClass('not-selected-tab');
     target.addClass('selected-tab');
 }
 // 画像変更（profile_edit.html）
-$(function() {
-    $('#cover_img_file_input').change(function() {
-      let file = this.files[0];
-      let fileInput = $('#cover_img_file_input').get(0);
-      let image = $('#cover_image').get(0);
-      validateImageSize(file, fileInput)
-      replaceImage(file, image);
+jQuery(function($) {
+    jQuery('#cover_img_file_input').change(function() {
+        let file = this.files[0];
+        let fileInput = jQuery('#cover_img_file_input').get(0);
+        let image = jQuery('#cover_image').get(0);
+        validateImageSize(file, fileInput)
+        replaceImage(file, image);
     });
 
-    $('#profile_img_file_input').change(function() {
-      let file = this.files[0];
-      let fileInput = $('#profile_img_file_input').get(0);
-      let image = $('#profile_image').get(0);
-      validateImageSize(file, fileInput)
-      replaceImage(file, image);
+    jQuery('#profile_img_file_input').change(function() {
+        let file = this.files[0];
+        let fileInput = jQuery('#profile_img_file_input').get(0);
+        let image = jQuery('#profile_image').get(0);
+        validateImageSize(file, fileInput)
+        replaceImage(file, image);
     });
 });
 
 // 名前・ユーザーネーム入力確認（profile_edit.html）
-$(function() {
+jQuery(function($) {
     // 名前のフォーカスが外れた際にcheck_ProfileInput実行
-    $('#name_box').on('blur', function() {
+    jQuery('#name_box').on('blur', function() {
         check_ProfileInput();
     });
     // ユーザーネームのフォーカスが外れた際にcheck_ProfileInput実行
-    $('#user_name_box').on('blur', function() {
+    jQuery('#user_name_box').on('blur', function() {
         check_ProfileInput();
     });
     // 生年月日のフォーカスが外れた際にcheck_ProfileInput実行
-    $('#calendar_box').on('blur', function() {
+    jQuery('#calendar_box').on('blur', function() {
         check_ProfileInput();
     });
     // webサイトのフォーカスが外れた際にcheck_ProfileInput実行
-    $('#url_box').on('blur', function() {
+    jQuery('#url_box').on('blur', function() {
         check_ProfileInput();
     });
 
 });
 
 // 名前・ユーザーネーム入力判定
-function check_ProfileInput(){
-    $('#NameMsg').hide();
-    $('#UserNameMsg').hide();
-    $('#CalendarMsg').hide();
-    $('#UrlMsg').hide();
+function check_ProfileInput() {
+    jQuery('#NameMsg').hide();
+    jQuery('#UserNameMsg').hide();
+    jQuery('#CalendarMsg').hide();
+    jQuery('#UrlMsg').hide();
     // 保存ボタン有効化フラグ
     var disabledFlag = true;
 
@@ -794,12 +794,12 @@ function check_ProfileInput(){
     var url_flg = false;
 
     // 名前の値取得
-    var nameVal = $('#name_box').val();
+    var nameVal = jQuery('#name_box').val();
     // ユーザーネームの値取得
-    var user_nameVal = $('#user_name_box').val();
+    var user_nameVal = jQuery('#user_name_box').val();
     // URLの値取得
-    var urlVal = $('#url_box').val();
-    var calendarVal = $('#calendar_box').val();
+    var urlVal = jQuery('#url_box').val();
+    var calendarVal = jQuery('#calendar_box').val();
 
     // 名前が入力されているかを確認
     if (nameVal.length > 0) {
@@ -820,13 +820,13 @@ function check_ProfileInput(){
             showNameMsg();
         }
     } else {
-        showUserNameMsg(); 
+        showUserNameMsg();
     }
 
     // 生年月日が入力されているかを確認
     if (calendarVal.length > 0) {
         // 生年月日の形式を確認
-        if(!calendarVal.match(/^\d{4}\-\d{2}\-\d{2}$/)){
+        if (!calendarVal.match(/^\d{4}\-\d{2}\-\d{2}$/)) {
             // 形式が間違っている場合エラーメッセージ表示
             showCalendarMsg();
         } else {
@@ -835,7 +835,7 @@ function check_ProfileInput(){
     } else {
         calendar_flg = true;
     };
-        
+
 
     // URLが入力されているかを確認
     if (urlVal.length > 0) {
@@ -846,8 +846,8 @@ function check_ProfileInput(){
             // URLが間違っている場合エラーメッセージ表示
             if (url_flg === false) {
                 showUrlMsg()
-            }; 
-        // URLに空欄が入っている場合エラーメッセージ表示
+            };
+            // URLに空欄が入っている場合エラーメッセージ表示
         } else {
             showUrlMsg()
         };
@@ -861,34 +861,34 @@ function check_ProfileInput(){
     }
 
     // ボタンの「disabled」の置き換え
-    $('#save-btn').attr('disabled', disabledFlag);
+    jQuery('#save-btn').attr('disabled', disabledFlag);
 }
 
 function showNameMsg() {
     // 名前空欄のメッセージ
-    $('#NameMsg').show();
-    $('#NameMsg').empty().append("<p id=\"inputNameErrMsg\" class=\"NameErrMsg mb-0\">名前を入力してください</p>");
-    
+    jQuery('#NameMsg').show();
+    jQuery('#NameMsg').empty().append("<p id=\"inputNameErrMsg\" class=\"NameErrMsg mb-0\">名前を入力してください</p>");
+
 }
 
 function showUserNameMsg() {
     // ユーザーネーム空欄のメッセージ
-    $('#UserNameMsg').show();
-    $('#UserNameMsg').empty().append("<p id=\"inputUserNameErrMsg\" class=\"UserNameErrMsg mb-0\">ユーザーネームを入力してください</p>");
-    
+    jQuery('#UserNameMsg').show();
+    jQuery('#UserNameMsg').empty().append("<p id=\"inputUserNameErrMsg\" class=\"UserNameErrMsg mb-0\">ユーザーネームを入力してください</p>");
+
 }
 
 function showCalendarMsg() {
     // 日付間違っている場合のメッセージ
-    $('#CalendarMsg').show();
-    $('#CalendarMsg').empty().append("<p id=\"inputCalendarErrMsg\" class=\"CalendarErrMsg mb-0\">生年月日を正しく選択してください</p>");
-    
+    jQuery('#CalendarMsg').show();
+    jQuery('#CalendarMsg').empty().append("<p id=\"inputCalendarErrMsg\" class=\"CalendarErrMsg mb-0\">生年月日を正しく選択してください</p>");
+
 }
 
 function showUrlMsg() {
     // URL間違っている場合のメッセージ
-    $('#UrlMsg').show();
-    $('#UrlMsg').empty().append("<p id=\"inputUrlErrMsg\" class=\"UrlErrMsg mb-0\">URLを確認してください</p>");
+    jQuery('#UrlMsg').show();
+    jQuery('#UrlMsg').empty().append("<p id=\"inputUrlErrMsg\" class=\"UrlErrMsg mb-0\">URLを確認してください</p>");
 }
 
 // メッセージを画面に出力
@@ -896,7 +896,7 @@ function outputMessage(text, area) {
     if (!text.value) return false;
     let time = new Date();
     let hour = ('00' + time.getHours()).slice(-2);
-    let min  = ('00' + time.getMinutes()).slice(-2);
+    let min = ('00' + time.getMinutes()).slice(-2);
     let message = $(`<div class="col-12 pb-5 mb-5 pr-0" style="z-index: -1;"><div class="balloon_r"><div class="faceicon"><img src="assets/img/pixta_64747350_M.jpg" class="rounded-circle" alt=""><div class="ml-xl-4 ml-1">${hour + ":" + min }</div></div><div class="says"><p>${text.value}</p></div></div></div>`);
     $(area).append(message);
 }
@@ -906,7 +906,7 @@ function outputImage(imgSrc, area) {
     if (!imgSrc) return false;
     let time = new Date();
     let hour = ('00' + time.getHours()).slice(-2);
-    let min  = ('00' + time.getMinutes()).slice(-2);
+    let min = ('00' + time.getMinutes()).slice(-2);
     let image = $(`<div class="col-12 pb-5 mb-5 pr-0" style="z-index: -1;" ><div class="balloon_r"><div class="faceicon"><img src="assets/img/pixta_64747350_M.jpg" class="rounded-circle" alt=""><div class="ml-xl-4 ml-1">${hour + ":" + min }</div></div><img src="${imgSrc}" class="post-image result"></div></div>`);
     $(area).append(image);
 }
@@ -914,32 +914,32 @@ function outputImage(imgSrc, area) {
 
 
 // メッセージ詳細画面（message_show.html）
-$(function() {
-    $('#chat_button').on('click', function () {
+jQuery(function($) {
+    jQuery('#chat_button').on('click', function() {
         let inputText = document.getElementById('chat_input');
         let appendArea = document.getElementById('message_show_area');
         outputMessage(inputText, appendArea);
         inputText.value = '';
     });
 
-    $('#messages_file_input').change(function() {
+    jQuery('#messages_file_input').change(function() {
         let file = this.files[0];
         let fr = new FileReader();
         fr.readAsDataURL(file);
         fr.onload = function() {
-            $('.bigimg').children().attr('src', fr.result).css({
-                'width':'40vh',
-                'height':'30vh',
+            jQuery('.bigimg').children().attr('src', fr.result).css({
+                'width': '40vh',
+                'height': '30vh',
                 'object-fit': 'cover'
             });
-            $('.modal').fadeIn();
+            jQuery('.modal').fadeIn();
             return false;
         }
     });
-    $('#post_image_btn').on('click', function() {
-        let imgResult = $('.bigimg').children().attr('src')
+    jQuery('#post_image_btn').on('click', function() {
+        let imgResult = jQuery('.bigimg').children().attr('src')
         let appendArea = document.getElementById('message_show_area');
         outputImage(imgResult, appendArea)
-        $('.modal').fadeOut();
+        jQuery('.modal').fadeOut();
     });
 });
