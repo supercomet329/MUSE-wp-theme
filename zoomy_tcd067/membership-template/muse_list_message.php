@@ -31,7 +31,7 @@ get_header();
                     }
 
                 ?>
-                    <a href="<?php echo esc_attr( get_tcd_membership_memberpage_url( 'detail_message' ) ); ?>?user_id=<?php echo $user_id; ?>">
+                    <a href="<?php echo esc_attr( get_tcd_membership_memberpage_url( 'detail_message' ) ); ?>&user_id=<?php echo $user_id; ?>">
                         <li class="d-flex align-items-start pt-2">
                             <img src="<?php echo esc_html($profile_image); ?>" class="rounded-circle">
                             <span class="name">
