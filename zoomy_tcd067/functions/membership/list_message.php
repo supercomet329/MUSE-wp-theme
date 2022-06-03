@@ -15,6 +15,7 @@ function tcd_membership_action_list_message()
         wp_safe_redirect(user_trailingslashit(home_url()));
         exit;
     }
+    tcd_membership_messages_recipient_read();
 
     $args = [
         'user_id' => $user->ID,
