@@ -63,7 +63,6 @@ get_template_part( 'functions/membership/report' );
 
 // TCD Membership messages
 get_template_part( 'functions/membership/messages' );
-
 // ADD 2022/05/10 H.Okabe
 get_template_part( 'functions/membership/follows' );
 get_template_part( 'functions/membership/followers' );
@@ -84,6 +83,7 @@ get_template_part( 'functions/membership/profile' );
 get_template_part( 'functions/membership/information' );
 get_template_part( 'functions/membership/list_message' );
 get_template_part( 'functions/membership/detail_message' );
+get_template_part( 'functions/membership/keep' );
 
 // load options
 global $dp_options;
