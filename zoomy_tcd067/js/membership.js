@@ -470,6 +470,65 @@ jQuery(function($) {
     };
 
     /**
+     * キープクリック
+     * 2022/06/06 ADD
+     */
+    $(document).on('click', '.js-toggle-keep', function() {
+        var self = this;
+        var post_id = $(this).attr('data-post-id');
+        if (!post_id) return false;
+        if ($(this).hasClass('is-ajaxing')) return false;
+
+        // 未ログインの場合はモーダルログイン表示
+        if (!$('body').hasClass('logged-in')) {
+            waitLoginVars = {
+                type: 'keep',
+                post_id: post_id,
+                $elem: $(this)
+            };
+            showModalLogin();
+            return false;
+        }
+
+        ajaxToggleKeep($(this), post_id)
+        return false;
+    });
+
+    /**
+     * キープajax
+     * 2022/06/06 ADD
+     */
+    var ajaxToggleKeep = function(el, post_id) {
+        $(el).addClass('is-ajaxing');
+        $.ajax({
+            url: TCD_MEMBERSHIP.ajax_url,
+            type: 'POST',
+            data: {
+                action: 'toggle_keep',
+                post_id: post_id
+            },
+            success: function(data, textStatus, XMLHttpRequest) {
+                $(el).removeClass('is-ajaxing');
+                if (data.result == 'added') {
+                    // $(el).addClass('p-icon-liked').removeClass('p-icon-like').html(data.likes_number);
+                    $(el).attr('src', '/wp-content/themes/zoomy_tcd067/assets/img/icon/iine_on.png');
+                } else if (data.result == 'removed') {
+                    // $(el).addClass('p-icon-like').removeClass('p-icon-liked').html(data.likes_number);
+                    $(el).attr('src', '/wp-content/themes/zoomy_tcd067/assets/img/icon/iine.png');
+                } else if (data.message) {
+                    showModalAlert(data.message);
+                } else {
+                    showModalAlert(TCD_MEMBERSHIP.ajax_error_message);
+                }
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                $(el).removeClass('is-ajaxing');
+                showModalAlert(TCD_MEMBERSHIP.ajax_error_message);
+            }
+        });
+    };
+
+    /**
      * 報告するクリック
      */
     $('.js-report-button').on('click', function() {
