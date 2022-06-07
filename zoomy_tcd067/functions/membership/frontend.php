@@ -1114,3 +1114,44 @@ function tcd_membership_disable_autoembed_callback($matches, $attr, $url, $rawat
 {
 	return '<a href="' . esc_attr($matches[0]) . '" target="_blank">' . esc_html($matches[0]) . '</a>';
 }
+
+/**
+ * Add 2022/06/07 
+ * 未読のいいねとフォローの合計件数の取得
+ */
+function count_notice($user_id = NULL)
+{
+	global $wpdb;
+
+	if(is_null($user_id)) {
+		$user_id = get_current_user_id();
+	}
+
+	// 未読のいいねの取得
+	$sql = '';
+	$sql .= 'SELECT COUNT(*) ';
+	$sql .= ' FROM wp_tcd_membership_actions ';
+	$sql .= ' WHERE target_user_id = %d ';
+	$sql .= ' AND type = \'like\' ';
+	$sql .= ' AND NOT EXISTS (';
+	$sql .= ' SELECT * FROM wp_tcd_membership_action_metas ';
+	$sql .= ' WHERE wp_tcd_membership_action_metas.action_id = wp_tcd_membership_actions.id ';
+	$sql .= ' AND meta_key = \'read\' ';
+	$sql .= ' )';
+	$like_count = $wpdb->get_var($wpdb->prepare($sql, $user_id));
+
+	// 未読のフォローの取得
+	$sql = '';
+	$sql .= 'SELECT COUNT(*) ';
+	$sql .= ' FROM wp_tcd_membership_actions ';
+	$sql .= ' WHERE target_user_id = %d ';
+	$sql .= ' AND type = \'follow\' ';
+	$sql .= ' AND NOT EXISTS (';
+	$sql .= ' SELECT * FROM wp_tcd_membership_action_metas ';
+	$sql .= ' WHERE wp_tcd_membership_action_metas.action_id = wp_tcd_membership_actions.id ';
+	$sql .= ' AND meta_key = \'read\' ';
+	$sql .= ' )';
+	$follow_count = $wpdb->get_var($wpdb->prepare($sql, $user_id));
+
+	return (int)$like_count + (int)$follow_count;
+}
