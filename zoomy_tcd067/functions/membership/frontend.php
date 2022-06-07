@@ -1114,3 +1114,4 @@ function tcd_membership_disable_autoembed_callback($matches, $attr, $url, $rawat
 {
 	return '<a href="' . esc_attr($matches[0]) . '" target="_blank">' . esc_html($matches[0]) . '</a>';
 }
+

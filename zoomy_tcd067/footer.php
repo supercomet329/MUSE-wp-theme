@@ -11,7 +11,7 @@ if (!$dp_options) $dp_options = get_design_plus_option();
 			<a href="<?php echo esc_url(get_tcd_membership_memberpage_url('add_photo')); ?>"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/post_blue.png" alt="post"></a>
 			<div class="notifications">
 				<a href="<?php echo esc_url(get_tcd_membership_memberpage_url('notification')); ?>"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/notification_blue.png" alt="notification"></a>
-				<p class="unread-count rounded-circle">2000</p>
+				<p class="unread-count rounded-circle"><?php echo count_notice(); ?></p>
 			</div>
 			<div class="messages">
 				<a href="<?php echo esc_url(get_tcd_membership_memberpage_url('list_message')); ?>"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/message_blue.png" alt="message"></a>
