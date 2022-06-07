@@ -2,43 +2,74 @@
 global $dp_options, $post;
 if (!$dp_options) $dp_options = get_design_plus_option();
 ?>
-<main role="main">
+<?php /** TODO: 人気アーティストの表示 */ ?>
+<ul class="horizontal-list py-0 my-2">
+    <a href="profile.html">
+        <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/profile.jpg" alt="profile" class="rounded-circle"></li>
+    </a>
+    <a href="profile.html">
+        <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_85053177_M.jpg" alt="profile" class="rounded-circle"></li>
+    </a>
+    <a href="profile.html">
+        <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_64747350_M.jpg" alt="profile" class="rounded-circle"></li>
+    </a>
+    <a href="profile.html">
+        <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_27669641_M.jpg" alt="profile" class="rounded-circle"></li>
+    </a>
+    <a href="profile.html">
+        <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_40272765_M.jpg" alt="profile" class="rounded-circle"></li>
+    </a>
+    <a href="profile.html">
+        <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_40855053_M.jpg" alt="profile" class="rounded-circle"></li>
+    </a>
+    <a href="profile.html">
+        <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_45010284_M.jpg" alt="profile" class="rounded-circle"></li>
+    </a>
+    <a href="profile.html">
+        <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_56091176_M.jpg" alt="profile" class="rounded-circle"></li>
+    </a>
+    <a href="profile.html">
+        <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_58266021_M.jpg" alt="profile" class="rounded-circle"></li>
+    </a>
+    <a href="profile.html">
+        <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_58642077_M.jpg" alt="profile" class="rounded-circle"></li>
+    </a>
+    <a href="profile.html">
+        <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/profile.jpg" alt="profile" class="rounded-circle"></li>
+    </a>
+    <a href="profile.html">
+        <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_85053177_M.jpg" alt="profile" class="rounded-circle"></li>
+    </a>
+    <a href="profile.html">
+        <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_64747350_M.jpg" alt="profile" class="rounded-circle"></li>
+    </a>
+    <a href="profile.html">
+        <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_27669641_M.jpg" alt="profile" class="rounded-circle"></li>
+    </a>
+    <a href="profile.html">
+        <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_40272765_M.jpg" alt="profile" class="rounded-circle"></li>
+    </a>
+    <a href="profile.html">
+        <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_40855053_M.jpg" alt="profile" class="rounded-circle"></li>
+    </a>
+    <a href="profile.html">
+        <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_45010284_M.jpg" alt="profile" class="rounded-circle"></li>
+    </a>
+    <a href="profile.html">
+        <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_56091176_M.jpg" alt="profile" class="rounded-circle"></li>
+    </a>
+    <a href="profile.html">
+        <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_58266021_M.jpg" alt="profile" class="rounded-circle"></li>
+    </a>
+    <a href="profile.html">
+        <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_58642077_M.jpg" alt="profile" class="rounded-circle"></li>
+    </a>
+</ul>
+<?php /** TODO: 人気アーティストの表示 */ ?>
 
+<main role="main" class="mb-2">
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">タイムライン切り替え</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="cp_ipradio">
-                        <ul style="list-style: none;">
-                            <li class="list_item">
-                                <label>
-                                    <input type="radio" class="option-input" name="a" checked>
-                                    　通常モード
-                                </label>
-                            </li>
-                            <li class="list_item">
-                                <label>
-                                    <input type="radio" class="option-input" name="a">
-                                    　ピクチャーモード
-                                </label>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div>
-        </div>
     </div>
-
     <?php
     // TODO: 2022/05/09 画像投稿できるようになったら投稿を確認
     $list_photo = list_author_post($author->ID, 'photo');
@@ -47,20 +78,24 @@ if (!$dp_options) $dp_options = get_design_plus_option();
 
     foreach ($list_slice_photo as $array_slice_photo) {
     ?>
-        <?php if ($i <= 0) { ?>
-            <div class="content pt-5 pb-1">
-            <?php } else { ?>
-                <div class="content">
-                <?php } ?>
-                <?php foreach ($array_slice_photo as $one_photo) { ?>
-                    <div class="content-item shadow d-flex align-items-center justify-content-center px-1">
-                        <img class="image-list" src="<?php echo $one_photo->meta_value; ?>">
-                    </div>
-                <?php } ?>
-                </div>
+        <div class="content">
             <?php
-            $i++;
-        }
-        /** endforeach */
+            foreach ($array_slice_photo as $one_photo) {
+                $profileImageData = get_user_meta($one_photo->post_author, 'profile_image', true);
+                $profile_image = get_template_directory_uri() . '/assets/img/icon/non_profile_image.png';
+                if (!empty($profileImageData)) {
+                    $profile_image = $profileImageData;
+                }
+
             ?>
+                <div class="content-item shadow-sm d-flex align-items-center justify-content-center px-1">
+                    <a href="<?php echo esc_html( get_tcd_membership_memberpage_url( 'profile' ) ); ?>&user_id=<?php echo esc_html($one_photo->post_author); ?>"><img src="<?php echo $profile_image; ?>" alt="profile" class="rounded-circle profile"></a>
+                    <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('confirm_post')); ?>&post_id=<?php echo $one_photo->ID; ?>"><img class="image-list" src="<?php echo esc_html($one_photo->meta_value); ?>"></a>
+                </div>
+            <?php }
+            /** endforeach */ ?>
+
+        </div>
+    <?php }
+    /** endforeach */ ?>
 </main>
