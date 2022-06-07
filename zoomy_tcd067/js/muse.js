@@ -5,37 +5,37 @@ jQuery(function($) {
     jQuery('#email').on('blur', function() {
         checkInput();
     });
-
     // 会員規約がクリックされた際にcheckInput実行
     jQuery('#terms').on('click', function() {
         checkInput();
     });
-
     // 仮登録ボタンを押された際に、メール送信済みメッセージを表示
     jQuery('#register-btn').on('click', function() {
         showEmailSentMsg();
-    })
+    });
 });
 
 // 入力項目を確認し、仮登録ボタン有効化/無効化切り替え
 function checkInput() {
     // メールアドレスが入力された場合、emailCheckにtrueを格納
-    var emailCheck = '';
-    if (document.getElementById('email').value.length > 0) {
-        emailCheck = true;
-    } else {
-        emailCheck = false;
-    }
-
+    var emailCheck = false;
+    // メールアドレスの入力フォーム要素を取得
+    var email = document.getElementById('email');
     // 会員規約のチェックボックス要素を取得
     var terms = document.getElementById('terms');
+    // 仮登録のボタン要素を取得
+    var registerBtn = document.getElementById('register-btn');
+
+    // メールアドレスに空白文字が含まれていないかを確認
+    if (!email.value.match(/[\x20\u3000]/)) {
+        // メールアドレスのフォーマットを確認
+        emailCheck = validateEmail(email.value);
+    }
 
     // メールアドレスが入力されている、かつ会員規約にチェックがついている場合ボタンを有効化
-    var registerBtn = document.getElementById('register-btn');
+    registerBtn.disabled = true;
     if (emailCheck === true && terms.checked === true) {
         registerBtn.disabled = false;
-    } else {
-        registerBtn.disabled = true;
     }
 }
 
@@ -407,12 +407,12 @@ jQuery(function($) {
 // キープ済み、キープの選択機能（request_searched_list.html,request_received_list_html）
 jQuery(function($) {
     $(document).on('click', '.keep_off', function() {
-        let keep_on = jQuery('<div class="border rounded-pill py-1 px-1 f-size-10 font-weight-bold keep_on">キープ<br><img src="assets/img/icon/keep_on.png" alt="keep-on" class="keep-on"></div>');
+        let keep_on = jQuery('<div class="rounded-pill text-center mb-1 px-1 keep_on"><img src="assets/img/icon/keep_on.png" alt="keep-on" class="keep-on"></div>');
         $(this).replaceWith(keep_on);
     });
 
     $(document).on('click', '.keep_on', function() {
-        let keep_off = jQuery('<div class="border rounded-pill py-1 px-1 f-size-10 font-weight-bold keep_off">キープ済み<br><img src="assets/img/icon/keep_off.png" alt="keep-off" class="keep-off"></div>');
+        let keep_off = jQuery('<div class="border rounded-pill text-center mb-1 px-1 keep_off"><img src="assets/img/icon/keep_off.png" alt="keep-off" class="keep-off"></div>');
         $(this).replaceWith(keep_off);
     });
 });
@@ -891,6 +891,14 @@ function showUrlMsg() {
     jQuery('#UrlMsg').empty().append("<p id=\"inputUrlErrMsg\" class=\"UrlErrMsg mb-0\">URLを確認してください</p>");
 }
 
+jQuery(function($) {
+    jQuery('#chat_button').on('click', function() {
+        let inputText = document.getElementById('chat_input');
+        let appendArea = document.getElementById('message_show_area');
+        outputMessage(inputText, appendArea);
+    });
+});
+
 // メッセージを画面に出力
 function outputMessage(text, area) {
     if (!text.value) return false;
@@ -910,8 +918,6 @@ function outputImage(imgSrc, area) {
     let image = $(`<div class="col-12 pb-5 mb-5 pr-0" style="z-index: -1;" ><div class="balloon_r"><div class="faceicon"><img src="assets/img/pixta_64747350_M.jpg" class="rounded-circle" alt=""><div class="ml-xl-4 ml-1">${hour + ":" + min }</div></div><img src="${imgSrc}" class="post-image result"></div></div>`);
     $(area).append(image);
 }
-
-
 
 // メッセージ詳細画面（message_show.html）
 jQuery(function($) {
@@ -941,5 +947,16 @@ jQuery(function($) {
         let appendArea = document.getElementById('message_show_area');
         outputImage(imgResult, appendArea)
         jQuery('.modal').fadeOut();
+    });
+});
+
+jQuery(function($) {
+    jQuery('#terms_service').click(function() {
+        let termsChecked = jQuery('#terms_service').get(0).checked;
+        if (termsChecked === true) {
+            jQuery('#save_btn').attr('disabled', false);
+        } else {
+            jQuery('#save_btn').attr('disabled', true);
+        }
     });
 });

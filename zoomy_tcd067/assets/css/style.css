@@ -25,6 +25,10 @@ footer nav .messages{
   width: 40% !important;
 }
 
+.h-70px {
+  height: 70px;
+}
+
 ul.list-area {
   margin:0; padding:0;
   list-style: none;
@@ -63,6 +67,33 @@ ul.list-area li span.content{
 ul.list-area li span.name{
   font-weight: bold;
   font-size: 16px;
+}
+
+.tab-area {
+  overflow-x: scroll !important;
+  overflow-y: hidden;
+  border-radius: 20px;
+}
+
+.tab-area .tab-menu {
+  width: 100%;
+}
+
+.tab-area .nav-item .nav-link {
+  display: flex;
+  align-items: center;
+  height: 55px;
+}
+
+.tab-area .active {
+  background-color: #3c7fc3 !important;
+  color: #fff !important;
+  font-weight: bold;
+}
+.tab-area .nav-item .nav-link:hover {
+  background-color: #3c7fc3 !important;
+  color: #fff !important;
+  font-weight: bold;
 }
 
 .tweet-area .profile-icon {
@@ -128,20 +159,8 @@ ul.horizontal-list li.item img {
 }
 
 .tab-area {
-  overflow-x: scroll !important;
-  overflow-y: hidden;
-}
-
-.tab-menu {
-  display: flex;
-  width: 30em !important;
-  height: auto !important;
-}
-
-.tab-area {
   background-color: #bbdefb;
   width: 100%;
-  border-radius: 20px
 }
 
 .tweet-area {
@@ -163,7 +182,7 @@ ul.horizontal-list li.item img {
 
 .timeline-image img {
 	width: 100%;
-  height: 60vh;
+  height: 50vh;
   object-fit: cover;
 }
 
@@ -196,7 +215,7 @@ ul.horizontal-list li.item img {
 
 .subtext {
   font-size: 12px;
-  color: #e0e0e0;
+  color: #888888;
 }
 
 .f-size-12 {
@@ -244,7 +263,6 @@ ul.horizontal-list li.item img {
 }
 
 .border-bottom-solid {
-  width: 100% !important;
   border-bottom: solid 3px #3c7fc3;
 }
 
@@ -255,10 +273,13 @@ ul.horizontal-list li.item img {
   margin-top: 1px;
   margin-bottom: 1px;
   height: 300px;
+  background-color: #fafafa !important;
 }
+
 .following-list img {
   width: 200px;
   height: 200px;
+  border:1px solid rgba(0,0,0,.125)
 }
 .following-list button {
   margin-top: 3px;
@@ -597,6 +618,7 @@ img.post-image.result{
   border-radius: 20px;
   background-color: #e0e0e0;
   bottom: 100px;
+  left: 20%;
   width: 60% !important;
 }
 
@@ -610,11 +632,21 @@ img.post-image.result{
   position: fixed;
   bottom: 100px;
   right: 15%;
+  width: 40px;
+  height: 40px;
 }
 
 .message-create .icon-area img {
   width: 40px;
   height: 40px;
+}
+
+.request-area {
+  background-color: #fafafa;
+}
+
+.request-area a {
+  color:initial;
 }
 
 .request-list {
@@ -632,6 +664,51 @@ img.post-image.result{
 .request-list .search, .request-list .search-option{
   height: 60px !important;
   width: 60px !important;
+}
+
+.request-user-icon {
+  width: 70px;
+  height: auto;
+}
+
+.request-list .requester {
+  font-size: 14px;
+}
+
+.request-area .request-title {
+  color: #000000;
+}
+
+.request-detail {
+  font-size: 12px;
+}
+
+.request-budget, .request-deadline {
+  font-size: 12px;
+  color: #e02126;
+}
+
+.request-boundary {
+  border-top: 2px dotted #3c7fc3;
+}
+
+/* 発注依頼一覧ページ新規作成アイコンエリア */
+.request-add-icon-area {
+  position: fixed;
+  bottom: 110px;
+}
+
+@media only screen and (max-width: 480px) {
+  .request-add-icon-area {
+    position: fixed;
+    bottom: 70px;
+  }
+}
+
+/* 発注依頼一覧ページ新規作成アイコンサイズ */
+.request-add-icon {
+  width: 50px;
+  height: auto;
 }
 
 .post-icon-area {
@@ -742,8 +819,21 @@ img.search-option {
 }
 
 .request-list img.keep-on, .request-list img.keep-off {
+  width: 15px;
+  height: auto;
+}
+
+.request-keep .keep_on {
+  border:1px solid #ffd800;
+}
+
+.request_show img.keep-on, .request_show img.keep-off {
   width: 20px;
   height: 20px;
+}
+
+span.keep_off, span.keep_on {
+  width: 25%;
 }
 
 /* プロフィール編集ページエラーメッセージレイアウト */
@@ -828,12 +918,12 @@ img.search-option {
     color: #3c7fc3;
   }
 
-  .horizontal-list {
+  .horizontal-list, .tab-area {
     scrollbar-width: none;
     -ms-overflow-style: none;
   }
 
-  .horizontal-list::-webkit-scrollbar {
+  .horizontal-list::-webkit-scrollbar, .tab-area::-webkit-scrollbar {
     display:none;
   }
 
@@ -898,10 +988,12 @@ img.search-option {
     margin-top: 1px;
     margin-bottom: 1px;
     height: 120px;
+    background-color: #fafafa !important;
   }
   .following-list img{
     width: 50px;
     height: 50px;
+    border:1px solid rgba(0,0,0,.125)
   }
   .following-list button{
     font-size: 11px;
@@ -1048,6 +1140,7 @@ img.search-option {
   .message-create textarea {
     position: fixed;
     bottom: 60px;
+    left: 6.5%;
     width: 75% !important;
   }
 
@@ -1096,6 +1189,10 @@ img.search-option {
     width: 80%;
     height: 30vh;
     object-fit: cover;
+  }
+
+  .tab-area .tab-menu {
+    width: 30em;
   }
 }
 
@@ -1739,4 +1836,23 @@ input[type=checkbox]:checked + .terms-check::after {
     margin-top: -19px;
     font-weight: bold;
     margin-bottom: -22px;
+}
+
+/* メッセージ一覧ページメッセージ新規作成アイコンエリア */
+.message-add-icon-area {
+  position: fixed;
+  bottom: 110px;
+}
+
+@media only screen and (max-width: 480px) {
+  .message-add-icon-area {
+    position: fixed;
+    bottom: 70px;
+  }
+}
+
+/* メッセージ一覧ページメッセージ新規作成アイコンサイズ */
+.message-add-icon {
+  width: 50px;
+  height: auto;
 }
