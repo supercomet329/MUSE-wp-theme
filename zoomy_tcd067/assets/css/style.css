@@ -43,12 +43,55 @@ ul.list-area li img {
   width: 100px;
   height: 100px;
   margin-right: 30px;
+  border:1px solid rgba(0,0,0,.125)
 }
 
 ul.list-area li span.btn-area{
   margin-left: auto;
   margin-bottom: auto;
   margin-top: auto;
+}
+
+.list-area .profile-icon {
+  width: 100px;
+  height: 100px;
+  border:1px solid rgba(0,0,0,.125)
+}
+
+@media only screen and (max-width: 1024px){
+  .list-area .profile-icon {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+.list-area .profile-detail {
+  font-size: 10px;
+  color: #303030;
+}
+
+.list-area .list-area-border {
+  border-top: dashed 1px #e0e0e0;
+}
+
+.btn-area .follow-btn {
+  width: 110px;
+  height: 35px;
+}
+
+.btn-area .follow-off {
+  color: #3c7fc3;
+  border-color: #3c7fc3;
+}
+
+.btn-area .follow-off:hover {
+  color: #3c7fc3;
+  border-color: #3c7fc3;
+  background-color: #ffffff;
+}
+
+.btn-area .follow-on {
+  border-color: #3c7fc3;
 }
 
 ul.list-area li span.created_at{
@@ -202,6 +245,10 @@ ul.horizontal-list li.item img {
 
 .main-color {
   background-color: #3c7fc3 !important;
+}
+
+.alert-color {
+  color: #e02126 !important;
 }
 
 .follow-btn, .following-btn{
@@ -620,6 +667,7 @@ img.post-image.result{
   bottom: 100px;
   left: 20%;
   width: 60% !important;
+  resize: none;
 }
 
 .message-create .icon-area .camera {
@@ -773,14 +821,15 @@ img.post-image.result{
   vertical-align: initial;
 }
 
-.container .tab button {
+.container .tab button, .container .tab a{
   font-size: 24px;
   width: 160px;
   height: 40px;
 }
 
-.container .tab button:hover {
+.container .tab button:hover, .container .tab a:hover {
     opacity: 0.9;
+    text-decoration: none;
 }
 
 .container .search-button:hover {
@@ -1078,7 +1127,7 @@ span.keep_off, span.keep_on {
     height: 30px;
   }
 
-  .container .tab button {
+  .container .tab button, .container .tab a {
     font-size: 12px;
     width: 80px;
     height: 30px;
@@ -1134,7 +1183,7 @@ span.keep_off, span.keep_on {
   }
 
   .says {
-    max-width:150px;
+    max-width:250px;
   }
 
   .message-create textarea {
@@ -1838,6 +1887,203 @@ input[type=checkbox]:checked + .terms-check::after {
     margin-bottom: -22px;
 }
 
+.saleTypeSection {
+    display: none;
+}
+.saleSection {
+    display: block;
+}
+.post-radio input {
+    margin-right: 10px;
+    accent-color: #000000;
+}
+.post-input-title {
+    color: #3c7fc3;
+    font-size: 16px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    margin-left: -6px;
+}
+.post-input {
+    border-radius: 300px !important;
+    border: none !important;
+    background-color: #e7e7e7 !important;
+    height: 29px !important;
+    margin-top: 5px;
+}
+.image-price-input {
+    position: relative;
+}
+.image-price-jpy {
+    position: absolute;
+    right: -12px;
+    top: 2px;
+    color: #616161;
+    font-size: 15px;
+}
+.commission-title {
+    margin-top: 25px;
+    font-weight: bold;
+    font-size: 14px;
+}
+.commission-price {
+    margin-top: -10px;
+    margin-bottom: 7px;
+    color: #616161;
+}
+.post-terms-check {
+    box-sizing: border-box;
+    padding: 5px 30px;
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    width: auto;
+}
+/* 利用規約チェックボックスが押される前 */
+.post-terms-check::before {
+    content: '';
+    display: block;
+    background: #ffffff;
+    border: 1px solid #231815;
+    border-radius: 6px;
+    width: 18px;
+    height: 18px;
+    margin-top: -18px;
+    position: absolute;
+    top: 50%;
+    left: 5px;
+}
+/* 利用規約チェックボックスが押された後 */
+.post-terms-check::after {
+    content: '';
+    display: block;
+    border-right: 2px solid #3c7fc3;
+    border-bottom: 2px solid #3c7fc3;
+    position: absolute;
+    top: 50%;
+    left: 11px;
+    width: 6px;
+    height: 9px;
+    margin-top: -15px;
+    transform: rotate(45deg);
+    opacity: 0;
+}
+input[type=checkbox]:checked + .post-terms-check::after {
+    opacity: 1;
+}
+.auction-input {
+    width: 40px;
+    position: relative;
+    border: solid 2px #e7e7e7;
+    border-radius: 10px;
+}
+.auction-date {
+    position: absolute;
+    right: -12px;
+    top: 3px;
+}
+.auction-notes {
+    color: #e02126;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: left;
+    margin-left: 25px;
+}
+.post-file {
+    position: relative;
+    border: solid 2px #e7e7e7;
+    border-radius: 10px;
+    width: 100%;
+    height: 25vh;
+    cursor: pointer;
+    /* margin-top: 5px; */
+    /* padding: 10px 0; */
+}
+.post-file .cover-img{
+  z-index: 0;
+  width: 100%;
+  height: 25vh;
+  object-fit: cover;
+  border: solid 2px #e7e7e7;
+  border-radius: 10px;
+}
+
+.post-file-img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  z-index: 1;
+  height: 80px;
+  width: 79px;
+}
+.post-file-input {
+    text-align: center;
+}
+.post-file-sub-img {
+    border: solid 2px #e7e7e7;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 8px;
+    margin-bottom: -8px;
+    width: 100%;
+    height: 100%;
+    padding: 40%;
+}
+.post-local-file {
+    background-image: url("../../assets/img/icon/post_folder.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 60%;
+}
+.post-app-file {
+    background-image: url("../../assets/img/icon/post_top_plus.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 60%;
+}
+.post-images {
+    height: 100%;
+    width: 100%;
+    border: solid 1px #e7e7e7;
+    margin-top: 8px;
+    margin-bottom: -8px;
+}
+.saleTypeSection {
+    width: 100%;
+}
+.post-detail {
+    border-radius: 10px !important;
+    border: none !important;
+    background-color: #e7e7e7 !important;
+    height: 120px !important;
+    margin-top: 5px;
+    resize: none;
+}
+.termsSection {
+    display: block;
+}
+.postErrMsg {
+    color: #e02126;
+    font-size: 12px;
+    margin-top: 15px;
+    text-align: left;
+    font-weight: bold;
+}
+@media screen and (max-width: 480px) {
+    .post-file-sub-img {
+        border: solid 2px #e7e7e7;
+        border-radius: 10px;
+        cursor: pointer;
+        margin-top: 8px;
+        margin-bottom: -8px;
+        width: 100%;
+        height: 100%;
+        padding: 25%;
+    }
+}
 /* メッセージ一覧ページメッセージ新規作成アイコンエリア */
 .message-add-icon-area {
   position: fixed;
