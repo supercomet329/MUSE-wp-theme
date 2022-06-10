@@ -417,7 +417,7 @@ function listOrder($up_budget, $down_budget, $whereDeadLine, $target)
 /**
  * 受注一覧の取得
  */
-function listReceivedByUserId($user_id)
+function listReceivedByUserId($user_id, $up_budget, $down_budget, $whereDeadLine, $target)
 {
 	global $wpdb;
 
@@ -428,14 +428,60 @@ function listReceivedByUserId($user_id)
 	$sql .= ',wp_posts.post_date AS post_date ';
 	$sql .= ',wp_posts.post_title AS post_title ';
 	$sql .= ',wp_posts.post_content AS post_content ';
+	$sql .= ',wp_users.display_name AS display_name ';
 	$sql .= ',wp_tcd_membership_actions.user_id AS contractor_user_id ';
-	$sql .= 'FROM wp_tcd_membership_actions ';
-	$sql .= 'LEFT JOIN wp_posts ';
-	$sql .= 'ON wp_posts.ID = wp_tcd_membership_actions.post_id ';
-	$sql .= 'WHERE wp_tcd_membership_actions.user_id = %d ';
-	$sql .= 'AND wp_posts.post_type = %s ';
+	$sql .= ',(';
+	$sql .= ' SELECT meta_value FROM wp_postmeta WHERE wp_postmeta.post_id = wp_posts.ID AND meta_key = \'appDeadlineDate\'';
+	$sql .= ') AS appDeadlineDate ';
+	$sql .= ',(';
+	$sql .= ' SELECT meta_value FROM wp_postmeta WHERE wp_postmeta.post_id = wp_posts.ID AND meta_key = \'budget\'';
+	$sql .= ') AS budget ';
 
-	$result = $wpdb->get_results($wpdb->prepare($sql, $user_id, 'request'));
+	$sql .= 'FROM wp_posts ';
+	$sql .= ' INNER JOIN wp_users ';
+	$sql .= ' ON wp_users.ID = wp_posts.post_author ';
+	$sql .= 'LEFT JOIN wp_tcd_membership_actions ';
+	$sql .= 'ON wp_posts.ID = wp_tcd_membership_actions.post_id ';
+	$sql .= 'WHERE wp_posts.post_type = \'request\' ';
+	$sql .= ' AND wp_posts.post_status = \'publish\'';
+	$sql .= ' AND EXISTS(';
+	$sql .= ' SELECT * 
+				FROM wp_tcd_membership_actions 
+				WHERE 
+					wp_tcd_membership_actions.post_id = wp_posts.ID 
+				AND 
+					wp_tcd_membership_actions.type = \'received\' 
+				AND 
+					wp_tcd_membership_actions.user_id = ' . $user_id;
+	$sql .= ' ) ';
+
+	if ($up_budget) {
+		// 予算上限
+		$sql .= ' AND EXISTS( ';
+		$sql .= ' SELECT * FROM wp_postmeta WHERE wp_postmeta.post_id = wp_posts.ID AND meta_key = \'budget\' AND meta_value <= ' . $up_budget;
+		$sql .= ' ) ';
+	}
+
+	if ($down_budget) {
+		// 予算上限
+		$sql .= ' AND EXISTS( ';
+		$sql .= ' SELECT * FROM wp_postmeta WHERE wp_postmeta.post_id = wp_posts.ID AND meta_key = \'budget\' AND meta_value > ' . $down_budget;
+		$sql .= ' ) ';
+	}
+
+	if ($whereDeadLine) {
+		$sql .= ' AND EXISTS( ';
+		$sql .= ' SELECT * FROM wp_postmeta WHERE wp_postmeta.post_id = wp_posts.ID AND meta_key = \'appDeadlineDate\' AND meta_value <= \'' . $whereDeadLine . '\'';
+		$sql .= ' ) ';
+	}
+
+	if ($target) {
+		// $sql .= 'AND wp_posts.post_content LIKE \'%' . $post_content . '%\' ';
+	}
+
+	$sql .= ' ORDER BY wp_posts.ID DESC';
+
+	$result = $wpdb->get_results($wpdb->prepare($sql));
 	return $result;
 }
 
