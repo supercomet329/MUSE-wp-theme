@@ -6,6 +6,10 @@ get_header();
     作品依頼一覧
 </div>
 <div class="container mt-3 request-list">
+    <?php if (isset($_GET['status']) && $_GET['status'] === 'request_complete') { ?>
+        <p class="mt-1 text-success font-weight-bold">依頼の登録が完了しました。</p>
+    <?php }
+    /** endif */ ?>
     <div class="row d-flex justify-content-center">
         <div class="col-8 tab-area text-center pt-1 pb-1 ml-1 mr-2">
             <a href="<a href=" <?php echo esc_attr(get_tcd_membership_memberpage_url('list_order')); ?>"><button class="btn text-white selected-tab w-40">発注</button></a>
@@ -73,7 +77,7 @@ get_header();
 </div>
 
 <!-- 検索モーダル -->
-<form class="search-post mb-2" method="POST" action="<?php echo esc_attr(get_tcd_membership_memberpage_url('list_order')); ?>">
+<form class="search-post mb-2" method="POST" action="<?php echo esc_url(get_tcd_membership_memberpage_url('list_order')); ?>">
     <div class="modal-container">
         <div class="modal-body">
             <div class="modal-content text-left p-3">
