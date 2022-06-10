@@ -379,9 +379,6 @@ function listOrder($up_budget, $down_budget, $whereDeadLine, $target)
 	$sql .= 'ON wp_posts.ID = wp_tcd_membership_actions.post_id ';
 	$sql .= 'WHERE wp_posts.post_type = \'request\' ';
 	$sql .= ' AND wp_posts.post_status = \'publish\'';
-	$sql .= ' AND EXISTS( ';
-	$sql .= ' SELECT * FROM wp_postmeta WHERE wp_postmeta.post_id = wp_posts.ID AND meta_key = \'appDeadlineDate\' AND meta_value > NOW()';
-	$sql .= ' ) ';
 
 	if ($up_budget) {
 		// 予算上限
@@ -410,6 +407,8 @@ function listOrder($up_budget, $down_budget, $whereDeadLine, $target)
 	$sql .= ' AND NOT EXISTS (';
 	$sql .= ' SELECT * FROM wp_tcd_membership_actions WHERE type=\'received\' AND wp_tcd_membership_actions.post_id = wp_posts.ID';
 	$sql .= ')';
+
+	$sql .= ' ORDER BY wp_posts.ID DESC';
 
 	$result = $wpdb->get_results($wpdb->prepare($sql));
 	return $result;
