@@ -406,6 +406,8 @@ jQuery(function($) {
 
 // キープ済み、キープの選択機能（request_searched_list.html,request_received_list_html）
 jQuery(function($) {
+    var $ = jQuery.noConflict();
+
     $(document).on('click', '.keep_off', function() {
         let keep_on = jQuery('<div class="rounded-pill text-center mb-1 px-1 keep_on"><img src="assets/img/icon/keep_on.png" alt="keep-on" class="keep-on"></div>');
         $(this).replaceWith(keep_on);
@@ -422,6 +424,8 @@ jQuery(function($) {
  */
 // ファイルが選択された際、ファイル名を表示
 jQuery('#requestFile').on('change', function() {
+    var $ = jQuery.noConflict();
+
     // 添付されたファイルを取得
     var selectedFile = $(this).prop('files')[0];
     // ファイルが存在している場合
@@ -430,7 +434,30 @@ jQuery('#requestFile').on('change', function() {
         var selectedFileName = selectedFile.name.length > 10 ? (selectedFile.name).slice(0, 10) + "..." : selectedFile.name;
         // ファイル名を表示
         jQuery('#outputFileName').text(selectedFileName);
+        // バリデーション文言を非表示
+        jQuery('#inputRequestErrMsgArea').addClass('d-none');
+    } else {
+        // 添付ファイルを空に変更
+        this.value = '';
+        // ファイル名を空に変更
+        jQuery('#outputFileName').text('');
+        // バリデーション文言を表示
+        jQuery('#inputRequestErrMsgArea').removeClass('d-none');
     }
+    // 必須項目のチェック
+    checkRequestInput();
+});
+/**
+ * 作品依頼（通常依頼）提案ページ
+ */
+// ファイル選択ボタンがクリックされた際、バリデーション文言を表示
+jQuery('#requestFile').on('click', function() {
+    // ファイルが存在しない場合、バリデーション文言を表示
+    if (this.files.length === 0) {
+        jQuery('#inputRequestErrMsgArea').removeClass('d-none');
+    };
+    // 必須項目のチェック
+    checkRequestInput();
 });
 
 // 入力項目のフォーカスが外れた際に処理を実行
@@ -498,6 +525,7 @@ function checkRequestInput() {
     var flagText = false;
     var flagComposition = false;
     var flagCharacter = false;
+    var flagRequestFile = false;
     var flagRefUrl = false;
     var flagBudget = false;
     var flagAppDeadline = false;
@@ -512,6 +540,8 @@ function checkRequestInput() {
     var compositionVal = jQuery('#composition').val();
     // キャラクターの値取得
     var characterVal = jQuery('#character').val();
+    // 添付ファイルの値取得
+    var requestFileVal = jQuery('#requestFile').val();
     // 参考URLの値取得
     var refUrlVal = jQuery('#refUrl').val();
     // 予算の値取得
@@ -571,6 +601,13 @@ function checkRequestInput() {
         if (!characterVal.match(/[\x20\u3000]/)) {
             flagCharacter = true;
         }
+    }
+
+    // 添付ファイルが入力されているかを確認
+    if (requestFileVal) {
+        // 添付ファイルが入力されている場合、エラーメッセージを非表示
+        flagRequestFile = true;
+        jQuery('#inputRequestErrMsgArea').addClass('d-none');
     }
 
     // 参考URLが入力されているかを確認
@@ -638,7 +675,7 @@ function checkRequestInput() {
     }
 
     // 入力項目の値が正しい場合、新規登録ボタンを有効化
-    if (flagRequestTitle === true && flagWorkTitle === true && flagText === true && flagComposition === true && flagCharacter === true && flagRefUrl === true && flagBudget === true && flagAppDeadline === true) {
+    if (flagRequestTitle === true && flagWorkTitle === true && flagText === true && flagComposition === true && flagCharacter === true && flagRefUrl === true && flagBudget === true && flagAppDeadline === true && flagRequestFile === true) {
         disabledFlag = false;
     }
     jQuery('#requestBtn').attr('disabled', disabledFlag);
@@ -950,6 +987,556 @@ jQuery(function($) {
     });
 });
 
+// フォローする、フォロー中の選択機能
+jQuery(function($) {
+    var $ = jQuery.noConflict();
+
+    $(document).on('click', '.follow-off', function() {
+        let follow_on = jQuery('<button type="button"class="btn btn-primary rounded-pill btn-sm text-white btn-lg main-color follow-btn follow-on">フォロー中</button>');
+        $(this).replaceWith(follow_on);
+    });
+
+    $(document).on('click', '.follow-on', function() {
+        let follow_off = jQuery('<button type="button" class="btn rounded-pill btn-outline-primary btn-sm follow-btn follow-off">フォローする</button>');
+        $(this).replaceWith(follow_off);
+    });
+});
+
+jQuery(function($) {
+    // 販売形式のラジオボタン変更で、表示するフォーム切り替え
+    jQuery('[name="saleType"]:radio').change(function() {
+        // 通常販売にチェックがついている場合
+        if (jQuery('#sale').prop('checked')) {
+            jQuery('.saleTypeSection').hide();
+            jQuery('.saleSection').show();
+            jQuery('.termsSection').show();
+            // オークションにチェックがついている場合
+        } else if (jQuery('#auction').prop('checked')) {
+            jQuery('.saleTypeSection').hide();
+            jQuery('.auctionSection').show();
+            jQuery('.termsSection').show();
+            // 販売しないにチェックがついている場合
+        } else {
+            jQuery('.saleTypeSection').hide();
+            jQuery('.termsSection').hide();
+            jQuery('.notForSaleSection').show();
+        }
+    });
+});
+
+// 入力項目のフォーカスが外れた際に処理を実行(post.html）
+jQuery(function($) {
+    // タイトルのフォーカスが外れた際にcheck_ProfileInput実行
+    jQuery('#postTitle').on('blur', function() {
+        checkSaleType();
+        inputPostTitle();
+    });
+    // 販売価格のフォーカスが外れた際にcheck_ProfileInput実行
+    jQuery('#imagePrice').on('blur', function() {
+        checkSaleType();
+        inputImagePrice();
+    });
+    // 即決価格のフォーカスが外れた際にcheck_ProfileInput実行
+    jQuery('#binPrice').on('blur', function() {
+        checkSaleType();
+        inputBinPrice();
+    });
+    // オークション開始日時(年)のフォーカスが外れた際にcheck_ProfileInput実行
+    jQuery('#auctionDateY').on('blur', function() {
+        checkSaleType();
+        typeAuctionStartDateMsg();
+    });
+    // オークション開始日時(月)のフォーカスが外れた際にcheck_ProfileInput実行
+    jQuery('#auctionDateM').on('blur', function() {
+        checkSaleType();
+        typeAuctionStartDateMsg();
+    });
+    // オークション開始日時(日)のフォーカスが外れた際にcheck_ProfileInput実行
+    jQuery('#auctionDateD').on('blur', function() {
+        checkSaleType();
+        typeAuctionStartDateMsg();
+    });
+    // オークション開始日時(時)のフォーカスが外れた際にcheck_ProfileInput実行
+    jQuery('#auctionDateH').on('blur', function() {
+        checkSaleType();
+        typeAuctionStartDateMsg();
+    });
+    // オークション開始日時(分)のフォーカスが外れた際にcheck_ProfileInput実行
+    jQuery('#auctionDateMin').on('blur', function() {
+        checkSaleType();
+        typeAuctionStartDateMsg();
+    });
+    // オークション終了日時(年)のフォーカスが外れた際にcheck_ProfileInput実行
+    jQuery('#auctionEndDateY').on('blur', function() {
+        checkSaleType();
+        typeAuctionEndDateMsg();
+    });
+    // オークション終了日時(月)のフォーカスが外れた際にcheck_ProfileInput実行
+    jQuery('#auctionEndDateM').on('blur', function() {
+        checkSaleType();
+        typeAuctionEndDateMsg();
+    });
+    // オークション終了日時(日)のフォーカスが外れた際にcheck_ProfileInput実行
+    jQuery('#auctionEndDateD').on('blur', function() {
+        checkSaleType();
+        typeAuctionEndDateMsg();
+    });
+    // オークション終了日時(時)のフォーカスが外れた際にcheck_ProfileInput実行
+    jQuery('#auctionEndDateH').on('blur', function() {
+        checkSaleType();
+        typeAuctionEndDateMsg();
+    });
+    // オークション終了日時(分)のフォーカスが外れた際にcheck_ProfileInput実行
+    jQuery('#auctionEndDateMin').on('blur', function() {
+        checkSaleType();
+        typeAuctionEndDateMsg();
+    });
+    // 利用規約にチェックされた際にcheck_ProfileInput実行
+    jQuery('#postTermsCheck').on('click', function() {
+        checkSaleType();
+    });
+    // 通常販売クリック時に
+    jQuery('#sale').on('click', function() {
+        checkSaleType();
+    });
+    // オークションクリック時に
+    jQuery('#auction').on('click', function() {
+        checkSaleType();
+    });
+    // 販売しないクリック時に
+    jQuery('#notForSale').on('click', function() {
+        checkSaleType();
+    });
+    // 画像選択時
+    jQuery('#postFile').change(function() {
+        checkSaleType();
+    });
+    jQuery('#postFile2').change(function() {
+        checkSaleType();
+    });
+    jQuery('#postFile3').change(function() {
+        checkSaleType();
+    });
+    // 開始時間指定クリック時
+    jQuery('#specify').on('click', function() {
+        checkSaleType();
+    });
+    // オークション開始日時、指定しないクリック時
+    jQuery('#notSpecified').on('click', function() {
+        checkSaleType();
+    });
+});
+
+// 通常販売時
+function checkSaleInput() {
+    // 新規登録ボタン有効化フラグ
+    var disabledFlag = true;
+
+    // 入力項目フラグ定義
+    var flagPostFile = false;
+    var flagPostTitle = false;
+    var flagImagePrice = false;
+    var flagBinPrice = false;
+    var flagPostTerms = false;
+
+    // 画像ファイル名取得
+    var postFileVal = jQuery('#postFile').val();
+    var postFile2Val = jQuery('#postFile2').val();
+    var postFile3Val = jQuery('#postFile3').val();
+    // タイトルの値取得
+    var postTitleVal = jQuery('#postTitle').val();
+    // 販売価格の値取得
+    var imagePriceVal = jQuery('#imagePrice').val();
+    // 即決価格の値取得
+    var binPriceVal = jQuery('#binPrice').val();
+
+    // 画像が選択されているかを確認
+    if (postFileVal.length > 0 || postFile2Val.length > 0 || postFile3Val.length > 0) {
+        jQuery('#selectPostFileMsg').hide();
+        flagPostFile = true;
+    } else {
+        selectPostFileMsg();
+        this.value = '';
+        jQuery('#cover_img').addClass('d-none');
+    }
+    // タイトルが入力されているかを確認
+    if (postTitleVal.length > 0) {
+        jQuery('#inputPostTitleMsg').hide();
+        // タイトルに空白文字が含まれていないかを確認
+        if (!postTitleVal.match(/[\x20\u3000]/)) {
+            flagPostTitle = true;
+        }
+    }
+
+    // 販売価格が入力されているかを確認
+    if (imagePriceVal.length > 0) {
+        jQuery('#inputImagePriceMsg').hide();
+        // 販売価格に空白文字が含まれていないかを確認
+        if (!imagePriceVal.match(/[\x20\u3000]/)) {
+            flagImagePrice = true;
+        }
+    }
+    // 即決価格が入力されているかを確認
+    if (binPriceVal.length > 0) {
+        jQuery('#inputBinPriceMsg').hide();
+        // 即決価格に空白文字が含まれていないかを確認
+        if (!binPriceVal.match(/[\x20\u3000]/)) {
+            flagBinPrice = true;
+        }
+    }
+
+    var postTermsCheck = document.getElementById('postTermsCheck');
+
+    if (flagPostFile === true && flagPostTitle === true && flagImagePrice === true && flagBinPrice === true && postTermsCheck.checked === true) {
+        disabledFlag = false;
+    }
+    jQuery('#postBtn').attr('disabled', disabledFlag);
+}
+
+// オークション選択時
+function checkAuctionInput() {
+    // 新規登録ボタン有効化フラグ
+    var disabledFlag = true;
+
+    // 入力項目フラグ定義
+    var flagPostFile = false;
+    var flagPostTitle = false;
+    var flagAuctionStartDate = false;
+    var flagAuctionEndDate = false;
+
+    // 画像ファイル名取得
+    var postFileVal = jQuery('#postFile').val();
+    var postFile2Val = jQuery('#postFile2').val();
+    var postFile3Val = jQuery('#postFile3').val();
+    // タイトルの値取得
+    var postTitleVal = jQuery('#postTitle').val();
+    // オークション開始日時(年)の値取得
+    var auctionDateYVal = jQuery('#auctionDateY').val();
+    // オークション開始日時(月)の値取得
+    var auctionDateMVal = jQuery('#auctionDateM').val();
+    // オークション開始日時(日)の値取得
+    var auctionDateDVal = jQuery('#auctionDateD').val();
+    // オークション開始日時(時)の値取得
+    var auctionDateHVal = jQuery('#auctionDateH').val();
+    // オークション開始日時(分)の値取得
+    var auctionDateMinVal = jQuery('#auctionDateMin').val();
+    // オークション終了日時(年)の値取得
+    var auctionEndDateYVal = jQuery('#auctionEndDateY').val();
+    // オークション終了日時(月)の値取得
+    var auctionEndDateMVal = jQuery('#auctionEndDateM').val();
+    // オークション終了日時(日)の値取得
+    var auctionEndDateDVal = jQuery('#auctionEndDateD').val();
+    // オークション終了日時(時)の値取得
+    var auctionEndDateHVal = jQuery('#auctionEndDateH').val();
+    // オークション終了日時(分)の値取得
+    var auctionEndDateMinVal = jQuery('#auctionEndDateMin').val();
+
+    // 画像が選択されているかを確認
+    if (postFileVal.length > 0 || postFile2Val.length > 0 || postFile3Val.length > 0) {
+        jQuery('#selectPostFileMsg').hide();
+        flagPostFile = true;
+    } else {
+        selectPostFileMsg();
+        this.value = '';
+        jQuery('#cover_img').addClass('d-none');
+    }
+
+    // タイトルが入力されているかを確認
+    if (postTitleVal.length > 0) {
+        // タイトルに空白文字が含まれていないかを確認
+        if (!postTitleVal.match(/[\x20\u3000]/)) {
+            flagPostTitle = true;
+        }
+    }
+
+    // オークション開始日時が指定されている場合
+    if (jQuery('#specify').prop('checked')) {
+        // オークション開始日時（年）が入力されている場合
+        if (auctionDateYVal.length > 0) {
+            // 年のフォーマットを確認
+            yearValidated = validateYear(auctionDateYVal);
+            if (yearValidated === true) {
+                // 年のフォーマットが正しい場合、エラーメッセージを非表示
+                jQuery('#dateFormatYErrMsg').hide();
+                // オークション開始日時（月）が入力されている場合
+                if (auctionDateMVal.length > 0) {
+                    // 月のフォーマットを確認
+                    monthValidated = validateMonth(auctionDateMVal);
+                    if (monthValidated === true) {
+                        // 月のフォーマットが正しい場合、エラーメッセージを非表示
+                        jQuery('#dateFormatMErrMsg').hide();
+                        // オークション開始日時（日）が入力されている場合
+                        if (auctionDateDVal.length > 0) {
+                            // 日のフォーマットを確認
+                            dayValidated = validateDay(auctionDateDVal);
+                            if (dayValidated === true) {
+                                // 日のフォーマットが正しい場合、エラーメッセージを非表示
+                                jQuery('#dateFormatDErrMsg').hide();
+                                // オークション開始日時（時）が入力されている場合
+                                if (auctionDateHVal.length > 0) {
+                                    // 日のフォーマットを確認
+                                    hrsValidated = validateHrs(auctionDateHVal);
+                                    if (hrsValidated === true) {
+                                        // 時のフォーマットが正しい場合、エラーメッセージを非表示
+                                        jQuery('#dateFormatHErrMsg').hide();
+                                        // オークション開始日時（分）が入力されている場合
+                                        if (auctionDateMinVal.length > 0) {
+                                            // 分のフォーマットを確認
+                                            minValidated = validateMin(auctionDateMinVal);
+                                            if (minValidated === true) {
+                                                // 分のフォーマットが正しい場合、エラーメッセージを非表示
+                                                jQuery('#dateFormatMinErrMsg').hide();
+                                                // オークション開始日時フラグをtrueに設定
+                                                flagAuctionStartDate = true;
+                                                // 年月日が設定されている場合、エラーメッセージを非表示
+                                                jQuery('#inputAppDeadlineMsg').hide();
+                                            } else {
+                                                dateFormatMinInvalidMsg();
+                                            }
+                                        }
+                                    } else {
+                                        dateFormatHInvalidMsg();
+                                    }
+                                }
+                            } else {
+                                dateFormatDInvalidMsg();
+                            }
+                        }
+                    } else {
+                        dateFormatMInvalidMsg();
+                    }
+                }
+            } else {
+                dateFormatYInvalidMsg();
+            }
+        }
+
+        // オークション終了日時（年）が入力されている場合
+        if (auctionEndDateYVal.length > 0) {
+            // 年のフォーマットを確認
+            yearValidated = validateYear(auctionEndDateYVal);
+            if (yearValidated === true) {
+                // 年のフォーマットが正しい場合、エラーメッセージを非表示
+                jQuery('#auctionEndYErrMsg').hide();
+                // オークション終了日時（月）が入力されている場合
+                if (auctionEndDateMVal.length > 0) {
+                    // 月のフォーマットを確認
+                    monthValidated = validateMonth(auctionEndDateMVal);
+                    if (monthValidated === true) {
+                        // 月のフォーマットが正しい場合、エラーメッセージを非表示
+                        jQuery('#auctionEndMErrMsg').hide();
+                        // オークション開始日時（日）が入力されている場合
+                        if (auctionEndDateDVal.length > 0) {
+                            // 日のフォーマットを確認
+                            dayValidated = validateDay(auctionEndDateDVal);
+                            if (dayValidated === true) {
+                                // 日のフォーマットが正しい場合、エラーメッセージを非表示
+                                jQuery('#auctionEndDErrMsg').hide();
+                                // オークション開始日時（時）が入力されている場合
+                                if (auctionDateHVal.length > 0) {
+                                    // 時のフォーマットを確認
+                                    hrsValidated = validateHrs(auctionEndDateHVal);
+                                    if (hrsValidated === true) {
+                                        // 時のフォーマットが正しい場合、エラーメッセージを非表示
+                                        jQuery('#auctionEndHErrMsg').hide();
+                                        // オークション開始日時（分）が入力されている場合
+                                        if (auctionEndDateMinVal.length > 0) {
+                                            // 分のフォーマットを確認
+                                            minValidated = validateMin(auctionEndDateMinVal);
+                                            if (minValidated === true) {
+                                                // 分のフォーマットが正しい場合、エラーメッセージを非表示
+                                                jQuery('#auctionEndMinErrMsg').hide();
+                                                // オークション開始日時フラグをtrueに設定
+                                                flagAuctionEndDate = true;
+                                                // 年月日が設定されている場合、エラーメッセージを非表示
+                                                jQuery('#auctionEndErrMsg').hide();
+                                            } else {
+                                                auctionEndMinInvalidMsg();
+                                            }
+                                        }
+                                    } else {
+                                        auctionEndHInvalidMsg();
+                                    }
+                                }
+                            } else {
+                                auctionEndDInvalidMsg();
+                            }
+                        }
+                    } else {
+                        auctionEndMInvalidMsg();
+                    }
+                }
+            } else {
+                auctionEndYInvalidMsg();
+            }
+        }
+        // オークション開始日時が指定されていない場合
+    } else {
+        flagAuctionStartDate = true;
+        flagAuctionEndDate = true;
+    }
+
+    var postTermsCheck = document.getElementById('postTermsCheck');
+
+    if (flagPostTitle === true && flagAuctionStartDate === true && flagAuctionEndDate === true && postTermsCheck.checked === true) {
+        disabledFlag = false;
+    }
+    jQuery('#postBtn').attr('disabled', disabledFlag);
+}
+
+// 販売しない時選択時
+function checkNotForSaleInput() {
+    // 画像投稿確認ボタン有効化フラグ
+    var disabledFlag = true;
+
+    // 入力項目フラグ定義
+    var flagPostFile = false;
+    var flagPostTitle = false;
+
+    // 画像ファイル名取得
+    var postFileVal = jQuery('#postFile').val();
+    var postFile2Val = jQuery('#postFile2').val();
+    var postFile3Val = jQuery('#postFile3').val();
+    // タイトルの値取得
+    var postTitleVal = jQuery('#postTitle').val();
+
+    // 画像が選択されているかを確認
+    if (postFileVal.length > 0 || postFile2Val.length > 0 || postFile3Val.length > 0) {
+        jQuery('#selectPostFileMsg').hide();
+        flagPostFile = true;
+    } else {
+        selectPostFileMsg();
+        this.value = '';
+        jQuery('#cover_img').addClass('d-none');
+    }
+    // タイトルが入力されているかを確認
+    if (postTitleVal.length > 0) {
+        jQuery('#inputPostTitleMsg').hide();
+        // タイトルに空白文字が含まれていないかを確認
+        if (!postTitleVal.match(/[\x20\u3000]/)) {
+            flagPostTitle = true;
+        }
+    } else {
+        inputPostTitle();
+    }
+
+    // 必須の入力項目が入力されている場合、ボタン有効化フラグをfalseに設定
+    if (flagPostFile === true && flagPostTitle === true) {
+        disabledFlag = false;
+    }
+    jQuery('#postBtn').attr('disabled', disabledFlag);
+}
+
+// 販売形式確認
+function checkSaleType() {
+    var getSaleType = '';
+    if (jQuery('#sale').prop('checked')) {
+        getSaleType = checkSaleInput();
+    } else if (jQuery('#auction').prop('checked')) {
+        getSaleType = checkAuctionInput();
+    } else {
+        getSaleType = checkNotForSaleInput();
+    }
+    return getSaleType;
+}
+
+function selectPostFileMsg() {
+    // 画像ファイル選択されてない際のメッセージ
+    var postFileLength = jQuery('#postFile').val().length;
+    if (postFileLength <= 0) {
+        jQuery('#selectPostFile').empty().append("<p id=\"selectPostFileMsg\" class=\"selectPostFileMsg postErrMsg mb-0\">画像を選択してください</p>");
+    }
+}
+
+function inputPostTitle() {
+    // タイトルが入力されてない際のメッセージ
+    var postTitleLength = jQuery('#postTitle').val().length;
+    if (postTitleLength <= 0) {
+        jQuery('#inputPostTitle').empty().append("<p id=\"inputPostTitleMsg\" class=\"inputPostTitleMsg postErrMsg my-0\">タイトルを入力して下さい</p>");
+    }
+}
+
+function inputImagePrice() {
+    // 販売価格が入力されてない際のメッセージ
+    var imagePriceLength = jQuery('#imagePrice').val().length;
+    if (imagePriceLength <= 0) {
+        jQuery('#inputImagePrice').empty().append("<p id=\"inputImagePriceMsg\" class=\"inputImagePriceMsg postErrMsg my-0\">販売価格を入力して下さい</p>");
+    }
+}
+
+function inputBinPrice() {
+    // タイトルが入力されてない際のメッセージ
+    var binPriceLength = jQuery('#binPrice').val().length;
+    if (binPriceLength <= 0) {
+        jQuery('#inputBinPrice').empty().append("<p id=\"inputBinPriceMsg\" class=\"inputBinPriceMsg postErrMsg my-0\">即決価格を入力して下さい</p>");
+    }
+}
+// オークション開始日時が入力されていない場合、メッセージを表示
+function typeAuctionStartDateMsg() {
+    // オークション開始日時(年)の値取得
+    var auctionDateYVal = jQuery('#auctionDateY').val().length;
+    // オークション開始日時(月)の値取得
+    var auctionDateMVal = jQuery('#auctionDateM').val().length;
+    // オークション開始日時(日)の値取得
+    var auctionDateDVal = jQuery('#auctionDateD').val().length;
+    // オークション開始日時(時)の値取得
+    var auctionDateHVal = jQuery('#auctionDateH').val().length;
+    // オークション開始日時(分)の値取得
+    var auctionDateMinVal = jQuery('#auctionDateMin').val().length;
+
+    // オークション開始日時の年月日時間分がそれぞれ入力されていない場合、エラーメッセージを表示
+    if (auctionDateYVal <= 0 || auctionDateMVal <= 0 || auctionDateDVal <= 0 || auctionDateHVal <= 0 || auctionDateMinVal <= 0) {
+        jQuery('#inputAppDeadline').empty().append("<p id=\"inputAppDeadlineMsg\" class=\"inputRequestErrMsg mt-1\">オークション開始日時を入力してください</p>");
+    }
+}
+// オークション終了日時が入力されていない場合、メッセージを表示
+function typeAuctionEndDateMsg() {
+    // オークション開始日時(年)の値取得
+    var auctionDateYVal = jQuery('#auctionEndDateY').val().length;
+    // オークション開始日時(月)の値取得
+    var auctionDateMVal = jQuery('#auctionEndDateM').val().length;
+    // オークション開始日時(日)の値取得
+    var auctionDateDVal = jQuery('#auctionEndDateD').val().length;
+    // オークション開始日時(時)の値取得
+    var auctionDateHVal = jQuery('#auctionEndDateH').val().length;
+    // オークション開始日時(分)の値取得
+    var auctionDateMinVal = jQuery('#auctionEndDateMin').val().length;
+
+    // オークション開始日時の年月日時間分がそれぞれ入力されていない場合、エラーメッセージを表示
+    if (auctionDateYVal <= 0 || auctionDateMVal <= 0 || auctionDateDVal <= 0 || auctionDateHVal <= 0 || auctionDateMinVal <= 0) {
+        jQuery('#inputAuctionEnd').empty().append("<p id=\"auctionEndErrMsg\" class=\"inputRequestErrMsg mt-1\">オークション開始日時を入力してください</p>");
+    }
+}
+// オークション開始日時（時）のフォーマットが正しくない場合、メッセージを表示
+function dateFormatHInvalidMsg() {
+    jQuery('#inputAppDeadline').empty().append("<p id=\"dateFormatHErrMsg\" class=\"inputRequestErrMsg mt-1\">時のフォーマットが正しくありません</p>");
+}
+// オークション開始日時（分）のフォーマットが正しくない場合、メッセージを表示
+function dateFormatMinInvalidMsg() {
+    jQuery('#inputAppDeadline').empty().append("<p id=\"dateFormatMinErrMsg\" class=\"inputRequestErrMsg mt-1\">分のフォーマットが正しくありません</p>");
+}
+
+// オークション終了日時（年）のフォーマットが正しくない場合、メッセージを表示
+function auctionEndYInvalidMsg() {
+    jQuery('#inputAuctionEnd').empty().append("<p id=\"auctionEndYErrMsg\" class=\"inputRequestErrMsg mt-1\">年のフォーマットが正しくありません</p>");
+}
+// オークション終了日時（月）のフォーマットが正しくない場合、メッセージを表示
+function auctionEndMInvalidMsg() {
+    jQuery('#inputAuctionEnd').empty().append("<p id=\"auctionEndMErrMsg\" class=\"inputRequestErrMsg mt-1\">月のフォーマットが正しくありません</p>");
+}
+// オークション終了日時（日）のフォーマットが正しくない場合、メッセージを表示
+function auctionEndDInvalidMsg() {
+    jQuery('#inputAuctionEnd').empty().append("<p id=\"auctionEndDErrMsg\" class=\"inputRequestErrMsg mt-1\">日のフォーマットが正しくありません</p>");
+}
+// オークション終了日時（時）のフォーマットが正しくない場合、メッセージを表示
+function auctionEndHInvalidMsg() {
+    jQuery('#inputAuctionEnd').empty().append("<p id=\"auctionEndHErrMsg\" class=\"inputRequestErrMsg mt-1\">時のフォーマットが正しくありません</p>");
+}
+// オークション終了日時（分）のフォーマットが正しくない場合、メッセージを表示
+function auctionEndMinInvalidMsg() {
+    jQuery('#inputAuctionEnd').empty().append("<p id=\"auctionEndMinErrMsg\" class=\"inputRequestErrMsg mt-1\">分のフォーマットが正しくありません</p>");
+}
+
 jQuery(function($) {
     jQuery('#terms_service').click(function() {
         let termsChecked = jQuery('#terms_service').get(0).checked;
@@ -957,6 +1544,32 @@ jQuery(function($) {
             jQuery('#save_btn').attr('disabled', false);
         } else {
             jQuery('#save_btn').attr('disabled', true);
+        }
+    });
+});
+
+/**
+ * 画像投稿ページ(post.html)
+ */
+jQuery(function($) {
+    // 投稿画像を表示
+    jQuery('#postFile').change(function() {
+        let file = this.files[0];
+        if (file) {
+            let fr = new FileReader();
+            fr.readAsDataURL(file);
+            fr.onload = function() {
+                jQuery('#cover_img').attr('src', fr.result);
+                jQuery('#cover_img').removeClass('d-none')
+            }
+        }
+    });
+    // オークション開始日時指定の表示切替
+    jQuery('[name="auctionStartDate"]:radio').change(function() {
+        if (jQuery('#specify').prop('checked')) {
+            jQuery('#auction_datetime').removeClass('d-none');
+        } else {
+            jQuery('#auction_datetime').addClass('d-none');
         }
     });
 });

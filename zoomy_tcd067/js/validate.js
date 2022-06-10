@@ -73,3 +73,33 @@ function validateDay(day) {
     }
     return dayValidate;
 }
+
+/**
+ * 時間のフォーマットを確認
+ * @param {number=} hrs 時間 
+ * @returns {boolean} フォーマットが正しい場合はtrueを返す
+ */
+function validateHrs(hrs) {
+    // 時間が0時以降24時以内である場合はtrueを返す
+    if (hrs >= 0 && hrs <= 24) {
+        hrsValidate = true;
+    } else {
+        hrsValidate = false;
+    }
+    return hrsValidate;
+}
+
+/**
+ * 分のフォーマットを確認
+ * @param {number=} min 分
+ * @returns {boolean} フォーマットが正しい場合はtrueを返す
+ */
+function validateMin(min) {
+    // 分単位が0分以降59分以内である場合はtrueを返す
+    if (min >= 0 && min <= 59) {
+        minValidate = true;
+    } else {
+        minValidate = false;
+    }
+    return minValidate;
+}
