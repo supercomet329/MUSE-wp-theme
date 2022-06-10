@@ -405,6 +405,7 @@ jQuery(function($) {
 });
 
 // キープ済み、キープの選択機能（request_searched_list.html,request_received_list_html）
+/**
 jQuery(function($) {
     var $ = jQuery.noConflict();
 
@@ -418,6 +419,7 @@ jQuery(function($) {
         $(this).replaceWith(keep_off);
     });
 });
+ */
 
 /**
  * 作品依頼（通常依頼）提案ページ

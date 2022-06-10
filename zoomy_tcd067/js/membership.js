@@ -511,10 +511,10 @@ jQuery(function($) {
                 $(el).removeClass('is-ajaxing');
                 if (data.result == 'added') {
                     // $(el).addClass('p-icon-liked').removeClass('p-icon-like').html(data.likes_number);
-                    $(el).attr('src', '/wp-content/themes/zoomy_tcd067/assets/img/icon/iine_on.png');
+                    $(el).attr('src', '/wp-content/themes/zoomy_tcd067/assets/img/icon/keep_on.png');
                 } else if (data.result == 'removed') {
                     // $(el).addClass('p-icon-like').removeClass('p-icon-liked').html(data.likes_number);
-                    $(el).attr('src', '/wp-content/themes/zoomy_tcd067/assets/img/icon/iine.png');
+                    $(el).attr('src', '/wp-content/themes/zoomy_tcd067/assets/img/icon/keep_off.png');
                 } else if (data.message) {
                     showModalAlert(data.message);
                 } else {
