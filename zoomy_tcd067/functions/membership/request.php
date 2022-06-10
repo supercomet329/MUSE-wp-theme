@@ -147,6 +147,7 @@ function tcd_membership_action_request()
                         'post_title'        => $_POST['requestTitle'],
                         'post_content'      => $_POST['content'],
                         'post_name'         => $_POST['workTitle'],
+                        'post_status'       => 'publish',
                         'post_type'         => 'request'
                     );
                     $post_id = wp_insert_post($my_post);

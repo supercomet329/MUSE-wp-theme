@@ -282,14 +282,14 @@ function muse_list_image($txtSearch, $r18Flag, $order)
 	if (!$r18Flag) {
 		// R18フラグがfalseの場合はR18の商品を表示させない
 		$sql .= ' AND NOT EXISTS ( ';
-			$sql .= 'SELECT * ';
-			$sql .= 'FROM wp_postmeta ';
-			$sql .= 'WHERE meta_key = \'r18\' ';
-			$sql .= 'AND wp_posts.ID = wp_postmeta.post_id ';
+		$sql .= 'SELECT * ';
+		$sql .= 'FROM wp_postmeta ';
+		$sql .= 'WHERE meta_key = \'r18\' ';
+		$sql .= 'AND wp_posts.ID = wp_postmeta.post_id ';
 		$sql .= ' ) ';
 	}
 	$sql .= 'ORDER BY wp_posts.post_date ' . $order;
-//	var_dump($sql);exit;
+	//	var_dump($sql);exit;
 	return $wpdb->get_results($wpdb->prepare($sql));
 }
 
@@ -352,7 +352,7 @@ function listOrderByPostAuthor($postAuthor)
  * @param [type] $post_content
  * @return void
  */
-function listOrder($post_title, $post_content, $display_name)
+function listOrder($up_budget, $down_budget, $whereDeadLine, $target)
 {
 	global $wpdb;
 
@@ -363,31 +363,55 @@ function listOrder($post_title, $post_content, $display_name)
 	$sql .= ',wp_posts.post_date AS post_date ';
 	$sql .= ',wp_posts.post_title AS post_title ';
 	$sql .= ',wp_posts.post_content AS post_content ';
+	$sql .= ',wp_users.display_name AS display_name ';
 	$sql .= ',wp_tcd_membership_actions.user_id AS contractor_user_id ';
+	$sql .= ',(';
+	$sql .= ' SELECT meta_value FROM wp_postmeta WHERE wp_postmeta.post_id = wp_posts.ID AND meta_key = \'appDeadlineDate\'';
+	$sql .= ') AS appDeadlineDate ';
+	$sql .= ',(';
+	$sql .= ' SELECT meta_value FROM wp_postmeta WHERE wp_postmeta.post_id = wp_posts.ID AND meta_key = \'budget\'';
+	$sql .= ') AS budget ';
+
 	$sql .= 'FROM wp_posts ';
 	$sql .= ' INNER JOIN wp_users ';
 	$sql .= ' ON wp_users.ID = wp_posts.post_author ';
 	$sql .= 'LEFT JOIN wp_tcd_membership_actions ';
 	$sql .= 'ON wp_posts.ID = wp_tcd_membership_actions.post_id ';
-	$sql .= 'WHERE wp_posts.post_type = %s ';
+	$sql .= 'WHERE wp_posts.post_type = \'request\' ';
+	$sql .= ' AND wp_posts.post_status = \'publish\'';
+	$sql .= ' AND EXISTS( ';
+	$sql .= ' SELECT * FROM wp_postmeta WHERE wp_postmeta.post_id = wp_posts.ID AND meta_key = \'appDeadlineDate\' AND meta_value > NOW()';
+	$sql .= ' ) ';
 
-	if ($display_name) {
-		$sql .= 'AND wp_users.display_name LIKE \'%' . $display_name . '%\' ';
+	if ($up_budget) {
+		// 予算上限
+		$sql .= ' AND EXISTS( ';
+		$sql .= ' SELECT * FROM wp_postmeta WHERE wp_postmeta.post_id = wp_posts.ID AND meta_key = \'budget\' AND meta_value <= ' . $up_budget;
+		$sql .= ' ) ';
 	}
 
-	if ($post_title) {
-		$sql .= 'AND wp_posts.post_title LIKE \'%' . $post_title . '%\' ';
+	if ($down_budget) {
+		// 予算上限
+		$sql .= ' AND EXISTS( ';
+		$sql .= ' SELECT * FROM wp_postmeta WHERE wp_postmeta.post_id = wp_posts.ID AND meta_key = \'budget\' AND meta_value > ' . $down_budget;
+		$sql .= ' ) ';
 	}
 
-	if ($post_content) {
-		$sql .= 'AND wp_posts.post_content LIKE \'%' . $post_content . '%\' ';
+	if ($whereDeadLine) {
+		$sql .= ' AND EXISTS( ';
+		$sql .= ' SELECT * FROM wp_postmeta WHERE wp_postmeta.post_id = wp_posts.ID AND meta_key = \'appDeadlineDate\' AND meta_value <= \'' . $whereDeadLine . '\'';
+		$sql .= ' ) ';
+	}
+
+	if ($target) {
+		// $sql .= 'AND wp_posts.post_content LIKE \'%' . $post_content . '%\' ';
 	}
 
 	$sql .= ' AND NOT EXISTS (';
 	$sql .= ' SELECT * FROM wp_tcd_membership_actions WHERE type=\'received\' AND wp_tcd_membership_actions.post_id = wp_posts.ID';
 	$sql .= ')';
 
-	$result = $wpdb->get_results($wpdb->prepare($sql, 'request'));
+	$result = $wpdb->get_results($wpdb->prepare($sql));
 	return $result;
 }
 
@@ -1114,4 +1138,3 @@ function tcd_membership_disable_autoembed_callback($matches, $attr, $url, $rawat
 {
 	return '<a href="' . esc_attr($matches[0]) . '" target="_blank">' . esc_html($matches[0]) . '</a>';
 }
-
