@@ -147,6 +147,7 @@ function tcd_membership_action_request()
                         'post_title'        => $_POST['requestTitle'],
                         'post_content'      => $_POST['content'],
                         'post_name'         => $_POST['workTitle'],
+                        'post_status'       => 'publish',
                         'post_type'         => 'request'
                     );
                     $post_id = wp_insert_post($my_post);
@@ -233,7 +234,7 @@ function tcd_membership_action_request()
                     }
 
                     // TODO: 登録完了時に遷移させるのは依頼一覧
-                    $redirect = esc_attr(get_author_posts_url(get_current_user_id()) . '?status=request_complete');
+                    $redirect = get_tcd_membership_memberpage_url('list_order') . '&status=request_complete';
                     wp_redirect(remove_query_arg('settings-updated', $redirect));
                 }
 
