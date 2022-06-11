@@ -1135,16 +1135,17 @@ function checkSaleInput() {
     var disabledFlag = true;
 
     // 入力項目フラグ定義
-    var flagPostFile = false;
+    // var flagPostFile = false;
+    var flagPostFile = true;
     var flagPostTitle = false;
     var flagImagePrice = false;
     var flagBinPrice = false;
     var flagPostTerms = false;
 
     // 画像ファイル名取得
-    var postFileVal = jQuery('#postFile').val();
-    var postFile2Val = jQuery('#postFile2').val();
-    var postFile3Val = jQuery('#postFile3').val();
+    // var postFileVal = jQuery('#postFile').val();
+    // var postFile2Val = jQuery('#postFile2').val();
+    // var postFile3Val = jQuery('#postFile3').val();
     // タイトルの値取得
     var postTitleVal = jQuery('#postTitle').val();
     // 販売価格の値取得
@@ -1153,14 +1154,14 @@ function checkSaleInput() {
     var binPriceVal = jQuery('#binPrice').val();
 
     // 画像が選択されているかを確認
-    if (postFileVal.length > 0 || postFile2Val.length > 0 || postFile3Val.length > 0) {
-        jQuery('#selectPostFileMsg').hide();
-        flagPostFile = true;
-    } else {
-        selectPostFileMsg();
-        this.value = '';
-        jQuery('#cover_img').addClass('d-none');
-    }
+    // if (postFileVal.length > 0 || postFile2Val.length > 0 || postFile3Val.length > 0) {
+    //     jQuery('#selectPostFileMsg').hide();
+    //     flagPostFile = true;
+    // } else {
+    //     selectPostFileMsg();
+    //     this.value = '';
+    //     jQuery('#cover_img').addClass('d-none');
+    // }
     // タイトルが入力されているかを確認
     if (postTitleVal.length > 0) {
         jQuery('#inputPostTitleMsg').hide();
@@ -1201,15 +1202,16 @@ function checkAuctionInput() {
     var disabledFlag = true;
 
     // 入力項目フラグ定義
-    var flagPostFile = false;
+    // var flagPostFile = false;
+    var flagPostFile = true;
     var flagPostTitle = false;
     var flagAuctionStartDate = false;
     var flagAuctionEndDate = false;
 
     // 画像ファイル名取得
-    var postFileVal = jQuery('#postFile').val();
-    var postFile2Val = jQuery('#postFile2').val();
-    var postFile3Val = jQuery('#postFile3').val();
+    //    var postFileVal = jQuery('#postFile').val();
+    //    var postFile2Val = jQuery('#postFile2').val();
+    //    var postFile3Val = jQuery('#postFile3').val();
     // タイトルの値取得
     var postTitleVal = jQuery('#postTitle').val();
     // オークション開始日時(年)の値取得
@@ -1234,14 +1236,14 @@ function checkAuctionInput() {
     var auctionEndDateMinVal = jQuery('#auctionEndDateMin').val();
 
     // 画像が選択されているかを確認
-    if (postFileVal.length > 0 || postFile2Val.length > 0 || postFile3Val.length > 0) {
-        jQuery('#selectPostFileMsg').hide();
-        flagPostFile = true;
-    } else {
-        selectPostFileMsg();
-        this.value = '';
-        jQuery('#cover_img').addClass('d-none');
-    }
+    //if (postFileVal.length > 0 || postFile2Val.length > 0 || postFile3Val.length > 0) {
+    //    jQuery('#selectPostFileMsg').hide();
+    flagPostFile = true;
+    //} else {
+    //    selectPostFileMsg();
+    //    this.value = '';
+    //    jQuery('#cover_img').addClass('d-none');
+    //}
 
     // タイトルが入力されているかを確認
     if (postTitleVal.length > 0) {
@@ -1392,25 +1394,26 @@ function checkNotForSaleInput() {
     var disabledFlag = true;
 
     // 入力項目フラグ定義
-    var flagPostFile = false;
+    // var flagPostFile = false;
+    var flagPostFile = true;
     var flagPostTitle = false;
 
     // 画像ファイル名取得
-    var postFileVal = jQuery('#postFile').val();
-    var postFile2Val = jQuery('#postFile2').val();
-    var postFile3Val = jQuery('#postFile3').val();
+    // var postFileVal = jQuery('#postFile').val();
+    // var postFile2Val = jQuery('#postFile2').val();
+    // var postFile3Val = jQuery('#postFile3').val();
     // タイトルの値取得
     var postTitleVal = jQuery('#postTitle').val();
 
     // 画像が選択されているかを確認
-    if (postFileVal.length > 0 || postFile2Val.length > 0 || postFile3Val.length > 0) {
-        jQuery('#selectPostFileMsg').hide();
-        flagPostFile = true;
-    } else {
-        selectPostFileMsg();
-        this.value = '';
-        jQuery('#cover_img').addClass('d-none');
-    }
+    // if (postFileVal.length > 0 || postFile2Val.length > 0 || postFile3Val.length > 0) {
+    //     jQuery('#selectPostFileMsg').hide();
+    //     flagPostFile = true;
+    // } else {
+    //     selectPostFileMsg();
+    //     this.value = '';
+    //     jQuery('#cover_img').addClass('d-none');
+    // }
     // タイトルが入力されているかを確認
     if (postTitleVal.length > 0) {
         jQuery('#inputPostTitleMsg').hide();

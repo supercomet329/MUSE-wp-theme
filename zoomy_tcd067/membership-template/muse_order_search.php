@@ -70,11 +70,17 @@ get_header();
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-2 px-0 mt-1 ml-3 mr-1 request-keep">
-                            <div class="border rounded-pill text-center mb-1 px-1 keep_off">
-                                <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/keep_off.png" alt="keep-off" class="keep-off">
+                        <?php if ((int)$one_order->post_author !== get_current_user_id()) { ?>
+                            <div class="col-2 px-0 mt-1 ml-3 mr-1 request-keep">
+                                <div class="border rounded-pill text-center mb-1 px-1 keep_off">
+                                    <?php if (is_keep($one_order->post_id)) { ?>
+                                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/keep_on.png" alt="keep-off" class="js-toggle-keep keep-off" data-post-id="<?php echo $one_order->post_id; ?>">
+                                    <?php } else { ?>
+                                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/keep_off.png" alt="keep-off" class="js-toggle-keep keep-off"  data-post-id="<?php echo $one_order->post_id; ?>">
+                                    <?php } ?>
+                                </div>
                             </div>
-                        </div>
+                        <?php } ?>
                     </div>
                 </div>
             </div>
@@ -99,9 +105,9 @@ get_header();
                     <div class="select-wrap">
                         <select name="sel_up_budget" class="select-box mb-3">
                             <option value="">指定なし</option>
-                            <option value="10000" <?php echo ((int)$tcd_membership_vars['sel_up_budget'] === 10000) ? 'selected': ''; ?>>10000円</option>
-                            <option value="50000" <?php echo ((int)$tcd_membership_vars['sel_up_budget'] === 50000) ? 'selected': ''; ?>>50000円</option>
-                            <option value="100000" <?php echo ((int)$tcd_membership_vars['sel_up_budget'] === 100000) ? 'selected': ''; ?>>100000円</option>
+                            <option value="10000" <?php echo ((int)$tcd_membership_vars['sel_up_budget'] === 10000) ? 'selected' : ''; ?>>10000円</option>
+                            <option value="50000" <?php echo ((int)$tcd_membership_vars['sel_up_budget'] === 50000) ? 'selected' : ''; ?>>50000円</option>
+                            <option value="100000" <?php echo ((int)$tcd_membership_vars['sel_up_budget'] === 100000) ? 'selected' : ''; ?>>100000円</option>
                         </select>
                     </div>
                     <div class="mb-2 item-text">
@@ -110,9 +116,9 @@ get_header();
                     <div class="select-wrap">
                         <select name="sel_down_budget" class="select-box mb-3">
                             <option value="">指定なし</option>
-                            <option value="10000" <?php echo ((int)$tcd_membership_vars['sel_down_budget'] === 10000) ? 'selected': ''; ?>>10000円</option>
-                            <option value="50000" <?php echo ((int)$tcd_membership_vars['sel_down_budget'] === 50000) ? 'selected': ''; ?>>50000円</option>
-                            <option value="100000" <?php echo ((int)$tcd_membership_vars['sel_down_budget'] === 100000) ? 'selected': ''; ?>>100000円</option>
+                            <option value="10000" <?php echo ((int)$tcd_membership_vars['sel_down_budget'] === 10000) ? 'selected' : ''; ?>>10000円</option>
+                            <option value="50000" <?php echo ((int)$tcd_membership_vars['sel_down_budget'] === 50000) ? 'selected' : ''; ?>>50000円</option>
+                            <option value="100000" <?php echo ((int)$tcd_membership_vars['sel_down_budget'] === 100000) ? 'selected' : ''; ?>>100000円</option>
                         </select>
                     </div>
                     <div class="mb-2 item-text">
@@ -121,9 +127,9 @@ get_header();
                     <div class="select-wrap">
                         <select name="sel_limit" class="select-box mb-3">
                             <option value="">指定なし</option>
-                            <option value="1week" <?php echo ($tcd_membership_vars['sel_limit'] === '1week') ? 'selected': ''; ?>>1週間以内</option>
-                            <option value="1month" <?php echo ($tcd_membership_vars['sel_limit'] === '1month') ? 'selected': ''; ?>>1か月以内</option>
-                            <option value="1year" <?php echo ($tcd_membership_vars['sel_limit'] === '1year') ? 'selected': ''; ?>>1年以内</option>
+                            <option value="1week" <?php echo ($tcd_membership_vars['sel_limit'] === '1week') ? 'selected' : ''; ?>>1週間以内</option>
+                            <option value="1month" <?php echo ($tcd_membership_vars['sel_limit'] === '1month') ? 'selected' : ''; ?>>1か月以内</option>
+                            <option value="1year" <?php echo ($tcd_membership_vars['sel_limit'] === '1year') ? 'selected' : ''; ?>>1年以内</option>
                         </select>
                     </div>
                     <?php /** TODO: 依頼にR-18指定はないので検索対象から外しました。 */ ?>

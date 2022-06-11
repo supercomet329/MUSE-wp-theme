@@ -465,28 +465,28 @@ function lisetOrder($sort, $search_txt, $sel_up_budget, $sel_down_budget, $sel_l
 	';
 	$sql .= ')';
 
-	if(! empty($sel_up_budget)) {
+	if (!empty($sel_up_budget)) {
 		$sql .= ' AND (';
 		$sql .= ' SELECT meta_value FROM wp_postmeta WHERE wp_postmeta.post_id = wp_posts.ID AND meta_key = \'budget\'';
 		$sql .= ') <= ' . $sel_up_budget;
 	}
 
-	if(! empty($sel_down_budget)) {
+	if (!empty($sel_down_budget)) {
 		$sql .= ' AND (';
 		$sql .= ' SELECT meta_value FROM wp_postmeta WHERE wp_postmeta.post_id = wp_posts.ID AND meta_key = \'budget\'';
 		$sql .= ') >= ' . $sel_down_budget;
 	}
 
-	if(! empty($sel_limit)) {
+	if (!empty($sel_limit)) {
 		$dateClass = new DateTime();
 		$dateClass->modify('+' . $sel_limit);
 
 		$sql .= ' AND (';
 		$sql .= ' SELECT meta_value FROM wp_postmeta WHERE wp_postmeta.post_id = wp_posts.ID AND meta_key = \'appDeadlineDate\'';
-		$sql .= ') <= \'' . $dateClass->format('Y-m-d 23:59:59') .'\'';
+		$sql .= ') <= \'' . $dateClass->format('Y-m-d 23:59:59') . '\'';
 	}
 
-	if(!empty($search_txt)) {
+	if (!empty($search_txt)) {
 		$sql .= ' AND (
 			wp_posts.post_title LIKE \'%' . $search_txt . '%\'
 			OR
@@ -496,11 +496,11 @@ function lisetOrder($sort, $search_txt, $sel_up_budget, $sel_down_budget, $sel_l
 		)';
 	}
 
-	if($sort === 'id_old') {
+	if ($sort === 'id_old') {
 		$sql .= ' ORDER BY wp_posts.ID ASC';
-	} else if($sort === 'budget_down') {
+	} else if ($sort === 'budget_down') {
 		$sql .= ' ORDER BY budget ASC';
-	} else if($sort === 'budget_up') {
+	} else if ($sort === 'budget_up') {
 		$sql .= ' ORDER BY budget DESC';
 	} else {
 		$sql .= ' ORDER BY wp_posts.ID DESC';
@@ -509,6 +509,19 @@ function lisetOrder($sort, $search_txt, $sel_up_budget, $sel_down_budget, $sel_l
 	// echo $sql;exit;
 	$result = $wpdb->get_results($wpdb->prepare($sql));
 	return $result;
+}
+
+/**
+ * バリデートチェック
+ *
+ * @param [type] $date
+ * @param string $format
+ * @return void
+ */
+function validate_date($date, $format = 'Y-m-d H:i:s')
+{
+	$d = DateTime::createFromFormat($format, $date);
+	return $d && $d->format($format) == $date;
 }
 
 /**

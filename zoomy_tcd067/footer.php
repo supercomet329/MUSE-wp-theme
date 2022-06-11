@@ -8,7 +8,7 @@ if (!$dp_options) $dp_options = get_design_plus_option();
 		<nav class="navbar navbar-light bg-light fixed-bottom">
 			<a href="/"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/home_blue_on.png" alt="home"></a>
 			<a href="<?php echo esc_url(get_tcd_membership_memberpage_url('list_order')); ?>"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/search_blue.png" alt="search"></a>
-			<a href="<?php echo esc_url(get_tcd_membership_memberpage_url('add_photo')); ?>"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/post_blue.png" alt="post"></a>
+			<a href="<?php echo esc_url(get_tcd_membership_memberpage_url('post_image')); ?>"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/post_blue.png" alt="post"></a>
 			<div class="notifications">
 				<a href="<?php echo esc_url(get_tcd_membership_memberpage_url('notification')); ?>"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/notification_blue.png" alt="notification"></a>
 				<p class="unread-count rounded-circle"><?php echo count_notice(); ?></p>

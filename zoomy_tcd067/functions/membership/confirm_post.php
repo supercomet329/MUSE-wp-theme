@@ -17,8 +17,8 @@ function tcd_membership_action_confirm_post()
 
     // テンプレート指定
     $tcd_membership_vars['template']  = 'muse_comfirm_post';
-
-    $postDateClass = new DateTime($rowPostData[0]->post_content);
+    $postDateClass = new DateTime($rowPostData[0]->post_date);
+    
     $postDate      = $postDateClass->format('Y/m/d H:i');
 
     $postData = [];
