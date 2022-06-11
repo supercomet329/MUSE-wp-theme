@@ -416,6 +416,102 @@ function listOrder($up_budget, $down_budget, $whereDeadLine, $target)
 }
 
 /**
+ * 依頼一覧の取得
+ */
+function lisetOrder($sort, $search_txt, $sel_up_budget, $sel_down_budget, $sel_limit)
+{
+	global $wpdb;
+
+	$sql = '';
+	$sql .= 'SELECT ';
+	$sql .= ' DISTINCT wp_posts.ID AS post_id ';
+	$sql .= ',wp_posts.post_author AS post_author ';
+	$sql .= ',wp_posts.post_date AS post_date ';
+	$sql .= ',wp_posts.post_title AS post_title ';
+	$sql .= ',wp_posts.post_content AS post_content ';
+	$sql .= ',wp_users.display_name AS display_name ';
+
+	$sql .= ',(';
+	$sql .= ' SELECT meta_value FROM wp_postmeta WHERE wp_postmeta.post_id = wp_posts.ID AND meta_key = \'appDeadlineDate\'';
+	$sql .= ') AS appDeadlineDate ';
+
+	$sql .= ',(';
+	$sql .= ' SELECT meta_value FROM wp_postmeta WHERE wp_postmeta.post_id = wp_posts.ID AND meta_key = \'budget\'';
+	$sql .= ') AS budget ';
+
+	$sql .= 'FROM wp_posts ';
+	$sql .= ' INNER JOIN wp_users ';
+	$sql .= ' ON wp_users.ID = wp_posts.post_author ';
+	$sql .= 'WHERE wp_posts.post_type = \'request\' ';
+	$sql .= ' AND wp_posts.post_status = \'publish\'';
+	$sql .= ' AND NOT EXISTS(';
+	$sql .= ' SELECT * 
+				FROM wp_tcd_membership_actions 
+				WHERE 
+					wp_tcd_membership_actions.post_id = wp_posts.ID 
+				AND 
+					wp_tcd_membership_actions.type = \'received\' 
+				';
+	$sql .= ' ) ';
+	$sql .= ' AND EXISTS(';
+	$sql .= ' 	SELECT * 
+				FROM wp_postmeta 
+				WHERE 
+					wp_postmeta.post_id = wp_posts.ID 
+				AND 
+					wp_postmeta.meta_key = \'appDeadlineDate\' 
+				AND 
+					wp_postmeta.meta_value > NOW()
+	';
+	$sql .= ')';
+
+	if(! empty($sel_up_budget)) {
+		$sql .= ' AND (';
+		$sql .= ' SELECT meta_value FROM wp_postmeta WHERE wp_postmeta.post_id = wp_posts.ID AND meta_key = \'budget\'';
+		$sql .= ') <= ' . $sel_up_budget;
+	}
+
+	if(! empty($sel_down_budget)) {
+		$sql .= ' AND (';
+		$sql .= ' SELECT meta_value FROM wp_postmeta WHERE wp_postmeta.post_id = wp_posts.ID AND meta_key = \'budget\'';
+		$sql .= ') >= ' . $sel_down_budget;
+	}
+
+	if(! empty($sel_limit)) {
+		$dateClass = new DateTime();
+		$dateClass->modify('+' . $sel_limit);
+
+		$sql .= ' AND (';
+		$sql .= ' SELECT meta_value FROM wp_postmeta WHERE wp_postmeta.post_id = wp_posts.ID AND meta_key = \'appDeadlineDate\'';
+		$sql .= ') <= \'' . $dateClass->format('Y-m-d 23:59:59') .'\'';
+	}
+
+	if(!empty($search_txt)) {
+		$sql .= ' AND (
+			wp_posts.post_title LIKE \'%' . $search_txt . '%\'
+			OR
+			wp_posts.post_content LIKE \'%' . $search_txt . '%\'
+			OR
+			wp_posts.post_name LIKE \'%' . $search_txt . '%\'
+		)';
+	}
+
+	if($sort === 'id_old') {
+		$sql .= ' ORDER BY wp_posts.ID ASC';
+	} else if($sort === 'budget_down') {
+		$sql .= ' ORDER BY budget ASC';
+	} else if($sort === 'budget_up') {
+		$sql .= ' ORDER BY budget DESC';
+	} else {
+		$sql .= ' ORDER BY wp_posts.ID DESC';
+	}
+
+	// echo $sql;exit;
+	$result = $wpdb->get_results($wpdb->prepare($sql));
+	return $result;
+}
+
+/**
  * 受注一覧の取得
  */
 function listReceivedByUserId($user_id, $up_budget, $down_budget, $whereDeadLine, $target)
