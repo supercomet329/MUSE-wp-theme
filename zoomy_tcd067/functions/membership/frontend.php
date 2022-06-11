@@ -379,6 +379,7 @@ function listOrder($up_budget, $down_budget, $whereDeadLine, $target)
 	$sql .= 'ON wp_posts.ID = wp_tcd_membership_actions.post_id ';
 	$sql .= 'WHERE wp_posts.post_type = \'request\' ';
 	$sql .= ' AND wp_posts.post_status = \'publish\'';
+	$sql .= ' AND wp_posts.post_author = ' . get_current_user_id();
 
 	if ($up_budget) {
 		// 予算上限
@@ -423,7 +424,7 @@ function listReceivedByUserId($user_id, $up_budget, $down_budget, $whereDeadLine
 
 	$sql = '';
 	$sql .= 'SELECT ';
-	$sql .= 'wp_posts.ID AS post_id ';
+	$sql .= ' DISTINCT wp_posts.ID AS post_id ';
 	$sql .= ',wp_posts.post_author AS post_author ';
 	$sql .= ',wp_posts.post_date AS post_date ';
 	$sql .= ',wp_posts.post_title AS post_title ';
