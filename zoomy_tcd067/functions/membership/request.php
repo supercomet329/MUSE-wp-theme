@@ -10,16 +10,6 @@ function tcd_membership_action_request()
     // テンプレート指定
     $tcd_membership_vars['template']  = 'muse_request_input';
 
-    $weekArray = [
-        '0' => '日',
-        '1' => '月',
-        '2' => '火',
-        '3' => '水',
-        '4' => '木',
-        '5' => '金',
-        '6' => '土',
-    ];
-
     $arrayInsertColum = [
         'composition',
         'character',
@@ -239,17 +229,6 @@ function tcd_membership_action_request()
                 }
 
                 $tcd_membership_vars['error_message'] = $error_messages;
-            } else if ($_POST['request_type'] === 'confirm') {
-
-                // 確認ページからの遷移
-                // wp_tcd_membership_actionsの登録
-                // $action_id = insert_tcd_membership_action('request', $user->ID, 0, 0);
-
-
-
-
-                if (count($error_messages) <= 0) {
-                }
             }
         }
     }
