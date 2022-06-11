@@ -34,7 +34,6 @@ function tcd_membership_action_request()
             $error_messages[] = __('Invalid nonce.', 'tcd-w');
         }
 
-
         if (isset($_POST['request_type'])) {
             if ($_POST['request_type'] === 'input') {
 

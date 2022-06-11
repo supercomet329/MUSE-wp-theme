@@ -92,7 +92,7 @@ foreach ($list_photo as $one_photo) {
     </div>
 
     <div class="timeline-image">
-        <a href="">
+        <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('confirm_post')); ?>&post_id=<?php echo $one_photo->post_id; ?>">
             <img src="<?php echo $one_photo->meta_value; ?>" alt="<?php echo $one_photo->post_title; ?>">
         </a>
     </div>
