@@ -10,29 +10,23 @@ function tcd_membership_action_modify_request()
     // テンプレート指定
     $tcd_membership_vars['template']  = 'muse_modify_request_input';
 
-    $weekArray = [
-        '0' => '日',
-        '1' => '月',
-        '2' => '火',
-        '3' => '水',
-        '4' => '木',
-        '5' => '金',
-        '6' => '土',
-    ];
-
     $arrayInsertColum = [
-        'url',
-        'money',
-        'sales_format',
-        'deadline',
-        'receptions_count',
-        'delivery_request',
-        'special_report',
-        'request_file_url',
-        'request_file_name'
+        'composition',
+        'character',
+        'refUrl',
+        'budget',
+        'orderQuantity',
+        'specialNotes',
     ];
 
     $user = wp_get_current_user();
+    $request_id = $_REQUEST['request_id'];
+    $rowResuestData = get_request($request_id);
+
+    if (count($rowResuestData) <= 0) {
+        wp_safe_redirect(user_trailingslashit(home_url()));
+        exit;
+    }
 
     if ('POST' == $_SERVER['REQUEST_METHOD']) {
         $tcd_membership_vars['post_data'] = $_POST;
@@ -48,127 +42,245 @@ function tcd_membership_action_modify_request()
                 // 入力ページから確認ページの遷移
 
                 // 依頼タイトルの入力チェック
-                if (!isset($_POST['title']) || empty($_POST['title'])) {
-                    $error_messages[] = '依頼タイトルは必須入力です。';
+                if (!isset($_POST['requestTitle']) || empty($_POST['requestTitle'])) {
+                    $error_messages['requestTitle'] = '依頼タイトルは必須入力です。';
+                }
+
+                if (!isset($_POST['workTitle']) || empty($_POST['workTitle'])) {
+                    $error_messages['workTitle'] = '依頼内容は必須入力です。';
                 }
 
                 if (!isset($_POST['content']) || empty($_POST['content'])) {
-                    $error_messages[] = '依頼内容は必須入力です。';
+                    $error_messages['content'] = '本文は必須入力です。';
                 }
 
-                if (isset($_POST['url']) && !empty($_POST['url'])) {
-                    if (!filter_var($_POST['url'], FILTER_VALIDATE_URL)) {
-                        $error_messages[] = 'URLの形式を御確認下さい。';
+                if (!isset($_POST['composition']) || empty($_POST['composition'])) {
+                    $error_messages['composition'] = '構図は必須入力です。';
+                }
+
+                if (!isset($_POST['character']) || empty($_POST['character'])) {
+                    $error_messages['character'] = 'キャラクターは必須入力です。';
+                }
+
+                if (isset($_POST['refUrl']) && !empty($_POST['refUrl'])) {
+                    if (!filter_var($_POST['refUrl'], FILTER_VALIDATE_URL)) {
+                        $error_messages['refUrl'] = 'URLの形式を御確認下さい。';
                     }
                 }
 
-                if (isset($_POST['sales_format']) && (int)$_POST['sales_format'] === 1) {
-                    if (!isset($_POST['money']) || empty($_POST['money'])) {
-                        $error_messages[] = '予算を指定する場合は金額の指定もお願い致します。';
-                    }
+                if (!isset($_POST['budget']) || empty($_POST['budget'])) {
+                    $error_messages['budget'] = '予算は必須入力です。';
                 }
 
-                $tcd_membership_vars['view_deadline'] = '';
-                if (isset($_POST['deadline'])) {
-                    $dateClass = new DateTime($_POST['deadline']);
-                    $week = $weekArray[$dateClass->format('w')];
-                    $tcd_membership_vars['view_deadline'] = $dateClass->format('Y年m月d日(' . $week . ') 24:00');
+                // $tcd_membership_vars['view_deadline'] = '';
+                $appDeadlineDate = false;
+                if (
+                    isset($_POST['appDeadlineY']) || !empty($_POST['appDeadlineY']) ||
+                    isset($_POST['appDeadlineM']) || !empty($_POST['appDeadlineM']) ||
+                    isset($_POST['appDeadlineD']) || !empty($_POST['appDeadlineD'])
+                ) {
+
+                    try {
+                        $appDeadlineDateClass = new DateTime($_POST['appDeadlineY'] . '-' . $_POST['appDeadlineM'] . '-' . $_POST['appDeadlineD']);
+                        $appDeadlineDate = $appDeadlineDateClass->format('Y-m-d');
+                    } catch (Exception $e) {
+                        $error_messages['appDeadline'] = '応募期限を正しく入力してください。';
+                    }
+                } else {
+                    $error_messages['appDeadline'] = '応募期限は必須入力です。';
+                }
+
+                $tcd_membership_vars['view_desired_date'] = '';
+                $desiredDate = false;
+                if (
+                    isset($_POST['desiredDateY']) && !empty($_POST['desiredDateY']) ||
+                    isset($_POST['desiredDateM']) && !empty($_POST['desiredDateM']) ||
+                    isset($_POST['desiredDateD']) && !empty($_POST['desiredDateD'])
+                ) {
+                    try {
+
+                        $desiredDateClass = new DateTime($_POST['desiredDateY'] . '-' . $_POST['desiredDateM'] . '-' . $_POST['desiredDateD']);
+                        $desiredDate = $desiredDateClass->format('Y-m-d');
+                    } catch (Exception $e) {
+                        $error_messages['appDeadline'] = '応募期限を正しく入力してください。';
+                    }
                 }
 
                 // 画像アップロード処理
-                $tcd_membership_vars['post_data']['request_file_url']  = '';
-                $tcd_membership_vars['post_data']['request_file_name'] = '';
+                // $tcd_membership_vars['post_data']['request_file_url']  = '';
+                // $tcd_membership_vars['post_data']['request_file_name'] = '';
+                $requestFileUrl  = false;
+                $requestFileName = false;
 
-                if (!empty($_FILES['file']['name'])) {
-                    $extension = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
+                if (isset($_FILES['requestFile']['name'])) {
+                    $extension = pathinfo($_FILES['requestFile']['name'], PATHINFO_EXTENSION);
                     $file_name = substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 100) . '.' . $extension;
                     $uploaded_file = __DIR__ . '/../../upload_file/' . $file_name;
-                    $result = move_uploaded_file($_FILES['file']['tmp_name'], $uploaded_file);
+                    $result = move_uploaded_file($_FILES['requestFile']['tmp_name'], $uploaded_file);
                     if ($result) {
-                        $tcd_membership_vars['post_data']['request_file_url']  = get_template_directory_uri() . '/upload_file/' . $file_name;
-                        $tcd_membership_vars['post_data']['request_file_name'] = $_FILES['file']['name'];
-                    } else {
-                        $error_messages[] = 'ファイルのアップロードに失敗しました。';
+                        // $tcd_membership_vars['post_data']['request_file_url']  = get_template_directory_uri() . '/upload_file/' . $file_name;
+                        // $tcd_membership_vars['post_data']['request_file_name'] = $_FILES['file']['name'];
+
+                        $requestFileUrl  = get_template_directory_uri() . '/upload_file/' . $file_name;
+                        $requestFileName = $_FILES['requestFile']['name'];
                     }
                 }
+                $tcd_membership_vars['error_message'] = $error_messages;
 
                 if (count($error_messages) <= 0) {
-                    $tcd_membership_vars['template']  = 'muse_modify_request_input_confirm';
-                }
-                $tcd_membership_vars['error_message'] = $error_messages;
-            } else if ($_POST['request_type'] === 'confirm') {
-                // 確認ページからの遷移
+                    $my_post = array(
+                        'ID'                => $request_id,
+                        'post_title'        => $_POST['requestTitle'],
+                        'post_content'      => $_POST['content'],
+                        'post_name'         => $_POST['workTitle'],
+                        'post_status'       => 'publish',
+                        'post_type'         => 'request'
+                    );
+                    wp_update_post($my_post);
 
-                // wp_tcd_membership_actionsの登録
-                // $action_id = insert_tcd_membership_action('request', $user->ID, 0, 0);
+                    // wp_tcd_membership_action_metasの登録
+                    foreach ($arrayInsertColum as $oneInsertColum) {
+                        $result = $wpdb->update(
+                            'wp_postmeta',
+                            array(
+                                'meta_value' => $_POST[$oneInsertColum],
+                            ),
+                            array(
+                                'post_id'    => $request_id,
+                                'meta_key'   => $oneInsertColum,
+                            ),
+                            array(
+                                '%s'
+                            )
+                        );
+                    }
 
-                $my_post = array(
-                    'ID'                => $_POST['post_id'],
-                    'post_title'        => $_POST['title'],
-                    'post_content'      => $_POST['content'],
-                    'post_name'         => 'request',
-                    'post_type'         => 'request'
-                );
-                wp_insert_post($my_post);
+                    if ($requestFileUrl) {
+                        // ファイルの名称の登録
+                        $result = $wpdb->update(
+                            'wp_postmeta',
+                            array(
+                                'meta_value' => $requestFileName,
+                            ),
+                            array(
+                                'post_id'    => $request_id,
+                                'meta_key'   => 'requestFileName',
+                            ),
+                            array(
+                                '%s'
+                            )
+                        );
 
-                // wp_tcd_membership_action_metasの登録
-                foreach ($arrayInsertColum as $oneInsertColum) {
+                        $result = $wpdb->update(
+                            'wp_postmeta',
+                            array(
+                                'meta_value' => $requestFileUrl,
+                            ),
+                            array(
+                                'post_id'    => $request_id,
+                                'meta_key'   => 'requestFileUrl',
+                            ),
+                            array(
+                                '%s'
+                            )
+                        );
+                    }
+
                     $result = $wpdb->update(
                         'wp_postmeta',
                         array(
-                            'meta_value' => $_POST[$oneInsertColum],
+                            'meta_value' => $appDeadlineDate,
                         ),
                         array(
-                            'post_id'    => $_POST['post_id'],
-                            'meta_key'   => $oneInsertColum,
+                            'post_id'    => $request_id,
+                            'meta_key'   => 'appDeadlineDate',
                         ),
                         array(
                             '%s'
                         )
                     );
-                }
 
-                if (count($error_messages) <= 0) {
-                    $redirect = esc_attr(get_tcd_membership_memberpage_url('modify_request')) . '&status=complete&request_id=' . $_POST['post_id'];
+                    // 納品希望日の登録
+                    if ($desiredDate) {
+                        $result = $wpdb->insert(
+                            'wp_postmeta',
+                            array(
+                                'post_id'    => $request_id,
+                                'meta_key'   => 'desiredDate',
+                                'meta_value' => $desiredDate,
+                            ),
+                            array(
+                                '%d',
+                                '%s',
+                                '%s'
+                            )
+                        );
+                    }
+                    $redirect = get_tcd_membership_memberpage_url('list_order') . '&status=request_complete';
                     wp_redirect(remove_query_arg('settings-updated', $redirect));
                 }
+                $tcd_membership_vars['error_message'] = $error_messages;
             }
         }
-    } else {
-        if (!$_GET['request_id']) {
-            // 依頼IDが取得できない場合 => トップページへ遷移
-            wp_safe_redirect(user_trailingslashit(home_url()));
-            exit;
-        }
-
-        // データの取得
-        $request = get_request($_GET['request_id']);
-        if (count($request) <= 0 || (int)$request[0]->post_author !== $user->ID) {
-            // 依頼が取得できない場合 OR 作成者とログインユーザーが違う場合 => トップページへ遷移
-            wp_safe_redirect(user_trailingslashit(home_url()));
-            exit;
-        }
-        $tcd_membership_vars['requestData'] = $request[0];
     }
-    $dateClass = new DateTime($request[0]->deadline . ' 00:00:00');
+    $requestData = [];
+    // 作品ID
+    $post_id = $rowResuestData[0]->post_id;
 
-    $chkDeadline  = '';
-    if (isset($_POST['deadline'])) {
-        $chkDeadline  = $_POST['deadline'];
+    $requestData['post_id'] = $post_id;
+
+    // 作品タイトル
+    $requestData['post_name'] = $rowResuestData[0]->post_name;
+
+    // 依頼タイトル
+    $requestData['title'] = $rowResuestData[0]->post_title;
+
+    // 依頼内容
+    $requestData['content'] = $rowResuestData[0]->post_content;
+
+    // 構図
+    $requestData['composition'] = get_post_meta($post_id, 'composition', true);
+
+    // キャラクター
+    $requestData['character'] = get_post_meta($post_id, 'character', true);
+
+    // 受付依頼数
+    $requestData['orderQuantity'] = get_post_meta($post_id, 'orderQuantity', true);
+
+    // 添付ファイル
+    $requestData['requestFileName'] = get_post_meta($post_id, 'requestFileName', true);
+    $requestData['requestFileUrl']  = get_post_meta($post_id, 'requestFileUrl', true);
+
+    $filePathArray = explode('/', $requestData['requestFileUrl']);
+    $fileName = end($filePathArray);
+    $checkFile = __DIR__ . '/../../upload_file/' . $fileName;
+    $requestData['requestFileFlag']  = exif_imagetype($checkFile);
+
+    // 参考URL
+    $requestData['refUrl']  = get_post_meta($post_id, 'refUrl', true);
+
+    // 予算
+    $requestData['budget']  = get_post_meta($post_id, 'budget', true);
+
+    // 特記事項
+    $requestData['specialNotes']  = get_post_meta($post_id, 'specialNotes', true);
+
+    // 応募期限
+    $appDeadlineDate = get_post_meta($post_id, 'appDeadlineDate', true);
+    $appDeadClass = new DateTime($appDeadlineDate);
+    $requestData['appDeadlineDate']  = $appDeadClass->format('Y/m/d');
+
+    // 納品希望日
+    $requestData['desiredDate']  = false;
+    $desiredDate = get_post_meta($post_id, 'desiredDate', true);
+    if (!empty($desiredDate)) {
+        $desiredDateClass = new DateTime($desiredDate);
+        $desiredDate = $desiredDateClass->format('Y/m/d');
     }
+    $requestData['desiredDate']  = $desiredDate;
+    $requestData['request_id'] = $request_id;
 
-    $selDeadline    = [];
-    for ($i = 1; $i <= 10; $i++) {
-        // $dateClass->modify('+1 day');
-        $week = $weekArray[$dateClass->format('w')];
-
-        $deadLineOne = [];
-        $deadLineOne['value'] = $dateClass->format('Y-m-d');
-        $deadLineOne['text']  = $dateClass->format('Y年m月d日(' . $week . ') 24:00');
-        $deadLineOne['check']  = ($chkDeadline === $dateClass->format('Y-m-d')) ? 'selected' : '';
-        $selDeadline[] = $deadLineOne;
-    }
-    $tcd_membership_vars['sel_deadline'] = $selDeadline;
+    $tcd_membership_vars['requestData'] = $requestData;
 
     nocache_headers();
     if (!$user) {
