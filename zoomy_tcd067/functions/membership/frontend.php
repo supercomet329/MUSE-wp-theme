@@ -618,77 +618,29 @@ function get_request($request_id)
 	$sql .= 'SELECT ';
 	$sql .= 'wp_posts.ID as post_id,';
 	$sql .= 'wp_posts.post_title AS post_title,';
+	$sql .= 'wp_posts.post_name  AS post_name,';
 	$sql .= 'wp_posts.post_content AS post_content,';
-	$sql .= 'wp_posts.post_author AS post_author,';
-	$sql .= 'wp_tcd_membership_actions.user_id AS user_id,';
-	$sql .= '(';
-	$sql .= 'SELECT meta_value ';
-	$sql .= 'FROM wp_postmeta  ';
-	$sql .= ' WHERE post_id = ' . $request_id;
-	$sql .= ' AND meta_key    = \'url\'';
-	$sql .= ') as url, ';
-
-	$sql .= '(';
-	$sql .= 'SELECT meta_value ';
-	$sql .= 'FROM wp_postmeta  ';
-	$sql .= ' WHERE post_id = ' . $request_id;
-	$sql .= ' AND meta_key    = \'money\'';
-	$sql .= ') as money, ';
-
-	$sql .= '(';
-	$sql .= 'SELECT meta_value ';
-	$sql .= 'FROM wp_postmeta  ';
-	$sql .= ' WHERE post_id = ' . $request_id;
-	$sql .= ' AND meta_key    = \'sales_format\'';
-	$sql .= ') as sales_format, ';
-
-	$sql .= '(';
-	$sql .= 'SELECT meta_value ';
-	$sql .= 'FROM wp_postmeta  ';
-	$sql .= ' WHERE post_id = ' . $request_id;
-	$sql .= ' AND meta_key    = \'deadline\'';
-	$sql .= ') as deadline, ';
-
-	$sql .= '(';
-	$sql .= 'SELECT meta_value ';
-	$sql .= 'FROM wp_postmeta  ';
-	$sql .= ' WHERE post_id = ' . $request_id;
-	$sql .= ' AND meta_key    = \'receptions_count\'';
-	$sql .= ') as receptions_count, ';
-
-	$sql .= '(';
-	$sql .= 'SELECT meta_value ';
-	$sql .= 'FROM wp_postmeta  ';
-	$sql .= ' WHERE post_id = ' . $request_id;
-	$sql .= ' AND meta_key    = \'delivery_request\'';
-	$sql .= ') as delivery_request, ';
-
-	$sql .= '(';
-	$sql .= 'SELECT meta_value ';
-	$sql .= 'FROM wp_postmeta  ';
-	$sql .= ' WHERE post_id = ' . $request_id;
-	$sql .= ' AND meta_key    = \'special_report\'';
-	$sql .= ') as special_report, ';
-
-	$sql .= '(';
-	$sql .= 'SELECT meta_value ';
-	$sql .= 'FROM wp_postmeta  ';
-	$sql .= ' WHERE post_id = ' . $request_id;
-	$sql .= ' AND meta_key    = \'request_file_url\'';
-	$sql .= ') as request_file_url, ';
-
-	$sql .= '(';
-	$sql .= 'SELECT meta_value ';
-	$sql .= 'FROM wp_postmeta  ';
-	$sql .= ' WHERE post_id = ' . $request_id;
-	$sql .= ' AND meta_key    = \'request_file_name\'';
-	$sql .= ') as request_file_name ';
+	$sql .= 'wp_posts.post_author AS post_author, ';
+	$sql .= 'wp_tcd_membership_actions.user_id AS received_user_id, ';
+	$sql .= 'wp_tcd_membership_actions.target_user_id AS received_tareget_user_id ';
 
 	$sql .= 'FROM wp_posts ';
-	$sql .= 'LEFT JOIN wp_tcd_membership_actions';
-	$sql .= ' ON wp_tcd_membership_actions.post_id = wp_posts.ID ';
+	$sql .= 'LEFT JOIN wp_tcd_membership_actions ';
+	$sql .= 'ON wp_tcd_membership_actions.post_id = wp_posts.ID ';
 	$sql .= 'WHERE wp_posts.ID = ' . $request_id;
-
+	$sql .= ' AND wp_posts.post_status = \'publish\'';
+	$sql .= ' AND wp_posts.post_type   = \'request\'';
+	$sql .= ' AND EXISTS(';
+	$sql .= ' 	SELECT * 
+				FROM wp_postmeta 
+				WHERE 
+					wp_postmeta.post_id = wp_posts.ID 
+				AND 
+					wp_postmeta.meta_key = \'appDeadlineDate\' 
+				AND 
+					wp_postmeta.meta_value > NOW()
+	';
+	$sql .= ')';
 	$result = $wpdb->get_results($wpdb->prepare($sql));
 
 	$return = [];
