@@ -618,10 +618,15 @@ function get_request($request_id)
 	$sql .= 'SELECT ';
 	$sql .= 'wp_posts.ID as post_id,';
 	$sql .= 'wp_posts.post_title AS post_title,';
+	$sql .= 'wp_posts.post_name  AS post_name,';
 	$sql .= 'wp_posts.post_content AS post_content,';
-	$sql .= 'wp_posts.post_author AS post_author ';
+	$sql .= 'wp_posts.post_author AS post_author, ';
+	$sql .= 'wp_tcd_membership_actions.user_id AS received_user_id, ';
+	$sql .= 'wp_tcd_membership_actions.target_user_id AS received_tareget_user_id ';
 
 	$sql .= 'FROM wp_posts ';
+	$sql .= 'LEFT JOIN wp_tcd_membership_actions ';
+	$sql .= 'ON wp_tcd_membership_actions.post_id = wp_posts.ID ';
 	$sql .= 'WHERE wp_posts.ID = ' . $request_id;
 	$sql .= ' AND wp_posts.post_status = \'publish\'';
 	$sql .= ' AND wp_posts.post_type   = \'request\'';

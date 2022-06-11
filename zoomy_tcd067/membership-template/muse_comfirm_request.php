@@ -7,7 +7,7 @@ get_header();
     <div class="container request_show">
         <div class="row">
             <div class="mt-4 col-12 item-text">
-                作品タイトル
+                <?php echo esc_attr($tcd_membership_vars['requestData']['post_name']); ?>
             </div>
             <div class="mt-4 mb-2 col-12 d-flex justify-content-start text-center">
                 <img src="<?php echo esc_url($tcd_membership_vars['requestData']['profile_image']); ?>" alt="profile" class="rounded-circle" width="50">
@@ -45,6 +45,7 @@ get_header();
             </div>
 
             <div class="tab-content w-100">
+
                 <div class="tab-pane active" id="contents" role="tabpanel" aria-labelledby="contents-tab">
                     <div class="container">
                         <div class="row">
@@ -85,12 +86,24 @@ get_header();
                             <div class="col-12 mt-1">
                                 <?php echo nl2br($tcd_membership_vars['requestData']['specialNotes']); ?>
                             </div>
-                            <div class="col-12 mt-4 mt-xl-4 pt-xl-3 mb-5 text-center">
-                                <button class="btn text-white save-btn">依頼投稿</button>
-                            </div>
+                            <?php if ($tcd_membership_vars['requestData']['viewReceivedButton']) { ?>
+                                <form method="POST" action="<?php echo esc_attr(get_tcd_membership_memberpage_url('comfirm_request')); ?>">
+                                    <div class="col-12 mt-4 mt-xl-4 pt-xl-3 mb-5 text-center">
+                                        <?php /** FIXED 受託になると思うのでボタン変更 */ ?>
+                                        <!-- button class="btn text-white save-btn">依頼投稿</button -->
+                                        <button type="submit" class="btn text-white save-btn">依頼を受ける</button>
+                                        <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd-membership-confirm_request-' . $tcd_membership_vars['requestData']['post_id'])); ?>">
+                                        <input type="hidden" name="request_id" value="<?php echo esc_attr($tcd_membership_vars['requestData']['post_id']); ?>">
+                                        <input type="hidden" name="request_type" value="contract">
+                                    </div>
+                                </form>
+                            <?php }
+                            /** endif */ ?>
                         </div>
                     </div>
                 </div>
+
+
                 <div class="tab-pane" id="files" role="tabpanel" aria-labelledby="files-tab">
                     <div class="container">
                         <div class="row">
@@ -110,12 +123,23 @@ get_header();
                             <div class="col-12 mt-1">
                                 <a target="_blank" href="<?php echo esc_url($tcd_membership_vars['requestData']['refUrl']); ?>"><?php echo esc_attr($tcd_membership_vars['requestData']['refUrl']); ?></a>
                             </div>
-                            <div class="col-12 mt-4 mt-xl-4 pt-xl-3 mb-5 text-center">
-                                <button class="btn text-white save-btn">依頼投稿</button>
-                            </div>
+                            <?php if ($tcd_membership_vars['requestData']['viewReceivedButton']) { ?>
+                                <form method="POST" action="<?php echo esc_attr(get_tcd_membership_memberpage_url('comfirm_request')); ?>">
+                                    <div class="col-12 mt-4 mt-xl-4 pt-xl-3 mb-5 text-center">
+                                        <?php /** FIXED 受託になると思うのでボタン変更 */ ?>
+                                        <!-- button class="btn text-white save-btn">依頼投稿</button -->
+                                        <button type="submit" class="btn text-white save-btn">依頼を受ける</button>
+                                        <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd-membership-confirm_request-' . $tcd_membership_vars['requestData']['post_id'])); ?>">
+                                        <input type="hidden" name="request_id" value="<?php echo esc_attr($tcd_membership_vars['requestData']['post_id']); ?>">
+                                        <input type="hidden" name="request_type" value="contract">
+                                    </div>
+                                </form>
+                            <?php }
+                            /** endif */ ?>
                         </div>
                     </div>
                 </div>
+
                 <div class="tab-pane" id="budgets" role="tabpanel" aria-labelledby="budgets-tab">
                     <div class="container block">
                         <div class="row">
@@ -131,126 +155,123 @@ get_header();
                             <div class="col-12 mt-1">
                                 <?php echo esc_attr($tcd_membership_vars['requestData']['appDeadlineDate']); ?>
                             </div>
-                            <?php if($tcd_membership_vars['requestData']['desiredDate']) { ?>
-                            <div class="col-12 mt-4 item-text border-bottom-solid">
-                                納品希望日
-                            </div>
-                            <div class="col-12 mt-1">
-                                <?php echo esc_attr($tcd_membership_vars['requestData']['desiredDate']); ?>
-                            </div>
+                            <?php if ($tcd_membership_vars['requestData']['desiredDate']) { ?>
+                                <div class="col-12 mt-4 item-text border-bottom-solid">
+                                    納品希望日
+                                </div>
+                                <div class="col-12 mt-1">
+                                    <?php echo esc_attr($tcd_membership_vars['requestData']['desiredDate']); ?>
+                                </div>
                             <?php } /* endif **/ ?>
-                            <div class="col-12 mt-4 mt-xl-4 pt-xl-3 mb-5 text-center">
-                                <button class="btn text-white save-btn">依頼投稿</button>
-                            </div>
+                            <?php if ($tcd_membership_vars['requestData']['viewReceivedButton']) { ?>
+                                <form method="POST" action="<?php echo esc_attr(get_tcd_membership_memberpage_url('comfirm_request')); ?>">
+                                    <div class="col-12 mt-4 mt-xl-4 pt-xl-3 mb-5 text-center">
+                                        <?php /** FIXED 受託になると思うのでボタン変更 */ ?>
+                                        <!-- button class="btn text-white save-btn">依頼投稿</button -->
+                                        <button type="submit" class="btn text-white save-btn">依頼を受ける</button>
+                                        <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd-membership-confirm_request-' . $tcd_membership_vars['requestData']['post_id'])); ?>">
+                                        <input type="hidden" name="request_id" value="<?php echo esc_attr($tcd_membership_vars['requestData']['post_id']); ?>">
+                                        <input type="hidden" name="request_type" value="contract">
+                                    </div>
+                                </form>
+                            <?php }
+                            /** endif */ ?>
                         </div>
                     </div>
                 </div>
+
                 <div class="tab-pane" id="comments" role="tabpanel" aria-labelledby="comments-tab">
                     <div class="container message-show-area" id="message_show_area">
-                        <div class="font-weight-bold title border-bottom-solid mt-4">
+                        <?php /** FIXED 複数のユーザー想定なので 表示させない */ ?>
+                        <!-- div class="font-weight-bold title border-bottom-solid mt-4">
                             相手のユーザー名
-                        </div>
+                        </div-->
                         <div class="row mb-5 pb-3">
-                            <div class="d-flex col-12 justify-content-center">
-                                <div class="main-color font-weight-bold text-white text-center rounded-pill small w-25 mt-4">
-                                    4/12
+                            <?php
+                            foreach ($tcd_membership_vars['list_comment'] as $key => $array_comment) {
+                                $dateClass = new DateTime($key);
+                            ?>
+                                <div class="d-flex col-12 justify-content-center">
+                                    <div class="main-color font-weight-bold text-white text-center rounded-pill small w-25 mt-4">
+                                        <?php echo esc_attr($dateClass->format('Y/m/d')); ?>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="balloon_l">
-                                    <div class="faceicon">
-                                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_40272765_M.jpg" alt="" class="rounded-circle">
-                                        <div class="ml-xl-4 ml-1">
-                                            08:45
+                                <?php foreach ($array_comment as $one_comment) { ?>
+                                    <?php if ($tcd_membership_vars['requestData']['author_id'] === (int)$one_comment['user_id']) { ?>
+                                        <?php /** 発言が発注者の場合 */ ?>
+                                        <div class="col-12">
+                                            <div class="balloon_r">
+                                                <div class="faceicon">
+                                                    <img src="<?php echo esc_url($one_comment['profile_image']) ?>" class="rounded-circle" alt="">
+                                                    <div class="ml-xl-4 ml-1">
+                                                        <?php echo esc_attr($one_comment['comment_date']) ?>
+                                                    </div>
+                                                </div>
+                                                <div class="says">
+                                                    <p>
+                                                        <?php echo nl2br($one_comment['comment']) ?>
+                                                    </p>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <p class="says">左側の吹き出し左側の吹き出し左側の吹き出し左側の吹き出し
-                                        左側の吹き出し左側の吹き出し
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="balloon_r">
-                                    <div class="faceicon">
-                                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_64747350_M.jpg" class="rounded-circle" alt="">
-                                        <div class="ml-xl-4 ml-1">
-                                            08:50
+
+                                    <?php } else { ?>
+                                        <?php /** 発言が発注者ではない場合 */ ?>
+                                        <div class="col-12">
+                                            <div class="balloon_l">
+                                                <div class="faceicon">
+                                                    <img src="<?php echo esc_url($one_comment['profile_image']) ?>" alt="" class="rounded-circle">
+                                                    <div class="ml-xl-4 ml-1">
+                                                        <?php echo esc_attr($one_comment['comment_date']) ?>
+                                                    </div>
+                                                </div>
+                                                <p class="says">
+                                                    <?php echo nl2br($one_comment['comment']) ?>
+                                                </p>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="says">
-                                        <p>右側の吹き出し</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex col-12 justify-content-center">
-                                <div class="main-color font-weight-bold text-white text-center rounded-pill small w-25 mt-4">
-                                    4/14
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="balloon_l">
-                                    <div class="faceicon">
-                                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_40272765_M.jpg" alt="" class="rounded-circle">
-                                        <div class="ml-xl-4 ml-1">
-                                            08:45
-                                        </div>
-                                    </div>
-                                    <p class="says">左側の吹き出し左側の吹き出し左側の吹き出し左側の吹き出し
-                                        左側の吹き出し左側の吹き出し
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="balloon_r">
-                                    <div class="faceicon">
-                                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_64747350_M.jpg" class="rounded-circle" alt="">
-                                        <div class="ml-xl-4 ml-1">
-                                            08:50
-                                        </div>
-                                    </div>
-                                    <div class="says">
-                                        <p>右側の吹き出し</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="balloon_r">
-                                    <div class="faceicon">
-                                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_64747350_M.jpg" class="rounded-circle" alt="">
-                                        <div class="ml-xl-4 ml-1">
-                                            08:50
-                                        </div>
-                                    </div>
-                                    <img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_64747350_M.jpg" class="post-image result">
-                                </div>
-                            </div>
+
+                                    <?php }
+                                    /** endif */ ?>
+                                <?php }
+                                /** endforeach */ ?>
+                            <?php }
+                            /** endforeach */ ?>
                         </div>
 
-                        <div class="row text-center message-create">
-                            <div class="col-9">
-                                <textarea name="" rows="3" id="chat_input" class="border border-0"></textarea>
-                            </div>
-                            <div class="col-2 icon-area">
-                                <div>
-                                    <label>
+                        <form method="POST" action="<?php echo esc_attr(get_tcd_membership_memberpage_url('comfirm_request')); ?>">
+                            <div class="row text-center message-create">
+                                <div class="col-9">
+                                    <textarea name="message" rows="3" id="chat_input" class="border border-0"></textarea>
+                                </div>
+                                <div class="col-2 icon-area">
+                                    <div>
+                                        <?php /** 画像を登録する必要はない */ ?>
+
+                                        <!-- label>
                                         <input type="file" name="file" accept="image/png, image/jpeg" id="messages_file_input">
                                         <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/camera_bule.png" class="camera" alt="camera">
+                                    </label -->
+                                    </div>
+                                    <label>
+                                        <input type="image" name="btn_confirm" src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/send.png" class="send" alt="send" id="chat_button">
                                     </label>
                                 </div>
-                                <label>
-                                    <input type="image" name="btn_confirm" src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/send.png" class="send" alt="send" id="chat_button">
-                                </label>
                             </div>
-                        </div>
+                            <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd-membership-confirm_message-' . $tcd_membership_vars['requestData']['post_id'])); ?>">
+                            <input type="hidden" name="request_id" value="<?php echo esc_attr($tcd_membership_vars['requestData']['post_id']); ?>">
+                            <input type="hidden" name="request_type" value="message">
+                        </form>
                         <!-- 画像投稿時のモーダル -->
-                        <div class="modal">
+                        <?php /** 画像を登録する必要はない */ ?>
+                        <!-- div class="modal">
                             <div class="text-center title">
                                 投稿画像確認
                             </div>
                             <div class="bigimg"><img src="" alt="bigimg"></div>
                             <p class="close-btn"><a href="">✖</a></p>
                             <button type="submit" class="btn btn-primary rounded-pill btn-sm text-white btn-lg main-color post-image-btn" id="post_image_btn">投稿する</button>
-                        </div>
+                        </div -->
                     </div>
                 </div>
             </div>
