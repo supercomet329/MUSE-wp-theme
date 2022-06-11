@@ -1,135 +1,262 @@
 <?php
 global $dp_options, $tcd_membership_vars;
-// TODO 2022/05/11 メッセージの仕様確認 by H.Okabe
+
 get_header();
 ?>
-<div class="container pt-2">
-    <form id="comfirm_request" method="post">
+<form method="POST">
+    <div class="container request_show">
         <div class="row">
-            <div class="col-12">
-                <label for="title" class="text-muted">依頼タイトル:</label>
+            <div class="mt-4 col-12 item-text">
+                作品タイトル
             </div>
-            <div class="col-12 border-bottom">
-                <?php echo $tcd_membership_vars['requestData']['title']; ?>
-            </div>
-            <div class="col-12 pt-2">
-                <label for="content" class="text-muted">依頼内容:</label>
-            </div>
-            <div class="col-12 border-bottom">
-                <?php echo nl2br($tcd_membership_vars['requestData']['content']); ?>
-            </div>
-            <div class="col-12 pt-2">
-                <label for="" class="text-muted">添付ファイル:</label>
-            </div>
-            <div class="col-12 border-bottom">
-                <?php if (isset($tcd_membership_vars['requestData']['request_file_url']) && !empty($tcd_membership_vars['requestData']['request_file_url'])) { ?>
-                    <a href="<?php echo $tcd_membership_vars['requestData']['request_file_url']; ?>" target="_blank">
-                        <?php echo $tcd_membership_vars['requestData']['request_file_name']; ?>
-                    </a>
-                <?php } ?>
-            </div>
-            <div class="col-12 pt-2">
-                <label for="" class="text-muted">参考URL:</label>
-            </div>
-            <div class="col-12 border-bottom">
-                <?php if (isset($tcd_membership_vars['requestData']['url']) && !empty($tcd_membership_vars['requestData']['url'])) { ?>
-                    <a href="<?php echo $tcd_membership_vars['requestData']['url']; ?>" target="_blank">
-                        <?php echo $tcd_membership_vars['requestData']['url']; ?>
-                    </a>
-                <?php } ?>
-            </div>
-            <div class="col-12 pt-2">
-                <label for="" class="text-muted">予算:</label>
-            </div>
-            <div class="col-12 border-bottom">
-                <?php if (isset($tcd_membership_vars['requestData']['sales_format']) && $tcd_membership_vars['requestData']['sales_format'] > 0) { ?>
-                    <?php echo number_format($tcd_membership_vars['requestData']['money']); ?>円
-                <?php } else { ?>
-                    相談して決める
-                <?php } ?>
-            </div>
-            <div class="col-12 pt-2">
-                <label for="" class="text-muted">納品希望日:</label>
-            </div>
-            <div class="col-12 border-bottom">
-                <?php echo $tcd_membership_vars['requestData']['deadline']; ?>
-            </div>
-            <div class="col-12 pt-2">
-                <label for="" class="text-muted">特記事項:</label>
-            </div>
-            <div class="col-12 border-bottom">
-                <?php echo nl2br($tcd_membership_vars['requestData']['special_report']); ?>
-            </div>
-            <form action="">
-                <div class="col-12 pt-2">
-                    <label for="" class="">メッセージを検索</label>
+            <div class="mt-4 mb-2 col-12 d-flex justify-content-start text-center">
+                <img src="<?php echo esc_url($tcd_membership_vars['requestData']['profile_image']); ?>" alt="profile" class="rounded-circle" width="50">
+                <span class="font-weight-bold mr-auto"><?php echo esc_attr($tcd_membership_vars['requestData']['display_name']); ?></span>
+                <div class="w-25">
+                    <?php if ($tcd_membership_vars['requestData']['viewReceivedButton']) { ?>
+                        <div class="border rounded-pill py-1 px-1 f-size-10 font-weight-bold keep_off">
+                            <?php if (is_keep($tcd_membership_vars['requestData']['post_id'])) { ?>
+                                <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/keep_on.png" alt="keep-off" class="js-toggle-keep keep-on" data-post-id="<?php echo $tcd_membership_vars['requestData']['post_id']; ?>">
+                            <?php } else { ?>
+                                <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/keep_off.png" alt="keep-off" class="js-toggle-keep keep-on" data-post-id="<?php echo $tcd_membership_vars['requestData']['post_id']; ?>">
+                            <?php }
+                            /** endif */ ?>
+                        </div>
+                    <?php }
+                    /** endif */ ?>
+
                 </div>
-                <div class="col-12">
-                    <input type="text" name="" id="search_text" class="form-control" placeholder="検索ワードを入力">
-                </div>
-            </form>
-            <div class="col-12 pt-2 ">
-                メッセージ一覧
             </div>
-            <div class="col-12">
-                <ul style="margin:0; padding:0">
-                    <li class="d-flex align-items-start pt-2">
-                        <figure><img src="https://i.imgur.com/JgYD2nQ.jpg" class="rounded-circle" width="60" height="60"></figure>
-                        <div><span class="mr-2">UserName</span><span>2022/04/11 16:00</span><br>こんにちは</div>
+            <div class="tab-area">
+                <ul class="nav nav-tabs tab-menu d-flex justify-content-between" id="horizontal_list" role="tablist">
+                    <li class="nav-item item mt-auto mb-auto py-1 pl-2">
+                        <a class="nav-link active small font-weight-bold rounded-pill" id="contents-tab" data-toggle="tab" href="#contents" role="tab" aria-controls="contents" aria-selected="true">依頼内容</a>
                     </li>
-                    <li class="d-flex align-items-start pt-2">
-                        <figure><img src="assets/img/pixta_64747350_M.jpg" class="rounded-circle" width="60" height="60"></figure>
-                        <div><span class="mr-2">UserName</span><span>2022/04/11 16:30</span><br>よろしくお願いします。</div>
+                    <li class="nav-item mt-auto mb-auto py-1">
+                        <a class="nav-link small font-weight-bold rounded-pill" id="files-tab" data-toggle="tab" href="#files" role="tab" aria-controls="files" aria-selected="false">添付ファイル<br>参考URL</span></a>
+                    </li>
+                    <li class="nav-item mt-auto mb-auto py-1">
+                        <a class="nav-link small font-weight-bold rounded-pill" id="budgets-tab" data-toggle="tab" href="#budgets" role="tab" aria-controls="budgets" aria-selected="false">予算<br>納品希望日</a>
+                    </li>
+                    <li class="nav-item mt-auto mb-auto py-1 pr-2">
+                        <a class="nav-link small font-weight-bold rounded-pill" id="comments-tab" data-toggle="tab" href="#comments" role="tab" aria-controls="comments" aria-selected="false">コメント</a>
                     </li>
                 </ul>
             </div>
-            <div class="col-12">
-                <div class="form-group">
-                    <label for=""></label>
-                    <textarea class="form-control" rows="6" placeholder="ここにメッセージを入力"></textarea>
-                </div>
-            </div>
-            <div class="col-12">
-                <input type="file" name="file">
-            </div>
-            <div class="col-12">
-                <?php if ($tcd_membership_vars['requestData']['viewReceivedButton']) { ?>
-                    <div class="d-flex justify-content-center pt-4 pb-2">
-                        <button id="buttonReceived" type="button" class="btn btn-primary text-white btn-block gradient-custom-4 font-weight-bold">受注する
-                        </button><br />
-                    </div>
-                <?php } ?>
 
-                <div class="d-flex justify-content-center pt-1 pb-2">
-                    <button id="addComment" type="button" class="btn btn-primary text-white btn-block gradient-custom-4 font-weight-bold">投稿する
-                    </button><br />
+            <div class="tab-content w-100">
+                <div class="tab-pane active" id="contents" role="tabpanel" aria-labelledby="contents-tab">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12 mt-4 item-text border-bottom-solid ">
+                                依頼タイトル
+                            </div>
+                            <div class="col-12 mt-1 ">
+                                <?php echo esc_attr($tcd_membership_vars['requestData']['title']); ?>
+                            </div>
+                            <div class="col-12 mt-4 item-text border-bottom-solid ">
+                                本文
+                            </div>
+                            <div class="col-12 mt-1 ">
+                                <?php echo nl2br($tcd_membership_vars['requestData']['content']); ?>
+                            </div>
+                            <div class="col-12 mt-4 item-text border-bottom-solid ">
+                                構図
+                            </div>
+                            <div class="col-12 mt-1 ">
+                                <?php echo nl2br($tcd_membership_vars['requestData']['composition']); ?>
+                            </div>
+                            <div class="col-12 mt-4 item-text border-bottom-solid ">
+                                キャラクター
+                            </div>
+                            <div class="col-12 mt-1 ">
+                                <?php echo nl2br($tcd_membership_vars['requestData']['character']); ?>
+                            </div>
+                            <div class="col-12 mt-4 item-text border-bottom-solid">
+                                受付依頼数
+                            </div>
+                            <div class="col-12 mt-1">
+                                <?php echo nl2br($tcd_membership_vars['requestData']['orderQuantity']); ?>
+                                件
+                            </div>
+                            <div class="col-12 mt-4 item-text border-bottom-solid">
+                                特記事項
+                            </div>
+                            <div class="col-12 mt-1">
+                                <?php echo nl2br($tcd_membership_vars['requestData']['specialNotes']); ?>
+                            </div>
+                            <div class="col-12 mt-4 mt-xl-4 pt-xl-3 mb-5 text-center">
+                                <button class="btn text-white save-btn">依頼投稿</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="files" role="tabpanel" aria-labelledby="files-tab">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12 mt-4 item-text border-bottom-solid">
+                                添付ファイル
+                            </div>
+                            <div class="col-12 mt-1">
+                                <?php if ($tcd_membership_vars['requestData']['requestFileFlag']) { ?>
+                                    <img src="<?php echo esc_url($tcd_membership_vars['requestData']['requestFileUrl']); ?>" alt="upload_image" class="w-100">
+                                <?php } else { ?>
+                                    <a target="_blank" href="<?php echo esc_url($tcd_membership_vars['requestData']['requestFileUrl']); ?>"><?php echo esc_attr($tcd_membership_vars['requestData']['requestFileName']); ?></a>
+                                <?php } ?>
+                            </div>
+                            <div class="col-12 mt-4 item-text border-bottom-solid">
+                                参考URL
+                            </div>
+                            <div class="col-12 mt-1">
+                                <a target="_blank" href="<?php echo esc_url($tcd_membership_vars['requestData']['refUrl']); ?>"><?php echo esc_attr($tcd_membership_vars['requestData']['refUrl']); ?></a>
+                            </div>
+                            <div class="col-12 mt-4 mt-xl-4 pt-xl-3 mb-5 text-center">
+                                <button class="btn text-white save-btn">依頼投稿</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="budgets" role="tabpanel" aria-labelledby="budgets-tab">
+                    <div class="container block">
+                        <div class="row">
+                            <div class="col-12 mt-4 item-text border-bottom-solid">
+                                予算
+                            </div>
+                            <div class="col-12 mt-1">
+                                <?php echo esc_attr($tcd_membership_vars['requestData']['budget']); ?>円
+                            </div>
+                            <div class="col-12 mt-4 item-text border-bottom-solid">
+                                応募期限
+                            </div>
+                            <div class="col-12 mt-1">
+                                <?php echo esc_attr($tcd_membership_vars['requestData']['appDeadlineDate']); ?>
+                            </div>
+                            <?php if($tcd_membership_vars['requestData']['desiredDate']) { ?>
+                            <div class="col-12 mt-4 item-text border-bottom-solid">
+                                納品希望日
+                            </div>
+                            <div class="col-12 mt-1">
+                                <?php echo esc_attr($tcd_membership_vars['requestData']['desiredDate']); ?>
+                            </div>
+                            <?php } /* endif **/ ?>
+                            <div class="col-12 mt-4 mt-xl-4 pt-xl-3 mb-5 text-center">
+                                <button class="btn text-white save-btn">依頼投稿</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="comments" role="tabpanel" aria-labelledby="comments-tab">
+                    <div class="container message-show-area" id="message_show_area">
+                        <div class="font-weight-bold title border-bottom-solid mt-4">
+                            相手のユーザー名
+                        </div>
+                        <div class="row mb-5 pb-3">
+                            <div class="d-flex col-12 justify-content-center">
+                                <div class="main-color font-weight-bold text-white text-center rounded-pill small w-25 mt-4">
+                                    4/12
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="balloon_l">
+                                    <div class="faceicon">
+                                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_40272765_M.jpg" alt="" class="rounded-circle">
+                                        <div class="ml-xl-4 ml-1">
+                                            08:45
+                                        </div>
+                                    </div>
+                                    <p class="says">左側の吹き出し左側の吹き出し左側の吹き出し左側の吹き出し
+                                        左側の吹き出し左側の吹き出し
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="balloon_r">
+                                    <div class="faceicon">
+                                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_64747350_M.jpg" class="rounded-circle" alt="">
+                                        <div class="ml-xl-4 ml-1">
+                                            08:50
+                                        </div>
+                                    </div>
+                                    <div class="says">
+                                        <p>右側の吹き出し</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex col-12 justify-content-center">
+                                <div class="main-color font-weight-bold text-white text-center rounded-pill small w-25 mt-4">
+                                    4/14
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="balloon_l">
+                                    <div class="faceicon">
+                                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_40272765_M.jpg" alt="" class="rounded-circle">
+                                        <div class="ml-xl-4 ml-1">
+                                            08:45
+                                        </div>
+                                    </div>
+                                    <p class="says">左側の吹き出し左側の吹き出し左側の吹き出し左側の吹き出し
+                                        左側の吹き出し左側の吹き出し
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="balloon_r">
+                                    <div class="faceicon">
+                                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_64747350_M.jpg" class="rounded-circle" alt="">
+                                        <div class="ml-xl-4 ml-1">
+                                            08:50
+                                        </div>
+                                    </div>
+                                    <div class="says">
+                                        <p>右側の吹き出し</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="balloon_r">
+                                    <div class="faceicon">
+                                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_64747350_M.jpg" class="rounded-circle" alt="">
+                                        <div class="ml-xl-4 ml-1">
+                                            08:50
+                                        </div>
+                                    </div>
+                                    <img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_64747350_M.jpg" class="post-image result">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row text-center message-create">
+                            <div class="col-9">
+                                <textarea name="" rows="3" id="chat_input" class="border border-0"></textarea>
+                            </div>
+                            <div class="col-2 icon-area">
+                                <div>
+                                    <label>
+                                        <input type="file" name="file" accept="image/png, image/jpeg" id="messages_file_input">
+                                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/camera_bule.png" class="camera" alt="camera">
+                                    </label>
+                                </div>
+                                <label>
+                                    <input type="image" name="btn_confirm" src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/send.png" class="send" alt="send" id="chat_button">
+                                </label>
+                            </div>
+                        </div>
+                        <!-- 画像投稿時のモーダル -->
+                        <div class="modal">
+                            <div class="text-center title">
+                                投稿画像確認
+                            </div>
+                            <div class="bigimg"><img src="" alt="bigimg"></div>
+                            <p class="close-btn"><a href="">✖</a></p>
+                            <button type="submit" class="btn btn-primary rounded-pill btn-sm text-white btn-lg main-color post-image-btn" id="post_image_btn">投稿する</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd_membership_comfirm_request')); ?>">
-        <input type="hidden" name="post_id" value="<?php echo $tcd_membership_vars['requestData']['post_id']; ?>">
-    </form>
-</div>
-<script>
-    $('#buttonReceived').on('click', function() {
-        $('#comfirm_request').attr('action', "<?php echo get_tcd_membership_memberpage_url('confirm_received'); ?>");
-        $('#comfirm_request').append($('<input/>', {
-            type: 'hidden',
-            name: 'request_type',
-            value: 'confirm'
-        }));
-        $('#comfirm_request').append($('<input/>', {
-            type: 'hidden',
-            name: 'post_id',
-            value: '<?php echo $tcd_membership_vars['requestData']['post_id']; ?>'
-        }));
-        $('#comfirm_request').append($('<input/>', {
-            type: 'hidden',
-            name: 'nonce',
-            value: '<?php echo esc_attr(wp_create_nonce('tcd_membership_comfirm_request')); ?>'
-        }));
-        $('#comfirm_request').submit();
-    });
-</script>
+    </div>
+</form>
+
 <?php
 get_footer();

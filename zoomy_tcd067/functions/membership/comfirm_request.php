@@ -20,26 +20,72 @@ function tcd_membership_action_comfirm_request()
     $tcd_membership_vars['template']  = 'muse_comfirm_request';
 
     $user = wp_get_current_user();
-    $deadLineClass = new DateTime($rowResuestData[0]->deadline);
     $requestData = [];
-    $requestData['post_id'] = $rowResuestData[0]->post_id;
+
+    // 作品ID
+    $post_id = $rowResuestData[0]->post_id;
+    $requestData['post_id'] = $post_id;
+
+    // 依頼タイトル
     $requestData['title'] = $rowResuestData[0]->post_title;
+
+    // 依頼内容
     $requestData['content'] = $rowResuestData[0]->post_content;
-    $requestData['url'] = $rowResuestData[0]->url;
-    $requestData['money'] = $rowResuestData[0]->money;
-    $requestData['sales_format'] = $rowResuestData[0]->sales_format;
-    $requestData['deadline'] = $rowResuestData[0]->sales_format;
-    $requestData['receptions_count'] = $rowResuestData[0]->receptions_count;
-    $requestData['delivery_request'] = $rowResuestData[0]->delivery_request;
-    $requestData['special_report'] = $rowResuestData[0]->special_report;
-    $requestData['request_file_url'] = $rowResuestData[0]->request_file_url;
-    $requestData['request_file_name'] = $rowResuestData[0]->request_file_name;
-    $requestData['deadline'] = $deadLineClass->format('Y/m/d');
-    $requestData['post_author'] = $rowResuestData[0]->post_author;
-    $requestData['user_id']     = $user->ID;
+
+    // 構図
+    $requestData['composition'] = get_post_meta($post_id, 'composition', true);
+
+    // キャラクター
+    $requestData['character'] = get_post_meta($post_id, 'character', true);
+
+    // 受付依頼数
+    $requestData['orderQuantity'] = get_post_meta($post_id, 'orderQuantity', true);
+
+    // 添付ファイル
+    $requestData['requestFileName'] = get_post_meta($post_id, 'requestFileName', true);
+    $requestData['requestFileUrl']  = get_post_meta($post_id, 'requestFileUrl', true);
+    $filePathArray = explode('/', $requestData['requestFileUrl']);
+    $fileName = end($filePathArray);
+    $checkFile = __DIR__ . '/../../upload_file/' . $fileName;
+    $requestData['requestFileFlag']  = exif_imagetype($checkFile);
+
+    // 参考URL
+    $requestData['refUrl']  = get_post_meta($post_id, 'refUrl', true);
+
+    // 予算
+    $requestData['budget']  = get_post_meta($post_id, 'budget', true);
+
+    // 特記事項
+    $requestData['specialNotes']  = get_post_meta($post_id, 'specialNotes', true);
+
+    // 応募期限
+    $appDeadlineDate = get_post_meta($post_id, 'appDeadlineDate', true);
+    $appDeadClass = new DateTime($appDeadlineDate);
+    $requestData['appDeadlineDate']  = $appDeadClass->format('Y/m/d');
+
+    // 納品希望日
+    $requestData['desiredDate']  = false;
+    $desiredDate = get_post_meta($post_id, 'desiredDate', true);
+    if(! empty($desiredDate)) {
+        $desiredDateClass = new DateTime($desiredDate);
+        $desiredDate = $desiredDateClass->format('Y/m/d');
+    }
+    $requestData['desiredDate']  = $desiredDate;
+
+    // プロフィールイメージ
+    $author_id = $rowResuestData[0]->post_author;
+    $profileImageData = get_user_meta($author_id, 'profile_image', true);
+    $profile_image = get_template_directory_uri() . '/assets/img/icon/non_profile_image.png';
+    if (!empty($profileImageData)) {
+        $profile_image = $profileImageData;
+    }
+    $requestData['profile_image'] = $profile_image;
+
+    $author = get_user_by('id', $author_id);
+    $requestData['display_name'] = $author->data->display_name;
 
     $viewReceivedButton = false;
-    if((int)$rowResuestData[0]->post_author !== $user->ID && is_null($rowResuestData[0]->user_id)) {
+    if ((int)$author_id !== (int)$user->ID) {
         $viewReceivedButton = true;
     }
     $requestData['viewReceivedButton'] = $viewReceivedButton;
