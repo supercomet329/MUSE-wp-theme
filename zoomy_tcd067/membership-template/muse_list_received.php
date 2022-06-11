@@ -8,7 +8,7 @@ get_header();
 <div class="container mt-3 request-list">
     <div class="row d-flex justify-content-center">
         <div class="col-8 tab-area text-center pt-1 pb-1 ml-1 mr-2">
-            <a href="<a href=" <?php echo esc_attr(get_tcd_membership_memberpage_url('list_order')); ?>"><button class="btn text-white not-selected-tab w-50">発注</button></a>
+            <a href="<?php echo esc_attr(get_tcd_membership_memberpage_url('list_order')); ?>"><button class="btn text-white not-selected-tab w-50">発注</button></a>
             <a href="<?php echo esc_attr(get_tcd_membership_memberpage_url('list_received')); ?>"><button class="btn text-white selected-tab w-40">受注</button></a>
         </div>
         <span class="ml-auto mr-auto">

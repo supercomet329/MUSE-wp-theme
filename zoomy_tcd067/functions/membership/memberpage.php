@@ -27,7 +27,7 @@ function tcd_membership_memberpage_init()
 			'likes',
 			'request',
 			'comfirm_request',
-			'list_my_order',
+			'order_search',
 			'modify_request',
 			'list_received',
 			'confirm_received',
@@ -51,6 +51,7 @@ function tcd_membership_memberpage_init()
 			'agreement',
 			'profile',
 			'confirm_post',
+			'order_search',
 		),
 		'memberpage_static_member_menu_types' => array(
 			'news',
