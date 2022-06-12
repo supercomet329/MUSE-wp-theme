@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Meta title and description
  */
@@ -106,61 +107,43 @@ function save_seo_meta_box( $post_id ) {
 }
 
 // titleタグの出力 --------------------------------------------------------------------------------
-function seo_title( $title ) {
+function seo_title($title)
+{
 
 	// global $post, $page, $paged;
 	global $post, $page, $paged, $tcd_membership_vars;
 
 	$site_title     = $title['title'];
 	$title['title'] = $title['title'] . ' | Top';
-	if ( is_single() && get_post_meta( $post->ID, 'tcd-w_meta_title', true ) or is_page() && get_post_meta( $post->ID, 'tcd-w_meta_title', true ) ) {
-		$title['title'] = get_post_meta( $post->ID, 'tcd-w_meta_title', true );
-	} elseif ( is_category() ) {
-		$title['title'] = sprintf( __( 'Post list for %s', 'tcd-w' ), single_cat_title( '', false ) );
-	} elseif ( is_tag() ) {
-		$title['title'] = sprintf( __( 'Post list for %s', 'tcd-w' ), single_tag_title( '', false ) );
-	} elseif ( is_search() ) {
-		$title['title'] = sprintf( __( 'Post list for %s', 'tcd-w' ), get_search_query() );
-	} elseif ( is_day() ) {
-		$title['title'] = sprintf( __( 'Archive for %s', 'tcd-w' ), get_the_time( __( 'F jS, Y', 'tcd-w' ) ) );
-	} elseif ( is_month() ) {
-		$title['title'] = sprintf( __( 'Archive for %s', 'tcd-w' ), get_the_time( __( 'F, Y', 'tcd-w') ) );
-	} elseif ( is_year() ) {
-		$title['title'] = sprintf( __( 'Archive for %s', 'tcd-w' ), get_the_time( __( 'Y', 'tcd-w') ) );
-	} elseif ( is_author() ) {
+	if (is_single() && get_post_meta($post->ID, 'tcd-w_meta_title', true) or is_page() && get_post_meta($post->ID, 'tcd-w_meta_title', true)) {
+		$title['title'] = get_post_meta($post->ID, 'tcd-w_meta_title', true);
+	} elseif (is_category()) {
+		$title['title'] = sprintf(__('Post list for %s', 'tcd-w'), single_cat_title('', false));
+	} elseif (is_tag()) {
+		$title['title'] = sprintf(__('Post list for %s', 'tcd-w'), single_tag_title('', false));
+	} elseif (is_search()) {
+		$title['title'] = sprintf(__('Post list for %s', 'tcd-w'), get_search_query());
+	} elseif (is_day()) {
+		$title['title'] = sprintf(__('Archive for %s', 'tcd-w'), get_the_time(__('F jS, Y', 'tcd-w')));
+	} elseif (is_month()) {
+		$title['title'] = sprintf(__('Archive for %s', 'tcd-w'), get_the_time(__('F, Y', 'tcd-w')));
+	} elseif (is_year()) {
+		$title['title'] = sprintf(__('Archive for %s', 'tcd-w'), get_the_time(__('Y', 'tcd-w')));
+	} elseif (is_author()) {
 		global $wp_query;
 		$curauth = $wp_query->get_queried_object();
-		$title['title'] = sprintf( __( 'ユーザープロフィール %s', 'tcd-w'), $curauth->display_name );
+		$title['title'] = sprintf(__('ユーザープロフィール %s', 'tcd-w'), $curauth->display_name);
 	}
 
-	if(isset($tcd_membership_vars['template'])) {
+	if (isset($tcd_membership_vars['template'])) {
 		$userObj = get_currentuserinfo();
-		if($tcd_membership_vars['memberpage_type'] === 'follows') {
-			$title['title'] = $site_title . ' | ' . sprintf( __( 'フォロー一覧 %s', 'tcd-w'), $userObj->display_name );	
-		} else if($tcd_membership_vars['memberpage_type'] === 'followers') {
-			$title['title'] = $site_title . ' | ' . sprintf( __( 'フォロワー一覧 %s', 'tcd-w'), $userObj->display_name );	
-		} else if($tcd_membership_vars['memberpage_type'] === 'likes') {
-			$title['title'] = $site_title . ' | ' . sprintf( __( 'いいね一覧 %s', 'tcd-w'), $userObj->display_name );	
-		} else if($tcd_membership_vars['memberpage_type'] === 'request') {
-			$title['title'] = $site_title . ' | ' . sprintf( __( '発注一覧 %s', 'tcd-w'), $userObj->display_name );	
-		} else if($tcd_membership_vars['memberpage_type'] === 'comfirm_request') {
-			$title['title'] = $site_title . ' | ' . sprintf( __( '発注 %s', 'tcd-w'), $userObj->display_name );	
-		} else if($tcd_membership_vars['memberpage_type'] === 'comfirm_request') {
-			$title['title'] = $site_title . ' | ' . sprintf( __( '発注確認 %s', 'tcd-w'), $userObj->display_name );	
-		} else if($tcd_membership_vars['memberpage_type'] === 'list_my_order') {
-			$title['title'] = $site_title . ' | ' . sprintf( __( 'オーダー一覧 %s', 'tcd-w'), $userObj->display_name );	
-		} else if($tcd_membership_vars['memberpage_type'] === 'modify_request') {
-			$title['title'] = $site_title . ' | ' . sprintf( __( '発注情報変更 %s', 'tcd-w'), $userObj->display_name );	
-		} else if($tcd_membership_vars['memberpage_type'] === 'list_received') {
-			$title['title'] = $site_title . ' | ' . sprintf( __( '受注一覧 %s', 'tcd-w'), $userObj->display_name );	
-		} else if($tcd_membership_vars['memberpage_type'] === '受注一覧') {
-			$title['title'] = $site_title . ' | ' . sprintf( __( '受注一覧 %s', 'tcd-w'), $userObj->display_name );	
-		} else if($tcd_membership_vars['memberpage_type'] === 'list_post') {
-			$title['title'] = $site_title . ' | ' . sprintf( __( '投稿一覧 %s', 'tcd-w'), $userObj->display_name );	
-		} else if($tcd_membership_vars['memberpage_type'] === 'confirm_post') {
-			$title['title'] = $site_title . ' | ' . sprintf( __( '投稿詳細 %s', 'tcd-w'), $userObj->display_name );	
-		} else if($tcd_membership_vars['memberpage_type'] === 'add_photo') {
-			$title['title'] = $site_title . ' | 投稿';
+
+		switch ($tcd_membership_vars['memberpage_type']) {
+			case 'confirm_post':
+				$postData = get_posts($tcd_membership_vars['postData']['post_id']);
+				// 画像投稿詳細
+				$title['title'] = $site_title . ' | ' . sprintf(__('投稿詳細 | %s', 'tcd-w'), $postData[0]->post_title);
+				break;
 		}
 	}
 
