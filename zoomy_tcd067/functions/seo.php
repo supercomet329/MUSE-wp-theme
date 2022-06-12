@@ -139,7 +139,7 @@ function seo_title($title)
 		$title['title'] = sprintf(__('ユーザープロフィール | %s', 'tcd-w'), $curauth->display_name);
 	}
 
-	if (isset($tcd_membership_vars['template'])) {
+	if (isset($tcd_membership_vars['memberpage_type'])) {
 		$userObj = get_currentuserinfo();
 
 		switch ($tcd_membership_vars['memberpage_type']) {
@@ -197,7 +197,16 @@ function seo_title($title)
 			case 'profile':
 				// プロフィール
 				$user = get_user_by('id', $tcd_membership_vars['user_id']);
-				$title['title'] = sprintf(__('ユーザープロフィール | %s', 'tcd-w'), $user->data->display_name);
+				$title['title'] = $site_title . ' | ' . sprintf(__('ユーザープロフィール | %s', 'tcd-w'), $user->data->display_name);
+				break;
+			case 'edit_profile':
+				// プロフィール編集
+				$title['title'] = $site_title . ' | ' . sprintf(__('プロフィール編集', 'tcd-w'));
+				break;
+			case 'registration':
+			case 'registration_account':
+				// ユーザー新規登録
+				$title['title'] = $site_title . ' | ' . sprintf(__('ユーザー新規登録', 'tcd-w'));
 				break;
 		}
 	}
