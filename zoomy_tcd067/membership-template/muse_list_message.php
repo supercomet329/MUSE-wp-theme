@@ -15,10 +15,10 @@ get_header();
                     $profile_image = get_template_directory_uri() . '/assets/img/icon/non_profile_image.png';
                     if ((int)get_current_user_id() !== (int)$one_message->sender_user_id) {
                         // 送信者と自分が違う場合 => 表示させるメンバー情報は送信者
-                        $user_id = $one_message->sender_user_id;  
+                        $user_id = $one_message->sender_user_id;
                     } else {
                         // 送信者と自分が同じ場合 => 表示させるメンバー情報は受信者
-                        $user_id = $one_message->recipient_user_id;  
+                        $user_id = $one_message->recipient_user_id;
                     }
 
                     $userData = get_userdata($user_id);
@@ -31,21 +31,25 @@ get_header();
                     }
 
                 ?>
-                    <a href="<?php echo esc_attr( get_tcd_membership_memberpage_url( 'detail_message' ) ); ?>&user_id=<?php echo $user_id; ?>">
+                    <a href="<?php echo esc_attr(get_tcd_membership_memberpage_url('detail_message')); ?>&user_id=<?php echo $user_id; ?>">
                         <li class="d-flex align-items-start pt-2">
                             <img src="<?php echo esc_html($profile_image); ?>" class="rounded-circle">
-                            <span class="name">
-                                <?php echo esc_attr($display_name); ?><br>
-                                <span class="content"><?php echo nl2br($one_message->message); ?></span>
-                            </span>
+                            <span class="name text-dark"><?php echo esc_attr($display_name); ?><br><br><span class="content"><?php echo nl2br($one_message->message); ?></span></span>
                             <span class="created_at">
-                                <?php echo esc_attr($dateTimeClass->format('Y/m/d')); ?>
+                                <?php echo esc_attr($dateTimeClass->format('Y/m/d')); ?><br />
+                                <?php echo esc_attr($dateTimeClass->format('H:i')); ?>
                             </span>
                         </li>
                     </a>
+
                 <?php }
                 /** endforeach */ ?>
             </ul>
+        </div>
+        <div class="col-12 d-flex justify-content-end">
+            <div class="message-add-icon-area">
+                <a href="<?php echo esc_attr(get_tcd_membership_memberpage_url('detail_message')); ?>"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/image_upload.png" class="message-add-icon" alt="メッセージ作成"></a>
+            </div>
         </div>
     </div>
 </div>

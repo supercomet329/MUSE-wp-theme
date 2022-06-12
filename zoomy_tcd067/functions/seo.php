@@ -174,6 +174,10 @@ function seo_title($title)
 				$postData = get_post($tcd_membership_vars['requestData']['post_id']);
 				$title['title'] = $site_title . ' | ' . sprintf(__('依頼詳細 | %s', 'tcd-w'), $postData->post_title);
 				break;
+			case 'list_message':
+				// メッセージ一覧
+				$title['title'] = $site_title . ' | ' . sprintf(__('メッセージ一覧', 'tcd-w'));
+				break;
 		}
 	}
 
