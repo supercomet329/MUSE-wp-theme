@@ -145,8 +145,8 @@ function seo_title($title)
 		switch ($tcd_membership_vars['memberpage_type']) {
 			case 'confirm_post':
 				// 画像投稿詳細
-				$postData = get_posts($tcd_membership_vars['postData']['post_id']);
-				$title['title'] = $site_title . ' | ' . sprintf(__('投稿詳細 | %s', 'tcd-w'), $postData[0]->post_title);
+				$postData = get_post($tcd_membership_vars['postData']['post_id']);
+				$title['title'] = $site_title . ' | ' . sprintf(__('投稿詳細 | %s', 'tcd-w'), $postData->post_title);
 				break;
 			case 'post_image':
 				// 画像投稿
@@ -168,6 +168,11 @@ function seo_title($title)
 				} else {
 					$title['title'] = $site_title . ' | ' . sprintf(__('メッセージ詳細', 'tcd-w'));
 				}
+				break;
+			case 'comfirm_request':
+				// 依頼詳細
+				$postData = get_post($tcd_membership_vars['requestData']['post_id']);
+				$title['title'] = $site_title . ' | ' . sprintf(__('依頼詳細 | %s', 'tcd-w'), $postData->post_title);
 				break;
 		}
 	}
