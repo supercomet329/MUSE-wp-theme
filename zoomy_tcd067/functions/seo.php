@@ -160,6 +160,15 @@ function seo_title($title)
 				// フォロワー一覧
 				$title['title'] = $site_title . ' | ' . sprintf(__('フォロワー一覧 | %s', 'tcd-w'), $userObj->data->display_name);
 				break;
+			case 'detail_message':
+				if (isset($tcd_membership_vars['target_user_id'])) {
+					$user = get_user_by('id', $tcd_membership_vars['target_user_id']);
+					// メッセージ送信
+					$title['title'] = $site_title . ' | ' . sprintf(__('メッセージ詳細 | %s', 'tcd-w'), $user->data->display_name);
+				} else {
+					$title['title'] = $site_title . ' | ' . sprintf(__('メッセージ詳細', 'tcd-w'));
+				}
+				break;
 		}
 	}
 

@@ -93,7 +93,10 @@ get_header();
                             <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/camera_bule.png" class="camera" alt="camera">
                         </label>
                     </div>
-                    <input type="image" src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/send.png" alt="send" id="chat_button">
+                    <label>
+                        <input type="image" name="btn_confirm" src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/send.png" class="send" alt="send"
+                            id="chat_button">
+                    </label>
                 </div>
             </div>
         </div>
