@@ -27,17 +27,36 @@ get_header();
                         $profile_image = $profileImageData;
                     }
                 ?>
-                    <li class="d-flex align-items-start pt-2">
-                        <img src="<?php echo $profile_image; ?>" class="rounded-circle">
-                        <span class="name"><?php echo $user_info->display_name; ?></span>
-                        <span class="btn-area">
+                    <div class="row my-2">
+                        <div class="col-2 d-block d-lg-none pr-0">
+                            <img src="<?php echo $profile_image; ?>" class="rounded-circle profile-icon">
+                        </div>
+                        <div class="col-2 d-none d-lg-block pr-0">
+                            <img src="<?php echo $profile_image; ?>" class="rounded-circle profile-icon">
+                        </div>
+                        <div class="col-6 d-block d-lg-none">
+                            <p class="name font-weight-bold mb-1"><?php echo $user_info->display_name; ?></p>
+                            <p class="profile-detail mb-1"><?php echo $description; ?></p>
+                        </div>
+                        <div class="col-8 d-none d-lg-block">
+                            <p class="name font-weight-bold mb-1"><?php echo $user_info->display_name; ?></p>
+                            <p class="profile-detail mb-1"><?php echo $description; ?></p>
+                        </div>
+                        <div class="col-4 d-block d-lg-none btn-area text-right pl-0 my-auto">
                             <?php if (is_following($one_follow->user_id)) { ?>
                                 <a href="#" id="follow_button" data-user-id="<?php echo esc_attr($one_follow->user_id); ?>" class="js-toggle-follow btn btn-primary rounded-pill btn-sm text-white btn-lg main-color">フォロー中</a>
                             <?php } else { ?>
                                 <a href="#" id="follow_button" data-user-id="<?php echo esc_attr($one_follow->user_id); ?>" class="js-toggle-follow btn rounded-pill btn-outline-primary outline-btn btn-sm">フォローする</a>
                             <?php } ?>
-                        </span>
-                    </li>
+                        </div>
+                        <div class="col-2 d-none d-lg-block btn-area text-right pl-0 my-auto">
+                            <?php if (is_following($one_follow->user_id)) { ?>
+                                <a href="#" id="follow_button" data-user-id="<?php echo esc_attr($one_follow->user_id); ?>" class="js-toggle-follow btn btn-primary rounded-pill btn-sm text-white btn-lg main-color">フォロー中</a>
+                            <?php } else { ?>
+                                <a href="#" id="follow_button" data-user-id="<?php echo esc_attr($one_follow->user_id); ?>" class="js-toggle-follow btn rounded-pill btn-outline-primary outline-btn btn-sm">フォローする</a>
+                            <?php } ?>
+                        </div>
+                    </div>
                 <?php }
                 /** endforeach **/ ?>
             </ul>

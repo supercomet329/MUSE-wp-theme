@@ -144,14 +144,21 @@ function seo_title($title)
 
 		switch ($tcd_membership_vars['memberpage_type']) {
 			case 'confirm_post':
-				$postData = get_posts($tcd_membership_vars['postData']['post_id']);
 				// 画像投稿詳細
+				$postData = get_posts($tcd_membership_vars['postData']['post_id']);
 				$title['title'] = $site_title . ' | ' . sprintf(__('投稿詳細 | %s', 'tcd-w'), $postData[0]->post_title);
 				break;
 			case 'post_image':
-				$postData = get_posts($tcd_membership_vars['postData']['post_id']);
 				// 画像投稿
 				$title['title'] = $site_title . ' | ' . sprintf(__('画像投稿', 'tcd-w'));
+				break;
+			case 'follows':
+				// フォロー一覧
+				$title['title'] = $site_title . ' | ' . sprintf(__('フォロー一覧 | %s', 'tcd-w'), $userObj->data->display_name);
+				break;
+			case 'followers':
+				// フォロワー一覧
+				$title['title'] = $site_title . ' | ' . sprintf(__('フォロワー一覧 | %s', 'tcd-w'), $userObj->data->display_name);
 				break;
 		}
 	}
