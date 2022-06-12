@@ -136,7 +136,7 @@ function seo_title($title)
 	} elseif (is_author()) {
 		global $wp_query;
 		$curauth = $wp_query->get_queried_object();
-		$title['title'] = sprintf(__('ユーザープロフィール %s', 'tcd-w'), $curauth->display_name);
+		$title['title'] = sprintf(__('ユーザープロフィール | %s', 'tcd-w'), $curauth->display_name);
 	}
 
 	if (isset($tcd_membership_vars['template'])) {
@@ -177,6 +177,27 @@ function seo_title($title)
 			case 'list_message':
 				// メッセージ一覧
 				$title['title'] = $site_title . ' | ' . sprintf(__('メッセージ一覧', 'tcd-w'));
+				break;
+			case 'list_order':
+				// 発注一覧
+				$title['title'] = $site_title . ' | ' . sprintf(__('発注一覧', 'tcd-w'));
+				break;
+			case 'list_received':
+				// 受注一覧
+				$title['title'] = $site_title . ' | ' . sprintf(__('受注一覧', 'tcd-w'));
+				break;
+			case 'order_search':
+				// 依頼検索
+				$title['title'] = $site_title . ' | ' . sprintf(__('依頼検索', 'tcd-w'));
+				break;
+			case 'notification':
+				// 通知一覧
+				$title['title'] = $site_title . ' | ' . sprintf(__('通知一覧', 'tcd-w'));
+				break;
+			case 'profile':
+				// プロフィール
+				$user = get_user_by('id', $tcd_membership_vars['user_id']);
+				$title['title'] = sprintf(__('ユーザープロフィール | %s', 'tcd-w'), $user->data->display_name);
 				break;
 		}
 	}
