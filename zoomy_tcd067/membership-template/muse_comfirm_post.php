@@ -15,7 +15,7 @@ if (!empty($profileImageData)) {
 
 get_header();
 ?>
-<div class="col-12 mt-3 tweet-area d-flex align-items-center">
+<div class="col-12 mt-3 mb-2 tweet-area d-flex align-items-center">
     <img src="<?php echo $profile_image; ?>" class="rounded-circle profile-icon">
     <span class="pl-2"><?php echo $tcd_membership_vars['user']['display_name']; ?></span>
     <span class="follow-area ml-auto">
@@ -54,10 +54,10 @@ get_header();
 <?php }
 /** endif */ ?>
 
-<div class="mb-2">
+<div class="mb-2 ml-2 mr-2">
     <?php echo nl2br($tcd_membership_vars['postData']['post_content']); ?>
 </div>
-<div class="mb-2 subtext">
+<div class="mb-2 ml-2 mr-2 subtext text-right">
     <?php echo $tcd_membership_vars['postData']['post_date']; ?>
 </div>
 <?php

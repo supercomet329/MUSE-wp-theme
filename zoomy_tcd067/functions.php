@@ -174,6 +174,7 @@ function zoomy_scripts()
 		add_filter('page_builder_slick_enqueue_style', '__return_false');
 	}
 
+	/**
 	// トップページ
 	if (is_front_page()) {
 		wp_enqueue_script('zoomy-front-page', get_template_directory_uri() . '/js/front-page.js', array('jquery'), version_num(), true);
@@ -207,6 +208,7 @@ function zoomy_scripts()
 			wp_enqueue_script('comment-reply');
 		}
 	}
+	 */
 
 	// アドミンバーのインラインスタイルを出力しない
 	remove_action('wp_head', '_admin_bar_bump_cb');
@@ -257,7 +259,7 @@ add_action('admin_enqueue_scripts', 'zoomy_admin_scripts');
 // Editor style
 function zoomy_add_editor_styles()
 {
-	add_editor_style('admin/css/editor-style-02.css');
+	// add_editor_style('admin/css/editor-style-02.css');
 }
 add_action('admin_init', 'zoomy_add_editor_styles');
 

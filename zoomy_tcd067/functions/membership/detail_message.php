@@ -10,7 +10,7 @@ function tcd_membership_action_detail_message()
     $user = wp_get_current_user();
     $target_user_id = $_REQUEST['user_id'];
 
-    if (!$user || is_null($target_user_id)) {
+    if (!$user) {
         wp_safe_redirect(user_trailingslashit(home_url()));
         exit;
     }
@@ -39,43 +39,58 @@ function tcd_membership_action_detail_message()
             $message = $_POST['message'];
         }
         tcd_membership_messages_add_message(get_current_user_id(), $target_user_id, $message);
-        $redirect = get_tcd_membership_memberpage_url( 'detail_message' ) . '&user_id=' . $target_user_id;
+        $redirect = get_tcd_membership_memberpage_url('detail_message') . '&user_id=' . $target_user_id;
         wp_safe_redirect($redirect);
         exit;
     }
 
-    $args = [
-        'user_id' => get_current_user_id(),
-        'target_user_id' => $target_user_id,
-
-    ];
-    $row_message = get_tcd_membership_messages_user_messages($args);
-    $display_user = get_userdata($target_user_id);
-
     $list_message = [];
-    foreach ($row_message as $one_message) {
-        $message_id = $one_message->id;
-        $dateClass = new DateTime($one_message->sent_gmt);
-        $day       = $dateClass->format('Ymd 00:00:00');
+    $list_follow  = false;
+    $message_flag = false;
+    if (!is_null($target_user_id)) {
+        // 送信先のユーザー情報できた場合
+        $args = [
+            'user_id' => get_current_user_id(),
+            'target_user_id' => $target_user_id,
 
-        $message = $one_message->message;
-        $imgFlag = false;
-        if (preg_match('/.gif|.png|.jpg|.jpeg/', $message) === 1) {
-            $imgFlag = true;
-        }
-
-        $list_message[$day][] = [
-            'sender_user_id' => $one_message->sender_user_id,
-            'message'        => $one_message->message,
-            'image_flag'     => $imgFlag,
-            'send_time'      => $dateClass->format('H:i'),
         ];
-    }
-    tcd_membership_messages_recipient_read($message_id);
+        $row_message = get_tcd_membership_messages_user_messages($args);
+        $display_user = get_userdata($target_user_id);
 
+        foreach ($row_message as $one_message) {
+            $message_id = $one_message->id;
+            $dateClass = new DateTime($one_message->sent_gmt);
+            $day       = $dateClass->format('Ymd 00:00:00');
+
+            $message = $one_message->message;
+            $imgFlag = false;
+            if (preg_match('/.gif|.png|.jpg|.jpeg/', $message) === 1) {
+                $imgFlag = true;
+            }
+
+            $list_message[$day][] = [
+                'sender_user_id' => $one_message->sender_user_id,
+                'message'        => $one_message->message,
+                'image_flag'     => $imgFlag,
+                'send_time'      => $dateClass->format('H:i'),
+            ];
+        }
+        tcd_membership_messages_recipient_read($message_id);
+        $message_flag = true;
+    } else {
+        // 送信先のユーザー情報が取得できない場合
+        // フォローしているユーザーの一覧を取得
+        $list_follow = muse_list_follow($user->ID);
+        if(count($list_follow) > 0) {
+            $message_flag = true;
+        }
+    }
+
+    $tcd_membership_vars['list_follow'] = $list_follow;
     $tcd_membership_vars['template']  = 'muse_detail_message';
     $tcd_membership_vars['list_message'] = $list_message;
     $tcd_membership_vars['title_user_name'] = $display_user->display_name;
     $tcd_membership_vars['target_user_id']  = $target_user_id;
+    $tcd_membership_vars['message_flag']    = $message_flag;
 }
 add_action('tcd_membership_action-detail_message', 'tcd_membership_action_detail_message');
