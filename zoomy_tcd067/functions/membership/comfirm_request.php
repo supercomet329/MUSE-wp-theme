@@ -134,7 +134,7 @@ function tcd_membership_action_comfirm_request()
     $requestData['author_id']    = $author_id;
 
     $viewReceivedButton = true;
-    if (!isset($user->ID) && (int)$author_id === (int)$user->ID) {
+    if (!isset($user->ID) || (int)$author_id === (int)$user->ID) {
         $viewReceivedButton = false;
     }
 

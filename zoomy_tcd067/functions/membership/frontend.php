@@ -715,6 +715,20 @@ function muse_list_followers($target_user_id = NULL)
 }
 
 /**
+ * メールアドレスがすでにあるか?チェック
+ */
+function chkUserDataByMailAddress($mailAddress) {
+	$user = get_user_by( 'email', $mailAddress );
+
+	$result = false;
+	if(!$user) {
+		$result = true;
+	}
+
+	return $result;
+}
+
+/**
  * 依頼詳細の取得
  *
  * @param int $request_id
