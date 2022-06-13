@@ -8,24 +8,12 @@ function tcd_membership_action_comfirm_request()
 {
     global $tcd_membership_vars;
 
-    $request_id = $_REQUEST['request_id'];
+    $request_id     = $_REQUEST['request_id'];
     $rowResuestData = get_request($request_id);
 
     if (count($rowResuestData) <= 0) {
         wp_safe_redirect(user_trailingslashit(home_url()));
         exit;
-    }
-
-    if (!is_null($rowResuestData[0]->received_user_id)) {
-        // すでに依頼を受けていた場合
-
-        if (
-            (int)$rowResuestData[0]->received_user_id !== (int)get_current_user_id() &&
-            (int)$rowResuestData[0]->received_tareget_user_id !== (int)get_current_user_id()
-        ) {
-            wp_safe_redirect(user_trailingslashit(home_url()));
-            exit;
-        }
     }
 
     $user = wp_get_current_user();
