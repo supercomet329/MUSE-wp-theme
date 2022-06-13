@@ -722,7 +722,7 @@ function muse_list_followers($target_user_id = NULL)
  */
 function get_request($request_id)
 {
-	global $dp_options, $wpdb, $wp_query;
+	global $wpdb;
 
 	$sql = '';
 	$sql .= 'SELECT ';
@@ -730,13 +730,9 @@ function get_request($request_id)
 	$sql .= 'wp_posts.post_title AS post_title,';
 	$sql .= 'wp_posts.post_name  AS post_name,';
 	$sql .= 'wp_posts.post_content AS post_content,';
-	$sql .= 'wp_posts.post_author AS post_author, ';
-	$sql .= 'wp_tcd_membership_actions.user_id AS received_user_id, ';
-	$sql .= 'wp_tcd_membership_actions.target_user_id AS received_tareget_user_id ';
+	$sql .= 'wp_posts.post_author AS post_author ';
 
 	$sql .= 'FROM wp_posts ';
-	$sql .= 'LEFT JOIN wp_tcd_membership_actions ';
-	$sql .= 'ON wp_tcd_membership_actions.post_id = wp_posts.ID ';
 	$sql .= 'WHERE wp_posts.ID = ' . $request_id;
 	$sql .= ' AND wp_posts.post_status = \'publish\'';
 	$sql .= ' AND wp_posts.post_type   = \'request\'';
@@ -751,6 +747,27 @@ function get_request($request_id)
 					wp_postmeta.meta_value > NOW()
 	';
 	$sql .= ')';
+	$result = $wpdb->get_results($wpdb->prepare($sql));
+
+	$return = [];
+	if (!is_null($result)) {
+		$return = $result;
+	}
+	return $return;
+}
+
+/**
+ * 依頼者の取得
+ */
+function getReceivedMember($post_id)
+{
+	global $wpdb;
+
+	$sql = '';
+	$sql .= 'SELECT user_id ';
+	$sql .= ' FROM wp_tcd_membership_actions ';
+	$sql .= ' WHERE post_id = ' . $post_id;
+	$sql .= ' AND type = "received"';
 	$result = $wpdb->get_results($wpdb->prepare($sql));
 
 	$return = [];
