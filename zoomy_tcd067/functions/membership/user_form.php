@@ -214,6 +214,13 @@ function tcd_membership_login_form($args = array())
 						</div>
 					</div>
 					<div class="col-12">
+						<div class="emailSentMsg" id="emailSentMsg">
+							<?php if (isset($tcd_membership_vars['error_message'])) : ?>
+								<?php echo $tcd_membership_vars['error_message']; ?>
+							<?php endif; ?>
+						</div>
+					</div>
+					<div class="col-12">
 						<label for="email" class="label-text">メールアドレス</label>
 					</div>
 					<div class="col-12 pt-2 pb-2">

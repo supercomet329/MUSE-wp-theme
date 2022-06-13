@@ -10,9 +10,9 @@ jQuery(function($) {
         checkInput();
     });
     // 仮登録ボタンを押された際に、メール送信済みメッセージを表示
-    jQuery('#register-btn').on('click', function() {
-        showEmailSentMsg();
-    });
+    // jQuery('#register-btn').on('click', function() {
+    //   showEmailSentMsg();
+    //});
 });
 
 // 入力項目を確認し、仮登録ボタン有効化/無効化切り替え

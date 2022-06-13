@@ -34,7 +34,7 @@ get_header();
     <?php echo $tcd_membership_vars['postData']['post_title']; ?>
 </div>
 <div class="timeline-image">
-    <img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_40272765_M.jpg" alt="">
+    <img src="<?php echo esc_url($tcd_membership_vars['postData']['post_image']); ?>" alt="">
 </div>
 
 <?php if ($tcd_membership_vars['postData']['post_author'] !== get_current_user_id()) { ?>

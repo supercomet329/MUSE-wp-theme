@@ -6,26 +6,14 @@
  */
 function tcd_membership_action_comfirm_request()
 {
-    global $wpdb, $tcd_membership_vars;
+    global $tcd_membership_vars;
 
-    $request_id = $_REQUEST['request_id'];
+    $request_id     = $_REQUEST['request_id'];
     $rowResuestData = get_request($request_id);
 
     if (count($rowResuestData) <= 0) {
         wp_safe_redirect(user_trailingslashit(home_url()));
         exit;
-    }
-
-    if (!is_null($rowResuestData[0]->received_user_id)) {
-        // すでに依頼を受けていた場合
-
-        if (
-            (int)$rowResuestData[0]->received_user_id !== (int)get_current_user_id() &&
-            (int)$rowResuestData[0]->received_tareget_user_id !== (int)get_current_user_id()
-        ) {
-            wp_safe_redirect(user_trailingslashit(home_url()));
-            exit;
-        }
     }
 
     $user = wp_get_current_user();
@@ -59,10 +47,10 @@ function tcd_membership_action_comfirm_request()
             if (!empty($_POST['message'])) {
                 // wp_commentの登録
                 $data = [
-                    'comment_post_ID' => $request_id,
-                    'comment_content' => $_POST['message'],
-                    'user_id' => get_current_user_id(),
-                    'comment_date' => date('Y-m-d H:i:s'),
+                    'comment_post_ID'  => $request_id,
+                    'comment_content'  => $_POST['message'],
+                    'user_id'          => get_current_user_id(),
+                    'comment_date'     => date('Y-m-d H:i:s'),
                     'comment_approved' => 1,
                 ];
                 wp_insert_comment($data);
@@ -76,26 +64,27 @@ function tcd_membership_action_comfirm_request()
     // テンプレート指定
     $tcd_membership_vars['template']  = 'muse_comfirm_request';
 
-    $requestData = [];
-    // 作品ID
-    $post_id = $rowResuestData[0]->post_id;
+    $requestData                  = [];
 
-    $requestData['post_id'] = $post_id;
+    // 作品ID
+    $post_id                      = $rowResuestData[0]->post_id;
+
+    $requestData['post_id']       = $post_id;
 
     // 作品タイトル
-    $requestData['post_name'] = $rowResuestData[0]->post_name;
+    $requestData['post_name']     = $rowResuestData[0]->post_name;
 
     // 依頼タイトル
-    $requestData['title'] = $rowResuestData[0]->post_title;
+    $requestData['title']         = $rowResuestData[0]->post_title;
 
     // 依頼内容
-    $requestData['content'] = $rowResuestData[0]->post_content;
+    $requestData['content']       = $rowResuestData[0]->post_content;
 
     // 構図
-    $requestData['composition'] = get_post_meta($post_id, 'composition', true);
+    $requestData['composition']   = get_post_meta($post_id, 'composition', true);
 
     // キャラクター
-    $requestData['character'] = get_post_meta($post_id, 'character', true);
+    $requestData['character']     = get_post_meta($post_id, 'character', true);
 
     // 受付依頼数
     $requestData['orderQuantity'] = get_post_meta($post_id, 'orderQuantity', true);
@@ -106,25 +95,25 @@ function tcd_membership_action_comfirm_request()
     $filePathArray = explode('/', $requestData['requestFileUrl']);
     $fileName = end($filePathArray);
     $checkFile = __DIR__ . '/../../upload_file/' . $fileName;
-    $requestData['requestFileFlag']  = exif_imagetype($checkFile);
+    $requestData['requestFileFlag'] = exif_imagetype($checkFile);
 
     // 参考URL
-    $requestData['refUrl']  = get_post_meta($post_id, 'refUrl', true);
+    $requestData['refUrl']       = get_post_meta($post_id, 'refUrl', true);
 
     // 予算
-    $requestData['budget']  = get_post_meta($post_id, 'budget', true);
+    $requestData['budget']       = get_post_meta($post_id, 'budget', true);
 
     // 特記事項
-    $requestData['specialNotes']  = get_post_meta($post_id, 'specialNotes', true);
+    $requestData['specialNotes'] = get_post_meta($post_id, 'specialNotes', true);
 
     // 応募期限
     $appDeadlineDate = get_post_meta($post_id, 'appDeadlineDate', true);
-    $appDeadClass = new DateTime($appDeadlineDate);
+    $appDeadClass    = new DateTime($appDeadlineDate);
     $requestData['appDeadlineDate']  = $appDeadClass->format('Y/m/d');
 
     // 納品希望日
     $requestData['desiredDate']  = false;
-    $desiredDate = get_post_meta($post_id, 'desiredDate', true);
+    $desiredDate                 = get_post_meta($post_id, 'desiredDate', true);
     if (!empty($desiredDate)) {
         $desiredDateClass = new DateTime($desiredDate);
         $desiredDate = $desiredDateClass->format('Y/m/d');
@@ -132,31 +121,39 @@ function tcd_membership_action_comfirm_request()
     $requestData['desiredDate']  = $desiredDate;
 
     // プロフィールイメージ
-    $author_id = $rowResuestData[0]->post_author;
-    $profileImageData = get_user_meta($author_id, 'profile_image', true);
-    $profile_image = get_template_directory_uri() . '/assets/img/icon/non_profile_image.png';
+    $author_id         = $rowResuestData[0]->post_author;
+    $profileImageData  = get_user_meta($author_id, 'profile_image', true);
+    $profile_image     = get_template_directory_uri() . '/assets/img/icon/non_profile_image.png';
     if (!empty($profileImageData)) {
         $profile_image = $profileImageData;
     }
     $requestData['profile_image'] = $profile_image;
 
-    $author = get_user_by('id', $author_id);
+    $author                      = get_user_by('id', $author_id);
     $requestData['display_name'] = $author->data->display_name;
-    $requestData['author_id'] = $author_id;
+    $requestData['author_id']    = $author_id;
 
-    $viewReceivedButton = false;
-    if ((int)$author_id !== (int)$user->ID && !is_null(get_current_user())) {
-        $viewReceivedButton = true;
-    }
-
-    if (!is_null($rowResuestData[0]->received_user_id)) {
-        // 依頼を受けている場合 => ボタンを表示しない
+    $viewReceivedButton = true;
+    if (!isset($user->ID) || (int)$author_id === (int)$user->ID) {
         $viewReceivedButton = false;
     }
-    $requestData['viewReceivedButton'] = $viewReceivedButton;
 
+    $listReceivedUser = getReceivedMember($post_id);
+    foreach ($listReceivedUser as $oneReceivedUser) {
+        if ((int)$user->data->ID === (int)$oneReceivedUser->user_id) {
+            $viewReceivedButton = false;
+            break;
+        }
+    }
+
+    if ($requestData['orderQuantity'] <= count($listReceivedUser)) {
+        // 受託した企業が設定数以上の場合 => 受託ボタンを非表示にする
+        $viewReceivedButton = false;
+    }
+
+    $requestData['viewReceivedButton']   = $viewReceivedButton;
     $tcd_membership_vars['requestData']  = $requestData;
-    $tcd_membership_vars['list_comment'] = listComment( $request_id );
+    $tcd_membership_vars['list_comment'] = listComment($request_id);
 }
 add_action('tcd_membership_action-comfirm_request', 'tcd_membership_action_comfirm_request');
 
@@ -166,17 +163,18 @@ add_action('tcd_membership_action-comfirm_request', 'tcd_membership_action_comfi
  * @param [type] $rquest_id
  * @return void
  */
-function listComment($rquest_id) {
+function listComment($rquest_id)
+{
     $params = [
         'post_id' => $rquest_id,
         'orderby' => [
             'ID' => 'ASC',
         ],
     ];
-    $commentArray = get_comments( $params );
+    $commentArray = get_comments($params);
 
     $messageArray = [];
-    foreach($commentArray as $commentOne) {
+    foreach ($commentArray as $commentOne) {
         $dataClass = new DateTime($commentOne->comment_date);
 
         $profileImageData = get_user_meta($commentOne->user_id, 'profile_image', true);
