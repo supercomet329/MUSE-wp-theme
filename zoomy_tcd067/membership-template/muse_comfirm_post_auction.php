@@ -2,6 +2,7 @@
 global $dp_options;
 if (!$dp_options) $dp_options = get_design_plus_option();
 
+// 202206/14 TODO: 決済方法が決まったら決済部の対応
 get_header();
 ?>
 <div class="container mt-3 confirm-area">
