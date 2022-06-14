@@ -61,7 +61,7 @@ function tcd_membership_action_confirm_post()
         $auctionFlag = false;
         $auctionStartDate = false;
         $auctionEndDate = false;
-        $extendAuction  = false;
+        $extendAuctionString  = false;
         if ($auctionCheckFlag === 'specify') {
             // オークション時刻指定あり
             $auctionFlag = true;
@@ -89,7 +89,7 @@ function tcd_membership_action_confirm_post()
         $postImageData['extendAuctionString'] = $extendAuctionString;
     } else {
         // 販売しない場合
-        $template = 'muse_comfirm_post_now_sale';
+        $template = 'muse_comfirm_post_no_sale';
     }
 
     $tcd_membership_vars['template']  = $template;
