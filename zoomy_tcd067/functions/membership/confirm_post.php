@@ -26,12 +26,20 @@ function tcd_membership_action_confirm_post()
     $postImageData['post_content'] = $rowPostData->post_content;
     $postImageData['post_date']    = $postDate;
 
+    $viewButtonFlag = false;
+    if (!is_null(get_current_user_id())) {
+        if ((int)$rowPostData->post_author !== get_current_user_id()) {
+            $viewButtonFlag = true;
+        }
+    }
+    $postImageData['viewButtonFlag']    = $viewButtonFlag;
+
     $postImageData['post_image']   = get_post_meta($rowPostData->ID, 'main_image', true);
     $saleType = get_post_meta($rowPostData->ID, 'saleType', true);
 
     $r18String = '全年齢';
     $r18Flag   = get_post_meta($rowPostData->ID, 'r18', true);
-    if($r18Flag === 'r18') {
+    if ($r18Flag === 'r18') {
         $r18String = 'R18指定';
     }
     $postImageData['r18String']   = $r18String;
@@ -45,11 +53,40 @@ function tcd_membership_action_confirm_post()
 
         // 即決金額を取得
         $postImageData['binPrice']   = get_post_meta($rowPostData->ID, 'binPrice', true);
-
     } elseif ($saleType === 'auction') {
         // オークションの場合
         $template = 'muse_comfirm_post_auction';
 
+        $auctionCheckFlag = get_post_meta($rowPostData->ID, 'auctionStartDate', true);
+        $auctionFlag = false;
+        $auctionStartDate = false;
+        $auctionEndDate = false;
+        $extendAuction  = false;
+        if ($auctionCheckFlag === 'specify') {
+            // オークション時刻指定あり
+            $auctionFlag = true;
+
+            // 開始時刻の取得
+            $auctionDate = get_post_meta($rowPostData->ID, 'auctionDate', true);
+            $auctionDateClass = new DateTime($auctionDate);
+            $auctionStartDate = $auctionDateClass->format('Y/m/d H:i:s');
+
+            // 終了時刻の取得
+            $auctionEndDate = get_post_meta($rowPostData->ID, 'auctionEndDate', true);
+            $auctionEndDateClass = new DateTime($auctionEndDate);
+            $auctionEndDate = $auctionEndDateClass->format('Y/m/d H:i:s');
+
+            // 自動延長の文字列の取得
+            $extendAuctionString = 'なし';
+            $extendAuctionFlag = get_post_meta($rowPostData->ID, 'extendAuction', true);
+            if ($extendAuctionFlag === 'enableAutoExtend') {
+                $extendAuctionString = 'あり';
+            }
+        }
+        $postImageData['auctionFlag']         = $auctionFlag;
+        $postImageData['auctionStartDate']    = $auctionStartDate;
+        $postImageData['auctionEndDate']      = $auctionEndDate;
+        $postImageData['extendAuctionString'] = $extendAuctionString;
     } else {
         // 販売しない場合
         $template = 'muse_comfirm_post_now_sale';

@@ -5,7 +5,7 @@ if (!$dp_options) $dp_options = get_design_plus_option();
 get_header();
 ?>
 <div class="container mt-3 confirm-area">
-    <form action="#" method="POST">
+    <form action="POST">
         <div class="row">
             <div class="col-12 item-text mb-2">
                 投稿画像（必須）
@@ -30,29 +30,45 @@ get_header();
             </div>
             <div class="col-12 mb-4">
                 <div class="mb-2">
-                    通常販売
+                    オークション
                 </div>
                 <div>
                     <?php echo esc_attr($tcd_membership_vars['postData']['r18String']); ?>
                 </div>
             </div>
             <div class="col-12 item-text mb-2">
-                販売価格（必須）
+                オークション開始日時（必須）
             </div>
             <div class="col-12 mb-4">
-                <div class="mb-2">
-                    <?php echo esc_attr($tcd_membership_vars['postData']['imagePrice']); ?> 円
+                <?php if ($tcd_membership_vars['postData']['auctionFlag']) { ?>
+                    開始時間指定
+                <?php } else { ?>
+                    開始時間指定なし
+                <?php } ?>
+            </div>
+            <?php if ($tcd_membership_vars['postData']['auctionFlag']) { ?>
+                <div class="col-12 item-text mb-2">
+                    オークション開始日時
                 </div>
-                <div>
-                    （手数料差引額〇〇〇円）
+                <div class="col-12 mb-4">
+                    <?php echo esc_attr($tcd_membership_vars['postData']['auctionStartDate']); ?>
                 </div>
-            </div>
-            <div class="col-12 item-text mb-2">
-                即決価格（必須）
-            </div>
-            <div class="col-12 mb-2">
-                <?php echo esc_attr($tcd_membership_vars['postData']['binPrice']); ?> 円
-            </div>
+                <div class="col-12 item-text mb-2">
+                    オークション終了日時
+                </div>
+                <div class="col-12 mb-4">
+                    <?php echo esc_attr($tcd_membership_vars['postData']['auctionEndDate']); ?>
+                </div>
+                <div class="col-12 item-text mb-2">
+                    オークション自動延長
+                </div>
+                <div class="col-12 mb-2">
+                    <input type="text" value="あり" class="border border-0" readonly>
+                </div>
+                <div class="text-danger mb-3 ml-3 small">
+                    ※終了5分前に入札されると、5分延長されます。
+                </div>
+            <?php } ?>
             <?php if ($tcd_membership_vars['postData']['viewButtonFlag']) { ?>
                 <div class="col-12 my-2">
                     <div class="text-center custom-control custom-checkbox">
@@ -61,7 +77,7 @@ get_header();
                     </div>
                 </div>
                 <div class="col-12 my-3 text-center">
-                    <button type="submit" class="btn btn-primary save-btn text-white" id="save_btn" disabled>画像購入</button>
+                    <button type="submit" class="btn btn-primary save-btn text-white" id="save_btn" disabled>画像投稿</button>
                 </div>
             <?php } ?>
         </div>
