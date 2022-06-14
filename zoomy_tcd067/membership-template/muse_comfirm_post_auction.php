@@ -78,7 +78,7 @@ get_header();
                     </div>
                 </div>
                 <div class="col-12 my-3 text-center">
-                    <button type="submit" class="btn btn-primary save-btn text-white" id="save_btn" disabled>画像投稿</button>
+                    <button type="submit" class="btn btn-primary save-btn text-white" id="save_btn" disabled>オークションに参加</button>
                 </div>
             <?php } ?>
         </div>
