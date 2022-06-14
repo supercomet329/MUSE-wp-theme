@@ -717,11 +717,12 @@ function muse_list_followers($target_user_id = NULL)
 /**
  * メールアドレスがすでにあるか?チェック
  */
-function chkUserDataByMailAddress($mailAddress) {
-	$user = get_user_by( 'email', $mailAddress );
+function chkUserDataByMailAddress($mailAddress)
+{
+	$user = get_user_by('email', $mailAddress);
 
 	$result = false;
-	if(!$user) {
+	if (!$user) {
 		$result = true;
 	}
 
@@ -812,6 +813,26 @@ function list_author_post($target_user_id = NULL, $list_type = 'photo')
 		} else {
 			$where_post_status = "AND wp_posts.post_status = 'publish'";
 		}
+
+		$user_id = get_current_user_id();
+		$r18_sql = '';
+		$r18_sql .= " AND NOT EXISTS(";
+		$r18_sql .= " SELECT * FROM wp_postmeta ";
+		$r18_sql .= " WHERE wp_postmeta.meta_key = 'r18' ";
+		$r18_sql .= " AND wp_postmeta.meta_value = 1 ";
+		$r18_sql .= " AND wp_postmeta.post_id = wp_posts.ID ";
+		$r18_sql .= " )";
+
+		if ($user_id <= 0) {
+			$birthday = get_user_meta($user_id, 'birthday', true);
+			$date = new DateTime($birthday);
+			$now = new DateTime();
+			$interval = $now->diff($date);
+			if(18 <= $interval->y) {
+				$r18_sql = '';
+			}
+		}
+		$where_post_status .= $r18_sql;
 
 		$sql = '';
 		$sql .= 'SELECT * ';
