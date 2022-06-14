@@ -8,6 +8,7 @@ if (!empty($profileImageData)) {
 	$profile_image = $profileImageData;
 }
 
+count_non_read_thread();
 $url = get_tcd_membership_memberpage_url('login');
 if (get_current_user_id() > 0) {
 	$url = get_author_posts_url(get_current_user_id());

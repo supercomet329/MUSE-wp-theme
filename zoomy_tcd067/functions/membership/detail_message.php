@@ -75,7 +75,8 @@ function tcd_membership_action_detail_message()
                 'send_time'      => $dateClass->format('H:i'),
             ];
         }
-        tcd_membership_messages_recipient_read($message_id);
+        // tcd_membership_messages_recipient_read($message_id);
+        read_on_message($target_user_id);
         $message_flag = true;
     } else {
         // 送信先のユーザー情報が取得できない場合
