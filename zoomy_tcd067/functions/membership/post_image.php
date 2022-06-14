@@ -13,8 +13,6 @@ function tcd_membership_action_post_image()
     $user = wp_get_current_user();
 
     if (!$user) {
-        var_dump(__LINE__);
-        exit;
         wp_safe_redirect(user_trailingslashit(home_url()));
         exit;
     }
@@ -146,6 +144,20 @@ function tcd_membership_action_post_image()
                 )
             );
 
+            $result = $wpdb->insert(
+                'wp_postmeta',
+                array(
+                    'post_id'    => $post_id,
+                    'meta_key'   => 'saleType',
+                    'meta_value' =>$_POST['saleType'],
+                ),
+                array(
+                    '%d',
+                    '%s',
+                    '%s'
+                )
+            );
+
             if ($_POST['suitableAges'] === 'r18') {
                 // R18フラグがある場合 => 18フラグを登録
                 $result = $wpdb->insert(
@@ -199,6 +211,20 @@ function tcd_membership_action_post_image()
                     'wp_postmeta',
                     array(
                         'post_id'    => $post_id,
+                        'meta_key'   => 'auctionStartDate',
+                        'meta_value' => $_POST['auctionStartDate'],
+                    ),
+                    array(
+                        '%d',
+                        '%s',
+                        '%s'
+                    )
+                );
+
+                $result = $wpdb->insert(
+                    'wp_postmeta',
+                    array(
+                        'post_id'    => $post_id,
                         'meta_key'   => 'auctionDate',
                         'meta_value' => $auctionDate,
                     ),
@@ -222,12 +248,27 @@ function tcd_membership_action_post_image()
                         '%s'
                     )
                 );
+
+                $result = $wpdb->insert(
+                    'wp_postmeta',
+                    array(
+                        'post_id'    => $post_id,
+                        'meta_key'   => 'extendAuction',
+                        'meta_value' => $_POST['extendAuction'],
+                    ),
+                    array(
+                        '%d',
+                        '%s',
+                        '%s'
+                    )
+                );
+
             } else {
                 // 販売しない場合
             }
 
             $url = get_author_posts_url(get_current_user_id());
-            wp_safe_redirect( $url );
+            wp_safe_redirect($url);
             exit();
         }
     }
