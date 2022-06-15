@@ -39,7 +39,7 @@ function tcd_membership_action_confirm_post()
 
     $r18String = '全年齢';
     $r18Flag   = get_post_meta($rowPostData->ID, 'r18', true);
-    if ($r18Flag === 'r18') {
+    if ($r18Flag > 0) {
         $r18String = 'R18指定';
     }
     $postImageData['r18String']   = $r18String;
