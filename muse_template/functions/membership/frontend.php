@@ -823,7 +823,7 @@ function list_author_post($target_user_id = NULL, $list_type = 'photo')
 		$r18_sql .= " AND wp_postmeta.post_id = wp_posts.ID ";
 		$r18_sql .= " )";
 
-		if ($user_id <= 0) {
+		if ($user_id > 0) {
 			$birthday = get_user_meta($user_id, 'birthday', true);
 			$date = new DateTime($birthday);
 			$now = new DateTime();
