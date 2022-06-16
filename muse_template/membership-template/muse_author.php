@@ -106,6 +106,19 @@ get_header();
 				/** endif */ ?>
 
 		</div>
+		<?php if ((int)$user_id !== get_current_user_id()) { ?>
+			<div class="col-7"></div>
+			<div class="col-5 d-block btn-area text-right pl-0 my-auto">
+				<?php if (is_following($user_id)) { ?>
+					<a href="#" id="follow_button" data-user-id="<?php echo esc_attr($user_id); ?>" class="js-toggle-follow btn btn-primary rounded-pill btn-sm text-white btn-lg main-color">フォロー中</a>
+				<?php } else { ?>
+					<a href="#" id="follow_button" data-user-id="<?php echo esc_attr($user_id); ?>" class="js-toggle-follow btn rounded-pill btn-outline-primary outline-btn btn-sm">フォローする</a>
+				<?php }
+				/** endif */ ?>
+			</div>
+		<?php }
+		/** endif */ ?>
+
 		<div class="mt-3 col-12">
 			<?php echo nl2br(esc_attr($description)); ?>
 		</div>
