@@ -240,6 +240,7 @@ function get_author_list_total($target_user_id, $list_type)
 	} elseif ('follower' === $list_type) {
 		$tablename = get_tcd_membership_tablename('actions');
 		$sql = "SELECT COUNT(id) FROM {$tablename} WHERE type = 'follow' AND target_user_id = %d";
+
 		$result = $wpdb->get_var($wpdb->prepare($sql, $target_user_id));
 		if ($result) {
 			return (int) $result;
@@ -247,6 +248,7 @@ function get_author_list_total($target_user_id, $list_type)
 	} elseif ('following' === $list_type) {
 		$tablename = get_tcd_membership_tablename('actions');
 		$sql = "SELECT COUNT(id) FROM {$tablename} WHERE type = 'follow' AND user_id = %d";
+
 		$result = $wpdb->get_var($wpdb->prepare($sql, $target_user_id));
 		if ($result) {
 			return (int) $result;

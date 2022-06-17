@@ -6,7 +6,7 @@
  * @param array $params
  * @return array
  */
-function muse_login($params)
+function api_muse_login($params)
 {
 
     $response = [];
