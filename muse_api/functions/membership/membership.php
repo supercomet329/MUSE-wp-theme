@@ -66,6 +66,7 @@ get_template_part('functions/membership/messages');
 
 // ADD 2022/06/17 MUSE API
 get_template_part('functions/membership/muse_login');
+get_template_part('functions/membership/muse_user_info');
 
 // ADD 2022/05/10 H.Okabe
 get_template_part('functions/membership/follows');
@@ -103,7 +104,7 @@ if (!$dp_options) $dp_options = get_design_plus_option();
  */
 function error_publish($message = false)
 {
-    file_put_contents(SYS_ERROR_FILE, date('Y-m-d H:i:s') . ':' . print_r($message, true), FILE_APPEND);
+    file_put_contents(SYS_ERROR_FILE, date('Y-m-d H:i:s') . ':' . print_r($message, true) . PHP_EOL, FILE_APPEND);
 }
 
 /**

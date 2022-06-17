@@ -26,17 +26,21 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
 
         case 'login':
             // ログインの対応
-
-            $response = muse_login($params);
+            $response = api_muse_login($params);
             break;
 
         case 'registration':
             // 仮登録の対応
             break;
 
+        case 'profile':
+            // ユーザー情報の取得
+            // アクセストークン or ユーザーIDのどちらか?は必須
+            $response = api_get_profile($params);
+            break;
+
         case 'profile_image':
             // ユーザーの投稿画像 / いいね投稿の情報を取得
-            // アクセストークン必須
             break;
 
         case 'edit_profile':

@@ -116,12 +116,14 @@ function get_tcd_membership_tablename( $table_type = null ) {
 	if ( ! defined( 'TCD_MEMBERSHIP_TABLE_PREFIX' ) ) {
 		define( 'TCD_MEMBERSHIP_TABLE_PREFIX', 'tcd_membership_' );
 	}
-
+	
 	// アクセス数テーブルは別テーマとの互換性を考慮してwp_tcd_post_views
 	if ( in_array( $table_type, array( 'views', 'tcd_post_views' ) ) ) {
-		return $wpdb->prefix . 'tcd_post_views';
+		// return $wpdb->prefix . 'tcd_post_views';
+		return $wpdb->base_prefix . 'tcd_post_views';
 	} else {
-		return $wpdb->prefix . TCD_MEMBERSHIP_TABLE_PREFIX . $table_type;
+		// return $wpdb->prefix . TCD_MEMBERSHIP_TABLE_PREFIX . $table_type;
+		return $wpdb->base_prefix . TCD_MEMBERSHIP_TABLE_PREFIX . $table_type;
 	}
 }
 
