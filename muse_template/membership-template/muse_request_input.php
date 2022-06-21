@@ -118,7 +118,7 @@ get_header();
                 </div>
                 <hr class="request-hr">
                 <div class="col-12">
-                    <input class="form-control request-input" type="text" name="refUrl" id="refUrl" placeholder="参考URL" value="<?php echo esc_attr(isset($_REQUEST['refUrl']) ? $_REQUEST['refUrl'] : ''); ?>" required>
+                    <input class="form-control request-input" type="text" name="refUrl" id="refUrl" placeholder="参考URL" value="<?php echo esc_attr(isset($_REQUEST['refUrl']) ? $_REQUEST['refUrl'] : ''); ?>">
                 </div>
 
                 <div class="col-12 mb-4">
