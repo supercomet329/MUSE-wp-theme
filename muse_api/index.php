@@ -10,6 +10,7 @@ if (!defined('SYS_ERROR_FILE')) {
 }
 
 header("Content-Type: application/json; charset=utf-8");
+header('Access-Control-Allow-Origin: *');
 
 $default_error_json = [];
 $default_error_json['result']  = false;
