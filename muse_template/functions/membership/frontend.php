@@ -618,6 +618,7 @@ function muse_list_post($user_id = NULL)
 	$sql .= 'WHERE wp_posts.post_type = %s ';
 	$sql .= 'AND wp_postmeta.meta_key = \'main_image\' ';
 	$sql .= 'AND wp_posts.post_author = %d ';
+	$sql .= 'AND wp_posts.post_status IN (\'publish\', \'private\', \'pending\', \'draft\')';
 	$sql .= ' ORDER BY wp_posts.post_date DESC ';
 
 	$result = $wpdb->get_results($wpdb->prepare($sql, 'photo', $user_id));
@@ -808,11 +809,12 @@ function list_author_post($target_user_id = NULL, $list_type = 'photo')
 		$sql = "SELECT * FROM {$wpdb->posts} WHERE post_type = %s AND post_author = %d {$where_post_status}";
 		return $wpdb->get_var($wpdb->prepare($sql, 'post', $target_user_id));
 	} elseif ('photo' === $list_type) {
-		if (get_current_user_id() == $target_user_id) {
-			$where_post_status = "AND wp_posts.post_status IN ('publish', 'private', 'pending', 'draft')";
-		} else {
-			$where_post_status = "AND wp_posts.post_status = 'publish'";
-		}
+		$where_post_status = "AND wp_posts.post_status = 'publish'";
+//		if (get_current_user_id() == $target_user_id) {
+//			$where_post_status = "AND wp_posts.post_status IN ('publish', 'private', 'pending', 'draft')";
+//		} else {
+//			$where_post_status = "AND wp_posts.post_status = 'publish'";
+//		}
 
 		$user_id = get_current_user_id();
 		$r18_sql = '';
