@@ -23,6 +23,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
         case 'top_image':
             // トップページの表示
             // アクセストークンがある場合がある
+            $response = api_get_top_image($params);
             break;
 
         case 'login':
