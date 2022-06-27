@@ -67,6 +67,8 @@ get_template_part('functions/membership/messages');
 // ADD 2022/06/17 MUSE API
 get_template_part('functions/membership/muse_login');
 get_template_part('functions/membership/muse_user_info');
+get_template_part('functions/membership/muse_get_tail_follow');
+get_template_part('functions/membership/muse_follow');
 
 // ADD 2022/05/10 H.Okabe
 get_template_part('functions/membership/follows');
