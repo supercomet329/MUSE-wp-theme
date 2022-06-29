@@ -102,11 +102,13 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
         case 'list_detail_message':
             // メッセージ詳細
             // アクセストークン必須
+            $response = api_get_detail_messages($params);
             break;
 
         case 'insert_message':
             // メッセージ登録
             // アクセストークン必須
+            $response = api_insert_message($params);
             break;
 
         case 'get_non_read_count':
