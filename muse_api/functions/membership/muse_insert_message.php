@@ -59,8 +59,6 @@ function api_insert_message($params)
         $response = [
             'result' => true,
             'content' => $last_content,
-            'message' => $message,
-            'image' => $params['image'],
         ];
 
     } catch (Exception $e) {

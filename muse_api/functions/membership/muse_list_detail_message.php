@@ -96,7 +96,7 @@ function api_get_detail_messages($params)
                 }
                 $content[] = [
                     $send_date => [
-                        'user_id' => $target_user_id,
+                        'user_id' => $one_message['sender_user_id'],
                         'display_name'   => $display_user->display_name,
                         'image'   => $image,
                         'message'   => $message,
