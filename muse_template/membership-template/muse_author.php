@@ -88,7 +88,8 @@ get_header();
                     <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('request')); ?>&user_id=<?php echo $user_id; ?>"><button class="px-0 mx-1 btn rounded-pill btn-outline-primary outline-btn btn-sm request-btn">　依頼　</button></a>
                 <?php }
                 /** endif */ ?>
-                <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('report')); ?>&user_id=<?php echo $user_id; ?>"><button class="px-0 btn rounded-pill btn-outline-primary outline-btn btn-sm report-btn">　通報　</button></a>
+                <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('request')); ?>&user_id=<?php echo $user_id; ?>"><button class="px-0 mx-1 btn rounded-pill btn-outline-primary outline-btn btn-sm request-btn">　依頼　</button></a>
+
             <?php }
             /** endif */ ?>
         </div>
