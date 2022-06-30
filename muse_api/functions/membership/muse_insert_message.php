@@ -2,7 +2,7 @@
 
 /**
  *
- * メッセージ一覧の取得
+ * メッセージの登録
  *
  * @param array $params
  * @return array

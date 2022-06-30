@@ -121,6 +121,12 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
             // アクセストークン必須
             break;
 
+        case 'get_follow':
+            // フォロー一覧取得
+            // アクセストークン必須
+            $response = api_get_follow($params);
+            break;
+
         case 'like':
             // いいね登録/更新
             // アクセストークン必須
