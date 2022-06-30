@@ -30,12 +30,16 @@ function api_insert_message($params)
         }
         $target_user_id = $params['target_user_id'];
 
-        if (!empty($_FILES['file']['name'])) {
+        if (!empty($params['image'])) {
             // 画像アップロードの場合
-            $extension = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
-            $file_name = substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 100) . '.' . $extension;
+            $image_parts = explode(";base64,", $params['image']);
+            $image_type_aux = explode("image/", $image_parts[0]); // ファイルの型を取り出す
+            $image_type = $image_type_aux[1]; // ファイルの型を取り出す
+            $image_base64 = base64_decode($image_parts[1]); // 画像データとして取り出す
+            $file_name = substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 100) . '.' . '.png';
             $uploaded_file = '/home/kusanagi/nft/DocumentRoot/wp-content/themes/muse_template/functions/membership' . '/../../upload_file/' . $file_name;
-            $result = move_uploaded_file($_FILES['file']['tmp_name'], $uploaded_file);
+
+            $result = file_put_contents($uploaded_file, $image_base64); // ファイルを保存
             if ($result) {
                 $message  = 'http://localhost.nft.info/wp-content/themes/muse_template' . '/upload_file/' . $file_name;
             } else {
@@ -56,7 +60,7 @@ function api_insert_message($params)
             'result' => true,
             'content' => $last_content,
             'message' => $message,
-            'image' => $_FILES['file']['name'],
+            'image' => $params['image'],
         ];
 
     } catch (Exception $e) {
