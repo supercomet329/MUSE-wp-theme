@@ -57,6 +57,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
         case 'edit_profile':
             // プロフィール編集
             // アクセストークン必須
+            $response = api_edit_profile($params);
             break;
 
         case 'list_order':
