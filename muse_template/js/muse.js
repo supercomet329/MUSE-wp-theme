@@ -1013,6 +1013,7 @@ jQuery(function($) {
 });
 
 // フォローする、フォロー中の選択機能
+/**
 jQuery(function($) {
     $(document).on('click', '.follow-off', function() {
         let follow_on = jQuery('<button type="button"class="btn btn-primary rounded-pill btn-sm text-white btn-lg main-color follow-btn follow-on">フォロー中</button>');
@@ -1024,6 +1025,7 @@ jQuery(function($) {
         $(this).replaceWith(follow_off);
     });
 });
+ */
 
 jQuery(function($) {
     // 販売形式のラジオボタン変更で、表示するフォーム切り替え

@@ -86,9 +86,9 @@ get_header();
             <?php } else { ?>
                 <!-- 自分以外が見た場合 -->
                 <?php if (is_following($user_id)) { ?>
-                    <a href="#" id="follow_button" data-user-id="<?php echo esc_attr($user_id); ?>" class="btn btn-primary rounded-pill btn-sm text-white btn-lg main-color follow-btn follow-on">フォロー中</a>
+                    <button type="button" data-user-id="<?php echo esc_attr($user_id); ?>" class="js-toggle-follow btn btn-primary rounded-pill btn-sm text-white btn-lg main-color follow-btn follow-on">フォロー中</button>
                 <?php } else { ?>
-                    <a href="#" id="follow_button" data-user-id="<?php echo esc_attr($user_id); ?>" class="btn btn-primary rounded-pill btn-sm text-white btn-lg main-color follow-btn follow-off">フォローする</a>
+                    <button type="button" data-user-id="<?php echo esc_attr($user_id); ?>" class="js-toggle-follow btn rounded-pill btn-outline-primary btn-sm follow-btn follow-off">フォローする</button>
                 <?php } ?>
                 <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('request')); ?>&user_id<?php echo $user_id; ?>"><button class="px-0 mx-1 btn rounded-pill btn-outline-primary outline-btn btn-sm request-btn">　依頼　</button></a>
             <?php } ?>

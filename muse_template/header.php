@@ -47,7 +47,7 @@ if (get_current_user_id() > 0) {
     </script>
 </head>
 
-<body>
+<body <?php body_class(); ?>>
     <header>
         <nav class="navbar navbar-light bg-light">
             <?php
