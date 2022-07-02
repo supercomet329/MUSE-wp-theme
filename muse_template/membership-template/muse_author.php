@@ -108,9 +108,11 @@ get_header();
             <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('followers')); ?>"><span class="follower">フォロワー<br>
                     <span><?php echo number_format($arrayCount['follower']['total']); ?></span></span></a>
         </div>
+
         <!-- 自分が見た場合のみ表示 -->
+        <?php if ((int)$user_id === get_current_user_id()) { ?>
         <?php /** TODO: NFTが決まり次第実装 */ ?>
-        <!-- <div class="col-5"></div>
+        <div class="col-5"></div>
         <div class="col-7 profile-money">
             <div class="row">
           <div class="col-6 float-right font-weight-bold text-left">
@@ -128,7 +130,8 @@ get_header();
                     <p class="mb-0">￥2,000,000-</p>
                 </div>
             </div>
-        </div> -->
+        </div>
+        <?php } ?>
         <!-- 自分が見た場合のみ表示 -->
 
         <!-- <div class="col-5 d-block btn-area text-right pl-0 my-auto">
@@ -152,7 +155,7 @@ get_header();
     <div class="favorite-area my-2 py-1">
         <div class="row d-flex justify-content-around">
             <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/profile_mypost.png" id="mypost_icon" alt="profile_mypost" class="selected-icon">
-            <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/profile_favorite.png" id="favorite_icon" alt="profile_favorite">
+            <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/iine.png" id="favorite_icon" alt="profile_favorite">
             <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/favorite.png" id="purcher_icon" alt="profile_purcher">
             <p id="have_nft_icon" class="mb-0 pt-1 font-weight-bold">NFT</p>
         </div>
