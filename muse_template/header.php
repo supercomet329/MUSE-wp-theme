@@ -72,14 +72,14 @@ if (get_current_user_id() > 0) {
                     <div id="hamburger-menu"><span></span><span></span><span></span></div>
                 </div>
             </div>
-            <a href="<?php echo $url; ?>" class="d-none d-sm-block"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/profile.jpg" alt="profile" class="rounded-circle"></a>
+            <a href="<?php echo $url; ?>" class="d-none d-sm-block"><img src="<?php echo $profile_image; ?>" alt="profile" class="rounded-circle"></a>
             <a href="/"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/logo.png" alt="logo"></a>
             <div class="d-none d-sm-block">
                 <a href="/<?php echo $getParams; ?>">
                     <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/picture_blue.png" alt="change" data-toggle="modal" class="change-logo">
                 </a>
             </div>
-            <a href="<?php echo $url; ?>" class="d-block d-sm-none"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/profile.jpg" alt="profile" class="rounded-circle"></a>
+            <a href="<?php echo $url; ?>" class="d-block d-sm-none"><img src="<?php echo $profile_image; ?>" alt="profile" class="rounded-circle"></a>
         </nav>
     </header>
 
