@@ -1,3 +1,31 @@
+// ハンバーガーボタン押すことによる、サイドバーの開閉動作
+jQuery(function($) {
+    function slideMenu() {
+        var activeState = $(".menu-list").hasClass("active");
+        $(".menu-list").animate({ left: activeState ? "0%" : "-300px" }, 400);
+    }
+    $("#menu-wrapper").click(function(event) {
+        event.stopPropagation();
+        $("#hamburger-menu").toggleClass("open");
+        $(".menu-list").toggleClass("active");
+        slideMenu();
+        if ($("#hamburger-menu").hasClass("open")) {
+            jQuery('body').css({
+                'position': 'fixed',
+                'width': '100%',
+                'z-index': '1',
+            });
+        } else {
+            jQuery('body').css({
+                'position': 'relative',
+                'width': 'auto',
+                'top': 'auto'
+            });
+        }
+
+    });
+});
+
 // 通常新規登録ページ(sign_up.html)
 // 入力項目のフォーカスが外れた際に処理を実行
 jQuery(function($) {
@@ -10,9 +38,9 @@ jQuery(function($) {
         checkInput();
     });
     // 仮登録ボタンを押された際に、メール送信済みメッセージを表示
-    // jQuery('#register-btn').on('click', function() {
-    //   showEmailSentMsg();
-    //});
+    jQuery('#register-btn').on('click', function() {
+        showEmailSentMsg();
+    });
 });
 
 // 入力項目を確認し、仮登録ボタン有効化/無効化切り替え
@@ -405,10 +433,7 @@ jQuery(function($) {
 });
 
 // キープ済み、キープの選択機能（request_searched_list.html,request_received_list_html）
-/**
 jQuery(function($) {
-    var $ = jQuery.noConflict();
-
     $(document).on('click', '.keep_off', function() {
         let keep_on = jQuery('<div class="rounded-pill text-center mb-1 px-1 keep_on"><img src="assets/img/icon/keep_on.png" alt="keep-on" class="keep-on"></div>');
         $(this).replaceWith(keep_on);
@@ -419,15 +444,12 @@ jQuery(function($) {
         $(this).replaceWith(keep_off);
     });
 });
- */
 
 /**
  * 作品依頼（通常依頼）提案ページ
  */
 // ファイルが選択された際、ファイル名を表示
 jQuery('#requestFile').on('change', function() {
-    var $ = jQuery.noConflict();
-
     // 添付されたファイルを取得
     var selectedFile = $(this).prop('files')[0];
     // ファイルが存在している場合
@@ -613,6 +635,7 @@ function checkRequestInput() {
     }
 
     // 参考URLが入力されているかを確認
+    jQuery('#validRefUrlErrMsg').hide();
     if (refUrlVal.length > 0) {
         // 参考URLに空白文字が含まれていないかを確認
         if (!refUrlVal.match(/[\x20\u3000]/)) {
@@ -787,13 +810,13 @@ jQuery(function($) {
         replaceImage(file, image);
     });
 
-    jQuery('#profile_img_file_input').change(function() {
-        let file = this.files[0];
-        let fileInput = jQuery('#profile_img_file_input').get(0);
-        let image = jQuery('#profile_image').get(0);
-        validateImageSize(file, fileInput)
-        replaceImage(file, image);
-    });
+    // jQuery('#profile_img_file_input').change(function() {
+    //   let file = this.files[0];
+    //   let fileInput = jQuery('#profile_img_file_input').get(0);
+    //   let image = jQuery('#profile_image').get(0);
+    //   validateImageSize(file, fileInput)
+    //   replaceImage(file, image);
+    // });
 });
 
 // 名前・ユーザーネーム入力確認（profile_edit.html）
@@ -838,6 +861,7 @@ function check_ProfileInput() {
     var user_nameVal = jQuery('#user_name_box').val();
     // URLの値取得
     var urlVal = jQuery('#url_box').val();
+    // 生年月日の値取得
     var calendarVal = jQuery('#calendar_box').val();
 
     // 名前が入力されているかを確認
@@ -874,7 +898,6 @@ function check_ProfileInput() {
     } else {
         calendar_flg = true;
     };
-
 
     // URLが入力されているかを確認
     if (urlVal.length > 0) {
@@ -991,8 +1014,6 @@ jQuery(function($) {
 
 // フォローする、フォロー中の選択機能
 jQuery(function($) {
-    var $ = jQuery.noConflict();
-
     $(document).on('click', '.follow-off', function() {
         let follow_on = jQuery('<button type="button"class="btn btn-primary rounded-pill btn-sm text-white btn-lg main-color follow-btn follow-on">フォロー中</button>');
         $(this).replaceWith(follow_on);
@@ -1013,15 +1034,29 @@ jQuery(function($) {
             jQuery('.saleSection').show();
             jQuery('.termsSection').show();
             // オークションにチェックがついている場合
-        } else if (jQuery('#auction').prop('checked')) {
-            jQuery('.saleTypeSection').hide();
-            jQuery('.auctionSection').show();
-            jQuery('.termsSection').show();
+            // } else if (jQuery('#auction').prop('checked')) {
+            //     jQuery('.saleTypeSection').hide();
+            //     jQuery('.auctionSection').show();
+            //     jQuery('.termsSection').show();
             // 販売しないにチェックがついている場合
         } else {
             jQuery('.saleTypeSection').hide();
             jQuery('.termsSection').hide();
             jQuery('.notForSaleSection').show();
+        }
+    });
+});
+
+jQuery(function($) {
+    // オークション開催有無のラジオボタン変更で、表示するフォーム切り替え
+    jQuery('[name="selectAuction"]:radio').change(function() {
+        // オークション開催ありにチェックがついている場合
+        if (jQuery('#auction').prop('checked')) {
+            jQuery('.notholdauctionSection').hide();
+            jQuery('.holdauctionSection').show();
+        } else {
+            jQuery('.holdauctionSection').hide();
+            jQuery('.notholdauctionSection').show();
         }
     });
 });
@@ -1102,9 +1137,9 @@ jQuery(function($) {
         checkSaleType();
     });
     // オークションクリック時に
-    jQuery('#auction').on('click', function() {
-        checkSaleType();
-    });
+    // jQuery('#auction').on('click', function() {
+    //     checkSaleType();
+    // });
     // 販売しないクリック時に
     jQuery('#notForSale').on('click', function() {
         checkSaleType();
@@ -1127,7 +1162,182 @@ jQuery(function($) {
     jQuery('#notSpecified').on('click', function() {
         checkSaleType();
     });
+
+    jQuery('#postFile_2').on('change', function(e) {
+
+        var file = e.target.files[0];
+        var reader = new FileReader();
+
+        if (file.type.indexOf("image") < 0) {
+            return false;
+        }
+
+        console.log(reader.result);
+    });
+
+    jQuery('#postFile_2').on('change', function() {
+        var file = $(this).prop('files')[0];
+        if (!file.type.match('image.*')) {
+            return;
+        }
+        var fileReader = new FileReader();
+        fileReader.onloadend = function() {
+            jQuery('#cover_img2').removeClass('d-none');
+            $("#cover_img2").attr("src", fileReader.result);
+
+        }
+        fileReader.readAsDataURL(file);
+    });
+
+    jQuery('#postFile_3').on('change', function() {
+        var file = $(this).prop('files')[0];
+        if (!file.type.match('image.*')) {
+            return;
+        }
+        var fileReader = new FileReader();
+        fileReader.onloadend = function() {
+            jQuery('#cover_img3').removeClass('d-none');
+            $("#cover_img3").attr("src", fileReader.result);
+
+        }
+        fileReader.readAsDataURL(file);
+    });
+
+    jQuery('#postFile_4').on('change', function() {
+        var file = $(this).prop('files')[0];
+        if (!file.type.match('image.*')) {
+            return;
+        }
+        var fileReader = new FileReader();
+        fileReader.onloadend = function() {
+            jQuery('#cover_img4').removeClass('d-none');
+            $("#cover_img4").attr("src", fileReader.result);
+
+        }
+        fileReader.readAsDataURL(file);
+    });
+
+    setAuctionSelBox();
 });
+
+// 使用HTML(post.html)
+function setAuctionSelBox() {
+
+    var nowYear = new Date().getFullYear();
+
+    var setAuctionDateY = jQuery('#setAuctionDateY').val();
+    var htmlAuctionDateY = '';
+    for (var year = nowYear; year < nowYear + 3; year++) {
+        if (year == setAuctionDateY) {
+            htmlAuctionDateY += '<option value="' + year + '" selected>' + year + '</option>';
+        } else {
+            htmlAuctionDateY += '<option value="' + year + '">' + year + '</option>';
+        }
+    }
+    jQuery('#auctionDateY').html(htmlAuctionDateY);
+
+
+    var setAuctionEndDateY = jQuery('#setAuctionEndDateY').val();
+    var htmlAuctionEndDateY = '';
+    for (var year = nowYear; year < nowYear + 3; year++) {
+        if (year == setAuctionEndDateY) {
+            htmlAuctionEndDateY += '<option value="' + year + '" selected>' + year + '</option>';
+        } else {
+            htmlAuctionEndDateY += '<option value="' + year + '">' + year + '</option>';
+        }
+    }
+    jQuery('#auctionEndDateY').html(htmlAuctionEndDateY);
+
+    var setAuctionDateM = jQuery('#setAuctionDateM').val();
+    var htmlAuctionDateM = '';
+    for (var month = 1; month < 12; month++) {
+        if (month == setAuctionDateM) {
+            htmlAuctionDateM += '<option value="' + month + '" selected>' + month + '</option>';
+        } else {
+            htmlAuctionDateM += '<option value="' + month + '">' + month + '</option>';
+        }
+    }
+    jQuery('#auctionDateM').html(htmlAuctionDateM);
+
+    var setAuctionEndDateM = jQuery('#setAuctionEndDateM').val();
+    var htmlAuctionEndDateM = '';
+    for (var month = 1; month < 12; month++) {
+        if (month == setAuctionEndDateM) {
+            htmlAuctionEndDateM += '<option value="' + month + '" selected>' + month + '</option>';
+        } else {
+            htmlAuctionEndDateM += '<option value="' + month + '">' + month + '</option>';
+        }
+    }
+    jQuery('#auctionEndDateM').html(htmlAuctionEndDateM);
+
+    var setAuctionDateD = jQuery('#setAuctionDateD').val();
+    var htmlAuctionDateD = '';
+    for (var day = 1; day <= 31; day++) {
+        if (day == setAuctionDateD) {
+            htmlAuctionDateD += '<option value="' + day + '" selected>' + day + '</option>';
+        } else {
+            htmlAuctionDateD += '<option value="' + day + '">' + day + '</option>';
+        }
+    }
+    jQuery('#auctionDateD').html(htmlAuctionDateD);
+
+    var setAuctionEndDateD = jQuery('#setAuctionEndDateD').val();
+    var htmlAuctionEndDateD = '';
+    for (var day = 1; day <= 31; day++) {
+        if (day == setAuctionEndDateD) {
+            htmlAuctionEndDateD += '<option value="' + day + '" selected>' + day + '</option>';
+        } else {
+            htmlAuctionEndDateD += '<option value="' + day + '">' + day + '</option>';
+        }
+    }
+    jQuery('#auctionEndDateD').html(htmlAuctionEndDateD);
+
+    var setAuctionDateH = jQuery('#setAuctionDateH').val();
+    var htmlAuctionDateH = '';
+    for (var hour = 1; hour <= 24; hour++) {
+        if (hour == setAuctionDateH) {
+            htmlAuctionDateH += '<option value="' + hour + '" selected>' + hour + '</option>';
+        } else {
+            htmlAuctionDateH += '<option value="' + hour + '">' + hour + '</option>';
+        }
+    }
+    jQuery('#auctionDateH').html(htmlAuctionDateH);
+
+    var setAuctionEndDateH = jQuery('#setAuctionEndDateH').val();
+    var htmlAuctionEndDateH = '';
+    for (var hour = 1; hour <= 24; hour++) {
+        if (hour == setAuctionEndDateH) {
+            htmlAuctionEndDateH += '<option value="' + hour + '" selected>' + hour + '</option>';
+        } else {
+            htmlAuctionEndDateH += '<option value="' + hour + '">' + hour + '</option>';
+        }
+    }
+    jQuery('#auctionEndDateH').html(htmlAuctionEndDateH);
+
+    var setAuctionDateMin = jQuery('#setAuctionDateMin').val();
+    var htmlAuctionDateMin = '';
+    for (var min = 1; min <= 59; min++) {
+        if (min == setAuctionDateMin) {
+            htmlAuctionDateMin += '<option value="' + min + '" selected>' + min + '</option>';
+        } else {
+            htmlAuctionDateMin += '<option value="' + min + '">' + min + '</option>';
+        }
+    }
+    jQuery('#auctionDateMin').html(htmlAuctionDateMin);
+
+    var setAuctionEndDateMin = jQuery('#setAuctionEndDateMin').val();
+    var htmlAuctionEndDateMin = '';
+    for (var min = 1; min <= 59; min++) {
+        if (min == setAuctionEndDateMin) {
+            htmlAuctionEndDateMin += '<option value="' + min + '" selected>' + min + '</option>';
+        } else {
+            htmlAuctionEndDateMin += '<option value="' + min + '">' + min + '</option>';
+        }
+    }
+    jQuery('#auctionEndDateMin').html(htmlAuctionEndDateMin);
+
+
+}
 
 // 通常販売時
 function checkSaleInput() {
@@ -1135,17 +1345,16 @@ function checkSaleInput() {
     var disabledFlag = true;
 
     // 入力項目フラグ定義
-    // var flagPostFile = false;
-    var flagPostFile = true;
+    var flagPostFile = false;
     var flagPostTitle = false;
     var flagImagePrice = false;
     var flagBinPrice = false;
     var flagPostTerms = false;
 
     // 画像ファイル名取得
-    // var postFileVal = jQuery('#postFile').val();
-    // var postFile2Val = jQuery('#postFile2').val();
-    // var postFile3Val = jQuery('#postFile3').val();
+    var postFileVal = jQuery('#postFile').val();
+    var postFile2Val = jQuery('#postFile2').val();
+    var postFile3Val = jQuery('#postFile3').val();
     // タイトルの値取得
     var postTitleVal = jQuery('#postTitle').val();
     // 販売価格の値取得
@@ -1154,14 +1363,14 @@ function checkSaleInput() {
     var binPriceVal = jQuery('#binPrice').val();
 
     // 画像が選択されているかを確認
-    // if (postFileVal.length > 0 || postFile2Val.length > 0 || postFile3Val.length > 0) {
-    //     jQuery('#selectPostFileMsg').hide();
-    //     flagPostFile = true;
-    // } else {
-    //     selectPostFileMsg();
-    //     this.value = '';
-    //     jQuery('#cover_img').addClass('d-none');
-    // }
+    if (postFileVal.length > 0 || postFile2Val.length > 0 || postFile3Val.length > 0) {
+        jQuery('#selectPostFileMsg').hide();
+        flagPostFile = true;
+    } else {
+        selectPostFileMsg();
+        this.value = '';
+        jQuery('#cover_img').addClass('d-none');
+    }
     // タイトルが入力されているかを確認
     if (postTitleVal.length > 0) {
         jQuery('#inputPostTitleMsg').hide();
@@ -1202,16 +1411,15 @@ function checkAuctionInput() {
     var disabledFlag = true;
 
     // 入力項目フラグ定義
-    // var flagPostFile = false;
-    var flagPostFile = true;
+    var flagPostFile = false;
     var flagPostTitle = false;
     var flagAuctionStartDate = false;
     var flagAuctionEndDate = false;
 
     // 画像ファイル名取得
-    //    var postFileVal = jQuery('#postFile').val();
-    //    var postFile2Val = jQuery('#postFile2').val();
-    //    var postFile3Val = jQuery('#postFile3').val();
+    var postFileVal = jQuery('#postFile').val();
+    var postFile2Val = jQuery('#postFile2').val();
+    var postFile3Val = jQuery('#postFile3').val();
     // タイトルの値取得
     var postTitleVal = jQuery('#postTitle').val();
     // オークション開始日時(年)の値取得
@@ -1236,14 +1444,14 @@ function checkAuctionInput() {
     var auctionEndDateMinVal = jQuery('#auctionEndDateMin').val();
 
     // 画像が選択されているかを確認
-    //if (postFileVal.length > 0 || postFile2Val.length > 0 || postFile3Val.length > 0) {
-    //    jQuery('#selectPostFileMsg').hide();
-    flagPostFile = true;
-    //} else {
-    //    selectPostFileMsg();
-    //    this.value = '';
-    //    jQuery('#cover_img').addClass('d-none');
-    //}
+    if (postFileVal.length > 0 || postFile2Val.length > 0 || postFile3Val.length > 0) {
+        jQuery('#selectPostFileMsg').hide();
+        flagPostFile = true;
+    } else {
+        selectPostFileMsg();
+        this.value = '';
+        jQuery('#cover_img').addClass('d-none');
+    }
 
     // タイトルが入力されているかを確認
     if (postTitleVal.length > 0) {
@@ -1394,26 +1602,25 @@ function checkNotForSaleInput() {
     var disabledFlag = true;
 
     // 入力項目フラグ定義
-    // var flagPostFile = false;
-    var flagPostFile = true;
+    var flagPostFile = false;
     var flagPostTitle = false;
 
     // 画像ファイル名取得
-    // var postFileVal = jQuery('#postFile').val();
-    // var postFile2Val = jQuery('#postFile2').val();
-    // var postFile3Val = jQuery('#postFile3').val();
+    var postFileVal = jQuery('#postFile').val();
+    var postFile2Val = jQuery('#postFile2').val();
+    var postFile3Val = jQuery('#postFile3').val();
     // タイトルの値取得
     var postTitleVal = jQuery('#postTitle').val();
 
     // 画像が選択されているかを確認
-    // if (postFileVal.length > 0 || postFile2Val.length > 0 || postFile3Val.length > 0) {
-    //     jQuery('#selectPostFileMsg').hide();
-    //     flagPostFile = true;
-    // } else {
-    //     selectPostFileMsg();
-    //     this.value = '';
-    //     jQuery('#cover_img').addClass('d-none');
-    // }
+    if (postFileVal.length > 0 || postFile2Val.length > 0 || postFile3Val.length > 0) {
+        jQuery('#selectPostFileMsg').hide();
+        flagPostFile = true;
+    } else {
+        selectPostFileMsg();
+        this.value = '';
+        jQuery('#cover_img').addClass('d-none');
+    }
     // タイトルが入力されているかを確認
     if (postTitleVal.length > 0) {
         jQuery('#inputPostTitleMsg').hide();
@@ -1437,8 +1644,8 @@ function checkSaleType() {
     var getSaleType = '';
     if (jQuery('#sale').prop('checked')) {
         getSaleType = checkSaleInput();
-    } else if (jQuery('#auction').prop('checked')) {
-        getSaleType = checkAuctionInput();
+        // } else if (jQuery('#auction').prop('checked')) {
+        //     getSaleType = checkAuctionInput();
     } else {
         getSaleType = checkNotForSaleInput();
     }
@@ -1558,17 +1765,17 @@ jQuery(function($) {
  */
 jQuery(function($) {
     // 投稿画像を表示
-    jQuery('#postFile').change(function() {
-        let file = this.files[0];
-        if (file) {
-            let fr = new FileReader();
-            fr.readAsDataURL(file);
-            fr.onload = function() {
-                jQuery('#cover_img').attr('src', fr.result);
-                jQuery('#cover_img').removeClass('d-none')
-            }
-        }
-    });
+    // jQuery('#postFile').change(function() {
+    //     let file = this.files[0];
+    //     if (file) {
+    //         let fr = new FileReader();
+    //         fr.readAsDataURL(file);
+    //         fr.onload = function() {
+    //             jQuery('#cover_img').attr('src', fr.result);
+    //             jQuery('#cover_img').removeClass('d-none')
+    //         }
+    //     }
+    // });
     // オークション開始日時指定の表示切替
     jQuery('[name="auctionStartDate"]:radio').change(function() {
         if (jQuery('#specify').prop('checked')) {
@@ -1577,4 +1784,373 @@ jQuery(function($) {
             jQuery('#auction_datetime').addClass('d-none');
         }
     });
+});
+
+/**
+ * タイムラインページ(timeline.html)
+ * スライダー処理
+ */
+jQuery(function($) {
+        // ページ内に該当のクラス名のカウント
+        var swiper_list = document.querySelectorAll('.swiperlist');
+        var swiper_tum = document.querySelectorAll('.swipertum');
+
+
+        if (swiper_list.length > 0) {
+            // スライダーのループ処理    
+            for (let i = 0; i < swiper_list.length; i++) {
+                swiper_list[i].className += i;
+                swiper_tum[i].className += i;
+                var swiper = new Swiper('.swiperlist' + i, {
+                    spaceBetween: 10, //サムネイルの隙間
+                    slidesPerView: 4, //表示するサムネイル数
+                    freeMode: true,
+                    watchSlidesProgress: true,
+                });
+                var swiper_tumnail = new Swiper('.swipertum' + i, {
+                    thumbs: {
+                        swiper: swiper,
+                    },
+                });
+            }
+        }
+    })
+    // Swiperによる、タブ切り替え（notification.html）
+jQuery(function($) {
+    //初期化
+    // ページ内に該当のクラス名のカウント
+    var swiper_list = document.querySelectorAll('.tab-menu');
+    if (swiper_list.length > 0) {
+        const galleryThumbs = new Swiper('.tab-menu', {
+            spaceBetween: 20,
+            slidesPerView: 'auto',
+            watchSlidesVisibility: true,
+            watchSlidesProgress: true,
+            slideActiveClass: 'swiper-slide-active'
+        });
+        const galleryTop = new Swiper('.tab-contents', {
+            autoHeight: true,
+            thumbs: {
+                swiper: galleryThumbs
+            }
+        });
+    }
+
+});
+
+// tableの列にリンク設定（ranking.html）
+// $( function($) {
+//     jQuery('tbody tr[data-href]').addClass('clickable').click( function() {
+//         window.location = $(this).attr('data-href');
+//     }).find('a').hover( function() {
+//         $(this).parents('tr').unbind('click');
+//     }, function() {
+//         $(this).parents('tr').click( function() {
+//             window.location = $(this).attr('data-href');
+//         });
+//     });
+// });
+
+// ランキングページ詳細開閉（ranking.html）
+jQuery(function($) {
+    jQuery('.sp-btn').click(function() {
+        var parent = $(this).closest("tr").attr('class').split(" ")[0];
+        var detail_rank = ".detail-" + parent
+        if ($(this).hasClass('more')) {
+            $(detail_rank).removeClass('not-show');
+            $(this).removeClass('more');
+            $(this).addClass('less');
+        } else {
+            $(detail_rank).addClass('not-show');
+            $(this).removeClass('less');
+            $(this).addClass('more');
+        }
+    });
+})
+
+// 通報内容確認（report.html）
+jQuery(function($) {
+    // タイトルのフォーカスが外れた際にcheck_ProfileInput実行
+    jQuery('#report-reason').on('blur', function() {
+        check_ReportInput();
+    });
+    // 項目1がクリックされた際にcheckInput実行
+    jQuery('#inlineCheckbox1').on('click', function() {
+        check_ReportInput();
+    });
+
+    // 項目2がクリックされた際にcheckInput実行
+    jQuery('#inlineCheckbox2').on('click', function() {
+        check_ReportInput();
+    });
+    3
+    // 項目がクリックされた際にcheckInput実行
+    jQuery('#inlineCheckbox3').on('click', function() {
+        check_ReportInput();
+    });
+});
+
+// 通報内容入力判定
+function check_ReportInput() {
+    jQuery('#inputReportReasonMsg').hide();
+    // 保存ボタン有効化フラグ
+    var disabledFlag = true;
+
+    // 入力項目フラグ定義
+    // var textarea_flg = false;
+
+    // // 通報理由の値取得
+    var textarea_val = jQuery('#report-reason').val();
+
+    // 通報理由任意に伴い無効化
+    // // 通報理由が入力されているかを確認
+    // if (textarea_val.length > 0) {
+    //     textarea_flg = true;
+    // } else {
+    //     showReportReasonMsg();
+    // }
+
+    // 項目のチェックボックス要素を取得
+    var checkbox_1 = document.getElementById('inlineCheckbox1');
+    var checkbox_2 = document.getElementById('inlineCheckbox2');
+    var checkbox_3 = document.getElementById('inlineCheckbox3');
+
+    // 正しく入力されている場合、通報ボタンを有効化
+    if (checkbox_1.checked === true) {
+        disabledFlag = false;
+    } else if (checkbox_2.checked === true) {
+        disabledFlag = false;
+    } else if (checkbox_3.checked === true && textarea_val.length > 0) {
+        disabledFlag = false;
+    }
+
+    // ボタンの「disabled」の置き換え
+    jQuery('#report-btn').attr('disabled', disabledFlag);
+}
+
+// 通報理由任意に伴い無効化
+// function showReportReasonMsg() {
+//     // 通報理由が入力されてない際のメッセージ
+//     var ReportReasonLength = jQuery('#report-reason').val().length;
+//     if (ReportReasonLength <= 0) {
+//         jQuery('#inputReportReason').empty().append("<p id=\"inputReportReasonMsg\" class=\"inputReportReasonMsg postErrMsg my-0\">理由を入力して下さい</p>");
+//     }
+// }
+
+jQuery(function($) {
+    // ページ内に該当のクラス名のカウント
+    var cropper_profile = document.querySelectorAll('#profile_img_file_input');
+    if (cropper_profile.length > 0) {
+        $(document).ready(function() {
+            // エンドポイントを定義
+            const endpoint = "http://localhost:3000/api";
+
+            // 拡大表示で使用する変数定義
+            let $zoom = jQuery('#zoom');
+            $zoom.data('oldVal', $zoom.val());
+
+            // モーダル、画像、クロッパーの初期化
+            let $modal = jQuery('#modal');
+            let image = document.getElementById('image');
+            let cropper;
+
+            // ファイル選択後のイベント
+            $("body").on("change", ".image", function(e) {
+                let files = e.target.files;
+                let done = function(url) {
+                    image.src = url;
+                    $modal.modal('show');
+                };
+                console.log(image);
+                // FileReader、選択ファイル、生成URLを初期化
+                let reader;
+                let file;
+                let url;
+
+                // ファイルが選択された場合
+                if (files && files.length > 0) {
+                    file = files[0];
+                    if (URL) {
+                        done(URL.createObjectURL(file));
+                    } else if (FileReader) {
+                        reader = new FileReader();
+                        reader.onload = function(e) {
+                            done(reader.result);
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                }
+            });
+
+            // cropper.jsでトリミング可能な画像を表示
+            $modal.on('shown.bs.modal', function(event) {
+                cropper = new Cropper(image, {
+                    aspectRatio: 1,
+                    initialAspectRatio: 1,
+                    autoCropArea: 1,
+                    cropBoxResizable: false,
+                    dragMode: 'move',
+                    viewMode: 3,
+                    zoomable: false,
+                    // preview: '.preview',
+                });
+            }).on('hidden.bs.modal', function() {
+                cropper.destroy();
+                cropper = null;
+            });
+            console.log(cropper);
+            // 保存ボタンを押下時のイベント
+            $("#crop").click(function() {
+                canvas = cropper.getCroppedCanvas({
+                    width: cropper['cropBoxData']['width'],
+                    height: cropper['cropBoxData']['height'],
+                });
+                console.log(canvas);
+                canvas.toBlob(function(blob) {
+                    url = URL.createObjectURL(blob);
+                    let reader = new FileReader();
+                    reader.readAsDataURL(blob);
+                    reader.onloadend = function() {
+                        let base64data = reader.result;
+                        const base64EncodedFile = base64data.replace(/data:.*\/.*;base64,/, '');
+                        jQuery('#profile_image').attr('src', base64data);
+                        $modal.modal('hide');
+                        $zoom.val(0);
+                        $zoom.data('oldVal', 0);
+                        console.log(cropper);
+                        jQuery('#upload-image-x').val(cropper['cropBoxData']['left']);
+                        jQuery('#upload-image-y').val(cropper['cropBoxData']['top']);
+                        jQuery('#upload-image-w').val(cropper['cropBoxData']['width']);
+                        jQuery('#upload-image-h').val(cropper['cropBoxData']['height']);
+                    }
+                });
+            })
+
+            // <!-- NOTE:拡大バー一旦処理外す。 -->
+            // 画像拡大用のスクロールバーを変更した時のイベント
+            // jQuery('#zoom').on('input', function () {
+            // let oldVal = $zoom.data('oldVal');
+            // let volume = $(this).val();
+            // let result = volume - oldVal;
+            // cropper.zoom(result);
+            // $zoom.data('oldVal', volume);
+            // });
+        });
+    }
+});
+
+jQuery(function($) {
+    // ページ内に該当のクラス名のカウント
+    var cropper_post = document.querySelectorAll('#post_file');
+    if (cropper_post.length > 0) {
+
+        $(document).ready(function() {
+            // エンドポイントを定義
+            const endpoint = "http://localhost:3000/api";
+
+            // 拡大表示で使用する変数定義
+            let $zoom = jQuery('#zoom');
+            $zoom.data('oldVal', $zoom.val());
+            // モーダル、画像、クロッパーの初期化
+            let $modal = jQuery('#modal');
+            let image = document.getElementById('image');
+            let cropper_post;
+
+            // ファイル選択後のイベント
+            $("body").on("change", "#postFile", function(e) {
+                let files = e.target.files;
+                let done = function(url) {
+                    image.src = url;
+                    $modal.modal('show');
+                };
+                console.log(image);
+                // FileReader、選択ファイル、生成URLを初期化
+                let reader;
+                let file;
+                let url;
+
+                // ファイルが選択された場合
+                if (files && files.length > 0) {
+                    console.log(2)
+                    file = files[0];
+                    if (URL) {
+                        done(URL.createObjectURL(file));
+                    } else if (FileReader) {
+                        reader = new FileReader();
+                        reader.onload = function(e) {
+                            done(reader.result);
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                }
+            });
+
+            // cropper.jsでトリミング可能な画像を表示
+            $modal.on('shown.bs.modal', function(event) {
+                cropper_post = new Cropper(image, {
+                    aspectRatio: 9 / 16,
+                    initialAspectRatio: 1,
+                    autoCropArea: 1,
+                    cropBoxResizable: false,
+                    dragMode: 'move',
+                    viewMode: 3,
+                    zoomable: false,
+                    // preview: '.preview',
+                });
+            }).on('hidden.bs.modal', function() {
+                cropper_post.destroy();
+                cropper_post = null;
+            });
+
+            // 保存ボタンを押下時のイベント
+            $("#crop").click(function() {
+                // cover_imgの数カウント
+
+                var img_id = "#cover_img1";
+                var img_src = $(img_id).attr('src');
+                if (img_src === "") {
+                    var cover_img = img_id
+                    var upload_image_x = "#upload-image-x";
+                    var upload_image_y = "#upload-image-y";
+                    var upload_image_w = "#upload-image-w";
+                    var upload_image_h = "#upload-image-h";
+                }
+                jQuery('#post_file').css('height', 'auto');
+
+                canvas = cropper_post.getCroppedCanvas({
+                    width: cropper_post['cropBoxData']['width'],
+                    height: cropper_post['cropBoxData']['height'],
+                });
+                $(cover_img).removeClass('d-none')
+                canvas.toBlob(function(blob) {
+                    url = URL.createObjectURL(blob);
+                    let reader = new FileReader();
+                    reader.readAsDataURL(blob);
+                    reader.onloadend = function() {
+                        let base64data = reader.result;
+                        const base64EncodedFile = base64data.replace(/data:.*\/.*;base64,/, '');
+                        $(cover_img).attr('src', base64data);
+                        $modal.modal('hide');
+                        $zoom.val(0);
+                        $zoom.data('oldVal', 0);
+                        console.log(cropper_post);
+                        $(upload_image_x).val(cropper_post['cropBoxData']['left']);
+                        $(upload_image_y).val(cropper_post['cropBoxData']['top']);
+                        $(upload_image_w).val(cropper_post['cropBoxData']['width']);
+                        $(upload_image_h).val(cropper_post['cropBoxData']['height']);
+                    }
+                });
+            })
+
+            // <!-- NOTE:拡大バー一旦処理外す。 -->
+            // 画像拡大用のスクロールバーを変更した時のイベント
+            // jQuery('#zoom').on('input', function () {
+            // let oldVal = $zoom.data('oldVal');
+            // let volume = $(this).val();
+            // let result = volume - oldVal;
+            // cropper.zoom(result);
+            // $zoom.data('oldVal', volume);
+            // });
+        });
+    };
 });
