@@ -19,7 +19,6 @@ if (get_current_user_id() > 0) {
 <html lang="ja">
 
 <head>
-    <title>Muse | Top</title>
     <!-- Required meta tags -->
     <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
     <meta charset="utf-8">
@@ -32,6 +31,8 @@ if (get_current_user_id() > 0) {
     <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/assets/css/bootstrap.min.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/assets/css/all.min.css">
+    <?php wp_head(); ?>
+
     <?php
     $json = [];
     $json['ajax_url'] = home_url('/') . "wp-admin/admin-ajax.php";

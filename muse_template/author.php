@@ -57,12 +57,20 @@ $list_like = $chunk_list_like;
 
 get_header();
 ?>
+<div class="container pt-2">
+    <div class="row mb-2">
+        <div class="col-12">
+            <a href="javascript:history.back();">← 戻る</a>
+        </div>
+    </div>
+</div>
+
 <div class="cover-area">
     <img src="<?php echo esc_attr($header_image); ?>" class="img-fluid cover-image" id="cover_image">
 </div>
 <div class="container profile-area">
     <div class="row icon">
-        <img src="<?php echo esc_attr($profile_image); ?>" class="ml-1 rounded-circle profile_icon" id="profile_icon">
+        <img src="<?php echo esc_attr($profile_image); ?>" id="profile_icon">
     </div>
     <div class="row mt-2">
         <div class="col-12 text-right profile-btn">
@@ -72,8 +80,7 @@ get_header();
             <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('edit_profile')); ?>"><button class="px-0 btn rounded-pill btn-outline-primary outline-btn btn-sm edit-btn">　編集　</button></a>
             <!-- 自分以外が見た場合 -->
             <!-- button type="button" class="btn btn-primary rounded-pill btn-sm text-white btn-lg main-color follow-btn follow-on">フォロー中</button>
-            <a href="request.html"><button class="px-0 mx-1 btn rounded-pill btn-outline-primary outline-btn btn-sm request-btn">　依頼　</button></a>
-            <a href="profile_edit.html"><button class="px-0 btn rounded-pill btn-outline-primary outline-btn btn-sm report-btn">　通報　</button></a -->
+            <a href="request.html"><button class="px-0 mx-1 btn rounded-pill btn-outline-primary outline-btn btn-sm request-btn">　依頼　</button></a -->
         </div>
     </div>
     <div class="mt-2 ml-2 row">
@@ -91,17 +98,16 @@ get_header();
                     <span><?php echo number_format($arrayCount['follower']['total']); ?></span></span></a>
         </div>
         <!-- 自分が見た場合のみ表示 -->
-        <?php /** TODO: NFTが決まり次第実装 */ ?>
         <div class="col-5"></div>
         <div class="col-7 profile-money">
             <div class="row">
-          <div class="col-6 float-right font-weight-bold text-left">
-            <p class="mb-0">売上預金</p>
-          </div>
-          <div class="col-6 float-right font-weight-bold text-right">
-            <p class="mb-0">￥1,000,000-</p>
-          </div>
-        </div>
+                <div class="col-6 float-right font-weight-bold text-left">
+                    <p class="mb-0">売上預金</p>
+                </div>
+                <div class="col-6 float-right font-weight-bold text-right">
+                    <p class="mb-0">￥1,000,000-</p>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-6 float-right font-weight-bold text-left">
                     <p class="mb-0">NFT時価総額</p>
@@ -148,6 +154,7 @@ get_header();
                 <div class="content-item shadow d-flex align-items-center justify-content-center px-1">
                     <img class="image-list" src="<?php echo $onePost->main_image; ?>">
                 </div>
+
             <?php }
             /** endforeach */ ?>
         </div>
@@ -172,11 +179,11 @@ get_header();
 
 <!-- 購入保管した画像一覧 -->
 <div class="d-none py-1" id="purcher_list">
-    <?php /** TODO: NFTが決まり次第 購入保管した一覧の取得 */ ?>
+    <?php /** TODO: NFTが決まったら対応 */ ?>
 </div>
 <!-- 所有NFT一覧 -->
 <div class="d-none py-1" id="have_nft_list">
-    <?php /** TODO: NFTが決まり次第 所有NFT一覧 */ ?>
+    <?php /** TODO: NFTが決まったら対応 */ ?>
 </div>
 
 <!-- 画像を拡大するモーダル -->

@@ -26,8 +26,6 @@ if (!$dp_options) $dp_options = get_design_plus_option();
 </body>
 
 <!-- Optional JavaScript -->
-<!-- jQuery -->
-<script src="<?php echo get_template_directory_uri(); ?>/assets/js/jquery-3.6.0.min.js"></script>
 <!-- Bootstrap JS -->
 <script src="<?php echo get_template_directory_uri(); ?>/assets/js/bootstrap.bundle.min.js"></script>
 
