@@ -61,6 +61,14 @@ $list_like = $chunk_list_like;
 
 get_header();
 ?>
+<div class="container pt-2">
+    <div class="row mb-2">
+        <div class="col-12">
+            <a href="javascript:history.back();">← 戻る</a>
+        </div>
+    </div>
+</div>
+
 <div class="cover-area">
     <img src="<?php echo esc_attr($header_image); ?>" class="img-fluid cover-image" id="cover_image">
 </div>
@@ -70,28 +78,20 @@ get_header();
     </div>
     <div class="row mt-2">
         <div class="col-12 text-right profile-btn">
-            <?php if ((int)$user_id === get_current_user_id()) { ?>
-                <!-- 自分が見た場合 -->
+            <!-- 自分が見た場合 -->
+            <?php if (get_current_user_id() == $user_id) { ?>
                 <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('in_progress')); ?>"><button class="px-0 btn rounded-pill btn-outline-primary outline-btn btn-sm">　進行中　</button></a>
                 <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('request')); ?>"><button class="px-0 mx-1 btn rounded-pill btn-outline-primary outline-btn btn-sm request-btn">　作品依頼　</button></a>
                 <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('edit_profile')); ?>"><button class="px-0 btn rounded-pill btn-outline-primary outline-btn btn-sm edit-btn">　編集　</button></a>
-
             <?php } else { ?>
                 <!-- 自分以外が見た場合 -->
                 <?php if (is_following($user_id)) { ?>
-                    <button type="button" class="btn btn-primary rounded-pill btn-sm text-white btn-lg main-color follow-btn follow-on">フォロー中</button>
+                    <a href="#" id="follow_button" data-user-id="<?php echo esc_attr($user_id); ?>" class="btn btn-primary rounded-pill btn-sm text-white btn-lg main-color follow-btn follow-on">フォロー中</a>
                 <?php } else { ?>
-                    <a href="#" id="follow_button" data-user-id="<?php echo esc_attr($user_id); ?>" class="js-toggle-follow btn rounded-pill btn-outline-primary outline-btn btn-sm">フォローする</a>
-                <?php }
-                /** endif */ ?>
-                <?php if ($active_flag) { ?>
-                    <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('request')); ?>&user_id=<?php echo $user_id; ?>"><button class="px-0 mx-1 btn rounded-pill btn-outline-primary outline-btn btn-sm request-btn">　依頼　</button></a>
-                <?php }
-                /** endif */ ?>
-                <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('request')); ?>&user_id=<?php echo $user_id; ?>"><button class="px-0 mx-1 btn rounded-pill btn-outline-primary outline-btn btn-sm request-btn">　依頼　</button></a>
-
-            <?php }
-            /** endif */ ?>
+                    <a href="#" id="follow_button" data-user-id="<?php echo esc_attr($user_id); ?>" class="btn btn-primary rounded-pill btn-sm text-white btn-lg main-color follow-btn follow-off">フォローする</a>
+                <?php } ?>
+                <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('request')); ?>&user_id<?php echo $user_id; ?>"><button class="px-0 mx-1 btn rounded-pill btn-outline-primary outline-btn btn-sm request-btn">　依頼　</button></a>
+            <?php } ?>
         </div>
     </div>
     <div class="mt-2 ml-2 row">
@@ -108,30 +108,28 @@ get_header();
             <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('followers')); ?>"><span class="follower">フォロワー<br>
                     <span><?php echo number_format($arrayCount['follower']['total']); ?></span></span></a>
         </div>
-
         <!-- 自分が見た場合のみ表示 -->
-        <?php if ((int)$user_id === get_current_user_id()) { ?>
-        <?php /** TODO: NFTが決まり次第実装 */ ?>
         <div class="col-5"></div>
         <div class="col-7 profile-money">
-            <div class="row">
-          <div class="col-6 float-right font-weight-bold text-left">
-            <p class="mb-0">売上預金</p>
-          </div>
-          <div class="col-6 float-right font-weight-bold text-right">
-            <p class="mb-0">￥1,000,000-</p>
-          </div>
-        </div>
-            <div class="row">
-                <div class="col-6 float-right font-weight-bold text-left">
-                    <p class="mb-0">NFT時価総額</p>
+            <?php if (get_current_user_id() == $user_id) { ?>
+                <div class="row">
+                    <div class="col-6 float-right font-weight-bold text-left">
+                        <p class="mb-0">売上預金</p>
+                    </div>
+                    <div class="col-6 float-right font-weight-bold text-right">
+                        <p class="mb-0">￥1,000,000-</p>
+                    </div>
                 </div>
-                <div class="col-6 float-right font-weight-bold text-right">
-                    <p class="mb-0">￥2,000,000-</p>
+                <div class="row">
+                    <div class="col-6 float-right font-weight-bold text-left">
+                        <p class="mb-0">NFT時価総額</p>
+                    </div>
+                    <div class="col-6 float-right font-weight-bold text-right">
+                        <p class="mb-0">￥2,000,000-</p>
+                    </div>
                 </div>
-            </div>
+            <?php } ?>
         </div>
-        <?php } ?>
         <!-- 自分が見た場合のみ表示 -->
 
         <!-- <div class="col-5 d-block btn-area text-right pl-0 my-auto">
@@ -169,6 +167,7 @@ get_header();
                 <div class="content-item shadow d-flex align-items-center justify-content-center px-1">
                     <img class="image-list" src="<?php echo $onePost->main_image; ?>">
                 </div>
+
             <?php }
             /** endforeach */ ?>
         </div>
@@ -193,11 +192,11 @@ get_header();
 
 <!-- 購入保管した画像一覧 -->
 <div class="d-none py-1" id="purcher_list">
-    <?php /** TODO: NFTが決まり次第 購入保管した一覧の取得 */ ?>
+    <?php /** TODO: NFTが決まったら対応 */ ?>
 </div>
 <!-- 所有NFT一覧 -->
 <div class="d-none py-1" id="have_nft_list">
-    <?php /** TODO: NFTが決まり次第 所有NFT一覧 */ ?>
+    <?php /** TODO: NFTが決まったら対応 */ ?>
 </div>
 
 <!-- 画像を拡大するモーダル -->

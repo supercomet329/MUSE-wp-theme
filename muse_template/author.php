@@ -70,7 +70,7 @@ get_header();
 </div>
 <div class="container profile-area">
     <div class="row icon">
-        <img src="<?php echo esc_attr($profile_image); ?>" id="profile_icon">
+        <img src="<?php echo esc_attr($profile_image); ?>" class="ml-1 rounded-circle profile_icon" id="profile_icon">
     </div>
     <div class="row mt-2">
         <div class="col-12 text-right profile-btn">
