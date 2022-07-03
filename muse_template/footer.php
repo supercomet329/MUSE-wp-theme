@@ -31,5 +31,5 @@ if (!$dp_options) $dp_options = get_design_plus_option();
 <!-- MemberShip JS -->
 <script src="<?php echo get_template_directory_uri(); ?>/js/membership.js"></script>
 <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/muse.js"></script>
-
+<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/validate.js"></script>
 </html>
