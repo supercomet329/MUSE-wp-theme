@@ -111,7 +111,7 @@ function tcd_membership_login_form($args = array())
 			</form>
 			<hr class="hr-line">
 			<!-- TODO: Twitterログイン実装 -->
-			<div class="row">
+			<!-- <div class="row">
 				<div class="col-12">
 					<h1 class="text-center mt-3 mb-3 contents-title font-weight-bold">SNSログイン</h1>
 				</div>
@@ -132,7 +132,7 @@ function tcd_membership_login_form($args = array())
 					</a>
 				</div>
 			</div>
-			<hr class="hr-line mt-3">
+			<hr class="hr-line mt-3">-->
 			<div class="row">
 				<div class="col-12">
 					<h1 class="text-center mt-3 mb-3 contents-title font-weight-bold">新規会員登録</h1>
