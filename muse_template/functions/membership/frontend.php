@@ -319,6 +319,29 @@ function muse_list_follow($user_id = NULL)
 }
 
 /**
+ * 有効なユーザー一覧の取得
+ *
+ * @return object
+ */
+function muse_list_user()
+{
+	global $wpdb, $user_ids;
+
+	$sql = '';
+	$sql .= 'SELECT * ';
+	$sql .= 'FROM wp_users ';
+	$sql .= 'WHERE user_status = 0 ';
+
+	$result = $wpdb->get_results($wpdb->prepare($sql));
+
+	$return = [];
+	if (!is_null($result)) {
+		$return = $result;
+	}
+	return $return;
+}
+
+/**
  * 発注一覧の取得
  *
  * @param int $postAuthor

@@ -87,6 +87,7 @@ get_template_part( 'functions/membership/detail_message' );
 get_template_part( 'functions/membership/keep' );
 get_template_part( 'functions/membership/notification' );
 get_template_part( 'functions/membership/post_image' );
+get_template_part( 'functions/membership/page_report' );
 
 // load options
 global $dp_options;
