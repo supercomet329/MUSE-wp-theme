@@ -1,217 +1,366 @@
 <?php
+// 画像投稿ページ
 global $dp_options, $tcd_membership_vars;
 
 get_header();
 ?>
-<div class="pt-sm-5 mt-sm-5">
-    <div class="container pt-5">
-        <form method="POST" enctype="multipart/form-data" action="<?php echo esc_url(get_tcd_membership_memberpage_url('post_image')); ?>">
-            <div class="row">
-                <div class="col-12">
-                    <label for="saleType" class="label-text post-input-title">投稿画像（必須）</label>
+<div class="container pt-2">
+    <div class="row mb-2">
+        <div class="col-12">
+            <a href="javascript:history.back();">← 戻る</a>
+        </div>
+    </div>
+    <form method="POST" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-12">
+                <label for="saleType" class="label-text post-input-title">投稿画像（必須）</label>
+            </div>
+            <div class="col-12 post-file-input px-1">
+                <label class="post-file" id="post_file">
+                    <img src="" class="cover-img d-none" id="cover_img1" class="mx-auto">
+                    <input type="file" name="postFile" id="postFile" accept="image/png, image/jpeg">
+                    <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/camera_BGblue.png" class="post-file-img">
+                </label>
+            </div>
+            <div class="row col-12 mx-auto">
+                <div class="col-4 post-file-input px-1">
+                    <label class="post-file" id="image_file2">
+                        <img src="" class="sub-cover-img d-none" id="cover_img2" class="mx-auto">
+                        <input type="file" name="postFile2" id="postFile_2" accept="image/png, image/jpeg">
+                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/camera_BGblue.png" class="post-file-img">
+                    </label>
                 </div>
-                <div class="col-12 post-file-input px-1">
-                    <label class="post-file" id="post_file">
-                        <img src="" class="cover-img d-none" id="cover_img">
-                        <input type="file" name="postFile" id="postFile" accept="image/png, image/jpeg">
+                <div class="col-4 post-file-input px-1">
+                    <label class="post-file" id="image_file3">
+                        <img src="" class="sub-cover-img d-none" id="cover_img3" class="mx-auto">
+                        <input type="file" name="postFile3" id="postFile_3" accept="image/png, image/jpeg">
+                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/camera_BGblue.png" class="post-file-img">
+                    </label>
+                </div>
+                <div class="col-4 post-file-input px-1">
+                    <label class="post-file" id="image_file4">
+                        <img src="" class="sub-cover-img d-none" id="cover_img4" class="mx-auto">
+                        <input type="file" name="postFile4" id="postFile_4" accept="image/png, image/jpeg">
                         <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/camera_BGblue.png" class="post-file-img">
                     </label>
                 </div>
             </div>
-            <div class="col-12 mx-0 px-0 mt-3">
-                <div class="selectPostFile" id="selectPostFile">
-                    <?php if (isset($tcd_membership_vars['error']['postFile'])) { ?>
-                        <p id="inputPostFileMsg" class="inputPostTitleMsg postErrMsg my-0"><?php echo $tcd_membership_vars['error']['postFile']; ?></p>
-                    <?php } ?>
-                </div>
-            </div>
-            <!-- div class="row">
-                    <div class="col-12">
-                        <div class="row">
-                            <div class="col-2 px-1">
-                                <label class="post-file-sub-img post-local-file">
-                                    <input type="file" name="postFile2" id="postFile2">
-                                </label>
-                            </div>
-                            <div class="col-2 px-1">
-                                <label class="post-file-sub-img post-app-file">
-                                    <input type="file" name="postFile3" id="postFile3">
-                                </label>
-                            </div>
-                            <div class="col-2 px-1">
-                                <img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_45010284_M.jpg" class="post-images">
-                            </div>
-                            <div class="col-2 px-1">
-                                <img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_58642077_M.jpg" class="post-images">
-                            </div>
-                            <div class="col-2 px-1">
-                                <img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_58266021_M.jpg" class="post-images">
-                            </div>
-                            <div class="col-2 px-1">
-                                <img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_40272765_M.jpg" class="post-images">
-                            </div>
+        </div>
+        <!-- <div class="row">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-2 px-1">
+                            <label class="post-file-sub-img post-local-file">
+                                <input type="file" name="postFile2" id="postFile2">
+                            </label>
+                        </div>
+                        <div class="col-2 px-1">
+                            <label class="post-file-sub-img post-app-file">
+                                <input type="file" name="postFile3" id="postFile3">
+                            </label>
+                        </div>
+                        <div class="col-2 px-1">
+                            <img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_45010284_M.jpg" class="post-images">
+                        </div>
+                        <div class="col-2 px-1">
+                            <img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_58642077_M.jpg" class="post-images">
+                        </div>
+                        <div class="col-2 px-1">
+                            <img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_58266021_M.jpg" class="post-images">
+                        </div>
+                        <div class="col-2 px-1">
+                            <img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_40272765_M.jpg" class="post-images">
                         </div>
                     </div>
-                </div -->
-            <div class="col-12 mx-0 px-0 mt-3">
-                <div class="selectPostFile" id="selectPostFile">
-                    <?php if (isset($tcd_membership_vars['error']['postTitle'])) { ?>
-                        <p id="inputPostTitleMsg" class="inputPostTitleMsg postErrMsg my-0">タイトルを入力して下さい</p>
-                    <?php } ?>
+                </div>
+            </div> -->
+        <div class="col-12 mx-0 px-0 mt-3">
+            <div class="selectPostFile" id="selectPostFile"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <label for="saleType" class="label-text post-input-title mt-4">タイトル（必須）</label>
+            </div>
+            <div class="col-12">
+                <input class="form-control post-input" type="text" name="postTitle" id="postTitle" placeholder="タイトルを入力">
+            </div>
+            <div class="col-12">
+                <div class="inputPostTitle" id="inputPostTitle"></div>
+            </div>
+            <div class="col-12">
+                <label for="saleType" class="label-text post-input-title mt-4">詳細（任意）</label>
+            </div>
+            <div class="col-12">
+                <textarea class="form-control post-detail" name="postDetail" id="postDetail" placeholder="詳細を入力"></textarea>
+            </div>
+            <div class="col-12 mt-2">
+                <label for="saleType" class="label-text post-input-title mt-4">販売形式（必須）</label>
+            </div>
+            <div class="col-12 row">
+                <div class="col-5 post-radio ml-2">
+                    <label><input type="radio" name="saleType" value="sale" id="sale">NFT販売</label>
+                </div>
+                <!-- <div class="col-5 post-radio ml-2">
+                        <label><input type="radio" name="saleType" value="auction" id="auction">オークション</label>
+                    </div> -->
+                <div class="col-5 post-radio ml-2">
+                    <label><input type="radio" name="saleType" value="notForSale" id="notForSale" checked>販売しない</label>
+                </div>
+            </div>
+            <div class="col-12">
+                <label for="suitableAges" class="label-text post-input-title mt-4">対象（必須）</label>
+            </div>
+            <div class="col-12 row">
+                <div class="col-5 post-radio ml-2">
+                    <label><input type="radio" name="suitableAges" value="allAges" id="allAges" checked>全年齢</label>
+                </div>
+                <div class="col-5 post-radio ml-2">
+                    <label><input type="radio" name="suitableAges" value="r18" id="restrictedAge">R-18</label>
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-12">
-                    <label for="saleType" class="label-text post-input-title mt-4">タイトル（必須）</label>
-                </div>
-                <div class="col-12">
-                    <input class="form-control post-input" type="text" name="postTitle" id="postTitle" placeholder="タイトルを入力" value="<?php echo (isset($_REQUEST['postTitle'])) ? $_REQUEST['postTitle'] : ''; ?>">
-                </div>
-                <div class="col-12">
-                    <div class="inputPostTitle" id="inputPostTitle"></div>
-                </div>
-                <div class="col-12">
-                    <label for="saleType" class="label-text post-input-title mt-4">詳細（任意）</label>
-                </div>
-                <div class="col-12">
-                    <textarea class="form-control post-detail" name="postDetail" id="postDetail" placeholder="詳細を入力"><?php echo (isset($_REQUEST['postDetail'])) ? $_REQUEST['postDetail'] : ''; ?></textarea>
-                </div>
+            <!-- 販売形式フォーム-->
+            <div class="saleSection saleTypeSection mb-4">
                 <div class="col-12 mt-2">
-                    <label for="saleType" class="label-text post-input-title mt-4">販売形式（必須）</label>
+                    <label for="selectAuction" class="label-text post-input-title mt-4">オークション開催（必須）</label>
                 </div>
                 <div class="col-12 row">
                     <div class="col-5 post-radio ml-2">
-                        <label><input type="radio" name="saleType" value="sale" id="sale" <?php echo ($tcd_membership_vars['chk_sele_type'] === 'sale') ? 'checked' : ''; ?>>通常販売</label>
+                        <label><input type="radio" name="selectAuction" value="Auction" id="auction" checked>あり</label>
                     </div>
                     <div class="col-5 post-radio ml-2">
-                        <label><input type="radio" name="saleType" value="auction" id="auction" <?php echo ($tcd_membership_vars['chk_sele_type'] === 'auction') ? 'checked' : ''; ?>>オークション</label>
-                    </div>
-                    <div class="col-5 post-radio ml-2">
-                        <label><input type="radio" name="saleType" value="notForSale" id="notForSale" <?php echo ($tcd_membership_vars['chk_sele_type'] === 'notForSale') ? 'checked' : ''; ?>>販売しない</label>
+                        <label><input type="radio" name="selectAuction" value="notAuction" id="notAuction">なし</label>
                     </div>
                 </div>
-
-                <div class="col-12">
-                    <label for="suitableAges" class="label-text post-input-title mt-4">対象（必須）</label>
-                </div>
-                <div class="col-12 row">
-                    <div class="col-5 post-radio ml-2">
-                        <label><input type="radio" name="suitableAges" value="allAges" id="allAges" <?php echo ($tcd_membership_vars['chk_suitable_ages'] === 'allAges') ? 'checked' : ''; ?>>全年齢</label>
-                    </div>
-                    <div class="col-5 post-radio ml-2">
-                        <label><input type="radio" name="suitableAges" value="r18" id="restrictedAge" <?php echo ($tcd_membership_vars['chk_suitable_ages'] === 'r18') ? 'checked' : ''; ?>>R-18</label>
-                    </div>
-                </div>
-
-                <!-- 販売形式フォーム-->
-                <div class="saleSection saleTypeSection mb-4" <?php echo ($tcd_membership_vars['chk_sele_type'] !== 'sale') ? 'style="display: none;"' : ''; ?>>
-                    <div class="col-12">
-                        <label for="imagePrice" class="label-text post-input-title mt-4">販売価格（必須）</label>
-                    </div>
-                    <div class="col-11">
-                        <input class="form-control post-input image-price-input" type="number" name="imagePrice" id="imagePrice" placeholder="金額を入力">
-                        <div class="image-price-jpy">
-                            円
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="inputImagePrice" id="inputImagePrice">
-                            <?php if (isset($tcd_membership_vars['error']['imagePrice'])) { ?>
-                                <p id="inputImagePriceMsg" class="inputImagePriceMsg postErrMsg my-0">販売価格を入力して下さい</p>
-                            <?php } ?>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <p class="commission-title">手数料差し引き残額</p>
-                        <p class="commission-price">0円</p>
-                    </div>
-                    <div class="col-12">
-                        <label for="binPrice" class="label-text post-input-title mt-4">即決価格（必須）</label>
-                    </div>
-                    <div class="col-11">
-                        <input class="form-control post-input image-price-input" type="number" name="binPrice" id="binPrice" placeholder="金額を入力" <?php echo (isset($_REQUEST['binPrice'])) ? $_REQUEST['binPrice'] : ''; ?>>
-                        <div class="image-price-jpy">
-                            円
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="inputBinPrice" id="inputBinPrice">
-                            <?php if (isset($tcd_membership_vars['error']['binPrice'])) { ?>
-                                <p id="inputBinPriceMsg" class="inputBinPriceMsg postErrMsg my-0">即決価格を入力して下さい</p>
-                            <?php } ?>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- オークション形式フォーム-->
-                <div class="auctionSection saleTypeSection" <?php echo ($tcd_membership_vars['chk_sele_type'] !== 'auction') ? 'style="display: none;"' : 'style="display: block;"'; ?>>
+                <!-- オークションあり形式フォーム -->
+                <div class="holdauctionSection selectAuctionsection">
                     <div class="col-12">
                         <label for="auctionStartDate" class="label-text post-input-title mt-4">オークション開始日時（必須）</label>
                     </div>
                     <div class="col-12 row">
                         <div class="col-5 post-radio ml-2">
-                            <label><input type="radio" name="auctionStartDate" value="notSpecified" id="notSpecified" <?php echo ($tcd_membership_vars['auction_start_date'] === 'notSpecified') ? 'checked' : ''; ?>>指定しない</label>
+                            <label><input type="radio" name="auctionStartDate" value="notSpecified" id="notSpecified" checked>指定しない</label>
                         </div>
                         <div class="col-5 post-radio ml-2">
-                            <label><input type="radio" name="auctionStartDate" value="specify" id="specify" <?php echo ($tcd_membership_vars['auction_start_date'] === 'specify') ? 'checked' : ''; ?>>開始時間指定</label>
+                            <label><input type="radio" name="auctionStartDate" value="specify" id="specify">開始時間指定</label>
                         </div>
                     </div>
-                    <div id="auction_datetime" <?php echo ($tcd_membership_vars['auction_start_date'] === 'specify') ? '' : 'class="d-none"'; ?>>
+                    <div id="auction_datetime" class="d-none">
                         <div class="col-12">
                             <label for="auctionStartDate" class="label-text post-input-title mt-4">オークション開始日時</label>
                         </div>
-                        <div class="col-12 row">
-                            <div class="col-2">
-                                <input type="number" class="auction-input" placeholder="yyyy" name="auctionDateY" id="auctionDateY" value="<?php echo (isset($_REQUEST['auctionDateY'])) ? $_REQUEST['auctionDateY'] : ''; ?>">
+                        <div class="col-12 row mt-1">
+                            <div class="col-4">
+                                <select class="auction-input" placeholder="yyyy" name="auctionDateY" id="auctionDateY">
+                                </select>
                                 <p class="auction-date">年</p>
+                                <input type="hidden" value="2023" id="setAuctionDateY" />
                             </div>
-                            <div class="col-2">
-                                <input type="number" class="auction-input" placeholder="mm" name="auctionDateM" id="auctionDateM" value="<?php echo (isset($_REQUEST['auctionDateM'])) ? $_REQUEST['auctionDateM'] : ''; ?>">
+                            <div class="col-4">
+                                <select class="auction-input" placeholder="mm" name="auctionDateM" id="auctionDateM">
+                                </select>
                                 <p class="auction-date">月</p>
+                                <input type="hidden" value="2" id="setAuctionDateM" />
                             </div>
-                            <div class="col-2">
-                                <input type="number" class="auction-input" placeholder="dd" name="auctionDateD" id="auctionDateD" value="<?php echo (isset($_REQUEST['auctionDateD'])) ? $_REQUEST['auctionDateD'] : ''; ?>">
+                            <div class="col-4">
+                                <select class="auction-input" placeholder="dd" name="auctionDateD" id="auctionDateD">
+                                </select>
+
                                 <p class="auction-date">日</p>
+                                <input type="hidden" value="2" id="setAuctionDateD" />
                             </div>
-                            <div class="col-2">
-                                <input type="number" class="auction-input" placeholder="hh" name="auctionDateH" id="auctionDateH" value="<?php echo (isset($_REQUEST['auctionDateH'])) ? $_REQUEST['auctionDateH'] : ''; ?>">
+
+                        </div>
+                        <div class="col-12 row mt-1">
+                            <div class="col-4">
+                                <select class="auction-input" placeholder="dd" name="auctionDateD" id="auctionDateH">
+                                </select>
                                 <p class="auction-date">時</p>
+                                <input type="hidden" value="2" id="setAuctionDateH" />
                             </div>
-                            <div class="col-2">
-                                <input type="number" class="auction-input" placeholder="mm" name="auctionDateMin" id="auctionDateMin" value="<?php echo (isset($_REQUEST['auctionDateMin'])) ? $_REQUEST['auctionDateMin'] : ''; ?>">
+                            <div class="col-4">
+                                <select class="auction-input" placeholder="mm" name="auctionDateMin" id="auctionDateMin">
+                                </select>
                                 <p class="auction-date">分</p>
+
+                                <input type="hidden" value="2" id="setAuctionDateMin" />
+
+                            </div>
+                            <div class="col-4">
+
                             </div>
                         </div>
                         <div class="col-12">
-                            <div class="inputAppDeadline" id="inputAppDeadline">
-                                <?php if (isset($tcd_membership_vars['error']['appDeadlineMsg'])) { ?>
-                                    <p id="inputAppDeadlineMsg" class="inputRequestErrMsg mt-1"><?php echo $tcd_membership_vars['error']['appDeadlineMsg']; ?></p>
-                                <?php } ?>
-                            </div>
+                            <div class="inputAppDeadline" id="inputAppDeadline"></div>
                         </div>
                         <div class="col-12 mt-3">
                             <label for="auctionStartDate" class="label-text post-input-title mt-4">オークション終了日時</label>
                         </div>
                         <div class="col-12 row">
+                            <div class="col-4">
+                                <select class="auction-input" placeholder="yyyy" name="auctionEndDateY" id="auctionEndDateY">
+                                </select>
+                                <p class="auction-date">年</p>
+                                <input type="hidden" value="2024" id="setAuctionEndDateY" />
+                            </div>
+                            <div class="col-4">
+                                <select class="auction-input" placeholder="mm" name="auctionEndDateM" id="auctionEndDateM">
+                                </select>
+                                <p class="auction-date">月</p>
+                                <input type="hidden" value="2" id="setAuctionEndDateM" />
+                            </div>
+                            <div class="col-4">
+                                <select class="auction-input" placeholder="dd" name="auctionEndDateD" id="auctionEndDateD">
+                                </select>
+                                <p class="auction-date">日</p>
+                                <input type="hidden" value="2" id="setAuctionEndDateD" />
+                            </div>
+                        </div>
+                        <div class="col-12 row">
+                            <div class="col-4">
+                                <select class="auction-input" placeholder="dd" name="auctionDateD" id="auctionEndDateH">
+                                </select>
+                                <p class="auction-date">時</p>
+                                <input type="hidden" value="2" id="setAuctionEndDateH" />
+                            </div>
+                            <div class="col-4">
+                                <select class="auction-input" placeholder="mm" name="auctionEndDateMin" id="auctionEndDateMin">
+                                </select>
+                                <p class="auction-date">分</p>
+                                <input type="hidden" value="2" id="setAuctionEndDateMin" />
+                            </div>
+                            <div class="col-4">
+                            </div>
+                            <div class="col-12">
+                                <div class="inputAuctionEnd" id="inputAuctionEnd"></div>
+                            </div>
+                            <div class="col-12 mt-3">
+                                <label for="auctionStartDate" class="label-text post-input-title mt-4">オークション自動延長</label>
+                            </div>
+                            <div class="col-12 row">
+                                <div class="col-5 post-radio ml-2">
+                                    <label><input type="radio" name="extendAuction" value="enableAutoExtend" id="enableAutoExtend" checked>あり</label>
+                                </div>
+                                <div class="col-5 post-radio ml-2">
+                                    <label><input type="radio" name="extendAuction" value="disableAutoExtend" id="disableAutoExtend">なし</label>
+                                </div>
+                            </div>
+                            <p class="auction-notes">※終了5分前に入札されると、5分延長されます。</p>
+                        </div>
+                    </div>
+                    <!-- オークションなし形式フォーム -->
+                    <div class="notholdauctionSection selectAuctionsection">
+                        <div class="col-12">
+                            <label for="imagePrice" class="label-text post-input-title mt-4">販売価格（必須）</label>
+                        </div>
+                        <div class="col-11">
+                            <input class="form-control post-input image-price-input" type="number" name="imagePrice" id="imagePrice" placeholder="金額を入力">
+                            <div class="image-price-jpy">
+                                円
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="inputImagePrice" id="inputImagePrice"></div>
+                        </div>
+                        <div class="col-12">
+                            <p class="commission-title">手数料差し引き残額</p>
+                            <p class="commission-price">0円</p>
+                        </div>
+                        <div class="col-12">
+                            <label for="binPrice" class="label-text post-input-title mt-4">即決価格（必須）</label>
+                        </div>
+                        <div class="col-11">
+                            <input class="form-control post-input image-price-input" type="number" name="binPrice" id="binPrice" placeholder="金額を入力">
+                            <div class="image-price-jpy">
+                                円
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="inputBinPrice" id="inputBinPrice"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- オークション形式フォーム-->
+                <!-- <div class="auctionSection saleTypeSection">
+                    <div class="col-12">
+                        <label for="auctionStartDate"
+                            class="label-text post-input-title mt-4">オークション開始日時（必須）</label>
+                    </div>
+                    <div class="col-12 row">
+                        <div class="col-5 post-radio ml-2">
+                            <label><input type="radio" name="auctionStartDate" value="notSpecified"
+                                    id="notSpecified" checked>指定しない</label>
+                        </div>
+                        <div class="col-5 post-radio ml-2">
+                            <label><input type="radio" name="auctionStartDate" value="specify"
+                                    id="specify">開始時間指定</label>
+                        </div>
+                    </div>
+                    <div id="auction_datetime" class="d-none">
+                        <div class="col-12">
+                            <label for="auctionStartDate"
+                                class="label-text post-input-title mt-4">オークション開始日時</label>
+                        </div>
+                        <div class="col-12 row">
                             <div class="col-2">
-                                <input type="number" class="auction-input" placeholder="yyyy" name="auctionEndDateY" id="auctionEndDateY" value="<?php echo (isset($_REQUEST['auctionEndDateY'])) ? $_REQUEST['auctionEndDateY'] : ''; ?>">
+                                <input type="number" class="auction-input" placeholder="yyyy" name="auctionDateY"
+                                    id="auctionDateY">
                                 <p class="auction-date">年</p>
                             </div>
                             <div class="col-2">
-                                <input type="number" class="auction-input" placeholder="mm" name="auctionEndDateM" id="auctionEndDateM" value="<?php echo (isset($_REQUEST['auctionEndDateM'])) ? $_REQUEST['auctionEndDateM'] : ''; ?>">
+                                <input type="number" class="auction-input" placeholder="mm" name="auctionDateM"
+                                    id="auctionDateM">
                                 <p class="auction-date">月</p>
                             </div>
                             <div class="col-2">
-                                <input type="number" class="auction-input" placeholder="dd" name="auctionEndDateD" id="auctionEndDateD" value="<?php echo (isset($_REQUEST['auctionEndDateD'])) ? $_REQUEST['auctionEndDateD'] : ''; ?>">
+                                <input type="number" class="auction-input" placeholder="dd" name="auctionDateD"
+                                    id="auctionDateD">
                                 <p class="auction-date">日</p>
                             </div>
                             <div class="col-2">
-                                <input type="number" class="auction-input" placeholder="hh" name="auctionEndDateH" id="auctionEndDateH" value="<?php echo (isset($_REQUEST['auctionEndDateH'])) ? $_REQUEST['auctionEndDateH'] : ''; ?>">
+                                <input type="number" class="auction-input" placeholder="hh" name="auctionDateH"
+                                    id="auctionDateH">
                                 <p class="auction-date">時</p>
                             </div>
                             <div class="col-2">
-                                <input type="number" class="auction-input" placeholder="mm" name="auctionEndDateMin" id="auctionEndDateMin" value="<?php echo (isset($_REQUEST['auctionEndDateMin'])) ? $_REQUEST['auctionEndDateMin'] : ''; ?>">
+                                <input type="number" class="auction-input" placeholder="mm" name="auctionDateMin"
+                                    id="auctionDateMin">
+                                <p class="auction-date">分</p>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="inputAppDeadline" id="inputAppDeadline"></div>
+                        </div>
+                        <div class="col-12 mt-3">
+                            <label for="auctionStartDate"
+                                class="label-text post-input-title mt-4">オークション終了日時</label>
+                        </div>
+                        <div class="col-12 row">
+                            <div class="col-2">
+                                <input type="number" class="auction-input" placeholder="yyyy" name="auctionEndDateY"
+                                    id="auctionEndDateY">
+                                <p class="auction-date">年</p>
+                            </div>
+                            <div class="col-2">
+                                <input type="number" class="auction-input" placeholder="mm" name="auctionEndDateM"
+                                    id="auctionEndDateM">
+                                <p class="auction-date">月</p>
+                            </div>
+                            <div class="col-2">
+                                <input type="number" class="auction-input" placeholder="dd" name="auctionEndDateD"
+                                    id="auctionEndDateD">
+                                <p class="auction-date">日</p>
+                            </div>
+                            <div class="col-2">
+                                <input type="number" class="auction-input" placeholder="hh" name="auctionEndDateH"
+                                    id="auctionEndDateH">
+                                <p class="auction-date">時</p>
+                            </div>
+                            <div class="col-2">
+                                <input type="number" class="auction-input" placeholder="mm" name="auctionEndDateMin"
+                                    id="auctionEndDateMin">
                                 <p class="auction-date">分</p>
                             </div>
                         </div>
@@ -219,22 +368,24 @@ get_header();
                             <div class="inputAuctionEnd" id="inputAuctionEnd"></div>
                         </div>
                         <div class="col-12 mt-3">
-                            <label for="auctionStartDate" class="label-text post-input-title mt-4">オークション自動延長</label>
+                            <label for="auctionStartDate"
+                                class="label-text post-input-title mt-4">オークション自動延長</label>
                         </div>
                         <div class="col-12 row">
                             <div class="col-5 post-radio ml-2">
-                                <label><input type="radio" name="extendAuction" value="enableAutoExtend" id="enableAutoExtend" <?php echo ($tcd_membership_vars['extend_auction'] === 'enableAutoExtend') ? 'checked' : ''; ?>>あり</label>
+                                <label><input type="radio" name="extendAuction" value="enableAutoExtend"
+                                        id="enableAutoExtend" checked>あり</label>
                             </div>
                             <div class="col-5 post-radio ml-2">
-                                <label><input type="radio" name="extendAuction" value="disableAutoExtend" id="disableAutoExtend" <?php echo ($tcd_membership_vars['extend_auction'] === 'disableAutoExtend') ? 'checked' : ''; ?>>なし</label>
+                                <label><input type="radio" name="extendAuction" value="disableAutoExtend"
+                                        id="disableAutoExtend">なし</label>
                             </div>
                         </div>
                         <p class="auction-notes">※終了5分前に入札されると、5分延長されます。</p>
                     </div>
-                </div>
-
+                </div> -->
                 <!-- 販売しない形式フォーム-->
-                <div class="col-12 notForSaleSection saleTypeSection" <?php echo ($tcd_membership_vars['chk_sele_type'] !== 'notForSale') ? 'style="display: none;"' : ''; ?>>
+                <div class="col-12 notForSaleSection saleTypeSection">
                 </div>
 
                 <div class="termsSection saleTypeSection">
@@ -245,15 +396,72 @@ get_header();
                         </label>
                     </div>
                 </div>
-
-                <div class="col-12 text-center mt-3 mb-5">
-                    <button type="submit" class="btn btn-primary text-white submit-btn" id="postBtn" disabled>画像投稿確認</button>
-                </div>
+                <input type="hidden" id="upload-image-x-1" name="profileImageX" value="0" />
+                <input type="hidden" id="upload-image-y-1" name="profileImageY" value="0" />
+                <input type="hidden" id="upload-image-w-1" name="profileImageW" value="0" />
+                <input type="hidden" id="upload-image-h-1" name="profileImageH" value="0" />
+                <input type="hidden" id="upload-image-x-2" name="profileImageX" value="0" />
+                <input type="hidden" id="upload-image-y-2" name="profileImageY" value="0" />
+                <input type="hidden" id="upload-image-w-2" name="profileImageW" value="0" />
+                <input type="hidden" id="upload-image-h-2" name="profileImageH" value="0" />
+                <input type="hidden" id="upload-image-x-3" name="profileImageX" value="0" />
+                <input type="hidden" id="upload-image-y-3" name="profileImageY" value="0" />
+                <input type="hidden" id="upload-image-w-3" name="profileImageW" value="0" />
+                <input type="hidden" id="upload-image-h-3" name="profileImageH" value="0" />
+                <input type="hidden" id="upload-image-x-4" name="profileImageX" value="0" />
+                <input type="hidden" id="upload-image-y-4" name="profileImageY" value="0" />
+                <input type="hidden" id="upload-image-w-4" name="profileImageW" value="0" />
+                <input type="hidden" id="upload-image-h-4" name="profileImageH" value="0" />
+                <input type="hidden" id="upload-image-x-5" name="profileImageX" value="0" />
+                <input type="hidden" id="upload-image-y-5" name="profileImageY" value="0" />
+                <input type="hidden" id="upload-image-w-5" name="profileImageW" value="0" />
+                <input type="hidden" id="upload-image-h-5" name="profileImageH" value="0" />
+                <input type="hidden" id="upload-image-x-6" name="profileImageX" value="0" />
+                <input type="hidden" id="upload-image-y-6" name="profileImageY" value="0" />
+                <input type="hidden" id="upload-image-w-6" name="profileImageW" value="0" />
+                <input type="hidden" id="upload-image-h-6" name="profileImageH" value="0" />
 
             </div>
-            <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd-membership-post_image')); ?>">
-        </form>
+            <div class="col-12 text-center mt-3 mb-5">
+                <button type="submit" class="btn btn-primary text-white submit-btn" id="postBtn" disabled>画像投稿</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- モーダル -->
+<div class="modal fade image-post-modal" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="img-container">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <img id="image" id="preview" src="https://avatars0.githubusercontent.com/u/3456749">
+                        </div>
+                        <!-- NOTE:拡大バー一旦処理外す。 -->
+                        <!-- <div class="mt-3 col-md-8">
+                    <input type="range" value="0" id="zoom" min="0" max="3" step="0.1" class="w-100">
+                </div> -->
+                    </div>
+                </div>
+            </div>
+            <div class="scrollbar"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
+                <button type="button" class="btn btn-primary" id="crop">保存</button>
+            </div>
+        </div>
     </div>
 </div>
+
+<!-- cropper.js -->
+<script src="<?php echo get_template_directory_uri(); ?>/assets/js/cropper.min.js"></script>
+
 <?php
 get_footer();
