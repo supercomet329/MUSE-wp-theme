@@ -9,9 +9,7 @@ function tcd_membership_action_post_image()
 
     nocache_headers();
 
-    ini_set('display_error', 'on');
     $user = wp_get_current_user();
-
     if (!$user) {
         wp_safe_redirect(user_trailingslashit(home_url()));
         exit;
@@ -43,6 +41,7 @@ function tcd_membership_action_post_image()
         $setDataParams['setAuctionDateD']   = $_POST['auctionDateD'];
         $setDataParams['setAuctionDateH']   = $_POST['auctionDateH'];
         $setDataParams['setAuctionDateMin'] = $_POST['auctionDateMin'];
+
         $setDataParams['setAuctionEndDateY']   = $_POST['auctionEndDateY'];
         $setDataParams['setAuctionEndDateM']   = $_POST['auctionEndDateM'];
         $setDataParams['setAuctionEndDateD']   = $_POST['auctionEndDateD'];
@@ -51,17 +50,15 @@ function tcd_membership_action_post_image()
 
         // 値がPOSTされたときの対応
         if (empty($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'tcd-membership-post_image')) {
-
             // nonceが一致しない場合 => トップページに遷移
             wp_safe_redirect(home_url('/'));
             exit;
         }
-        // バリデート
 
+        // バリデート
         // 投稿画像
         $requestFileUrl  = false;
         $requestFileName = false;
-
         if (isset($_FILES['postFile']['name']) && !empty($_FILES['postFile']['name'])) {
             $extension = pathinfo($_FILES['postFile']['name'], PATHINFO_EXTENSION);
             $file_name = substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 100) . '.' . $extension;
@@ -73,6 +70,64 @@ function tcd_membership_action_post_image()
             } else {
                 $error_messages['postFile'] = 'ファイルのアップロードに失敗しました。';
             }
+
+            $file_data = base64_decode($_POST['file_data']);
+
+            $resizeFileName = 'resize_' . $file_name;
+            $resize_uploaded_file = __DIR__ . '/../../upload_file/' . $resizeFileName;
+            $requestResizeFileUrl  = get_template_directory_uri() . '/upload_file/' . $resizeFileName;
+            file_put_contents($resize_uploaded_file, $file_data);
+        } else {
+            $error_messages['postFile'] = 'ファイルをアップロードしてください。';
+        }
+
+        $requestFileUrl2  = false;
+        if (isset($_FILES['postFile2']['name']) && !empty($_FILES['postFile2']['name'])) {
+            $extension = pathinfo($_FILES['postFile2']['name'], PATHINFO_EXTENSION);
+            $file_name = substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 100) . '.' . $extension;
+            $uploaded_file = __DIR__ . '/../../upload_file/' . $file_name;
+            $result = move_uploaded_file($_FILES['postFile2']['tmp_name'], $uploaded_file);
+            if ($result) {
+                $requestFileUrl2  = get_template_directory_uri() . '/upload_file/' . $file_name;
+            } else {
+                $error_messages['postFile'] = 'ファイルのアップロードに失敗しました。';
+            }
+
+            file_put_contents($resize_uploaded_file, $file_data);
+        } else {
+            $error_messages['postFile'] = 'ファイルをアップロードしてください。';
+        }
+
+        $requestFileUrl3  = false;
+        if (isset($_FILES['postFile3']['name']) && !empty($_FILES['postFile3']['name'])) {
+            $extension = pathinfo($_FILES['postFile3']['name'], PATHINFO_EXTENSION);
+            $file_name = substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 100) . '.' . $extension;
+            $uploaded_file = __DIR__ . '/../../upload_file/' . $file_name;
+            $result = move_uploaded_file($_FILES['postFile3']['tmp_name'], $uploaded_file);
+            if ($result) {
+                $requestFileUrl3  = get_template_directory_uri() . '/upload_file/' . $file_name;
+            } else {
+                $error_messages['postFile'] = 'ファイルのアップロードに失敗しました。';
+            }
+
+            file_put_contents($resize_uploaded_file, $file_data);
+        } else {
+            $error_messages['postFile'] = 'ファイルをアップロードしてください。';
+        }
+
+        $requestFileUrl4  = false;
+        if (isset($_FILES['postFile4']['name']) && !empty($_FILES['postFile4']['name'])) {
+            $extension = pathinfo($_FILES['postFile4']['name'], PATHINFO_EXTENSION);
+            $file_name = substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 100) . '.' . $extension;
+            $uploaded_file = __DIR__ . '/../../upload_file/' . $file_name;
+            $result = move_uploaded_file($_FILES['postFile4']['tmp_name'], $uploaded_file);
+            if ($result) {
+                $requestFileUrl4  = get_template_directory_uri() . '/upload_file/' . $file_name;
+            } else {
+                $error_messages['postFile'] = 'ファイルのアップロードに失敗しました。';
+            }
+
+            file_put_contents($resize_uploaded_file, $file_data);
         } else {
             $error_messages['postFile'] = 'ファイルをアップロードしてください。';
         }
@@ -162,8 +217,8 @@ function tcd_membership_action_post_image()
                 'wp_postmeta',
                 array(
                     'post_id'    => $post_id,
-                    'meta_key'   => 'image_name',
-                    'meta_value' => $requestFileName,
+                    'meta_key'   => 'resize_image',
+                    'meta_value' => $requestResizeFileUrl,
                 ),
                 array(
                     '%d',
@@ -176,8 +231,71 @@ function tcd_membership_action_post_image()
                 'wp_postmeta',
                 array(
                     'post_id'    => $post_id,
+                    'meta_key'   => 'image_name',
+                    'meta_value' => $requestFileName,
+                ),
+                array(
+                    '%d',
+                    '%s',
+                    '%s'
+                )
+            );
+
+
+            if ($requestFileUrl2) {
+                $result = $wpdb->insert(
+                    'wp_postmeta',
+                    array(
+                        'post_id'    => $post_id,
+                        'meta_key'   => 'main_image2',
+                        'meta_value' => $requestFileUrl2,
+                    ),
+                    array(
+                        '%d',
+                        '%s',
+                        '%s'
+                    )
+                );
+            }
+
+            if ($requestFileUrl3) {
+                $result = $wpdb->insert(
+                    'wp_postmeta',
+                    array(
+                        'post_id'    => $post_id,
+                        'meta_key'   => 'main_image3',
+                        'meta_value' => $requestFileUrl3,
+                    ),
+                    array(
+                        '%d',
+                        '%s',
+                        '%s'
+                    )
+                );
+            }
+
+            if ($requestFileUrl4) {
+                $result = $wpdb->insert(
+                    'wp_postmeta',
+                    array(
+                        'post_id'    => $post_id,
+                        'meta_key'   => 'main_image4',
+                        'meta_value' => $requestFileUrl4,
+                    ),
+                    array(
+                        '%d',
+                        '%s',
+                        '%s'
+                    )
+                );
+            }
+
+            $result = $wpdb->insert(
+                'wp_postmeta',
+                array(
+                    'post_id'    => $post_id,
                     'meta_key'   => 'saleType',
-                    'meta_value' =>$_POST['saleType'],
+                    'meta_value' => $_POST['saleType'],
                 ),
                 array(
                     '%d',
@@ -290,7 +408,6 @@ function tcd_membership_action_post_image()
                         '%s'
                     )
                 );
-
             } else {
                 // 販売しない場合
             }

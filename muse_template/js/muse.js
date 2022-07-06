@@ -2160,10 +2160,12 @@ jQuery(function($) {
                         $zoom.val(0);
                         $zoom.data('oldVal', 0);
                         console.log(cropper_post);
+                        console.log(base64data);
                         $(upload_image_x).val(cropper_post['cropBoxData']['left']);
                         $(upload_image_y).val(cropper_post['cropBoxData']['top']);
                         $(upload_image_w).val(cropper_post['cropBoxData']['width']);
                         $(upload_image_h).val(cropper_post['cropBoxData']['height']);
+                        $("#file-data").val(base64EncodedFile);
                     }
                 });
             })

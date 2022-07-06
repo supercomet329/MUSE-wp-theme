@@ -401,6 +401,7 @@ get_header();
                 <input type="hidden" id="upload-image-w" name="profileImageW" value="0" />
                 <input type="hidden" id="upload-image-h" name="profileImageH" value="0" />
 
+                <input type="hidden" id="file-data"      name="file_data"     value="0" />
             </div>
             <div class="col-12 text-center mt-3 mb-5">
                 <button type="submit" class="btn btn-primary text-white submit-btn" id="postBtn" disabled>画像投稿</button>
