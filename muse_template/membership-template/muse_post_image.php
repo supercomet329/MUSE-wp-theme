@@ -396,30 +396,10 @@ get_header();
                         </label>
                     </div>
                 </div>
-                <input type="hidden" id="upload-image-x-1" name="profileImageX" value="0" />
-                <input type="hidden" id="upload-image-y-1" name="profileImageY" value="0" />
-                <input type="hidden" id="upload-image-w-1" name="profileImageW" value="0" />
-                <input type="hidden" id="upload-image-h-1" name="profileImageH" value="0" />
-                <input type="hidden" id="upload-image-x-2" name="profileImageX" value="0" />
-                <input type="hidden" id="upload-image-y-2" name="profileImageY" value="0" />
-                <input type="hidden" id="upload-image-w-2" name="profileImageW" value="0" />
-                <input type="hidden" id="upload-image-h-2" name="profileImageH" value="0" />
-                <input type="hidden" id="upload-image-x-3" name="profileImageX" value="0" />
-                <input type="hidden" id="upload-image-y-3" name="profileImageY" value="0" />
-                <input type="hidden" id="upload-image-w-3" name="profileImageW" value="0" />
-                <input type="hidden" id="upload-image-h-3" name="profileImageH" value="0" />
-                <input type="hidden" id="upload-image-x-4" name="profileImageX" value="0" />
-                <input type="hidden" id="upload-image-y-4" name="profileImageY" value="0" />
-                <input type="hidden" id="upload-image-w-4" name="profileImageW" value="0" />
-                <input type="hidden" id="upload-image-h-4" name="profileImageH" value="0" />
-                <input type="hidden" id="upload-image-x-5" name="profileImageX" value="0" />
-                <input type="hidden" id="upload-image-y-5" name="profileImageY" value="0" />
-                <input type="hidden" id="upload-image-w-5" name="profileImageW" value="0" />
-                <input type="hidden" id="upload-image-h-5" name="profileImageH" value="0" />
-                <input type="hidden" id="upload-image-x-6" name="profileImageX" value="0" />
-                <input type="hidden" id="upload-image-y-6" name="profileImageY" value="0" />
-                <input type="hidden" id="upload-image-w-6" name="profileImageW" value="0" />
-                <input type="hidden" id="upload-image-h-6" name="profileImageH" value="0" />
+                <input type="hidden" id="upload-image-x" name="profileImageX" value="0" />
+                <input type="hidden" id="upload-image-y" name="profileImageY" value="0" />
+                <input type="hidden" id="upload-image-w" name="profileImageW" value="0" />
+                <input type="hidden" id="upload-image-h" name="profileImageH" value="0" />
 
             </div>
             <div class="col-12 text-center mt-3 mb-5">
