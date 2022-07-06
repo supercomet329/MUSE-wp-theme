@@ -155,20 +155,20 @@ get_header();
                                 <select class="auction-input" placeholder="yyyy" name="auctionDateY" id="auctionDateY">
                                 </select>
                                 <p class="auction-date">年</p>
-                                <input type="hidden" value="2023" id="setAuctionDateY" />
+                                <input type="hidden" value="<?php echo $tcd_membership_vars['setDataParams']['setAuctionDateY']; ?>" id="setAuctionDateY" />
                             </div>
                             <div class="col-4">
                                 <select class="auction-input" placeholder="mm" name="auctionDateM" id="auctionDateM">
                                 </select>
                                 <p class="auction-date">月</p>
-                                <input type="hidden" value="2" id="setAuctionDateM" />
+                                <input type="hidden" value="<?php echo $tcd_membership_vars['setDataParams']['setAuctionDateM']; ?>" id="setAuctionDateM" />
                             </div>
                             <div class="col-4">
                                 <select class="auction-input" placeholder="dd" name="auctionDateD" id="auctionDateD">
                                 </select>
 
                                 <p class="auction-date">日</p>
-                                <input type="hidden" value="2" id="setAuctionDateD" />
+                                <input type="hidden" value="<?php echo $tcd_membership_vars['setDataParams']['setAuctionDateD']; ?>" id="setAuctionDateD" />
                             </div>
 
                         </div>
@@ -177,14 +177,14 @@ get_header();
                                 <select class="auction-input" placeholder="dd" name="auctionDateD" id="auctionDateH">
                                 </select>
                                 <p class="auction-date">時</p>
-                                <input type="hidden" value="2" id="setAuctionDateH" />
+                                <input type="hidden" value="<?php echo $tcd_membership_vars['setDataParams']['setAuctionDateH']; ?>" id="setAuctionDateH" />
                             </div>
                             <div class="col-4">
                                 <select class="auction-input" placeholder="mm" name="auctionDateMin" id="auctionDateMin">
                                 </select>
                                 <p class="auction-date">分</p>
 
-                                <input type="hidden" value="2" id="setAuctionDateMin" />
+                                <input type="hidden" value="<?php echo $tcd_membership_vars['setDataParams']['setAuctionDateMin']; ?>" id="setAuctionDateMin" />
 
                             </div>
                             <div class="col-4">
@@ -202,33 +202,33 @@ get_header();
                                 <select class="auction-input" placeholder="yyyy" name="auctionEndDateY" id="auctionEndDateY">
                                 </select>
                                 <p class="auction-date">年</p>
-                                <input type="hidden" value="2024" id="setAuctionEndDateY" />
+                                <input type="hidden" value="<?php echo $tcd_membership_vars['setDataParams']['setAuctionEndDateY']; ?>" id="setAuctionEndDateY" />
                             </div>
                             <div class="col-4">
                                 <select class="auction-input" placeholder="mm" name="auctionEndDateM" id="auctionEndDateM">
                                 </select>
                                 <p class="auction-date">月</p>
-                                <input type="hidden" value="2" id="setAuctionEndDateM" />
+                                <input type="hidden" value="<?php echo $tcd_membership_vars['setDataParams']['setAuctionEndDateM']; ?>" id="setAuctionEndDateM" />
                             </div>
                             <div class="col-4">
                                 <select class="auction-input" placeholder="dd" name="auctionEndDateD" id="auctionEndDateD">
                                 </select>
                                 <p class="auction-date">日</p>
-                                <input type="hidden" value="2" id="setAuctionEndDateD" />
+                                <input type="hidden" value="<?php echo $tcd_membership_vars['setDataParams']['setAuctionEndDateD']; ?>" id="setAuctionEndDateD" />
                             </div>
                         </div>
-                        <div class="col-12 row">
+                        <div class="col-12 row mt-1">
                             <div class="col-4">
                                 <select class="auction-input" placeholder="dd" name="auctionDateD" id="auctionEndDateH">
                                 </select>
                                 <p class="auction-date">時</p>
-                                <input type="hidden" value="2" id="setAuctionEndDateH" />
+                                <input type="hidden" value="<?php echo $tcd_membership_vars['setDataParams']['setAuctionEndDateH']; ?>" id="setAuctionEndDateH" />
                             </div>
                             <div class="col-4">
                                 <select class="auction-input" placeholder="mm" name="auctionEndDateMin" id="auctionEndDateMin">
                                 </select>
                                 <p class="auction-date">分</p>
-                                <input type="hidden" value="2" id="setAuctionEndDateMin" />
+                                <input type="hidden" value="<?php echo $tcd_membership_vars['setDataParams']['setAuctionEndDateMin']; ?>" id="setAuctionEndDateMin" />
                             </div>
                             <div class="col-4">
                             </div>
@@ -426,6 +426,7 @@ get_header();
                 <button type="submit" class="btn btn-primary text-white submit-btn" id="postBtn" disabled>画像投稿</button>
             </div>
         </div>
+        <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd-membership-post_image')); ?>">
     </form>
 </div>
 

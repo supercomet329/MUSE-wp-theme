@@ -1294,7 +1294,7 @@ function setAuctionSelBox() {
 
     var setAuctionDateH = jQuery('#setAuctionDateH').val();
     var htmlAuctionDateH = '';
-    for (var hour = 1; hour <= 24; hour++) {
+    for (var hour = 0; hour <= 24; hour++) {
         if (hour == setAuctionDateH) {
             htmlAuctionDateH += '<option value="' + hour + '" selected>' + hour + '</option>';
         } else {
@@ -1305,7 +1305,7 @@ function setAuctionSelBox() {
 
     var setAuctionEndDateH = jQuery('#setAuctionEndDateH').val();
     var htmlAuctionEndDateH = '';
-    for (var hour = 1; hour <= 24; hour++) {
+    for (var hour = 0; hour <= 24; hour++) {
         if (hour == setAuctionEndDateH) {
             htmlAuctionEndDateH += '<option value="' + hour + '" selected>' + hour + '</option>';
         } else {
@@ -1316,7 +1316,7 @@ function setAuctionSelBox() {
 
     var setAuctionDateMin = jQuery('#setAuctionDateMin').val();
     var htmlAuctionDateMin = '';
-    for (var min = 1; min <= 59; min++) {
+    for (var min = 0; min <= 59; min++) {
         if (min == setAuctionDateMin) {
             htmlAuctionDateMin += '<option value="' + min + '" selected>' + min + '</option>';
         } else {
@@ -1327,7 +1327,7 @@ function setAuctionSelBox() {
 
     var setAuctionEndDateMin = jQuery('#setAuctionEndDateMin').val();
     var htmlAuctionEndDateMin = '';
-    for (var min = 1; min <= 59; min++) {
+    for (var min = 0; min <= 59; min++) {
         if (min == setAuctionEndDateMin) {
             htmlAuctionEndDateMin += '<option value="' + min + '" selected>' + min + '</option>';
         } else {

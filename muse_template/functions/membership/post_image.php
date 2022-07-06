@@ -17,9 +17,37 @@ function tcd_membership_action_post_image()
         exit;
     }
 
+    $setDataParams = [];
+    $dateClass = new DateTime();
+    // FIXED: nginxの場合 php.iniの反映が去れないことがある
+    $dateClass->setTimezone(new DateTimeZone('Asia/Tokyo'));
+    $setDataParams['setAuctionDateY']   = $dateClass->format('Y');
+    $setDataParams['setAuctionDateM']   = (int)$dateClass->format('m');
+    $setDataParams['setAuctionDateD']   = (int)$dateClass->format('d');
+    $setDataParams['setAuctionDateH']   = (int)$dateClass->format('H');
+    $setDataParams['setAuctionDateMin'] = (int)$dateClass->format('i');
+
+    $dateClass->modify('+1 month');
+    $setDataParams['setAuctionEndDateY']   = $dateClass->format('Y');
+    $setDataParams['setAuctionEndDateM']   = (int)$dateClass->format('m');
+    $setDataParams['setAuctionEndDateD']   = (int)$dateClass->format('d');
+    $setDataParams['setAuctionEndDateH']   = (int)$dateClass->format('H');
+    $setDataParams['setAuctionEndDateMin'] = (int)$dateClass->format('i');
+
     $error_message = [];
     if ('POST' == $_SERVER['REQUEST_METHOD']) {
         $tcd_membership_vars['post_data'] = $_POST;
+
+        $setDataParams['setAuctionDateY']   = $_POST['auctionDateY'];
+        $setDataParams['setAuctionDateM']   = $_POST['auctionDateM'];
+        $setDataParams['setAuctionDateD']   = $_POST['auctionDateD'];
+        $setDataParams['setAuctionDateH']   = $_POST['auctionDateH'];
+        $setDataParams['setAuctionDateMin'] = $_POST['auctionDateMin'];
+        $setDataParams['setAuctionEndDateY']   = $_POST['auctionEndDateY'];
+        $setDataParams['setAuctionEndDateM']   = $_POST['auctionEndDateM'];
+        $setDataParams['setAuctionEndDateD']   = $_POST['auctionEndDateD'];
+        $setDataParams['setAuctionEndDateH']   = $_POST['auctionEndDateH'];
+        $setDataParams['setAuctionEndDateMin'] = $_POST['auctionEndDateMin'];
 
         // 値がPOSTされたときの対応
         if (empty($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'tcd-membership-post_image')) {
@@ -294,6 +322,7 @@ function tcd_membership_action_post_image()
     }
 
     // テンプレート指定
+    $tcd_membership_vars['setDataParams'] = $setDataParams;
     $tcd_membership_vars['template']  = 'muse_post_image';
     $tcd_membership_vars['chk_sele_type'] = $chkSaleType;
     $tcd_membership_vars['extend_auction'] = $extendAuction;
