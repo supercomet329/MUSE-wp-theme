@@ -85,6 +85,9 @@ get_header();
                 <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('edit_profile')); ?>"><button class="px-0 btn rounded-pill btn-outline-primary outline-btn btn-sm edit-btn">　編集　</button></a>
             <?php } else { ?>
                 <!-- 自分以外が見た場合 -->
+                <a href="<?php echo esc_attr(get_tcd_membership_memberpage_url('detail_message')); ?>&user_id=<?php echo $user_id; ?>" class="second-btn rounded-circle dm-icon-block">
+                    <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/dm.png" alt="message" class="profile-dm_icon">
+                </a>
                 <?php if (is_following($user_id)) { ?>
                     <button type="button" data-user-id="<?php echo esc_attr($user_id); ?>" class="js-toggle-follow btn btn-primary rounded-pill btn-sm text-white btn-lg main-color follow-btn follow-on">フォロー中</button>
                 <?php } else { ?>
