@@ -46,34 +46,6 @@ get_header();
                 </div>
             </div>
         </div>
-        <!-- <div class="row">
-                <div class="col-12">
-                    <div class="row">
-                        <div class="col-2 px-1">
-                            <label class="post-file-sub-img post-local-file">
-                                <input type="file" name="postFile2" id="postFile2">
-                            </label>
-                        </div>
-                        <div class="col-2 px-1">
-                            <label class="post-file-sub-img post-app-file">
-                                <input type="file" name="postFile3" id="postFile3">
-                            </label>
-                        </div>
-                        <div class="col-2 px-1">
-                            <img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_45010284_M.jpg" class="post-images">
-                        </div>
-                        <div class="col-2 px-1">
-                            <img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_58642077_M.jpg" class="post-images">
-                        </div>
-                        <div class="col-2 px-1">
-                            <img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_58266021_M.jpg" class="post-images">
-                        </div>
-                        <div class="col-2 px-1">
-                            <img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_40272765_M.jpg" class="post-images">
-                        </div>
-                    </div>
-                </div>
-            </div> -->
         <div class="col-12 mx-0 px-0 mt-3">
             <div class="selectPostFile" id="selectPostFile"></div>
         </div>
@@ -101,9 +73,6 @@ get_header();
                 <div class="col-5 post-radio ml-2">
                     <label><input type="radio" name="saleType" value="sale" id="sale">NFT販売</label>
                 </div>
-                <!-- <div class="col-5 post-radio ml-2">
-                        <label><input type="radio" name="saleType" value="auction" id="auction">オークション</label>
-                    </div> -->
                 <div class="col-5 post-radio ml-2">
                     <label><input type="radio" name="saleType" value="notForSale" id="notForSale" checked>販売しない</label>
                 </div>
@@ -146,6 +115,20 @@ get_header();
                             <label><input type="radio" name="auctionStartDate" value="specify" id="specify">開始時間指定</label>
                         </div>
                     </div>
+
+                    <div class="col-12">
+                        <label for="binPrice" class="label-text post-input-title mt-4">即決価格（必須）</label>
+                    </div>
+                    <div class="col-11">
+                        <input class="form-control post-input image-price-input" type="number" name="binPrice" id="binPrice" placeholder="金額を入力">
+                        <div class="image-price-jpy">
+                            円
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="inputBinPrice" id="inputBinPrice"></div>
+                    </div>
+
                     <div id="auction_datetime" class="d-none">
                         <div class="col-12">
                             <label for="auctionStartDate" class="label-text post-input-title mt-4">オークション開始日時</label>
@@ -168,7 +151,7 @@ get_header();
                                 </select>
 
                                 <p class="auction-date">日</p>
-                                <input type="hidden" value="<?php echo $tcd_membership_vars['setDataParams']['setAuctionDateD']; ?>" id="setAuctionDateD" />
+                                <input type="hidden" value="2" id="setAuctionDateD" />
                             </div>
 
                         </div>
@@ -177,14 +160,14 @@ get_header();
                                 <select class="auction-input" placeholder="dd" name="auctionDateD" id="auctionDateH">
                                 </select>
                                 <p class="auction-date">時</p>
-                                <input type="hidden" value="<?php echo $tcd_membership_vars['setDataParams']['setAuctionDateH']; ?>" id="setAuctionDateH" />
+                                <input type="hidden" value="2" id="setAuctionDateH" />
                             </div>
                             <div class="col-4">
                                 <select class="auction-input" placeholder="mm" name="auctionDateMin" id="auctionDateMin">
                                 </select>
                                 <p class="auction-date">分</p>
 
-                                <input type="hidden" value="<?php echo $tcd_membership_vars['setDataParams']['setAuctionDateMin']; ?>" id="setAuctionDateMin" />
+                                <input type="hidden" value="2" id="setAuctionDateMin" />
 
                             </div>
                             <div class="col-4">
@@ -202,33 +185,33 @@ get_header();
                                 <select class="auction-input" placeholder="yyyy" name="auctionEndDateY" id="auctionEndDateY">
                                 </select>
                                 <p class="auction-date">年</p>
-                                <input type="hidden" value="<?php echo $tcd_membership_vars['setDataParams']['setAuctionEndDateY']; ?>" id="setAuctionEndDateY" />
+                                <input type="hidden" value="2024" id="setAuctionEndDateY" />
                             </div>
                             <div class="col-4">
                                 <select class="auction-input" placeholder="mm" name="auctionEndDateM" id="auctionEndDateM">
                                 </select>
                                 <p class="auction-date">月</p>
-                                <input type="hidden" value="<?php echo $tcd_membership_vars['setDataParams']['setAuctionEndDateM']; ?>" id="setAuctionEndDateM" />
+                                <input type="hidden" value="2" id="setAuctionEndDateM" />
                             </div>
                             <div class="col-4">
                                 <select class="auction-input" placeholder="dd" name="auctionEndDateD" id="auctionEndDateD">
                                 </select>
                                 <p class="auction-date">日</p>
-                                <input type="hidden" value="<?php echo $tcd_membership_vars['setDataParams']['setAuctionEndDateD']; ?>" id="setAuctionEndDateD" />
+                                <input type="hidden" value="2" id="setAuctionEndDateD" />
                             </div>
                         </div>
-                        <div class="col-12 row mt-1">
+                        <div class="col-12 row">
                             <div class="col-4">
                                 <select class="auction-input" placeholder="dd" name="auctionDateD" id="auctionEndDateH">
                                 </select>
                                 <p class="auction-date">時</p>
-                                <input type="hidden" value="<?php echo $tcd_membership_vars['setDataParams']['setAuctionEndDateH']; ?>" id="setAuctionEndDateH" />
+                                <input type="hidden" value="2" id="setAuctionEndDateH" />
                             </div>
                             <div class="col-4">
                                 <select class="auction-input" placeholder="mm" name="auctionEndDateMin" id="auctionEndDateMin">
                                 </select>
                                 <p class="auction-date">分</p>
-                                <input type="hidden" value="<?php echo $tcd_membership_vars['setDataParams']['setAuctionEndDateMin']; ?>" id="setAuctionEndDateMin" />
+                                <input type="hidden" value="2" id="setAuctionEndDateMin" />
                             </div>
                             <div class="col-4">
                             </div>
@@ -267,123 +250,9 @@ get_header();
                             <p class="commission-title">手数料差し引き残額</p>
                             <p class="commission-price">0円</p>
                         </div>
-                        <div class="col-12">
-                            <label for="binPrice" class="label-text post-input-title mt-4">即決価格（必須）</label>
-                        </div>
-                        <div class="col-11">
-                            <input class="form-control post-input image-price-input" type="number" name="binPrice" id="binPrice" placeholder="金額を入力">
-                            <div class="image-price-jpy">
-                                円
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="inputBinPrice" id="inputBinPrice"></div>
-                        </div>
                     </div>
                 </div>
 
-                <!-- オークション形式フォーム-->
-                <!-- <div class="auctionSection saleTypeSection">
-                    <div class="col-12">
-                        <label for="auctionStartDate"
-                            class="label-text post-input-title mt-4">オークション開始日時（必須）</label>
-                    </div>
-                    <div class="col-12 row">
-                        <div class="col-5 post-radio ml-2">
-                            <label><input type="radio" name="auctionStartDate" value="notSpecified"
-                                    id="notSpecified" checked>指定しない</label>
-                        </div>
-                        <div class="col-5 post-radio ml-2">
-                            <label><input type="radio" name="auctionStartDate" value="specify"
-                                    id="specify">開始時間指定</label>
-                        </div>
-                    </div>
-                    <div id="auction_datetime" class="d-none">
-                        <div class="col-12">
-                            <label for="auctionStartDate"
-                                class="label-text post-input-title mt-4">オークション開始日時</label>
-                        </div>
-                        <div class="col-12 row">
-                            <div class="col-2">
-                                <input type="number" class="auction-input" placeholder="yyyy" name="auctionDateY"
-                                    id="auctionDateY">
-                                <p class="auction-date">年</p>
-                            </div>
-                            <div class="col-2">
-                                <input type="number" class="auction-input" placeholder="mm" name="auctionDateM"
-                                    id="auctionDateM">
-                                <p class="auction-date">月</p>
-                            </div>
-                            <div class="col-2">
-                                <input type="number" class="auction-input" placeholder="dd" name="auctionDateD"
-                                    id="auctionDateD">
-                                <p class="auction-date">日</p>
-                            </div>
-                            <div class="col-2">
-                                <input type="number" class="auction-input" placeholder="hh" name="auctionDateH"
-                                    id="auctionDateH">
-                                <p class="auction-date">時</p>
-                            </div>
-                            <div class="col-2">
-                                <input type="number" class="auction-input" placeholder="mm" name="auctionDateMin"
-                                    id="auctionDateMin">
-                                <p class="auction-date">分</p>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="inputAppDeadline" id="inputAppDeadline"></div>
-                        </div>
-                        <div class="col-12 mt-3">
-                            <label for="auctionStartDate"
-                                class="label-text post-input-title mt-4">オークション終了日時</label>
-                        </div>
-                        <div class="col-12 row">
-                            <div class="col-2">
-                                <input type="number" class="auction-input" placeholder="yyyy" name="auctionEndDateY"
-                                    id="auctionEndDateY">
-                                <p class="auction-date">年</p>
-                            </div>
-                            <div class="col-2">
-                                <input type="number" class="auction-input" placeholder="mm" name="auctionEndDateM"
-                                    id="auctionEndDateM">
-                                <p class="auction-date">月</p>
-                            </div>
-                            <div class="col-2">
-                                <input type="number" class="auction-input" placeholder="dd" name="auctionEndDateD"
-                                    id="auctionEndDateD">
-                                <p class="auction-date">日</p>
-                            </div>
-                            <div class="col-2">
-                                <input type="number" class="auction-input" placeholder="hh" name="auctionEndDateH"
-                                    id="auctionEndDateH">
-                                <p class="auction-date">時</p>
-                            </div>
-                            <div class="col-2">
-                                <input type="number" class="auction-input" placeholder="mm" name="auctionEndDateMin"
-                                    id="auctionEndDateMin">
-                                <p class="auction-date">分</p>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="inputAuctionEnd" id="inputAuctionEnd"></div>
-                        </div>
-                        <div class="col-12 mt-3">
-                            <label for="auctionStartDate"
-                                class="label-text post-input-title mt-4">オークション自動延長</label>
-                        </div>
-                        <div class="col-12 row">
-                            <div class="col-5 post-radio ml-2">
-                                <label><input type="radio" name="extendAuction" value="enableAutoExtend"
-                                        id="enableAutoExtend" checked>あり</label>
-                            </div>
-                            <div class="col-5 post-radio ml-2">
-                                <label><input type="radio" name="extendAuction" value="disableAutoExtend"
-                                        id="disableAutoExtend">なし</label>
-                            </div>
-                        </div>
-                        <p class="auction-notes">※終了5分前に入札されると、5分延長されます。</p>
-                    </div>
-                </div> -->
                 <!-- 販売しない形式フォーム-->
                 <div class="col-12 notForSaleSection saleTypeSection">
                 </div>
@@ -396,11 +265,6 @@ get_header();
                         </label>
                     </div>
                 </div>
-                <input type="hidden" id="upload-image-x" name="profileImageX" value="0" />
-                <input type="hidden" id="upload-image-y" name="profileImageY" value="0" />
-                <input type="hidden" id="upload-image-w" name="profileImageW" value="0" />
-                <input type="hidden" id="upload-image-h" name="profileImageH" value="0" />
-
                 <input type="hidden" id="file-data"      name="file_data"     value="0" />
             </div>
             <div class="col-12 text-center mt-3 mb-5">

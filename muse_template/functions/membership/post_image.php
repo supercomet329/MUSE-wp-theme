@@ -324,6 +324,53 @@ function tcd_membership_action_post_image()
             }
 
             if ($_POST['saleType'] === 'sale') {
+                $selectAuction    = $_POST['selectAuction'];
+                $result = $wpdb->insert(
+                    'wp_postmeta',
+                    array(
+                        'post_id'    => $post_id,
+                        'meta_key'   => 'selectAuction',
+                        'meta_value' => $selectAuction,
+                    ),
+                    array(
+                        '%d',
+                        '%s',
+                        '%s'
+                    )
+                );
+
+                if ($selectAuction === 'Auction') {
+                    $result = $wpdb->insert(
+                        'wp_postmeta',
+                        array(
+                            'post_id'    => $post_id,
+                            'meta_key'   => 'binPrice',
+                            'meta_value' => $_POST['binPrice'],
+                        ),
+                        array(
+                            '%d',
+                            '%s',
+                            '%s'
+                        )
+                    );
+                } else {
+                    // 通常販売の場合
+                    $result = $wpdb->insert(
+                        'wp_postmeta',
+                        array(
+                            'post_id'    => $post_id,
+                            'meta_key'   => 'imagePrice',
+                            'meta_value' => $_POST['imagePrice'],
+                        ),
+                        array(
+                            '%d',
+                            '%s',
+                            '%s'
+                        )
+                    );
+                }
+
+
                 $auctionStartDate = $_POST['auctionStartDate'];
                 if ($auctionStartDate === 'specify') {
 
@@ -376,21 +423,6 @@ function tcd_membership_action_post_image()
                             'post_id'    => $post_id,
                             'meta_key'   => 'extend_auction',
                             'meta_value' => $extendAuction,
-                        ),
-                        array(
-                            '%d',
-                            '%s',
-                            '%s'
-                        )
-                    );
-                } else {
-                    // 通常販売の場合
-                    $result = $wpdb->insert(
-                        'wp_postmeta',
-                        array(
-                            'post_id'    => $post_id,
-                            'meta_key'   => 'imagePrice',
-                            'meta_value' => $_POST['imagePrice'],
                         ),
                         array(
                             '%d',
