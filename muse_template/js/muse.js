@@ -2038,15 +2038,16 @@ jQuery(function($) {
                     reader.onloadend = function() {
                         let base64data = reader.result;
                         const base64EncodedFile = base64data.replace(/data:.*\/.*;base64,/, '');
-                        jQuery('#profile_image').attr('src', base64data);
+                        $('#profile_image').attr('src', base64data);
                         $modal.modal('hide');
                         $zoom.val(0);
                         $zoom.data('oldVal', 0);
                         console.log(cropper);
-                        jQuery('#upload-image-x').val(cropper['cropBoxData']['left']);
-                        jQuery('#upload-image-y').val(cropper['cropBoxData']['top']);
-                        jQuery('#upload-image-w').val(cropper['cropBoxData']['width']);
-                        jQuery('#upload-image-h').val(cropper['cropBoxData']['height']);
+                        $('#upload-image-x').val(cropper['cropBoxData']['left']);
+                        $('#upload-image-y').val(cropper['cropBoxData']['top']);
+                        $('#upload-image-w').val(cropper['cropBoxData']['width']);
+                        $('#upload-image-h').val(cropper['cropBoxData']['height']);
+                        $('#upload-file').val(base64data);
                     }
                 });
             })
