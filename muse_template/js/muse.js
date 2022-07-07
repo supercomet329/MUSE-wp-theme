@@ -1967,8 +1967,6 @@ jQuery(function($) {
     var cropper_profile = document.querySelectorAll('#profile_img_file_input');
     if (cropper_profile.length > 0) {
         $(document).ready(function() {
-            // エンドポイントを定義
-            const endpoint = "http://localhost:3000/api";
 
             // 拡大表示で使用する変数定義
             let $zoom = jQuery('#zoom');
@@ -1980,7 +1978,7 @@ jQuery(function($) {
             let cropper;
 
             // ファイル選択後のイベント
-            jQuery("body").on("change", ".image", function(e) {
+            jQuery("body").on("change", "#profile_img_file_input", function(e) {
                 let files = e.target.files;
                 let done = function(url) {
                     image.src = url;
@@ -1990,7 +1988,6 @@ jQuery(function($) {
                 // FileReader、選択ファイル、生成URLを初期化
                 let reader;
                 let file;
-                let url;
 
                 // ファイルが選択された場合
                 if (files && files.length > 0) {
