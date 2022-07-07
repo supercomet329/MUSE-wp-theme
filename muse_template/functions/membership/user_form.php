@@ -539,7 +539,7 @@ function tcd_membership_login_form($args = array())
         <div class="cover-area">
             <img src="<?php echo esc_url($header_image); ?>" class="img-fluid cover-image" id="cover_image">
             <label>
-                <input type="file" name="file" id="cover_img_file_input" accept="image/png, image/jpeg" class="image">
+                <input type="file" name="header_image" id="cover_img_file_input" accept="image/png, image/jpeg" class="image">
                 <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/camera_BGblue.png" class="camera-image rounded-circle" id="camera_image" alt="camera-image">
             </label>
         </div>
@@ -605,13 +605,13 @@ function tcd_membership_login_form($args = array())
                     <?php echo esc_attr($strAccountNumber); ?>
                 </div>
 
-                <input type="hidden" id="upload-file" name="upload_file" value="0" />
                 <div class="col-12 text-center my-4">
                     <button type="submit" class="btn btn-lg btn-danger save-btn" id="save-btn">　保存　</button>
                 </div>
             </div>
         </div>
         <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd-membership-edit_profile')); ?>">
+        <input type="hidden" id="icon-file" name="icon_file" value="0" />
     </form>
 
     <!-- モーダル -->

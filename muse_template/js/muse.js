@@ -2044,7 +2044,7 @@ jQuery(function($) {
                         $('#upload-image-y').val(cropper['cropBoxData']['top']);
                         $('#upload-image-w').val(cropper['cropBoxData']['width']);
                         $('#upload-image-h').val(cropper['cropBoxData']['height']);
-                        $('#upload-file').val(base64data);
+                        $('#icon-file').val(base64data);
                     }
                 });
             })
