@@ -31,6 +31,8 @@ if (get_current_user_id() > 0) {
     <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/assets/css/bootstrap.min.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/assets/css/all.min.css">
+    <!-- cropper.css -->
+    <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/assets/css/cropper.min.css">
     <?php wp_head(); ?>
 
     <?php

@@ -3,6 +3,10 @@ global $dp_options, $tcd_membership_vars, $tcd_membership_post, $post;
 
 get_header();
 ?>
+<?php if ($tcd_membership_vars['params']['post_image']) { ?>
+    <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/assets/css/swiper-bundle.min.css">
+<?php } ?>
+
 <form action="<?php echo esc_attr(get_tcd_membership_memberpage_url('page_report')); ?>" method="POST" enctype="multipart/form-data">
     <div class="container pt-2 bg-gray report">
         <div class="row mb-2">
@@ -18,7 +22,24 @@ get_header();
                 <?php if ($tcd_membership_vars['params']['post_image']) { ?>
                     <!-- 画像の場合 -->
                     <label class="form-label font-weight-bold mb-2">対象画像</label>
-                    <img class="post-img text-center" src="<?php echo $tcd_membership_vars['params']['post_image']; ?>" alt="">
+                    <div class="my-2 slid-img swiper swipertum">
+                        <div class="swiper-wrapper d-flex align-items-center">
+                            <?php foreach ($tcd_membership_vars['params']['post_image'] as $post_image) { ?>
+                                <div class="swiper-slide">
+                                    <img class="img-fluid mx-auto" src="<?php echo esc_url($post_image); ?>" />
+                                </div>
+                            <?php } ?>
+                        </div>
+                    </div>
+                    <div class="swiper slid-list swiperlist">
+                        <div class="swiper-wrapper">
+                            <?php if (count($tcd_membership_vars['params']['post_image']) > 1) { ?>
+                                <?php foreach ($tcd_membership_vars['params']['post_image'] as $post_image) { ?>
+                                    <div class="swiper-slide"><img src="<?php echo esc_url($post_image); ?>" /></div>
+                                <?php } ?>
+                            <?php } ?>
+                        </div>
+                    </div>
                 <?php } ?>
 
                 <!-- ユーザーの場合 -->
@@ -35,19 +56,14 @@ get_header();
             <div class="col-12 report-reason">
                 <label class="form-label font-weight-bold mb-2">通報理由</label>
             </div>
-            <div class="col-12 report-reason">
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" name="inlineCheckbox1" id="inlineCheckbox1" value="option1" <?php echo (isset($tcd_membership_vars['params']['inlineCheckbox1'])) ? 'checked' : ''; ?>>
-                    <label class="form-check-label" for="inlineCheckbox1">項目1</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" name="inlineCheckbox2" id="inlineCheckbox2" value="option2" <?php echo (isset($tcd_membership_vars['params']['inlineCheckbox2'])) ? 'checked' : ''; ?>>
-                    <label class="form-check-label" for="inlineCheckbox2">項目2</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" name="inlineCheckbox3" id="inlineCheckbox3" value="option3" <?php echo (isset($tcd_membership_vars['params']['inlineCheckbox3'])) ? 'checked' : ''; ?>>
-                    <label class="form-check-label" for="inlineCheckbox3">その他</label>
-                </div>
+            <div class="container message-show-area">
+                <select id="sel_report" name="sel_report" class="shadow-none form-control form-control-sm col-12 col-md-5 col-lg-4 mb-2">
+                    <option value="0" <?php echo ($report_key === 0) ? 'selected' : ''; ?>>通報内容を選択して下さい</option>
+                    <?php foreach ($tcd_membership_vars['report_array'] as $report_key => $report_one) { ?>
+                        <option value="<?php echo $report_key; ?>" <?php echo ($report_key === $tcd_membership_vars['sel_report']) ? 'selected' : ''; ?>><?php echo $report_one; ?></option>
+                    <?php }
+                    /** endforeach */ ?>
+                </select>
             </div>
             <div class="col-12 report-reason">
                 <textarea id="report-reason" name="report_reason" class="form-control" rows="3"><?php echo $tcd_membership_vars['params']['report_reason']; ?></textarea>
@@ -70,5 +86,9 @@ get_header();
         <input type="hidden" name="request_id" value="<?php echo $tcd_membership_vars['params']['request_id']; ?>">
     <?php } ?>
 </form>
+<?php if ($tcd_membership_vars['params']['post_image']) { ?>
+    <!-- Swiper JS -->
+    <script src="<?php echo get_template_directory_uri(); ?>/assets/js/swiper-bundle.min.js"></script>
+<?php } ?>
 <?php
 get_footer();

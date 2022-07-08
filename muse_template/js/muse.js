@@ -1,15 +1,15 @@
 // ハンバーガーボタン押すことによる、サイドバーの開閉動作
 jQuery(function($) {
     function slideMenu() {
-        var activeState = $(".menu-list").hasClass("active");
-        $(".menu-list").animate({ left: activeState ? "0%" : "-300px" }, 400);
+        var activeState = jQuery(".menu-list").hasClass("active");
+        jQuery(".menu-list").animate({ left: activeState ? "0%" : "-300px" }, 400);
     }
-    $("#menu-wrapper").click(function(event) {
+    jQuery("#menu-wrapper").click(function(event) {
         event.stopPropagation();
-        $("#hamburger-menu").toggleClass("open");
-        $(".menu-list").toggleClass("active");
+        jQuery("#hamburger-menu").toggleClass("open");
+        jQuery(".menu-list").toggleClass("active");
         slideMenu();
-        if ($("#hamburger-menu").hasClass("open")) {
+        if (jQuery("#hamburger-menu").hasClass("open")) {
             jQuery('body').css({
                 'position': 'fixed',
                 'width': '100%',
@@ -1013,7 +1013,6 @@ jQuery(function($) {
 });
 
 // フォローする、フォロー中の選択機能
-/**
 jQuery(function($) {
     $(document).on('click', '.follow-off', function() {
         let follow_on = jQuery('<button type="button"class="btn btn-primary rounded-pill btn-sm text-white btn-lg main-color follow-btn follow-on">フォロー中</button>');
@@ -1025,7 +1024,6 @@ jQuery(function($) {
         $(this).replaceWith(follow_off);
     });
 });
- */
 
 jQuery(function($) {
     // 販売形式のラジオボタン変更で、表示するフォーム切り替え
@@ -1185,7 +1183,7 @@ jQuery(function($) {
         var fileReader = new FileReader();
         fileReader.onloadend = function() {
             jQuery('#cover_img2').removeClass('d-none');
-            $("#cover_img2").attr("src", fileReader.result);
+            jQuery("#cover_img2").attr("src", fileReader.result);
 
         }
         fileReader.readAsDataURL(file);
@@ -1199,7 +1197,7 @@ jQuery(function($) {
         var fileReader = new FileReader();
         fileReader.onloadend = function() {
             jQuery('#cover_img3').removeClass('d-none');
-            $("#cover_img3").attr("src", fileReader.result);
+            jQuery("#cover_img3").attr("src", fileReader.result);
 
         }
         fileReader.readAsDataURL(file);
@@ -1213,7 +1211,7 @@ jQuery(function($) {
         var fileReader = new FileReader();
         fileReader.onloadend = function() {
             jQuery('#cover_img4').removeClass('d-none');
-            $("#cover_img4").attr("src", fileReader.result);
+            jQuery("#cover_img4").attr("src", fileReader.result);
 
         }
         fileReader.readAsDataURL(file);
@@ -1296,7 +1294,7 @@ function setAuctionSelBox() {
 
     var setAuctionDateH = jQuery('#setAuctionDateH').val();
     var htmlAuctionDateH = '';
-    for (var hour = 1; hour <= 24; hour++) {
+    for (var hour = 0; hour <= 24; hour++) {
         if (hour == setAuctionDateH) {
             htmlAuctionDateH += '<option value="' + hour + '" selected>' + hour + '</option>';
         } else {
@@ -1307,7 +1305,7 @@ function setAuctionSelBox() {
 
     var setAuctionEndDateH = jQuery('#setAuctionEndDateH').val();
     var htmlAuctionEndDateH = '';
-    for (var hour = 1; hour <= 24; hour++) {
+    for (var hour = 0; hour <= 24; hour++) {
         if (hour == setAuctionEndDateH) {
             htmlAuctionEndDateH += '<option value="' + hour + '" selected>' + hour + '</option>';
         } else {
@@ -1318,7 +1316,7 @@ function setAuctionSelBox() {
 
     var setAuctionDateMin = jQuery('#setAuctionDateMin').val();
     var htmlAuctionDateMin = '';
-    for (var min = 1; min <= 59; min++) {
+    for (var min = 0; min <= 59; min++) {
         if (min == setAuctionDateMin) {
             htmlAuctionDateMin += '<option value="' + min + '" selected>' + min + '</option>';
         } else {
@@ -1329,7 +1327,7 @@ function setAuctionSelBox() {
 
     var setAuctionEndDateMin = jQuery('#setAuctionEndDateMin').val();
     var htmlAuctionEndDateMin = '';
-    for (var min = 1; min <= 59; min++) {
+    for (var min = 0; min <= 59; min++) {
         if (min == setAuctionEndDateMin) {
             htmlAuctionEndDateMin += '<option value="' + min + '" selected>' + min + '</option>';
         } else {
@@ -1364,15 +1362,23 @@ function checkSaleInput() {
     // 即決価格の値取得
     var binPriceVal = jQuery('#binPrice').val();
 
+    console.log(postFileVal);
     // 画像が選択されているかを確認
-    if (postFileVal.length > 0 || postFile2Val.length > 0 || postFile3Val.length > 0) {
-        jQuery('#selectPostFileMsg').hide();
-        flagPostFile = true;
+    if (postFileVal != '') {
+        if (postFileVal.length > 0 || postFile2Val.length > 0 || postFile3Val.length > 0) {
+            jQuery('#selectPostFileMsg').hide();
+            flagPostFile = true;
+        } else {
+            selectPostFileMsg();
+            this.value = '';
+            jQuery('#cover_img').addClass('d-none');
+        }
     } else {
         selectPostFileMsg();
         this.value = '';
         jQuery('#cover_img').addClass('d-none');
     }
+
     // タイトルが入力されているかを確認
     if (postTitleVal.length > 0) {
         jQuery('#inputPostTitleMsg').hide();
@@ -1399,9 +1405,23 @@ function checkSaleInput() {
         }
     }
 
-    var postTermsCheck = document.getElementById('postTermsCheck');
+    var saleTypeVal = jQuery("input[name='saleType']:checked").val();
+    console.log(notForSale);
+    var postTermsCheck = false;
+    var termsCheck = false;
+    if (saleTypeVal !== 'sale') {
+        postTermsCheck = true;
+    } else {
+        termsCheck = document.getElementById('postTermsCheck')
+        postTermsCheck = termsCheck.checked;
+    }
 
-    if (flagPostFile === true && flagPostTitle === true && flagImagePrice === true && flagBinPrice === true && postTermsCheck.checked === true) {
+    if (flagPostFile === true &&
+        flagPostTitle === true &&
+        flagImagePrice === true &&
+        flagBinPrice === true &&
+        postTermsCheck === true
+    ) {
         disabledFlag = false;
     }
     jQuery('#postBtn').attr('disabled', disabledFlag);
@@ -1615,9 +1635,16 @@ function checkNotForSaleInput() {
     var postTitleVal = jQuery('#postTitle').val();
 
     // 画像が選択されているかを確認
-    if (postFileVal.length > 0 || postFile2Val.length > 0 || postFile3Val.length > 0) {
-        jQuery('#selectPostFileMsg').hide();
-        flagPostFile = true;
+    if (postFileVal != '') {
+        if (postFileVal.length > 0 || postFile2Val.length > 0 || postFile3Val.length > 0) {
+            jQuery('#selectPostFileMsg').hide();
+            flagPostFile = true;
+        } else {
+            selectPostFileMsg();
+            this.value = '';
+            jQuery('#cover_img').addClass('d-none');
+        }
+
     } else {
         selectPostFileMsg();
         this.value = '';
@@ -1876,18 +1903,8 @@ jQuery(function($) {
     jQuery('#report-reason').on('blur', function() {
         check_ReportInput();
     });
-    // 項目1がクリックされた際にcheckInput実行
-    jQuery('#inlineCheckbox1').on('click', function() {
-        check_ReportInput();
-    });
 
-    // 項目2がクリックされた際にcheckInput実行
-    jQuery('#inlineCheckbox2').on('click', function() {
-        check_ReportInput();
-    });
-    3
-    // 項目がクリックされた際にcheckInput実行
-    jQuery('#inlineCheckbox3').on('click', function() {
+    jQuery('#sel_report').on('change', function() {
         check_ReportInput();
     });
 });
@@ -1913,16 +1930,22 @@ function check_ReportInput() {
     // }
 
     // 項目のチェックボックス要素を取得
-    var checkbox_1 = document.getElementById('inlineCheckbox1');
-    var checkbox_2 = document.getElementById('inlineCheckbox2');
-    var checkbox_3 = document.getElementById('inlineCheckbox3');
+    // var checkbox_1 = document.getElementById('inlineCheckbox1');
+    // var checkbox_2 = document.getElementById('inlineCheckbox2');
+    // var checkbox_3 = document.getElementById('inlineCheckbox3');
 
     // 正しく入力されている場合、通報ボタンを有効化
-    if (checkbox_1.checked === true) {
-        disabledFlag = false;
-    } else if (checkbox_2.checked === true) {
-        disabledFlag = false;
-    } else if (checkbox_3.checked === true && textarea_val.length > 0) {
+    // if (checkbox_1.checked === true) {
+    //     disabledFlag = false;
+    // } else if (checkbox_2.checked === true) {
+    //     disabledFlag = false;
+    // } else if (checkbox_3.checked === true && textarea_val.length > 0) {
+    //     disabledFlag = false;
+    // }
+
+    var sel_repot_val = jQuery('#sel_report').val();
+    console.log(sel_repot_val);
+    if (sel_repot_val > 0) {
         disabledFlag = false;
     }
 
@@ -1944,8 +1967,6 @@ jQuery(function($) {
     var cropper_profile = document.querySelectorAll('#profile_img_file_input');
     if (cropper_profile.length > 0) {
         $(document).ready(function() {
-            // エンドポイントを定義
-            const endpoint = "http://localhost:3000/api";
 
             // 拡大表示で使用する変数定義
             let $zoom = jQuery('#zoom');
@@ -1957,7 +1978,7 @@ jQuery(function($) {
             let cropper;
 
             // ファイル選択後のイベント
-            $("body").on("change", ".image", function(e) {
+            jQuery("body").on("change", "#profile_img_file_input", function(e) {
                 let files = e.target.files;
                 let done = function(url) {
                     image.src = url;
@@ -1967,7 +1988,6 @@ jQuery(function($) {
                 // FileReader、選択ファイル、生成URLを初期化
                 let reader;
                 let file;
-                let url;
 
                 // ファイルが選択された場合
                 if (files && files.length > 0) {
@@ -1993,7 +2013,7 @@ jQuery(function($) {
                     cropBoxResizable: false,
                     dragMode: 'move',
                     viewMode: 3,
-                    zoomable: false,
+                    zoomable: true,
                     // preview: '.preview',
                 });
             }).on('hidden.bs.modal', function() {
@@ -2002,7 +2022,7 @@ jQuery(function($) {
             });
             console.log(cropper);
             // 保存ボタンを押下時のイベント
-            $("#crop").click(function() {
+            jQuery("#crop").click(function() {
                 canvas = cropper.getCroppedCanvas({
                     width: cropper['cropBoxData']['width'],
                     height: cropper['cropBoxData']['height'],
@@ -2015,28 +2035,30 @@ jQuery(function($) {
                     reader.onloadend = function() {
                         let base64data = reader.result;
                         const base64EncodedFile = base64data.replace(/data:.*\/.*;base64,/, '');
-                        jQuery('#profile_image').attr('src', base64data);
+                        $('#profile_image').attr('src', base64data);
                         $modal.modal('hide');
                         $zoom.val(0);
                         $zoom.data('oldVal', 0);
                         console.log(cropper);
-                        jQuery('#upload-image-x').val(cropper['cropBoxData']['left']);
-                        jQuery('#upload-image-y').val(cropper['cropBoxData']['top']);
-                        jQuery('#upload-image-w').val(cropper['cropBoxData']['width']);
-                        jQuery('#upload-image-h').val(cropper['cropBoxData']['height']);
+                        $('#upload-image-x').val(cropper['cropBoxData']['left']);
+                        $('#upload-image-y').val(cropper['cropBoxData']['top']);
+                        $('#upload-image-w').val(cropper['cropBoxData']['width']);
+                        $('#upload-image-h').val(cropper['cropBoxData']['height']);
+                        $('#icon-file').val(base64data);
                     }
                 });
             })
 
             // <!-- NOTE:拡大バー一旦処理外す。 -->
             // 画像拡大用のスクロールバーを変更した時のイベント
-            // jQuery('#zoom').on('input', function () {
-            // let oldVal = $zoom.data('oldVal');
-            // let volume = $(this).val();
-            // let result = volume - oldVal;
-            // cropper.zoom(result);
-            // $zoom.data('oldVal', volume);
-            // });
+            jQuery('#zoom').on('input', function() {
+                let oldVal = $zoom.data('oldVal');
+                let volume = $(this).val();
+                let result = volume - oldVal;
+                cropper.zoom(result);
+                console.log(result);
+                $zoom.data('oldVal', volume);
+            });
         });
     }
 });
@@ -2059,7 +2081,7 @@ jQuery(function($) {
             let cropper_post;
 
             // ファイル選択後のイベント
-            $("body").on("change", "#postFile", function(e) {
+            jQuery("body").on("change", "#postFile", function(e) {
                 let files = e.target.files;
                 let done = function(url) {
                     image.src = url;
@@ -2105,7 +2127,7 @@ jQuery(function($) {
             });
 
             // 保存ボタンを押下時のイベント
-            $("#crop").click(function() {
+            jQuery("#crop").click(function() {
                 // cover_imgの数カウント
 
                 var img_id = "#cover_img1";
@@ -2136,10 +2158,12 @@ jQuery(function($) {
                         $zoom.val(0);
                         $zoom.data('oldVal', 0);
                         console.log(cropper_post);
+                        console.log(base64data);
                         $(upload_image_x).val(cropper_post['cropBoxData']['left']);
                         $(upload_image_y).val(cropper_post['cropBoxData']['top']);
                         $(upload_image_w).val(cropper_post['cropBoxData']['width']);
                         $(upload_image_h).val(cropper_post['cropBoxData']['height']);
+                        $("#file-data").val(base64EncodedFile);
                     }
                 });
             })

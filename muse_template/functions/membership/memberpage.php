@@ -42,6 +42,7 @@ function tcd_membership_memberpage_init()
 			'notification',
 			'post_image',
 			'page_report',
+			'post_search',
 		), 
 		'memberpage_guest_types' => array(
 			'login',
@@ -54,6 +55,7 @@ function tcd_membership_memberpage_init()
 			'profile',
 			'confirm_post',
 			'order_search',
+			'post_search',
 		),
 		'memberpage_static_member_menu_types' => array(
 			'news',
