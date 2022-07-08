@@ -7,19 +7,43 @@ function tcd_membership_action_page_report()
 {
     global $tcd_membership_vars;
 
+    $report_array = [
+        '1' => '通報1',
+        '2' => '通報2',
+        '3' => '通報3',
+        '4' => '通報4',
+        '5' => '通報5',
+    ];
+
     $post_id       = false;
     $request_id    = false;
-    $post_image    = false;
     $request_title = false;
-    $report_reason = '';
-
+    $post_image_array = false;
+    $report_reason = 0;
     if (isset($_REQUEST['post_id'])) {
         // 投稿画像のURL取得
         $post_id = $_REQUEST['post_id'];
-        $post_image = get_post_meta($post_id, 'main_image', true);
+        $post_image = get_post_meta($post_id, 'resize_image', true);
         if (empty($post_image)) {
             wp_safe_redirect('/');
             exit();
+        }
+        $post_image_array = [];
+        $post_image_array[] = $post_image;
+
+        $main_image2 = get_post_meta($post_id, 'main_image2', true);
+        if(! empty($main_image2)) {
+            $post_image_array[] = $main_image2;
+        }
+
+        $main_image3 = get_post_meta($post_id, 'main_image3', true);
+        if(! empty($main_image3)) {
+            $post_image_array[] = $main_image3;
+        }
+
+        $main_image4 = get_post_meta($post_id, 'main_image4', true);
+        if(! empty($main_image4)) {
+            $post_image_array[] = $main_image4;
         }
     } else if (isset($_REQUEST['request_id'])) {
         // 依頼タイトルの取得
@@ -35,15 +59,11 @@ function tcd_membership_action_page_report()
         exit();
     }
 
-    $inlineCheckbox1 = '';
-    $inlineCheckbox2 = '';
-    $inlineCheckbox3 = '';
-    $report_reason   = '';
+    $report_reason = '';
+    $sel_report    = 0;
     if ('POST' === $_SERVER['REQUEST_METHOD']) {
-        $inlineCheckbox1 = $_POST['inlineCheckbox1'];
-        $inlineCheckbox2 = $_POST['inlineCheckbox2'];
-        $inlineCheckbox3 = $_POST['inlineCheckbox3'];
-        $report_reason   = $_POST['report_reason'];
+        $report_reason = $_POST['report_reason'];
+        $sel_report    = $_POST['sel_report'];
 
         if (
             isset($_POST['nonce'])   &&
@@ -65,12 +85,15 @@ function tcd_membership_action_page_report()
                 exit();
             }
 
-            $message[] = '内容:';
-            $message[] = $report_reason;
+            if (isset($report_array[$sel_report])) {
+                $message[] = '選択項目: ' . $report_array[$sel_report];
+                $message[] = '内容:';
+                $message[] = $report_reason;
 
-            $toMail = get_option('admin_email');
-            $messages = implode("\n", $message);
-            wp_mail($toMail, $subject, $messages);
+                $toMail = get_option('admin_email');
+                $messages = implode("\n", $message);
+                wp_mail($toMail, $subject, $messages);
+            }
         }
     }
 
@@ -78,14 +101,12 @@ function tcd_membership_action_page_report()
     $params                    = [];
     $params['post_id']         = $post_id;
     $params['request_id']      = $request_id;
-    $params['post_image']      = $post_image;
+    $params['post_image']      = $post_image_array;
     $params['request_title']   = $request_title;
     $params['report_reason']   = $report_reason;
-    $params['inlineCheckbox1'] = $inlineCheckbox1;
-    $params['inlineCheckbox2'] = $inlineCheckbox2;
-    $params['inlineCheckbox3'] = $inlineCheckbox3;
-
-    $tcd_membership_vars['template'] = 'muse_page_report';
-    $tcd_membership_vars['params']   = $params;
+    $tcd_membership_vars['template']     = 'muse_page_report';
+    $tcd_membership_vars['sel_report']   = (int)$sel_report;
+    $tcd_membership_vars['report_array'] = $report_array;
+    $tcd_membership_vars['params']       = $params;
 }
 add_action('tcd_membership_action-page_report', 'tcd_membership_action_page_report');

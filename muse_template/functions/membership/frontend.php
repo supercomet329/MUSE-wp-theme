@@ -1533,7 +1533,7 @@ function getPostImageByPostTypeAndPostStatusWhere($txtSearch = '', $selR18 = fal
         ';
     }
 
-    if($selR18 === 'r18') {
+    if ($selR18 === 'r18') {
         $sql .= ' AND EXISTS ( ';
         $sql .= 'SELECT * ';
         $sql .= 'FROM wp_postmeta ';
@@ -1554,7 +1554,7 @@ function getPostImageByPostTypeAndPostStatusWhere($txtSearch = '', $selR18 = fal
 
     $sql .= '
             ORDER BY wp_posts.post_date DESC
-        ';
+    ';
 
     $result = $wpdb->get_results($wpdb->prepare($sql, $post_type, $post_status));
     return $result;
