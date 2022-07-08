@@ -293,6 +293,7 @@ function muse_list_image($txtSearch, $r18Flag, $order)
     return $wpdb->get_results($wpdb->prepare($sql));
 }
 
+
 /**
  * フォローしているユーザー一覧の取得
  * Add 2022/05/10 by H.Okabe
@@ -1325,6 +1326,20 @@ function getPostImageByPostTypeAndPostStatus($post_type = 'photo', $post_status 
 {
     global $dp_options, $wpdb;
 
+    $r18Flag = false;
+    if (!is_null(get_current_user_id())) {
+        $birth_day = get_user_meta(get_current_user_id(), 'birthday', true);
+        if (!empty($birth_day)) {
+            $birthDayDateClass = new DateTime($birth_day);
+            $nowDateClass      = new DateTime();
+            $interval          = $nowDateClass->diff($birthDayDateClass);
+            $old               = $interval->y;
+            if ($old >= 18) {
+                $r18Flag = true;
+            }
+        }
+    }
+
     $sql = '
         SELECT
             wp_users.ID                    AS user_id
@@ -1379,13 +1394,35 @@ function getPostImageByPostTypeAndPostStatus($post_type = 'photo', $post_status 
             main_image_table4.post_id = wp_posts.ID
         AND
             main_image_table4.meta_key = \'main_image4\'
+
+        LEFT JOIN
+            wp_postmeta AS t18_table
+        ON
+            t18_table.post_id = wp_posts.ID
+        AND
+            t18_table.meta_key = \'r18\'
+
         WHERE
             wp_posts.post_type = \'%s\'
         AND
             wp_posts.post_status = \'%s\'
         AND
             wp_users.deleted = 0
-	';
+    ';
+
+    if (!$r18Flag) {
+        // R18フラグがfalseの場合はR18の商品を表示させない
+        $sql .= ' AND NOT EXISTS ( ';
+        $sql .= 'SELECT * ';
+        $sql .= 'FROM wp_postmeta ';
+        $sql .= 'WHERE meta_key = \'r18\' ';
+        $sql .= 'AND wp_posts.ID = wp_postmeta.post_id ';
+        $sql .= ' ) ';
+    }
+
+    $sql .= '
+            ORDER BY wp_posts.post_date DESC
+        ';
 
     $result = $wpdb->get_results($wpdb->prepare($sql, $post_type, $post_status));
     return $result;
