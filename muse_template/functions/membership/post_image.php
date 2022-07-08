@@ -75,10 +75,11 @@ function tcd_membership_action_post_image()
             $resize_uploaded_file = __DIR__ . '/../../upload_file/' . $resizeFileName;
             $requestResizeFileUrl  = get_template_directory_uri() . '/upload_file/' . $resizeFileName;
             $file_data = $_POST['file_data'];
-            $file_data = str_replace(' ' , '+' , $file_data);
-            $file_data = preg_replace('#^data:image/\w+;base64,#i' , '' , $file_data);
+            $file_data = str_replace(' ', '+', $file_data);
+            $file_data = preg_replace('#^data:image/\w+;base64,#i', '', $file_data);
             $file_data = base64_decode($file_data);
             file_put_contents($resize_uploaded_file, $file_data);
+
         } else {
             $error_messages['postFile'] = 'ファイルをアップロードしてください。';
         }

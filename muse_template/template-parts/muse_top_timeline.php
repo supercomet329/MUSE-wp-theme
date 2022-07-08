@@ -104,19 +104,18 @@ foreach ($imageList as $imageOne) {
                 /** endforeach */ ?>
             </div>
         </div>
-        <?php if (count($imageArray) > 1) { ?>
-            <div class="swiper slid-list swiperlist">
-                <div class="swiper-wrapper">
-                    <?php foreach ($imageArray as $photoOne) { ?>
-                        <div class="swiper-slide">
-                            <img src="<?php echo esc_url($photoOne); ?>" />
-                        </div>
-                    <?php }
-                    /** endforeach */ ?>
-                </div>
+        <div class="swiper slid-list swiperlist">
+            <div class="swiper-wrapper">
+                <?php if(count($imageArray) > 1) { ?>
+                <?php foreach ($imageArray as $photoOne) { ?>
+                    <div class="swiper-slide">
+                        <img src="<?php echo esc_url($photoOne); ?>" />
+                    </div>
+                <?php }
+                /** endforeach */ ?>
+                <?php } /** endif */ ?>
             </div>
-        <?php }
-        /** endif */ ?>
+        </div>
     </div>
 
     <div class="logo-area d-flex flex-row bd-highlight mb-3">
@@ -134,7 +133,6 @@ foreach ($imageList as $imageOne) {
             <?php /** TODO: 仮想通貨時に対応 */ ?>
             <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/favorite_on.png" alt="favorite_on">
         </div>
-        <div class="p-2 bd-highlight col-4"></div>
         <div class="col-2 text-right">
             <a class="text-dark" href="post_img_comment.html">…</a>
         </div>
