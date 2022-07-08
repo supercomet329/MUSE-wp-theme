@@ -3,66 +3,40 @@ global $dp_options, $post;
 if (!$dp_options) $dp_options = get_design_plus_option();
 ?>
 <?php /** TODO: 人気アーティストの表示 */ ?>
-<ul class="horizontal-list py-0 my-2">
-    <a href="<?php echo esc_html( get_tcd_membership_memberpage_url( 'profile' ) ); ?>&user_id=1">
+<ul class="horizontal-list">
+    <li class="item ml-2 ranking-icon-box"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/ranking_01.png" class="ranking-icon" alt="ranking_icon"><br /></li>
+    <a href="profile.html">
         <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/profile.jpg" alt="profile" class="rounded-circle"></li>
     </a>
-    <a href="<?php echo esc_html( get_tcd_membership_memberpage_url( 'profile' ) ); ?>&user_id=1">
+    <a href="profile.html">
         <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_85053177_M.jpg" alt="profile" class="rounded-circle"></li>
     </a>
-    <a href="<?php echo esc_html( get_tcd_membership_memberpage_url( 'profile' ) ); ?>&user_id=1">
+    <a href="profile.html">
         <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_64747350_M.jpg" alt="profile" class="rounded-circle"></li>
     </a>
-    <a href="<?php echo esc_html( get_tcd_membership_memberpage_url( 'profile' ) ); ?>&user_id=1">
+    <a href="profile.html">
         <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_27669641_M.jpg" alt="profile" class="rounded-circle"></li>
     </a>
-    <a href="<?php echo esc_html( get_tcd_membership_memberpage_url( 'profile' ) ); ?>&user_id=1">
+    <a href="profile.html">
         <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_40272765_M.jpg" alt="profile" class="rounded-circle"></li>
     </a>
-    <a href="<?php echo esc_html( get_tcd_membership_memberpage_url( 'profile' ) ); ?>&user_id=1">
+    <a href="profile.html">
         <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_40855053_M.jpg" alt="profile" class="rounded-circle"></li>
     </a>
-    <a href="<?php echo esc_html( get_tcd_membership_memberpage_url( 'profile' ) ); ?>&user_id=1">
+    <a href="profile.html">
         <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_45010284_M.jpg" alt="profile" class="rounded-circle"></li>
     </a>
-    <a href="<?php echo esc_html( get_tcd_membership_memberpage_url( 'profile' ) ); ?>&user_id=1">
+    <a href="profile.html">
         <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_56091176_M.jpg" alt="profile" class="rounded-circle"></li>
     </a>
-    <a href="<?php echo esc_html( get_tcd_membership_memberpage_url( 'profile' ) ); ?>&user_id=1">
+    <a href="profile.html">
         <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_58266021_M.jpg" alt="profile" class="rounded-circle"></li>
     </a>
-    <a href="<?php echo esc_html( get_tcd_membership_memberpage_url( 'profile' ) ); ?>&user_id=1">
+    <a href="profile.html">
         <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_58642077_M.jpg" alt="profile" class="rounded-circle"></li>
     </a>
-    <a href="<?php echo esc_html( get_tcd_membership_memberpage_url( 'profile' ) ); ?>&user_id=1">
-        <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/profile.jpg" alt="profile" class="rounded-circle"></li>
-    </a>
-    <a href="<?php echo esc_html( get_tcd_membership_memberpage_url( 'profile' ) ); ?>&user_id=1">
-        <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_85053177_M.jpg" alt="profile" class="rounded-circle"></li>
-    </a>
-    <a href="<?php echo esc_html( get_tcd_membership_memberpage_url( 'profile' ) ); ?>&user_id=1">
-        <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_64747350_M.jpg" alt="profile" class="rounded-circle"></li>
-    </a>
-    <a href="<?php echo esc_html( get_tcd_membership_memberpage_url( 'profile' ) ); ?>&user_id=1">
-        <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_27669641_M.jpg" alt="profile" class="rounded-circle"></li>
-    </a>
-    <a href="<?php echo esc_html( get_tcd_membership_memberpage_url( 'profile' ) ); ?>&user_id=1">
-        <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_40272765_M.jpg" alt="profile" class="rounded-circle"></li>
-    </a>
-    <a href="<?php echo esc_html( get_tcd_membership_memberpage_url( 'profile' ) ); ?>&user_id=1">
-        <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_40855053_M.jpg" alt="profile" class="rounded-circle"></li>
-    </a>
-    <a href="<?php echo esc_html( get_tcd_membership_memberpage_url( 'profile' ) ); ?>&user_id=1">
-        <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_45010284_M.jpg" alt="profile" class="rounded-circle"></li>
-    </a>
-    <a href="<?php echo esc_html( get_tcd_membership_memberpage_url( 'profile' ) ); ?>&user_id=1">
-        <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_56091176_M.jpg" alt="profile" class="rounded-circle"></li>
-    </a>
-    <a href="<?php echo esc_html( get_tcd_membership_memberpage_url( 'profile' ) ); ?>&user_id=1">
-        <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_58266021_M.jpg" alt="profile" class="rounded-circle"></li>
-    </a>
-    <a href="<?php echo esc_html( get_tcd_membership_memberpage_url( 'profile' ) ); ?>&user_id=1">
-        <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_58642077_M.jpg" alt="profile" class="rounded-circle"></li>
+    <a href="ranking.html">
+        <li class="item"><img class="transform-x-reverse border border-dark rounded-circle" src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/arrow.png" alt="profile" class="rounded-circle"></li>
     </a>
 </ul>
 <?php /** TODO: 人気アーティストの表示 */ ?>
