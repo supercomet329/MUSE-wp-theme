@@ -332,6 +332,9 @@ function muse_list_user()
     $sql .= 'SELECT * ';
     $sql .= 'FROM wp_users ';
     $sql .= 'WHERE user_status = 0 ';
+    $sql .= ' AND ';
+    $sql .= ' ID != ' . get_current_user_id();
+
 
     $result = $wpdb->get_results($wpdb->prepare($sql));
 
