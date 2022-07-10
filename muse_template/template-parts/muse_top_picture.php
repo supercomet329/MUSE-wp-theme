@@ -45,7 +45,6 @@ if (!$dp_options) $dp_options = get_design_plus_option();
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     </div>
     <?php
-    // TODO: 2022/05/09 画像投稿できるようになったら投稿を確認
     $list_photo = list_author_post($author->ID, 'photo');
     $list_slice_photo = array_chunk($list_photo, 3);
     $i = 0;
@@ -64,7 +63,7 @@ if (!$dp_options) $dp_options = get_design_plus_option();
             ?>
                 <div class="content-item shadow-sm d-flex align-items-center justify-content-center px-1">
                     <a href="<?php echo esc_html( get_tcd_membership_memberpage_url( 'profile' ) ); ?>&user_id=<?php echo esc_html($one_photo->post_author); ?>"><img src="<?php echo $profile_image; ?>" alt="profile" class="rounded-circle profile"></a>
-                    <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('confirm_post')); ?>&post_id=<?php echo $one_photo->ID; ?>"><img class="image-list" src="<?php echo esc_html($one_photo->meta_value); ?>"></a>
+                    <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('post_comment')); ?>&post_id=<?php echo $one_photo->ID; ?>"><img class="image-list" src="<?php echo esc_html($one_photo->meta_value); ?>"></a>
                 </div>
             <?php }
             /** endforeach */ ?>
