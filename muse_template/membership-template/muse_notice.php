@@ -30,104 +30,82 @@ get_header();
                 <div class="row">
                     <div class="col-12">
                         <ul class="list-area">
-                            <li class="pt-2 icon-box">
-                                <img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_64747350_M.jpg" class="rounded-circle" width="50" height="50">
-                                <div class="font-weight-bold">
-                                    ○○さんが「いいね」しました。
-                                </div>
-                                <div class="screen_id">
-                                    <a href="post_img_comment.html">投稿タイトル</a>
-                                </div>
-                            </li>
-                            <li class="pt-2 icon-box">
-                                <img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_27669641_M.jpg" class="rounded-circle">
-                                <div class="font-weight-bold">
-                                    ○○さんが「いいね」しました。
-                                </div>
-                                <div>
-                                    <a href="post_img_comment.html">投稿タイトル</a>
-                                </div>
-                            </li>
-                            <li class="pt-2 icon-box">
-                                <img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_33901813_M.jpg" class="rounded-circle">
-                                <!-- ここのStyleは動的 2つめ以降は5%ずつ左にズレる -->
-                                <img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_85053177_M.jpg" class="rounded-circle after-icon" style="left: 5%">
-                                <div class="font-weight-bold">
-                                    ○○さんと○○さんにフォローされました。
-                                </div>
-                            </li>
-                            <li class="pt-2 icon-box">
-                                <img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_40272765_M.jpg" class="rounded-circle">
-                                <div class="font-weight-bold">
-                                    ○○さんが「いいね」しました。
-                                </div>
-                                <div>
-                                    <a href="post_img_comment.html">投稿タイトル</a>
-                                </div>
-                            </li>
-                            <li class="pt-2 icon-box">
-                                <img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_40855053_M.jpg" class="rounded-circle">
-                                <div class="font-weight-bold">
-                                    ○○さんに依頼が受注されました。
-                                </div>
-                                <div>
-                                    <a href="post_img_comment.html">投稿タイトル</a>
-                                </div>
-                            </li>
-                            <li class="pt-2 icon-box">
-                                <img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_45010284_M.jpg" class="rounded-circle">
-                                <div class="font-weight-bold">
-                                    ○○さんに「コメント」されました。
-                                </div>
-                                <div>
-                                    <a href="post_img_comment.html">投稿タイトル</a>
-                                </div>
-                            </li>
-                            <li class="pt-2 icon-box">
-                                <img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_56091176_M.jpg" class="rounded-circle">
-                                <div class="font-weight-bold">
-                                    ○○さんが「いいね」しました。
-                                </div>
-                                <div>
-                                    <a href="post_img_comment.html">投稿タイトル</a>
-                                </div>
-                            </li>
-                            <li class="pt-2 icon-box">
-                                <img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_58266021_M.jpg" class="rounded-circle">
-                                <div class="font-weight-bold">
-                                    ○○さんが「いいね」しました。
-                                </div>
-                                <div>
-                                    <a href="post_img_comment.html">投稿タイトル</a>
-                                </div>
-                            </li>
-                            <li class="pt-2 icon-box">
-                                <img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_58642077_M.jpg" class="rounded-circle">
-                                <div class="font-weight-bold">
-                                    ○○さんが「いいね」しました。
-                                </div>
-                                <div>
-                                    <a href="post_img_comment.html">投稿タイトル</a>
-                                </div>
-                            </li>
-                            <li class="pt-2 icon-box">
-                                <img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_58661692_M.jpg" class="rounded-circle">
-                                <div class="font-weight-bold">
-                                    ○○さんが「いいね」しました。
-                                </div>
-                                <div>
-                                    <a href="post_img_comment.html">投稿タイトル</a>
-                                </div>
-                            </li>
-                            <li class="pt-2 icon-box">
-                                <img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_63325478_M.jpg" class="rounded-circle">
-                                <div class="font-weight-bold">
-                                    ○○さんが「いいね」しました。
-                                </div>
-                                <div>
-                                    <a href="post_img_comment.html">投稿タイトル</a>
-                                </div>
-                            </li>
+                            <?php foreach ($tcd_membership_vars['arrayNotice'] as $key => $arrayNotice) { ?>
+                                <?php foreach ($arrayNotice as $type => $value) { ?>
+                                    <?php if ($type === 'like') { ?>
+                                        <?php
+                                        foreach ($value as $valueOne) {
+                                            $profileImageData = get_user_meta($valueOne['user_id'], 'profile_image', true);
+                                            $profile_image = get_template_directory_uri() . '/assets/img/icon/non_profile_image.png';
+                                            if (!empty($profileImageData)) {
+                                                $profile_image = $profileImageData;
+                                            }
+                                            $user = get_userdata($valueOne['user_id']);
+                                            $post = get_post($valueOne['post_id']);
+                                        ?>
+                                            <li class="pt-2 icon-box">
+                                                <img src="<?php echo esc_url($profile_image); ?>" class="rounded-circle">
+                                                <div class="font-weight-bold">
+                                                    <?php echo esc_attr($user->display_name); ?>さんが「いいね」しました。
+                                                </div>
+                                                <div>
+                                                    <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('post_comment')); ?>&post_id=<?php echo esc_attr($post->ID); ?>">
+                                                        <?php echo $post->post_title; ?>
+                                                    </a>
+                                                </div>
+                                            </li>
+                                        <?php }
+                                        /** endforeach */ ?>
+                                    <?php } elseif ($type === 'follow') { ?>
+
+                                        <?php
+                                        $images = [];
+                                        $names  = [];
+                                        $others = '';
+                                        if (count($value) >= 3) {
+                                            $others = '他';
+                                        }
+
+                                        foreach ($value as $valueOne) {
+
+                                            if (count($images) >= 2) {
+                                                break;
+                                            }
+
+                                            $profileImageData = get_user_meta($valueOne['user_id'], 'profile_image', true);
+                                            $profile_image = get_template_directory_uri() . '/assets/img/icon/non_profile_image.png';
+                                            if (!empty($profileImageData)) {
+                                                $profile_image = $profileImageData;
+                                            }
+                                            $images[] = $profile_image;
+
+                                            $user = get_userdata($valueOne['user_id']);
+                                            $names[]  = $user->display_name . 'さん';
+                                        }
+                                        /** endif */ ?>
+                                        <li class="pt-2 icon-box">
+                                            <!-- ここのStyleは動的 2つめ以降は5%ずつ左にズレる -->
+                                            <?php
+                                            $loop = 0;
+                                            foreach ($images as $imageOne) {
+                                                $stylePer = $loop * 5;
+                                            ?>
+                                                <img src="<?php echo $imageOne; ?>" class="rounded-circle <?php echo ($loop > 0) ? 'after-icon' : ''; ?>" <?php echo ($loop > 0) ? 'style="left: ' . $stylePer . '%"' : ''; ?>>
+                                            <?php
+                                                $loop++;
+                                            }
+                                            ?>
+                                            <div class="font-weight-bold">
+                                                ○○さんと○○さんにフォローされました。
+                                            </div>
+                                        </li>
+                                    <?php }
+                                    /** endif */
+                                    ?>
+                                <?php }
+                                /** endforeach */ ?>
+                            <?php }
+                            /** endforeach */ ?>
                         </ul>
                     </div>
                 </div>
