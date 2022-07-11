@@ -28,8 +28,10 @@ function tcd_membership_action_notification()
         ];
     }
 
-    // TODO 通知の情報を取得
     krsort($arrayNotice);
+
+    // 投げ銭と購入一覧の取得
+    $arrayMoney = arrayThrowingMoneyAndPurchaseNftByUserId();
 
     // いいねを既読状態にする
     readOnLike();
@@ -46,13 +48,47 @@ function tcd_membership_action_notification()
     }
 
     // テンプレート指定
-    $tcd_membership_vars['template']  = 'muse_notice';
+    $tcd_membership_vars['template']    = 'muse_notice';
     $tcd_membership_vars['arrayNotice'] = $arrayNotice;
+    $tcd_membership_vars['arrayMoney']  = $arrayMoney;
 }
 add_action('tcd_membership_action-notification', 'tcd_membership_action_notification');
 
+
 /**
- * Add 2022/06/07 
+ * NFT投げ銭と購入の一覧
+ *
+ * @param int $user_id
+ * @return object
+ */
+function arrayThrowingMoneyAndPurchaseNftByUserId($user_id = NULL)
+{
+    global $wpdb;
+
+    if (is_null($user_id)) {
+        $user_id = get_current_user_id();
+    }
+
+    $sql = 'SELECT ';
+    $sql .= 'id ';
+    $sql .= ',type ';
+    $sql .= ',user_id ';
+    $sql .= ',target_user_id';
+    $sql .= ',post_id ';
+    $sql .= ' FROM ';
+    $sql .= ' wp_tcd_membership_actions ';
+    $sql .= ' WHERE ';
+    $sql .= ' user_id  = %d ';
+    $sql .= ' AND ';
+    $sql .= ' type IN (\'throwing\', \'purchase\') ';
+    $sql .= ' ORDER BY created_gmt DESC';
+
+    $result = $wpdb->get_results($wpdb->prepare($sql, $user_id));
+    return $result;
+}
+
+/**
+ *
  * 未読のいいねとフォローの合計件数の取得
  */
 function count_notice($user_id = NULL)
@@ -115,6 +151,7 @@ function list_like($user_id = NULL)
     $sql .= ' FROM wp_tcd_membership_actions ';
     $sql .= ' WHERE target_user_id = %d ';
     $sql .= ' AND type = \'like\' ';
+
     $result = $wpdb->get_results($wpdb->prepare($sql, $prepare));
     return $result;
 }
