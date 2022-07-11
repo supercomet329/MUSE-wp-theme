@@ -55,6 +55,10 @@
         transform: translateY(-9px) rotate(-135deg);
     }
     
+    .error_message {
+        color: red;
+    }
+    
     .menu-list {
         padding-left: 0;
         position: fixed;

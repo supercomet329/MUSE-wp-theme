@@ -128,60 +128,59 @@ function tcd_membership_action_post_image()
         $saleType = $_POST['saleType'];
         if ($saleType === 'sale') {
 
-            $auctionStartDate = $_POST['auctionStartDate'];
-            if ($auctionStartDate === 'specify') {
-                // オークションの場合
-                $auctionDateUnix = false;
-                if (
-                    !isset($_POST['auctionDateY']) || empty($_POST['auctionDateY']) ||
-                    !isset($_POST['auctionDateM']) || empty($_POST['auctionDateM']) ||
-                    !isset($_POST['auctionDateD']) || empty($_POST['auctionDateD']) ||
-                    !isset($_POST['auctionDateH']) || empty($_POST['auctionDateH']) ||
-                    !isset($_POST['auctionDateMin']) || empty($_POST['auctionDateMin'])
-                ) {
-                    $error_messages['appDeadlineMsg'] = 'オークション開始日時を入力してください';
-                } else {
-                    $auctionDate = $_POST['auctionDateY'] . '-' . str_pad($_POST['auctionDateM'], 2, "0", STR_PAD_LEFT)  . '-' . str_pad($_POST['auctionDateD'], 2, "0", STR_PAD_LEFT) . ' ' . str_pad($_POST['auctionDateH'], 2, "0", STR_PAD_LEFT) . ':' . str_pad($_POST['auctionDateMin'], 2, "0", STR_PAD_LEFT) . ':00';
+            $selectAuction = $_POST['selectAuction'];
+            if ($selectAuction === 'Auction') {
 
-                    $auctionDateClass = new DateTime($auctionDate);
-                    $auctionDateUnix = $auctionDateClass->format('U');
-                    if (!validate_date($auctionDate)) {
+                $auctionStartDate = $_POST['auctionStartDate'];
+                if ($auctionStartDate === 'specify') {
+                    // オークションの場合
+                    $auctionDateUnix = false;
+                    if (
+                        !isset($_POST['auctionDateY']) || empty($_POST['auctionDateY']) ||
+                        !isset($_POST['auctionDateM']) || empty($_POST['auctionDateM']) ||
+                        !isset($_POST['auctionDateD']) || empty($_POST['auctionDateD']) ||
+                        !isset($_POST['auctionDateH']) || empty($_POST['auctionDateH']) ||
+                        !isset($_POST['auctionDateMin']) || empty($_POST['auctionDateMin'])
+                    ) {
                         $error_messages['appDeadlineMsg'] = 'オークション開始日時を入力してください';
+                    } else {
+                        $auctionDate = $_POST['auctionDateY'] . '-' . str_pad($_POST['auctionDateM'], 2, "0", STR_PAD_LEFT)  . '-' . str_pad($_POST['auctionDateD'], 2, "0", STR_PAD_LEFT) . ' ' . str_pad($_POST['auctionDateH'], 2, "0", STR_PAD_LEFT) . ':' . str_pad($_POST['auctionDateMin'], 2, "0", STR_PAD_LEFT) . ':00';
+
+                        $auctionDateClass = new DateTime($auctionDate);
+                        $auctionDateUnix = $auctionDateClass->format('U');
+                        if (!validate_date($auctionDate)) {
+                            $error_messages['appDeadlineMsg'] = 'オークション開始日時を入力してください';
+                        }
                     }
-                }
 
-                $auctionEndDateUnix = false;
-                if (
-                    !isset($_POST['auctionEndDateY']) || empty($_POST['auctionEndDateY']) ||
-                    !isset($_POST['auctionEndDateM']) || empty($_POST['auctionEndDateM']) ||
-                    !isset($_POST['auctionEndDateD']) || empty($_POST['auctionEndDateD']) ||
-                    !isset($_POST['auctionEndDateH']) || empty($_POST['auctionEndDateH']) ||
-                    !isset($_POST['auctionEndDateMin']) || empty($_POST['auctionEndDateMin'])
-                ) {
+                    $auctionEndDateUnix = false;
+                    if (
+                        !isset($_POST['auctionEndDateY']) || empty($_POST['auctionEndDateY']) ||
+                        !isset($_POST['auctionEndDateM']) || empty($_POST['auctionEndDateM']) ||
+                        !isset($_POST['auctionEndDateD']) || empty($_POST['auctionEndDateD']) ||
+                        !isset($_POST['auctionEndDateH']) || empty($_POST['auctionEndDateH']) ||
+                        !isset($_POST['auctionEndDateMin']) || empty($_POST['auctionEndDateMin'])
+                    ) {
 
-                    $error_messages['auctionEndDate'] = 'オークション終了日時を入力してください';
-                } else {
-                    $auctionEndDate = $_POST['auctionEndDateY'] . '-' . str_pad($_POST['auctionEndDateM'], 2, "0", STR_PAD_LEFT)  . '-' . str_pad($_POST['auctionEndDateD'], 2, "0", STR_PAD_LEFT) . ' ' . str_pad($_POST['auctionEndDateH'], 2, "0", STR_PAD_LEFT) . ':' . str_pad($_POST['auctionEndDateMin'], 2, "0", STR_PAD_LEFT) . ':00';
-                    $auctionEndDateClass = new DateTime($auctionEndDate);
-                    $auctionEndDateUnix = $auctionEndDateClass->format('U');
-                    if (!validate_date($auctionEndDate)) {
                         $error_messages['auctionEndDate'] = 'オークション終了日時を入力してください';
+                    } else {
+                        $auctionEndDate = $_POST['auctionEndDateY'] . '-' . str_pad($_POST['auctionEndDateM'], 2, "0", STR_PAD_LEFT)  . '-' . str_pad($_POST['auctionEndDateD'], 2, "0", STR_PAD_LEFT) . ' ' . str_pad($_POST['auctionEndDateH'], 2, "0", STR_PAD_LEFT) . ':' . str_pad($_POST['auctionEndDateMin'], 2, "0", STR_PAD_LEFT) . ':00';
+                        $auctionEndDateClass = new DateTime($auctionEndDate);
+                        $auctionEndDateUnix = $auctionEndDateClass->format('U');
+                        if (!validate_date($auctionEndDate)) {
+                            $error_messages['auctionEndDate'] = 'オークション終了日時を入力してください';
+                        }
                     }
-                }
 
-                if ($auctionDateUnix && $auctionEndDateUnix) {
-                    if ($auctionDateUnix > $auctionEndDateUnix) {
-                        $error_messages['auctionEndDate'] = 'オークション日時の御確認を御願い致します。';
+                    if ($auctionDateUnix && $auctionEndDateUnix) {
+                        if ($auctionDateUnix > $auctionEndDateUnix) {
+                            $error_messages['auctionEndDate'] = 'オークション日時の御確認を御願い致します。';
+                        }
                     }
                 }
             } else {
                 if (!isset($_POST['imagePrice']) || empty($_POST['imagePrice'])) {
                     $error_messages['imagePrice'] = '販売金額を入力してください';
-                }
-
-                // 即決価格
-                if (!isset($_POST['binPrice']) || empty($_POST['binPrice'])) {
-                    $error_messages['binPrice'] = '販売金額を入力してください';
                 }
             }
         }
@@ -201,123 +200,228 @@ function tcd_membership_action_post_image()
 
             $result = $wpdb->insert(
                 'wp_postmeta',
-                array(
+                [
                     'post_id'    => $post_id,
                     'meta_key'   => 'main_image',
                     'meta_value' => $requestFileUrl,
-                ),
-                array(
+                ],
+                [
                     '%d',
                     '%s',
                     '%s'
-                )
+                ]
             );
 
             $result = $wpdb->insert(
                 'wp_postmeta',
-                array(
+                [
                     'post_id'    => $post_id,
                     'meta_key'   => 'resize_image',
                     'meta_value' => $requestResizeFileUrl,
-                ),
-                array(
+                ],
+                [
                     '%d',
                     '%s',
                     '%s'
-                )
+                ]
             );
 
             $result = $wpdb->insert(
                 'wp_postmeta',
-                array(
+                [
                     'post_id'    => $post_id,
                     'meta_key'   => 'image_name',
                     'meta_value' => $requestFileName,
-                ),
-                array(
+                ],
+                [
                     '%d',
                     '%s',
                     '%s'
-                )
+                ]
             );
 
             if ($requestFileUrl2) {
                 $result = $wpdb->insert(
                     'wp_postmeta',
-                    array(
+                    [
                         'post_id'    => $post_id,
                         'meta_key'   => 'main_image2',
                         'meta_value' => $requestFileUrl2,
-                    ),
-                    array(
+                    ],
+                    [
                         '%d',
                         '%s',
                         '%s'
-                    )
+                    ]
                 );
             }
 
             if ($requestFileUrl3) {
                 $result = $wpdb->insert(
                     'wp_postmeta',
-                    array(
+                    [
                         'post_id'    => $post_id,
                         'meta_key'   => 'main_image3',
                         'meta_value' => $requestFileUrl3,
-                    ),
-                    array(
+                    ],
+                    [
                         '%d',
                         '%s',
                         '%s'
-                    )
+                    ]
                 );
             }
 
             if ($requestFileUrl4) {
                 $result = $wpdb->insert(
                     'wp_postmeta',
-                    array(
+                    [
                         'post_id'    => $post_id,
                         'meta_key'   => 'main_image4',
                         'meta_value' => $requestFileUrl4,
-                    ),
-                    array(
+                    ],
+                    [
                         '%d',
                         '%s',
                         '%s'
-                    )
+                    ]
                 );
             }
 
             $result = $wpdb->insert(
                 'wp_postmeta',
-                array(
+                [
                     'post_id'    => $post_id,
                     'meta_key'   => 'saleType',
                     'meta_value' => $_POST['saleType'],
-                ),
-                array(
+                ],
+                [
                     '%d',
                     '%s',
                     '%s'
-                )
+                ]
             );
 
             if ($_POST['suitableAges'] === 'r18') {
                 // R18フラグがある場合 => 18フラグを登録
                 $result = $wpdb->insert(
                     'wp_postmeta',
-                    array(
+                    [
                         'post_id'    => $post_id,
                         'meta_key'   => 'r18',
                         'meta_value' => 1,
-                    ),
-                    array(
+                    ],
+                    [
                         '%d',
                         '%s',
                         '%s'
-                    )
+                    ]
                 );
+            }
+
+            if ($saleType === 'sale') {
+                if ($selectAuction === 'Auction') {
+                    // R18フラグがある場合 => 18フラグを登録
+                    $result = $wpdb->insert(
+                        'wp_postmeta',
+                        [
+                            'post_id'    => $post_id,
+                            'meta_key'   => 'selectAuction',
+                            'meta_value' => $selectAuction,
+                        ],
+                        [
+                            '%d',
+                            '%s',
+                            '%s'
+                        ]
+                    );
+
+                    $result = $wpdb->insert(
+                        'wp_postmeta',
+                        [
+                            'post_id'    => $post_id,
+                            'meta_key'   => 'binPrice',
+                            'meta_value' => $_POST['binPrice'],
+                        ],
+                        [
+                            '%d',
+                            '%s',
+                            '%s'
+                        ]
+                    );
+
+                    if ($auctionStartDate === 'specify') {
+                        $result = $wpdb->insert(
+                            'wp_postmeta',
+                            [
+                                'post_id'    => $post_id,
+                                'meta_key'   => 'auctionStartDate',
+                                'meta_value' => $auctionStartDate,
+                            ],
+                            [
+                                '%d',
+                                '%s',
+                                '%s'
+                            ]
+                        );
+
+                        $result = $wpdb->insert(
+                            'wp_postmeta',
+                            [
+                                'post_id'    => $post_id,
+                                'meta_key'   => 'auctionDate',
+                                'meta_value' => $auctionDate,
+                            ],
+                            [
+                                '%d',
+                                '%s',
+                                '%s'
+                            ]
+                        );
+
+                        $result = $wpdb->insert(
+                            'wp_postmeta',
+                            [
+                                'post_id'    => $post_id,
+                                'meta_key'   => 'auctionEndDate',
+                                'meta_value' => $auctionEndDate,
+                            ],
+                            [
+                                '%d',
+                                '%s',
+                                '%s'
+                            ]
+                        );
+
+                        $result = $wpdb->insert(
+                            'wp_postmeta',
+                            [
+                                'post_id'    => $post_id,
+                                'meta_key'   => 'extendAuction',
+                                'meta_value' => $_POST['extendAuction'],
+                            ],
+                            [
+                                '%d',
+                                '%s',
+                                '%s'
+                            ]
+                        );
+                    }
+                } else {
+                    $result = $wpdb->insert(
+                        'wp_postmeta',
+                        [
+                            'post_id'    => $post_id,
+                            'meta_key'   => 'imagePrice',
+                            'meta_value' => $_POST['imagePrice'],
+                        ],
+                        [
+                            '%d',
+                            '%s',
+                            '%s'
+                        ]
+                    );
+                }
             }
 
             $url = get_author_posts_url(get_current_user_id());

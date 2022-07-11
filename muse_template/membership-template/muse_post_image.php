@@ -45,6 +45,9 @@ get_header();
                     </label>
                 </div>
             </div>
+            <div class="col-12">
+                <div class="error_message" id="errPostImage"></div>
+            </div>
         </div>
         <div class="row">
             <div class="col-12">
@@ -54,7 +57,7 @@ get_header();
                 <input class="form-control post-input" type="text" name="postTitle" id="postTitle" placeholder="タイトルを入力">
             </div>
             <div class="col-12">
-                <div class="inputPostTitle" id="inputPostTitle"></div>
+                <div class="error_message" id="errPostTitle"></div>
             </div>
             <div class="col-12">
                 <label for="saleType" class="label-text post-input-title mt-4">詳細（任意）</label>
@@ -112,7 +115,7 @@ get_header();
                     </div>
                 </div>
                 <div class="col-12">
-                    <div class="inputImagePrice" id="inputImagePrice"></div>
+                    <div class="error_message" id="errImagePrice"></div>
                 </div>
                 <div class="col-12">
                     <p class="commission-title">手数料差し引き残額</p>
@@ -145,7 +148,7 @@ get_header();
                     </div>
                 </div>
                 <div class="col-12">
-                    <div class="inputBinPrice" id="inputBinPrice"></div>
+                    <div class="error_message" id="errBinPrice"></div>
                 </div>
 
                 <div id="auctionTimeForm">
@@ -192,7 +195,7 @@ get_header();
                     </div>
 
                     <div class="col-12">
-                        <div class="inputAppDeadline" id="inputAppDeadline"></div>
+                        <div class="error_message" id="errAppDeadline"></div>
                     </div>
                     <div class="col-12 mt-3">
                         <label for="auctionStartDate" class="label-text post-input-title mt-4">オークション終了日時</label>
@@ -217,7 +220,7 @@ get_header();
                             <input type="hidden" value="2" id="setAuctionEndDateD" />
                         </div>
                     </div>
-                    <div class="col-12 row">
+                    <div class="col-12 row mt-1">
                         <div class="col-4">
                             <select class="auction-input" placeholder="dd" name="auctionEndDateH" id="auctionEndDateH">
                             </select>
@@ -233,7 +236,7 @@ get_header();
                         <div class="col-4">
                         </div>
                         <div class="col-12">
-                            <div class="inputAuctionEnd" id="inputAuctionEnd"></div>
+                            <div class="error_message" id="errAuctionEnd"></div>
                         </div>
                         <div class="col-12 mt-3">
                             <label for="auctionStartDate" class="label-text post-input-title mt-4">オークション自動延長</label>
