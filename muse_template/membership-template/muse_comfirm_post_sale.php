@@ -85,10 +85,14 @@ get_header();
                 </div>
             </div>
         </div>
-        <!-- NFTが決まったら購入処理追加 -->
-        <div class="col-12 my-3 text-center">
-            <button type="submit" class="btn btn-primary save-btn text-white">購入する</button>
-        </div>
+        <?php if ($tcd_membership_vars['viewSubmitButton'] !== FALSE) { ?>
+
+            <!-- NFTが決まったら購入処理追加 -->
+            <div class="col-12 my-3 text-center">
+                <button type="submit" class="btn btn-primary save-btn text-white">購入する</button>
+            </div>
+        <?php }
+        /** endif */ ?>
     </form>
 </div>
 

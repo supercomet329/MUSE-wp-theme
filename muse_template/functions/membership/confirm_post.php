@@ -82,6 +82,12 @@ function tcd_membership_action_confirm_post()
         $imageArray[] = $image4;
     }
 
+    $viewSubmitButton = false;
+    $user = wp_get_current_user();
+    if ($user->ID > 0) {
+        $viewSubmitButton = true;
+    }
+
     $tcd_membership_vars['template']         = $template;
     $tcd_membership_vars['imageArray']       = $imageArray;
     $tcd_membership_vars['post_id']          = $post_id;
@@ -94,6 +100,7 @@ function tcd_membership_action_confirm_post()
     $tcd_membership_vars['auctionStartDate'] = $auctionStartDate;
     $tcd_membership_vars['auctionEndDate']   = $auctionEndDate;
     $tcd_membership_vars['extendAuction']    = $extendAuction;
+    $tcd_membership_vars['viewSubmitButton'] = $viewSubmitButton;
 
     nocache_headers();
 }

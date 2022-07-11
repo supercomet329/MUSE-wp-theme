@@ -121,10 +121,13 @@ get_header();
             <?php }
             /** endif */ ?>
 
-            <!-- NFTが決まったらオークション処理追加 -->
-            <div class="col-12 my-3 text-center">
-                <button type="submit" class="btn btn-primary save-btn text-white">オークションに参加</button>
-            </div>
+            <?php if ($tcd_membership_vars['viewSubmitButton'] !== FALSE) { ?>
+                <!-- NFTが決まったらオークション処理追加 -->
+                <div class="col-12 my-3 text-center">
+                    <button type="submit" class="btn btn-primary save-btn text-white">オークションに参加</button>
+                </div>
+            <?php }
+            /** endif */ ?>
         </div>
     </form>
 </div>
