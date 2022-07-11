@@ -47,6 +47,7 @@ get_header();
                 }
                 ?>
                 <img class="js-toggle-like float-left" data-post-id="<?php echo esc_attr($tcd_membership_vars['post_id']); ?>" src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/<?php echo esc_attr($like_image); ?>" alt="iine">
+                <!-- TODO: NFT決まったら -->
                 <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/social_tipping_on.png" alt="social_tipping_on">
             </div>
             <div class="col-6 my-auto">

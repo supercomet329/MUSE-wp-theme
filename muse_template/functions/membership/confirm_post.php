@@ -19,9 +19,12 @@ function tcd_membership_action_confirm_post()
     $template = 'muse_comfirm_post_no_sale';
 
     $saleType = get_post_meta($rowPostData->ID, 'saleType', true);
+    $imagePrice = 0;
     if($saleType === 'sale') {
         // 販売の場合のテンプレート
         $template = 'muse_comfirm_post_sale';
+        $imagePrice = get_post_meta($rowPostData->ID, 'imagePrice', true);
+
         $selectAuction = get_post_meta($rowPostData->ID, 'selectAuction', true);
         if($selectAuction === 'Auction') {
             // オークションの場合のテンプレート
@@ -33,7 +36,6 @@ function tcd_membership_action_confirm_post()
     $image2 = get_post_meta($rowPostData->ID, 'main_image2', true);
     $image3 = get_post_meta($rowPostData->ID, 'main_image3', true);
     $image4 = get_post_meta($rowPostData->ID, 'main_image4', true);
-
 
     $imageArray = [];
     $imageArray[] = $image;
@@ -54,6 +56,7 @@ function tcd_membership_action_confirm_post()
     $tcd_membership_vars['post_id']    = $post_id;
     $tcd_membership_vars['post_title']   = $rowPostData->post_title;
     $tcd_membership_vars['post_content'] = $rowPostData->post_content;
+    $tcd_membership_vars['imagePrice']   = $imagePrice;
     nocache_headers();
 }
 add_action('tcd_membership_action-confirm_post', 'tcd_membership_action_confirm_post');
