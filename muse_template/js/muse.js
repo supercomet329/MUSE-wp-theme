@@ -1025,200 +1025,50 @@ jQuery(function($) {
     });
 });
 
+// ラジオボタンにより表示を変更
+// 使用HTML(post.html)
 jQuery(function($) {
-    // 販売形式のラジオボタン変更で、表示するフォーム切り替え
-    jQuery('[name="saleType"]:radio').change(function() {
-        // 通常販売にチェックがついている場合
-        if (jQuery('#sale').prop('checked')) {
-            jQuery('.saleTypeSection').hide();
-            jQuery('.saleSection').show();
-            jQuery('.termsSection').show();
-            // オークションにチェックがついている場合
-            // } else if (jQuery('#auction').prop('checked')) {
-            //     jQuery('.saleTypeSection').hide();
-            //     jQuery('.auctionSection').show();
-            //     jQuery('.termsSection').show();
-            // 販売しないにチェックがついている場合
-        } else {
-            jQuery('.saleTypeSection').hide();
-            jQuery('.termsSection').hide();
-            jQuery('.notForSaleSection').show();
-        }
-    });
-});
-
-jQuery(function($) {
-    // オークション開催有無のラジオボタン変更で、表示するフォーム切り替え
-    jQuery('[name="selectAuction"]:radio').change(function() {
-        // オークション開催ありにチェックがついている場合
-        if (jQuery('#auction').prop('checked')) {
-            jQuery('.notholdauctionSection').hide();
-            jQuery('.holdauctionSection').show();
-        } else {
-            jQuery('.holdauctionSection').hide();
-            jQuery('.notholdauctionSection').show();
-        }
-    });
-});
-
-// 入力項目のフォーカスが外れた際に処理を実行(post.html）
-jQuery(function($) {
-    // タイトルのフォーカスが外れた際にcheck_ProfileInput実行
-    jQuery('#postTitle').on('blur', function() {
-        checkSaleType();
-        inputPostTitle();
-    });
-    // 販売価格のフォーカスが外れた際にcheck_ProfileInput実行
-    jQuery('#imagePrice').on('blur', function() {
-        checkSaleType();
-        inputImagePrice();
-    });
-    // 即決価格のフォーカスが外れた際にcheck_ProfileInput実行
-    jQuery('#binPrice').on('blur', function() {
-        checkSaleType();
-        inputBinPrice();
-    });
-    // オークション開始日時(年)のフォーカスが外れた際にcheck_ProfileInput実行
-    jQuery('#auctionDateY').on('blur', function() {
-        checkSaleType();
-        typeAuctionStartDateMsg();
-    });
-    // オークション開始日時(月)のフォーカスが外れた際にcheck_ProfileInput実行
-    jQuery('#auctionDateM').on('blur', function() {
-        checkSaleType();
-        typeAuctionStartDateMsg();
-    });
-    // オークション開始日時(日)のフォーカスが外れた際にcheck_ProfileInput実行
-    jQuery('#auctionDateD').on('blur', function() {
-        checkSaleType();
-        typeAuctionStartDateMsg();
-    });
-    // オークション開始日時(時)のフォーカスが外れた際にcheck_ProfileInput実行
-    jQuery('#auctionDateH').on('blur', function() {
-        checkSaleType();
-        typeAuctionStartDateMsg();
-    });
-    // オークション開始日時(分)のフォーカスが外れた際にcheck_ProfileInput実行
-    jQuery('#auctionDateMin').on('blur', function() {
-        checkSaleType();
-        typeAuctionStartDateMsg();
-    });
-    // オークション終了日時(年)のフォーカスが外れた際にcheck_ProfileInput実行
-    jQuery('#auctionEndDateY').on('blur', function() {
-        checkSaleType();
-        typeAuctionEndDateMsg();
-    });
-    // オークション終了日時(月)のフォーカスが外れた際にcheck_ProfileInput実行
-    jQuery('#auctionEndDateM').on('blur', function() {
-        checkSaleType();
-        typeAuctionEndDateMsg();
-    });
-    // オークション終了日時(日)のフォーカスが外れた際にcheck_ProfileInput実行
-    jQuery('#auctionEndDateD').on('blur', function() {
-        checkSaleType();
-        typeAuctionEndDateMsg();
-    });
-    // オークション終了日時(時)のフォーカスが外れた際にcheck_ProfileInput実行
-    jQuery('#auctionEndDateH').on('blur', function() {
-        checkSaleType();
-        typeAuctionEndDateMsg();
-    });
-    // オークション終了日時(分)のフォーカスが外れた際にcheck_ProfileInput実行
-    jQuery('#auctionEndDateMin').on('blur', function() {
-        checkSaleType();
-        typeAuctionEndDateMsg();
-    });
-    // 利用規約にチェックされた際にcheck_ProfileInput実行
-    jQuery('#postTermsCheck').on('click', function() {
-        checkSaleType();
-    });
-    // 通常販売クリック時に
-    jQuery('#sale').on('click', function() {
-        checkSaleType();
-    });
-    // オークションクリック時に
-    // jQuery('#auction').on('click', function() {
-    //     checkSaleType();
-    // });
-    // 販売しないクリック時に
-    jQuery('#notForSale').on('click', function() {
-        checkSaleType();
-    });
-    // 画像選択時
-    jQuery('#postFile').change(function() {
-        checkSaleType();
-    });
-    jQuery('#postFile2').change(function() {
-        checkSaleType();
-    });
-    jQuery('#postFile3').change(function() {
-        checkSaleType();
-    });
-    // 開始時間指定クリック時
-    jQuery('#specify').on('click', function() {
-        checkSaleType();
-    });
-    // オークション開始日時、指定しないクリック時
-    jQuery('#notSpecified').on('click', function() {
-        checkSaleType();
-    });
-
-    jQuery('#postFile_2').on('change', function(e) {
-
-        var file = e.target.files[0];
-        var reader = new FileReader();
-
-        if (file.type.indexOf("image") < 0) {
-            return false;
-        }
-
-        console.log(reader.result);
-    });
-
-    jQuery('#postFile_2').on('change', function() {
-        var file = $(this).prop('files')[0];
-        if (!file.type.match('image.*')) {
-            return;
-        }
-        var fileReader = new FileReader();
-        fileReader.onloadend = function() {
-            jQuery('#cover_img2').removeClass('d-none');
-            jQuery("#cover_img2").attr("src", fileReader.result);
-
-        }
-        fileReader.readAsDataURL(file);
-    });
-
-    jQuery('#postFile_3').on('change', function() {
-        var file = $(this).prop('files')[0];
-        if (!file.type.match('image.*')) {
-            return;
-        }
-        var fileReader = new FileReader();
-        fileReader.onloadend = function() {
-            jQuery('#cover_img3').removeClass('d-none');
-            jQuery("#cover_img3").attr("src", fileReader.result);
-
-        }
-        fileReader.readAsDataURL(file);
-    });
-
-    jQuery('#postFile_4').on('change', function() {
-        var file = $(this).prop('files')[0];
-        if (!file.type.match('image.*')) {
-            return;
-        }
-        var fileReader = new FileReader();
-        fileReader.onloadend = function() {
-            jQuery('#cover_img4').removeClass('d-none');
-            jQuery("#cover_img4").attr("src", fileReader.result);
-
-        }
-        fileReader.readAsDataURL(file);
-    });
-
     setAuctionSelBox();
+    $('input[name="saleType"]:radio').on('click', function() {
+        // フォームの切り替え
+        viewPostForm();
+    });
+
+    $('input[name="selectAuction"]:radio').on('click', function() {
+        viewPostForm();
+    });
+
+    $('input[name="auctionStartDate"]:radio').on('click', function() {
+        viewPostForm();
+    });
 });
+
+// フォームの表示の切り替え
+function viewPostForm() {
+
+    jQuery('#saleForm').hide();
+    jQuery('#nftSaleForm').hide();
+    jQuery('#auctionTimeForm').hide();
+    jQuery('#auctionSaleForm').hide();
+
+    var saleType = jQuery('input:radio[name="saleType"]:checked').val();
+    if (saleType === 'sale') {
+        jQuery('#saleForm').show();
+        jQuery('#nftSaleForm').show();
+
+        var selectAuction = jQuery('input:radio[name="selectAuction"]:checked').val();
+        if (selectAuction === 'Auction') {
+            jQuery('#auctionSaleForm').show();
+            jQuery('#nftSaleForm').hide();
+
+            var auctionStartDate = jQuery('input:radio[name="auctionStartDate"]:checked').val();
+            console.log(auctionStartDate);
+            if (auctionStartDate === 'specify') {
+                jQuery('#auctionTimeForm').show();
+            }
+        }
+    }
+}
 
 // 使用HTML(post.html)
 function setAuctionSelBox() {
