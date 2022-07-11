@@ -159,7 +159,8 @@ function tcd_membership_action_post_image()
                     !isset($_POST['auctionEndDateH']) || empty($_POST['auctionEndDateH']) ||
                     !isset($_POST['auctionEndDateMin']) || empty($_POST['auctionEndDateMin'])
                 ) {
-                    $error_messages['auctionEndDate'] = 'オークション開始日時を入力してください';
+
+                    $error_messages['auctionEndDate'] = 'オークション終了日時を入力してください';
                 } else {
                     $auctionEndDate = $_POST['auctionEndDateY'] . '-' . str_pad($_POST['auctionEndDateM'], 2, "0", STR_PAD_LEFT)  . '-' . str_pad($_POST['auctionEndDateD'], 2, "0", STR_PAD_LEFT) . ' ' . str_pad($_POST['auctionEndDateH'], 2, "0", STR_PAD_LEFT) . ':' . str_pad($_POST['auctionEndDateMin'], 2, "0", STR_PAD_LEFT) . ':00';
                     $auctionEndDateClass = new DateTime($auctionEndDate);
@@ -366,7 +367,6 @@ function tcd_membership_action_post_image()
                         )
                     );
                 }
-
 
                 $auctionStartDate = $_POST['auctionStartDate'];
                 if ($auctionStartDate === 'specify') {

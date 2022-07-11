@@ -157,7 +157,7 @@ get_header();
                         </div>
                         <div class="col-12 row mt-1">
                             <div class="col-4">
-                                <select class="auction-input" placeholder="dd" name="auctionDateD" id="auctionDateH">
+                                <select class="auction-input" placeholder="dd" name="auctionDateH" id="auctionDateH">
                                 </select>
                                 <p class="auction-date">時</p>
                                 <input type="hidden" value="2" id="setAuctionDateH" />
@@ -202,7 +202,7 @@ get_header();
                         </div>
                         <div class="col-12 row">
                             <div class="col-4">
-                                <select class="auction-input" placeholder="dd" name="auctionDateD" id="auctionEndDateH">
+                                <select class="auction-input" placeholder="dd" name="auctionEndDateH" id="auctionEndDateH">
                                 </select>
                                 <p class="auction-date">時</p>
                                 <input type="hidden" value="2" id="setAuctionEndDateH" />
