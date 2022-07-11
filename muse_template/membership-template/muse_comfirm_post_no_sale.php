@@ -34,7 +34,6 @@ get_header();
                         <?php foreach ($tcd_membership_vars['imageArray'] as $imageOne) { ?>
                             <div class="swiper-slide"><img src="<?php echo esc_url($imageOne); ?>" /></div>
                         <?php } ?>
-
                     </div>
                 </div>
                 <p class="mb-0 mt-3 text-right"><a class="text-dark" href="<?php echo esc_url(get_tcd_membership_memberpage_url('post_comment')); ?>&post_id=<?php echo esc_attr($tcd_membership_vars['post_id']); ?>">…</a></p>
