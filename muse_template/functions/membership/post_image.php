@@ -79,7 +79,6 @@ function tcd_membership_action_post_image()
             $file_data = preg_replace('#^data:image/\w+;base64,#i', '', $file_data);
             $file_data = base64_decode($file_data);
             file_put_contents($resize_uploaded_file, $file_data);
-
         } else {
             $error_messages['postFile'] = 'ファイルをアップロードしてください。';
         }
@@ -322,28 +321,32 @@ function tcd_membership_action_post_image()
             }
 
             if ($_POST['saleType'] === 'sale') {
-                $selectAuction    = $_POST['selectAuction'];
-                $result = $wpdb->insert(
-                    'wp_postmeta',
-                    array(
-                        'post_id'    => $post_id,
-                        'meta_key'   => 'selectAuction',
-                        'meta_value' => $selectAuction,
-                    ),
-                    array(
-                        '%d',
-                        '%s',
-                        '%s'
-                    )
-                );
+                if (isset($_POST['selectAuction']) && !empty($_POST['selectAuction'])) {
+                    $auctionFlag = 'no_set_auction';
+                    if ($_POST['selectAuction'] === 'Auction') {
+                        $auctionFlag = 'set_auction';
 
-                if ($selectAuction === 'Auction') {
+                        $result = $wpdb->insert(
+                            'wp_postmeta',
+                            array(
+                                'post_id'    => $post_id,
+                                'meta_key'   => 'binPrice',
+                                'meta_value' => $_POST['binPrice'],
+                            ),
+                            array(
+                                '%d',
+                                '%s',
+                                '%s'
+                            )
+                        );
+                    }
+
                     $result = $wpdb->insert(
                         'wp_postmeta',
                         array(
                             'post_id'    => $post_id,
-                            'meta_key'   => 'binPrice',
-                            'meta_value' => $_POST['binPrice'],
+                            'meta_key'   => 'auctionFlag',
+                            'meta_value' =>  $auctionFlag,
                         ),
                         array(
                             '%d',
