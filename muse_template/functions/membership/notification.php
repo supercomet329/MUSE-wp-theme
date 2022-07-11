@@ -21,13 +21,12 @@ function tcd_membership_action_notification()
     $arrayfollow = list_follow();
     foreach ($arrayfollow as $onefollow) {
         $dateClass = new DateTime($onefollow->created_gmt);
-        $day        = $dateClass->format('Ymd H:i:00');
+        $day       = $dateClass->format('Ymd H:i:00');
         $arrayNotice[$day]['follow'][] = [
             'user_id' => $onefollow->user_id,
             'post_id' => $onefollow->post_id,
         ];
     }
-
     krsort($arrayNotice);
 
     // 投げ銭と購入一覧の取得
@@ -39,7 +38,6 @@ function tcd_membership_action_notification()
     readOnFollow();
 
     nocache_headers();
-
     $user = wp_get_current_user();
 
     if (!$user) {

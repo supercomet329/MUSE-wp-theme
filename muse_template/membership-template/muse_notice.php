@@ -68,10 +68,6 @@ get_header();
 
                                         foreach ($value as $valueOne) {
 
-                                            if (count($images) >= 2) {
-                                                break;
-                                            }
-
                                             $profileImageData = get_user_meta($valueOne['user_id'], 'profile_image', true);
                                             $profile_image = get_template_directory_uri() . '/assets/img/icon/non_profile_image.png';
                                             if (!empty($profileImageData)) {
@@ -79,9 +75,12 @@ get_header();
                                             }
                                             $images[] = $profile_image;
 
-                                            $user = get_userdata($valueOne['user_id']);
-                                            $names[]  = $user->display_name . 'さん';
+                                            if (count($images) >= 2) {
+                                                $user = get_userdata($valueOne['user_id']);
+                                                $names[]  = $user->display_name . 'さん';
+                                            }
                                         }
+
                                         /** endif */ ?>
                                         <li class="pt-2 icon-box">
                                             <!-- ここのStyleは動的 2つめ以降は5%ずつ左にズレる -->
@@ -96,7 +95,7 @@ get_header();
                                             }
                                             ?>
                                             <div class="font-weight-bold">
-                                                ○○さんと○○さんにフォローされました。
+                                                <?php echo implode('と', $names) . $others; ?>にフォローされました。
                                             </div>
                                         </li>
                                     <?php }
