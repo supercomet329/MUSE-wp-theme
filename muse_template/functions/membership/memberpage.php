@@ -43,6 +43,7 @@ function tcd_membership_memberpage_init()
 			'post_image',
 			'page_report',
 			'post_search',
+			'in_progress',
 		), 
 		'memberpage_guest_types' => array(
 			'login',
@@ -87,6 +88,7 @@ function tcd_membership_memberpage_init()
 			'notification',
 			'post_image',
 			'page_report',
+			'in_progress',
 		),
 		'memberpage_image_upload_types' => array(
 			'add_photo',
