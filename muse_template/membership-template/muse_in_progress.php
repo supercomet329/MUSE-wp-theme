@@ -98,12 +98,12 @@ get_header();
 
 
     <!-- 検索モーダル -->
-    <form class="search-post mb-2">
+    <form class="search-post mb-2"  method="POST" action="<?php echo esc_url(get_tcd_membership_memberpage_url('in_progress')); ?>">
         <div class="modal-container">
             <div class="modal-body">
                 <div class="modal-content text-left p-3">
                     <p class="item-text mx-auto">検索オプション</p>
-                    <form class="search-post" method="POST" action="<?php echo esc_url(get_tcd_membership_memberpage_url('in_progress')); ?>">
+                    <form class="search-post">
                         <div class="mb-2 item-text">
                             予算上限
                         </div>
@@ -151,11 +151,11 @@ get_header();
                         <div class="text-center mt-3">
                             <button type="submit" class="btn btn-primary search-btn btn-sm btn-lg text-white">検索</button>
                         </div>
+                        <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd_membership_action_order_search')); ?>">
                     </form>
                 </div>
             </div>
         </div>
-        <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd_membership_action_order_search')); ?>">
     </form>
 </div>
 <?php

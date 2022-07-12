@@ -26,6 +26,7 @@ function tcd_membership_action_in_progress()
     if ('POST' == $_SERVER['REQUEST_METHOD']) {
         $postData = $_POST;
         // 値がPOSTされたときの対応
+
         if (!empty($_POST['nonce']) || wp_verify_nonce($_POST['nonce'], 'tcd_membership_action_order_search')) {
 
             // 予算上限
@@ -54,11 +55,13 @@ function tcd_membership_action_in_progress()
         }
     }
 
+
     // 自分が発注して受注されたリクエストの一覧の取得
     $listInProgress = listInProgress($up_budget, $down_budget, $whereDeadLine, $target);
 
     // テンプレートに値を渡す
     $tcd_membership_vars['template']  = 'muse_in_progress';
     $tcd_membership_vars['listOrder'] = $listInProgress;
+    $tcd_membership_vars['post_data']  = $postData;
 }
 add_action('tcd_membership_action-in_progress', 'tcd_membership_action_in_progress');

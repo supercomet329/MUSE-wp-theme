@@ -449,6 +449,7 @@ function listOrder($up_budget, $down_budget, $whereDeadLine, $target)
  */
 function listInProgress($up_budget, $down_budget, $whereDeadLine, $target)
 {
+
     global $wpdb;
 
     $sql = '';
@@ -503,7 +504,6 @@ function listInProgress($up_budget, $down_budget, $whereDeadLine, $target)
     if ($target) {
         // $sql .= 'AND wp_posts.post_content LIKE \'%' . $post_content . '%\' ';
     }
-
 
     $sql .= ' ORDER BY wp_posts.ID DESC';
 
