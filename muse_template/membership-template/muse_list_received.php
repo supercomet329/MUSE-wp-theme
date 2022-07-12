@@ -2,24 +2,50 @@
 global $dp_options, $tcd_membership_vars;
 get_header();
 ?>
-<div class="text-center font-weight-bold title mt-4">
-    作品依頼一覧
-</div>
-<div class="container mt-3 request-list">
+<div class="container pt-2 request-list">
+    <div class="row mb-2">
+        <div class="col-12">
+            <a href="javascript:history.back();">← 戻る</a>
+        </div>
+    </div>
+    <div class="text-center font-weight-bold title mb-3">
+        リクエスト一覧
+    </div>
     <div class="row d-flex justify-content-center">
         <div class="col-8 tab-area text-center pt-1 pb-1 ml-1 mr-2">
-            <a href="<?php echo esc_attr(get_tcd_membership_memberpage_url('list_order')); ?>"><button class="btn text-white not-selected-tab w-50">発注</button></a>
-            <a href="<?php echo esc_attr(get_tcd_membership_memberpage_url('list_received')); ?>"><button class="btn text-white selected-tab w-40">受注</button></a>
+            <ul class="nav nav-pills nav-fill custom-nav">
+                <li class="nav-item each-tab mx-2">
+                    <a class="nav-link btn text-white not-selected-tab" href="<?php echo esc_attr(get_tcd_membership_memberpage_url('list_order')); ?>">
+                        <div class="mx-auto">募集リクエスト</div>
+                    </a>
+                </li>
+                <li class="nav-item each-tab mx-2">
+                    <a class="nav-link btn text-white selected-tab" href="<?php echo esc_attr(get_tcd_membership_memberpage_url('list_received')); ?>">
+                        <div class="mx-auto">リクエスト</div>
+                    </a>
+                </li>
+                <li class="nav-item each-tab mx-2">
+                    <a class="nav-link btn text-white not-selected-tab" href="<?php echo esc_url(get_tcd_membership_memberpage_url('in_progress')); ?>">
+                        <div class="mx-auto">進行中</div>
+                    </a>
+                </li>
+            </ul>
         </div>
         <span class="ml-auto mr-auto">
             <a href="<?php echo esc_attr(get_tcd_membership_memberpage_url('order_search')); ?>"><img class="mr-2 search" src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/search_blue.png" alt="search"></a>
             <img class="modal-open search-option" src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/search_option.png" alt="search_option">
         </span>
     </div>
+
     <?php
-    $i = 0;
+    $loop = 0;
     foreach ($tcd_membership_vars['list_received'] as $one_order) {
-        // var_dump($one_received);exit;
+
+        $class = 'request-boundary';
+        if ($loop === 0) {
+            $class = '';
+        }
+
         $user_id = $one_order->post_author;
         $profileImageData = get_user_meta($user_id, 'profile_image', true);
         $profile_image = get_template_directory_uri() . '/assets/img/icon/non_profile_image.png';
@@ -28,65 +54,59 @@ get_header();
         }
 
         $dateTimeClass = new DateTime($one_order->appDeadlineDate);
-
-        if ($i <= 0) {
-            echo '<div class="row">';
-        } else {
-            echo '<div class="row request-boundary">';
-        }
     ?>
-        <div class="col-12 request-area mt-3">
-            <a href="<?php echo esc_attr(get_tcd_membership_memberpage_url('comfirm_request')); ?>&request_id=<?php echo $one_order->post_id; ?>">
-                <div class="request-title font-weight-bold mt-3 mb-2">
-                    <?php echo esc_attr($one_order->post_title); ?>
-                </div>
-            </a>
-            <div class="row">
-                <div class="col-4">
-                    <div class="row">
-                        <div class="col-12 text-center">
-                            <img src="<?php echo esc_url($profile_image); ?>" alt="profile" class="rounded-circle request-user-icon">
-                        </div>
-                        <div class="col-12 text-center requester mt-1">
-                            <p class="font-weight-bold"><?php echo esc_attr($one_order->display_name); ?></p>
+        <div class="row <?php echo $class; ?>">
+            <div class="col-12 request-area mt-3">
+                <a href="<?php echo esc_attr(get_tcd_membership_memberpage_url('modify_request')); ?>&request_id=<?php echo $one_order->post_id; ?>">
+                    <div class="request-title font-weight-bold mt-3 mb-2">
+                        <?php echo esc_attr($one_order->post_title); ?>
+                    </div>
+                </a>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <img src="<?php echo esc_url($profile_image); ?>" alt="profile" class="rounded-circle request-user-icon">
+                            </div>
+                            <div class="col-12 text-center requester mt-1">
+                                <p class="font-weight-bold"><?php echo esc_attr($one_order->display_name); ?></p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-8 pl-1">
-                    <div class="row">
-                        <div class="col-12 h-70px request-detail">
-                            <?php echo nl2br($one_order->post_content); ?>
+                    <div class="col-8 pl-1">
+                        <div class="row">
+                            <div class="col-12 h-70px request-detail">
+                                <?php echo nl2br($one_order->post_content); ?>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-3 request-budget px-0 mt-1 ml-3 mr-1">
-                            <p class="font-weight-bold mb-0"><?php echo esc_attr($one_order->budget); ?>円</p>
+                        <div class="row">
+                            <div class="col-3 request-budget px-0 mt-1 ml-3 mr-1">
+                                <p class="font-weight-bold mb-0"><?php echo esc_attr($one_order->budget); ?>円</p>
+                            </div>
+                            <div class="col-3 subtext request-deadline px-0 mx-1 mt-1">
+                                <p class="font-weight-bold mb-0"><?php echo $dateTimeClass->format('Y/m/d'); ?></p>
+                            </div>
                         </div>
-                        <div class="col-3 subtext request-deadline px-0 mx-1 mt-1">
-                            <p class="font-weight-bold mb-0"><?php echo $dateTimeClass->format('Y/m/d'); ?></p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-2 px-0 mt-1 ml-3 mr-1 request-keep">
-                            <div class="border rounded-pill text-center mb-1 px-1 keep_off">
-                                <?php if(is_keep($one_order->post_id)) { ?>
-                                    <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/keep_on.png" alt="keep-off" class="js-toggle-keep keep-on" data-post-id="<?php echo $one_order->post_id; ?>">
-                                <?php } else { ?>
-                                    <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/keep_off.png" alt="keep-off" class="js-toggle-keep keep-off" data-post-id="<?php echo $one_order->post_id; ?>">
-                                    <?php } /** endif */ ?>
+                        <div class="row">
+                            <div class="col-2 px-0 mt-1 ml-3 mr-1 request-keep">
+                                <div class="border rounded-pill text-center mb-1 px-1">
+                                    <?php if (is_keep($one_order->post_id)) { ?>
+                                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/keep_on.png" alt="keep-off" class="js-toggle-keep keep-on" data-post-id="<?php echo $one_order->post_id; ?>">
+                                    <?php } else { ?>
+                                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/keep_off.png" alt="keep-off" class="js-toggle-keep keep-off" data-post-id="<?php echo $one_order->post_id; ?>">
+                                    <?php }
+                                    /** endif */ ?>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-</div>
-
-<?php
-        $i++;
+    <?php
+        $loop++;
     }
-    /** endforeach */ ?>
-
+    ?>
 
 <!-- 検索モーダル -->
 <form class="search-post mb-2" method="POST" action="<?php echo esc_url(get_tcd_membership_memberpage_url('list_received')); ?>">

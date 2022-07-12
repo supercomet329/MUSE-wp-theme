@@ -2,19 +2,25 @@
 global $dp_options, $tcd_membership_vars;
 get_header();
 ?>
-<div class="text-center font-weight-bold title mt-4">
-    作品依頼一覧
-</div>
+
 <div class="container mt-3 request-list">
     <?php if (isset($_GET['status']) && $_GET['status'] === 'request_complete') { ?>
         <p class="mt-1 text-success font-weight-bold">依頼の登録が完了しました。</p>
     <?php }
     /** endif */ ?>
+    <div class="row mb-2">
+        <div class="col-12">
+            <a href="javascript:history.back();">← 戻る</a>
+        </div>
+    </div>
+    <div class="text-center font-weight-bold title mb-3">
+        募集リクエスト一覧
+    </div>
     <div class="row d-flex justify-content-center">
         <div class="col-8 tab-area text-center pt-1 pb-1 ml-1 mr-2">
             <ul class="nav nav-pills nav-fill custom-nav">
                 <li class="nav-item each-tab mx-2">
-                    <a class="nav-link btn text-white selected-tab" href="<?php echo esc_attr(get_tcd_membership_memberpage_url('list_order')); ?>">
+                    <a class="nav-link active btn text-white selected-tab" href="<?php echo esc_attr(get_tcd_membership_memberpage_url('list_order')); ?>">
                         <div class="mx-auto">募集リクエスト</div>
                     </a>
                 </li>
@@ -24,7 +30,7 @@ get_header();
                     </a>
                 </li>
                 <li class="nav-item each-tab mx-2">
-                    <a class="nav-link active btn text-white not-selected-tab" href="<?php echo esc_url(get_tcd_membership_memberpage_url('in_progress')); ?>">
+                    <a class="nav-link btn text-white text-white not-selected-tab" href="<?php echo esc_url(get_tcd_membership_memberpage_url('in_progress')); ?>">
                         <div class="mx-auto">進行中</div>
                     </a>
                 </li>

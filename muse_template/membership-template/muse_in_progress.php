@@ -9,7 +9,7 @@ get_header();
         </div>
     </div>
     <div class="text-center font-weight-bold title mb-3">
-        進行中依頼一覧
+        進行中リクエスト一覧
     </div>
     <div class="row d-flex justify-content-center">
         <div class="col-8 tab-area text-center pt-1 pb-1 ml-1 mr-2">
@@ -98,7 +98,7 @@ get_header();
 
 
     <!-- 検索モーダル -->
-    <form class="search-post mb-2"  method="POST" action="<?php echo esc_url(get_tcd_membership_memberpage_url('in_progress')); ?>">
+    <form class="search-post mb-2" method="POST" action="<?php echo esc_url(get_tcd_membership_memberpage_url('in_progress')); ?>">
         <div class="modal-container">
             <div class="modal-body">
                 <div class="modal-content text-left p-3">
