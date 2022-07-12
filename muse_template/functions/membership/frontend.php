@@ -439,6 +439,7 @@ function listOrder($up_budget, $down_budget, $whereDeadLine, $target)
     $sql .= ' ORDER BY wp_posts.ID DESC';
 
     $result = $wpdb->get_results($wpdb->prepare($sql));
+//    echo $sql;exit;
     return $result;
 }
 
