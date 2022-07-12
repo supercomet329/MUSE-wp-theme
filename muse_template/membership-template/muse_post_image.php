@@ -45,11 +45,10 @@ get_header();
                     </label>
                 </div>
             </div>
+            <div class="col-12">
+                <div class="error_message" id="errPostImage"></div>
+            </div>
         </div>
-        <div class="col-12 mx-0 px-0 mt-3">
-            <div class="selectPostFile" id="selectPostFile"></div>
-        </div>
-
         <div class="row">
             <div class="col-12">
                 <label for="saleType" class="label-text post-input-title mt-4">タイトル（必須）</label>
@@ -58,7 +57,7 @@ get_header();
                 <input class="form-control post-input" type="text" name="postTitle" id="postTitle" placeholder="タイトルを入力">
             </div>
             <div class="col-12">
-                <div class="inputPostTitle" id="inputPostTitle"></div>
+                <div class="error_message" id="errPostTitle"></div>
             </div>
             <div class="col-12">
                 <label for="saleType" class="label-text post-input-title mt-4">詳細（任意）</label>
@@ -89,189 +88,180 @@ get_header();
                 </div>
             </div>
 
-            <!-- 販売形式フォーム-->
-            <div class="saleSection saleTypeSection mb-4">
+            <div id="saleForm" style="display: none;">
                 <div class="col-12 mt-2">
                     <label for="selectAuction" class="label-text post-input-title mt-4">オークション開催（必須）</label>
                 </div>
                 <div class="col-12 row">
-                    <div class="col-5 post-radio ml-2">
-                        <label><input type="radio" name="selectAuction" value="Auction" id="auction" checked>あり</label>
+                    <div class="col-5 post-radio ml-2 text-nowrap">
+                        <label><input type="radio" name="selectAuction" value="Auction" id="auction">あり</label>
                     </div>
-                    <div class="col-5 post-radio ml-2">
-                        <label><input type="radio" name="selectAuction" value="notAuction" id="notAuction">なし</label>
+
+                    <div class="col-5 post-radio ml-2 text-nowrap">
+                        <label><input type="radio" name="selectAuction" value="notAuction" id="notAuction" checked>なし</label>
                     </div>
                 </div>
-                <!-- オークションあり形式フォーム -->
-                <div class="holdauctionSection selectAuctionsection">
+            </div>
+
+            <!-- NFT販売 -->
+            <div id="nftSaleForm" style="display: none;">
+                <div class="col-12">
+                    <label for="imagePrice" class="label-text post-input-title mt-4">販売価格（必須）</label>
+                </div>
+                <div class="col-12">
+                    <input class="form-control post-input image-price-input" type="number" name="imagePrice" id="imagePrice" placeholder="金額を入力">
+                    <div class="image-price-jpy">
+                        円
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="error_message" id="errImagePrice"></div>
+                </div>
+                <div class="col-12">
+                    <p class="commission-title">手数料差し引き残額</p>
+                    <p class="commission-price">0円</p>
+                </div>
+            </div>
+
+            <!-- オークション販売 -->
+            <div id="auctionSaleForm" style="display: none;">
+                <div class="col-12">
+                    <label for="auctionStartDate" class="label-text post-input-title mt-4">オークション開始日時（必須）</label>
+                </div>
+                <div class="col-12 row">
+                    <div class="col-5 post-radio ml-2 text-nowrap">
+                        <label><input type="radio" name="auctionStartDate" value="notSpecified" id="notSpecified" checked>指定しない</label>
+                    </div>
+                    <div class="col-5 post-radio ml-2 text-nowrap">
+                        <label><input type="radio" name="auctionStartDate" value="specify" id="specify">開始時間指定</label>
+                    </div>
+                </div>
+
+
+                <div class="col-12">
+                    <label for="binPrice" class="label-text post-input-title mt-4">即決価格（必須）</label>
+                </div>
+                <div class="col-11">
+                    <input class="form-control post-input image-price-input" type="number" name="binPrice" id="binPrice" placeholder="金額を入力">
+                    <div class="image-price-jpy">
+                        円
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="error_message" id="errBinPrice"></div>
+                </div>
+
+                <div id="auctionTimeForm">
+
                     <div class="col-12">
-                        <label for="auctionStartDate" class="label-text post-input-title mt-4">オークション開始日時（必須）</label>
+                        <label for="auctionStartDate" class="label-text post-input-title mt-4">オークション開始日時</label>
+                    </div>
+                    <div class="col-12 row mt-1">
+                        <div class="col-4">
+                            <select class="auction-input" placeholder="yyyy" name="auctionDateY" id="auctionDateY">
+                            </select>
+                            <p class="auction-date">年</p>
+                            <input type="hidden" value="<?php echo $tcd_membership_vars['setDataParams']['setAuctionDateY']; ?>" id="setAuctionDateY" />
+                        </div>
+                        <div class="col-4">
+                            <select class="auction-input" placeholder="mm" name="auctionDateM" id="auctionDateM">
+                            </select>
+                            <p class="auction-date">月</p>
+                            <input type="hidden" value="<?php echo $tcd_membership_vars['setDataParams']['setAuctionDateM']; ?>" id="setAuctionDateM" />
+                        </div>
+                        <div class="col-4">
+                            <select class="auction-input" placeholder="dd" name="auctionDateD" id="auctionDateD">
+                            </select>
+
+                            <p class="auction-date">日</p>
+                            <input type="hidden" value="2" id="setAuctionDateD" />
+                        </div>
+                    </div>
+                    <div class="col-12 row mt-1">
+                        <div class="col-4">
+                            <select class="auction-input" placeholder="dd" name="auctionDateH" id="auctionDateH">
+                            </select>
+                            <p class="auction-date">時</p>
+                            <input type="hidden" value="2" id="setAuctionDateH" />
+                        </div>
+                        <div class="col-4">
+                            <select class="auction-input" placeholder="mm" name="auctionDateMin" id="auctionDateMin">
+                            </select>
+                            <p class="auction-date">分</p>
+                            <input type="hidden" value="2" id="setAuctionDateMin" />
+                        </div>
+                        <div class="col-4">
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="error_message" id="errAppDeadline"></div>
+                    </div>
+                    <div class="col-12 mt-3">
+                        <label for="auctionStartDate" class="label-text post-input-title mt-4">オークション終了日時</label>
                     </div>
                     <div class="col-12 row">
-                        <div class="col-5 post-radio ml-2">
-                            <label><input type="radio" name="auctionStartDate" value="notSpecified" id="notSpecified" checked>指定しない</label>
+                        <div class="col-4">
+                            <select class="auction-input" placeholder="yyyy" name="auctionEndDateY" id="auctionEndDateY">
+                            </select>
+                            <p class="auction-date">年</p>
+                            <input type="hidden" value="2024" id="setAuctionEndDateY" />
                         </div>
-                        <div class="col-5 post-radio ml-2">
-                            <label><input type="radio" name="auctionStartDate" value="specify" id="specify">開始時間指定</label>
+                        <div class="col-4">
+                            <select class="auction-input" placeholder="mm" name="auctionEndDateM" id="auctionEndDateM">
+                            </select>
+                            <p class="auction-date">月</p>
+                            <input type="hidden" value="2" id="setAuctionEndDateM" />
+                        </div>
+                        <div class="col-4">
+                            <select class="auction-input" placeholder="dd" name="auctionEndDateD" id="auctionEndDateD">
+                            </select>
+                            <p class="auction-date">日</p>
+                            <input type="hidden" value="2" id="setAuctionEndDateD" />
                         </div>
                     </div>
-
-                    <div class="col-12">
-                        <label for="binPrice" class="label-text post-input-title mt-4">即決価格（必須）</label>
-                    </div>
-                    <div class="col-11">
-                        <input class="form-control post-input image-price-input" type="number" name="binPrice" id="binPrice" placeholder="金額を入力">
-                        <div class="image-price-jpy">
-                            円
+                    <div class="col-12 row mt-1">
+                        <div class="col-4">
+                            <select class="auction-input" placeholder="dd" name="auctionEndDateH" id="auctionEndDateH">
+                            </select>
+                            <p class="auction-date">時</p>
+                            <input type="hidden" value="2" id="setAuctionEndDateH" />
                         </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="inputBinPrice" id="inputBinPrice"></div>
-                    </div>
-
-                    <div id="auction_datetime" class="d-none">
-                        <div class="col-12">
-                            <label for="auctionStartDate" class="label-text post-input-title mt-4">オークション開始日時</label>
+                        <div class="col-4">
+                            <select class="auction-input" placeholder="mm" name="auctionEndDateMin" id="auctionEndDateMin">
+                            </select>
+                            <p class="auction-date">分</p>
+                            <input type="hidden" value="2" id="setAuctionEndDateMin" />
                         </div>
-                        <div class="col-12 row mt-1">
-                            <div class="col-4">
-                                <select class="auction-input" placeholder="yyyy" name="auctionDateY" id="auctionDateY">
-                                </select>
-                                <p class="auction-date">年</p>
-                                <input type="hidden" value="<?php echo $tcd_membership_vars['setDataParams']['setAuctionDateY']; ?>" id="setAuctionDateY" />
-                            </div>
-                            <div class="col-4">
-                                <select class="auction-input" placeholder="mm" name="auctionDateM" id="auctionDateM">
-                                </select>
-                                <p class="auction-date">月</p>
-                                <input type="hidden" value="<?php echo $tcd_membership_vars['setDataParams']['setAuctionDateM']; ?>" id="setAuctionDateM" />
-                            </div>
-                            <div class="col-4">
-                                <select class="auction-input" placeholder="dd" name="auctionDateD" id="auctionDateD">
-                                </select>
-
-                                <p class="auction-date">日</p>
-                                <input type="hidden" value="2" id="setAuctionDateD" />
-                            </div>
-
-                        </div>
-                        <div class="col-12 row mt-1">
-                            <div class="col-4">
-                                <select class="auction-input" placeholder="dd" name="auctionDateD" id="auctionDateH">
-                                </select>
-                                <p class="auction-date">時</p>
-                                <input type="hidden" value="2" id="setAuctionDateH" />
-                            </div>
-                            <div class="col-4">
-                                <select class="auction-input" placeholder="mm" name="auctionDateMin" id="auctionDateMin">
-                                </select>
-                                <p class="auction-date">分</p>
-
-                                <input type="hidden" value="2" id="setAuctionDateMin" />
-
-                            </div>
-                            <div class="col-4">
-
-                            </div>
+                        <div class="col-4">
                         </div>
                         <div class="col-12">
-                            <div class="inputAppDeadline" id="inputAppDeadline"></div>
+                            <div class="error_message" id="errAuctionEnd"></div>
                         </div>
                         <div class="col-12 mt-3">
-                            <label for="auctionStartDate" class="label-text post-input-title mt-4">オークション終了日時</label>
+                            <label for="auctionStartDate" class="label-text post-input-title mt-4">オークション自動延長</label>
                         </div>
                         <div class="col-12 row">
-                            <div class="col-4">
-                                <select class="auction-input" placeholder="yyyy" name="auctionEndDateY" id="auctionEndDateY">
-                                </select>
-                                <p class="auction-date">年</p>
-                                <input type="hidden" value="2024" id="setAuctionEndDateY" />
+                            <div class="col-5 post-radio ml-2">
+                                <label><input type="radio" name="extendAuction" value="enableAutoExtend" id="enableAutoExtend" checked>あり</label>
                             </div>
-                            <div class="col-4">
-                                <select class="auction-input" placeholder="mm" name="auctionEndDateM" id="auctionEndDateM">
-                                </select>
-                                <p class="auction-date">月</p>
-                                <input type="hidden" value="2" id="setAuctionEndDateM" />
-                            </div>
-                            <div class="col-4">
-                                <select class="auction-input" placeholder="dd" name="auctionEndDateD" id="auctionEndDateD">
-                                </select>
-                                <p class="auction-date">日</p>
-                                <input type="hidden" value="2" id="setAuctionEndDateD" />
+                            <div class="col-5 post-radio ml-2">
+                                <label><input type="radio" name="extendAuction" value="disableAutoExtend" id="disableAutoExtend">なし</label>
                             </div>
                         </div>
-                        <div class="col-12 row">
-                            <div class="col-4">
-                                <select class="auction-input" placeholder="dd" name="auctionDateD" id="auctionEndDateH">
-                                </select>
-                                <p class="auction-date">時</p>
-                                <input type="hidden" value="2" id="setAuctionEndDateH" />
-                            </div>
-                            <div class="col-4">
-                                <select class="auction-input" placeholder="mm" name="auctionEndDateMin" id="auctionEndDateMin">
-                                </select>
-                                <p class="auction-date">分</p>
-                                <input type="hidden" value="2" id="setAuctionEndDateMin" />
-                            </div>
-                            <div class="col-4">
-                            </div>
-                            <div class="col-12">
-                                <div class="inputAuctionEnd" id="inputAuctionEnd"></div>
-                            </div>
-                            <div class="col-12 mt-3">
-                                <label for="auctionStartDate" class="label-text post-input-title mt-4">オークション自動延長</label>
-                            </div>
-                            <div class="col-12 row">
-                                <div class="col-5 post-radio ml-2">
-                                    <label><input type="radio" name="extendAuction" value="enableAutoExtend" id="enableAutoExtend" checked>あり</label>
-                                </div>
-                                <div class="col-5 post-radio ml-2">
-                                    <label><input type="radio" name="extendAuction" value="disableAutoExtend" id="disableAutoExtend">なし</label>
-                                </div>
-                            </div>
-                            <p class="auction-notes">※終了5分前に入札されると、5分延長されます。</p>
-                        </div>
-                    </div>
-                    <!-- オークションなし形式フォーム -->
-                    <div class="notholdauctionSection selectAuctionsection">
-                        <div class="col-12">
-                            <label for="imagePrice" class="label-text post-input-title mt-4">販売価格（必須）</label>
-                        </div>
-                        <div class="col-11">
-                            <input class="form-control post-input image-price-input" type="number" name="imagePrice" id="imagePrice" placeholder="金額を入力">
-                            <div class="image-price-jpy">
-                                円
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="inputImagePrice" id="inputImagePrice"></div>
-                        </div>
-                        <div class="col-12">
-                            <p class="commission-title">手数料差し引き残額</p>
-                            <p class="commission-price">0円</p>
-                        </div>
+                        <p class="auction-notes">※終了5分前に入札されると、5分延長されます。</p>
                     </div>
                 </div>
-
-                <!-- 販売しない形式フォーム-->
-                <div class="col-12 notForSaleSection saleTypeSection">
-                </div>
-
-                <div class="termsSection saleTypeSection">
-                    <div class="col-12 text-center">
-                        <input class="form-check-input" type="checkbox" value="1" id="postTermsCheck" name="postTermsCheck">
-                        <label class="form-check-label post-terms-check pb-2" for="postTermsCheck">
-                            <p class="agree">利用規約に同意する</p>
-                        </label>
-                    </div>
-                </div>
-                <input type="hidden" id="file-data"      name="file_data"     value="0" />
             </div>
+
+            <!-- 画像投稿ボタン -->
             <div class="col-12 text-center mt-3 mb-5">
                 <button type="submit" class="btn btn-primary text-white submit-btn" id="postBtn" disabled>画像投稿</button>
             </div>
         </div>
+
         <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd-membership-post_image')); ?>">
+        <input type="hidden" id="file-data" name="file_data" value="0" />
     </form>
 </div>
 
