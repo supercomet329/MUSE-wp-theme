@@ -2589,7 +2589,7 @@
         @media only screen and (max-width: 480px) {
             .after-icon {
                 position: absolute;
-                top: 10px;
+                top: 8px;
             }
             .ranking-table th:nth-child(4),
             .ranking-table th:nth-child(5),
