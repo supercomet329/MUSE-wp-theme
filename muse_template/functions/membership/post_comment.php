@@ -6,7 +6,6 @@
 function tcd_membership_action_post_comment()
 {
     global $tcd_membership_vars;
-    var_dump(__LINE__);exit;
 
     // $_REQUESTでのpost_idの取得
         // 取得できない場合 => トップページにリダイレクト
@@ -35,6 +34,7 @@ function tcd_membership_action_post_comment()
     // 画像のコメント一覧の取得(wp_comments)
 
     // テンプレートの設定
+    $tcd_membership_vars['template']  = 'muse_post_comment';
 
     // 渡す値の対応
 
