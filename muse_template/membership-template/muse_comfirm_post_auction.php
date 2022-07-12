@@ -34,7 +34,7 @@ get_header();
                         <?php } ?>
                     </div>
                 </div>
-                <p class="mb-0 mt-3 text-right"><a class="text-dark" href="post_img_comment.html">…</a></p>
+                <p class="mb-0 mt-3 text-right"><a class="text-dark" href="<?php echo esc_url(get_tcd_membership_memberpage_url('post_comment')); ?>&post_id=<?php echo esc_attr($tcd_membership_vars['post_id']); ?>">…</a></p>
             </div>
             <div class="logo-area col-6">
                 <?php
