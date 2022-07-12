@@ -17,19 +17,41 @@ get_header();
         <div class="col-12 mb-4 confirm-image-area">
             <div class="my-2 slid-img swiper swipertum">
                 <div class="swiper-wrapper d-flex align-items-center">
-                    <div class="swiper-slide"><a href="post_img_comment.html"><img class="img-fluid mx-auto" src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_85053177_M.jpg" /></a></div>
-                    <div class="swiper-slide"><a href="post_img_comment.html"><img class="img-fluid mx-auto" src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_27669641_M.jpg" /></a></div>
+                    <?php foreach ($tcd_membership_vars['post_image_array'] as $post_image_one) { ?>
+                        <div class="swiper-slide">
+                            <a href="post_img_comment.html">
+                                <img class="img-fluid mx-auto" src="<?php echo esc_url($post_image_one); ?>" />
+                            </a>
+                        </div>
+                    <?php }
+                    /** endforeach */ ?>
                 </div>
             </div>
             <div class="swiper slid-list swiperlist">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_85053177_M.jpg" /></div>
-                    <div class="swiper-slide"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_27669641_M.jpg" /></div>
+                    <?php if (count($tcd_membership_vars['post_image_array']) > 1) { ?>
+                        <?php foreach ($tcd_membership_vars['post_image_array'] as $post_image_one) { ?>
+
+                            <div class="swiper-slide">
+                                <img src="<?php echo esc_url($post_image_one); ?>" />
+                            </div>
+                        <?php }
+                        /** endforeach */ ?>
+                    <?php }
+                    /** endif */ ?>
                 </div>
             </div>
         </div>
         <div class="logo-area">
-            <img class="float-left" src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/iine_on.png" alt="iine">
+            <?php
+            $like_image = 'iine.png';
+            if (is_liked($tcd_membership_vars['post_id'], false)) {
+                $like_image = 'iine_on.png';
+            }
+            ?>
+            <img class="float-left" src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/<?php echo $like_image; ?>" alt="iine">
+
+            <!-- TODO: 投げ銭対応の時に対応 -->
             <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/social_tipping_on.png" alt="social_tipping_on">
         </div>
         <div class="col-12">
@@ -39,52 +61,45 @@ get_header();
             メッセージ
         </div>
         <div class="col-12">
-            <div class="row my-3">
-                <div class="col-3 col-sm-2 col-lg-1 pr-0">
-                    <img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_64747350_M.jpg" class="rounded-circle" width="60" height="60">
-                </div>
-                <div class="col-8 col-sm-9 col-lg-10 bg-gray p-2 rounded">
-                    <div class="row">
-                        <div class="col-12 msg-detail">
-                            <span class="mr-2 msg-name font-weight-bold">UserName</span>
-                            <span class="msg-date">2022/04/11 16:30</span>
-                        </div>
+            <?php foreach ($tcd_membership_vars['comment'] as $one_comment) { ?>
+                <div class="row my-3">
+                    <div class="col-3 col-sm-2 col-lg-1 pr-0">
+                        <img src="<?php echo esc_url($one_comment['profile_image']); ?>" class="rounded-circle" width="60" height="60">
                     </div>
-                    <div class="row">
-                        <div class="col-12 msg">
-                            <p class="mb-0">よろしくお願いします。よろしくお願いします。よろしくお願いします。よろしくお願いします。よろしくお願いします。よろしくお願いします。よろしくお願いします。よろしくお願いします。</p>
+                    <div class="col-8 col-sm-9 col-lg-10 bg-gray p-2 rounded">
+                        <div class="row">
+                            <div class="col-12 msg-detail">
+                                <span class="mr-2 msg-name font-weight-bold">
+                                    <?php echo esc_attr($one_comment['display_name']); ?>
+                                </span>
+                                <span class="msg-date"><?php echo esc_attr($one_comment['date']); ?></span>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row my-3">
-                <div class="col-3 col-sm-2 col-lg-1 pr-0">
-                    <img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_64747350_M.jpg" class="rounded-circle" width="60" height="60">
-                </div>
-                <div class="col-8 col-sm-9 col-lg-10 bg-gray p-2 rounded">
-                    <div class="row">
-                        <div class="col-12 msg-detail">
-                            <span class="mr-2 msg-name font-weight-bold">UserName</span>
-                            <span class="msg-date">2022/04/11 16:30</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12 msg">
-                            <p class="mb-0">よろしくお願いします。</p>
+                        <div class="row">
+                            <div class="col-12 msg">
+                                <p class="mb-0">
+                                    <?php echo nl2br($one_comment['comment']); ?>
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            <?php }
+            /** endforeach */ ?>
         </div>
-        <div class="col-12 my-3">
-            <form class="mx-1" action="POST">
-                <textarea class="form-control" rows="6" placeholder="ここにメッセージを入力"></textarea>
-                <div class="my-3 text-center">
-                    <button type="submit" class="btn btn-primary text-white" id="msg-btn">メッセージ送信</button>
-                </div>
-            </form>
-        </div>
-
+        <?php if ($tcd_membership_vars['flg_submit_flag'] === TRUE) { ?>
+            <div class="col-12 my-3">
+                <form class="mx-1" action="POST" action="<?php echo esc_url(get_tcd_membership_memberpage_url('post_comment')); ?>); ?>">
+                    <textarea name="message" class="form-control" rows="6" placeholder="ここにメッセージを入力"></textarea>
+                    <div class="my-3 text-center">
+                        <button type="submit" class="btn btn-primary text-white" id="msg-btn">メッセージ送信</button>
+                    </div>
+                    <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd_membership_action-post_comment')); ?>">
+                    <input type="hidden" name="post_id" value="<?php echo esc_attr($tcd_membership_vars['post_id']); ?>">
+                </form>
+            </div>
+        <?php }
+        /** endif */ ?>
     </div>
 </div>
 <!-- Swiper JS -->
