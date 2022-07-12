@@ -117,18 +117,18 @@ get_header();
             <?php if (get_current_user_id() == $user_id) { ?>
                 <div class="row">
                     <div class="col-6 float-right font-weight-bold text-left">
-                        <p class="mb-0">売上預金</p>
+                        <p class="mb-0 text-nowrap">売上預金</p>
                     </div>
                     <div class="col-6 float-right font-weight-bold text-right">
-                        <p class="mb-0">￥1,000,000-</p>
+                        <p class="mb-0 text-nowrap">￥1,000,000-</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-6 float-right font-weight-bold text-left">
-                        <p class="mb-0">NFT時価総額</p>
+                        <p class="mb-0 text-nowrap">NFT時価総額</p>
                     </div>
                     <div class="col-6 float-right font-weight-bold text-right">
-                        <p class="mb-0">￥2,000,000-</p>
+                        <p class="mb-0 text-nowrap">￥2,000,000-</p>
                     </div>
                 </div>
             <?php } ?>
