@@ -447,9 +447,12 @@ jQuery(function($) {
 
 /**
  * 作品依頼（通常依頼）提案ページ
+ * request.html
  */
 // ファイルが選択された際、ファイル名を表示
 jQuery('#requestFile').on('change', function() {
+
+    var $ = jQuery.noConflict();
     // 添付されたファイルを取得
     var selectedFile = $(this).prop('files')[0];
     // ファイルが存在している場合
@@ -470,7 +473,89 @@ jQuery('#requestFile').on('change', function() {
     }
     // 必須項目のチェック
     checkRequestInput();
+
 });
+
+/**
+ * セレクトボックスの生成
+ */
+function selRequestSelBox() {
+
+    var nowYear = new Date().getFullYear();
+    var setAppDeadlineY = jQuery('#hideAppDeadlineY').val();
+    var htmlAppDeadlineY = '';
+
+    htmlAppDeadlineY += '<option value=""></option>';
+    for (var year = nowYear; year < nowYear + 3; year++) {
+        if (year == setAppDeadlineY) {
+            htmlAppDeadlineY += '<option value="' + year + '" selected>' + year + '</option>';
+        } else {
+            htmlAppDeadlineY += '<option value="' + year + '">' + year + '</option>';
+        }
+    }
+    jQuery('#appDeadlineY').html(htmlAppDeadlineY);
+
+    var setAppDeadlineM = jQuery('#hideAppDeadlineM').val();
+    var htmlAppDeadlineM = '';
+    htmlAppDeadlineY += '<option value=""></option>';
+    for (var month = 1; month < 12; month++) {
+        if (month == setAppDeadlineM) {
+            htmlAppDeadlineM += '<option value="' + month + '" selected>' + month + '</option>';
+        } else {
+            htmlAppDeadlineM += '<option value="' + month + '">' + month + '</option>';
+        }
+    }
+    jQuery('#appDeadlineM').html(htmlAppDeadlineM);
+
+    var setAppDeadlineD = jQuery('#hideAppDeadlineD').val();
+    var htmlAppDeadlineD = '';
+    htmlAppDeadlineD += '<option value="" selected></option>';
+    for (var day = 1; day <= 31; day++) {
+        if (day == setAppDeadlineD) {
+            htmlAppDeadlineD += '<option value="' + day + '" selected>' + day + '</option>';
+        } else {
+            htmlAppDeadlineD += '<option value="' + day + '">' + day + '</option>';
+        }
+    }
+    jQuery('#appDeadlineD').html(htmlAppDeadlineD);
+
+    var setDesiredDateY = jQuery('#hideDesiredDateY').val();
+    var htmlDesiredDateY = '';
+    htmlDesiredDateY += '<option value=""></option>';
+    for (var year = nowYear; year < nowYear + 3; year++) {
+        if (year == setDesiredDateY) {
+            htmlDesiredDateY += '<option value="' + year + '" selected>' + year + '</option>';
+        } else {
+            htmlDesiredDateY += '<option value="' + year + '">' + year + '</option>';
+        }
+    }
+    jQuery('#desiredDateY').html(htmlDesiredDateY);
+
+    var setDesiredDateM = jQuery('#hideDesiredDateM').val();
+    var htmlDesiredDateM = '';
+    htmlDesiredDateM += '<option value=""></option>';
+    for (var month = 1; month < 12; month++) {
+        if (month == setDesiredDateM) {
+            htmlDesiredDateM += '<option value="' + month + '" selected>' + month + '</option>';
+        } else {
+            htmlDesiredDateM += '<option value="' + month + '">' + month + '</option>';
+        }
+    }
+    jQuery('#desiredDateM').html(htmlDesiredDateM);
+
+    var setDesiredDateD = jQuery('#hideDesiredDateD').val();
+    var htmlDesiredDateD = '';
+    htmlDesiredDateD += '<option value=""></option>';
+    for (var day = 1; day <= 31; day++) {
+        if (day == setDesiredDateD) {
+            htmlDesiredDateD += '<option value="' + day + '" selected>' + day + '</option>';
+        } else {
+            htmlDesiredDateD += '<option value="' + day + '">' + day + '</option>';
+        }
+    }
+    jQuery('#desiredDateD').html(htmlDesiredDateD);
+}
+
 /**
  * 作品依頼（通常依頼）提案ページ
  */
@@ -536,6 +621,7 @@ jQuery(function($) {
         checkRequestInput();
         typeAppDeadlineMsg();
     });
+    selRequestSelBox();
 });
 
 // 入力項目を確認し、依頼投稿確認ボタン有効化/無効化切り替え
@@ -552,7 +638,7 @@ function checkRequestInput() {
     var flagRequestFile = false;
     var flagRefUrl = false;
     var flagBudget = false;
-    var flagAppDeadline = false;
+    var flagAppDeadline = true;
 
     // 依頼タイトルの値取得
     var requestTitleVal = jQuery('#requestTitle').val();
@@ -661,43 +747,6 @@ function checkRequestInput() {
         }
     }
 
-    // 応募期限（年）が入力されている場合
-    if (appDeadlineYVal.length > 0) {
-        // 年のフォーマットを確認
-        yearValidated = validateYear(appDeadlineYVal);
-        if (yearValidated === true) {
-            // 年のフォーマットが正しい場合、エラーメッセージを非表示
-            jQuery('#dateFormatYErrMsg').hide();
-            // 応募期限（月）が入力されている場合
-            if (appDeadlineMVal.length > 0) {
-                // 月のフォーマットを確認
-                monthValidated = validateMonth(appDeadlineMVal);
-                if (monthValidated === true) {
-                    // 月のフォーマットが正しい場合、エラーメッセージを非表示
-                    jQuery('#dateFormatMErrMsg').hide();
-                    // 応募期限（日）が入力されている場合
-                    if (appDeadlineDVal.length > 0) {
-                        // 日のフォーマットを確認
-                        dayValidated = validateDay(appDeadlineDVal);
-                        if (dayValidated === true) {
-                            // 日のフォーマットが正しい場合、エラーメッセージを非表示
-                            jQuery('#dateFormatDErrMsg').hide();
-                            // 応募期限フラグをtrueに設定
-                            flagAppDeadline = true;
-                            // 年月日が設定されている場合、エラーメッセージを非表示
-                            jQuery('#inputAppDeadlineMsg').hide();
-                        } else {
-                            dateFormatDInvalidMsg();
-                        }
-                    }
-                } else {
-                    dateFormatMInvalidMsg();
-                }
-            }
-        } else {
-            dateFormatYInvalidMsg();
-        }
-    }
 
     // 入力項目の値が正しい場合、新規登録ボタンを有効化
     if (flagRequestTitle === true && flagWorkTitle === true && flagText === true && flagComposition === true && flagCharacter === true && flagRefUrl === true && flagBudget === true && flagAppDeadline === true && flagRequestFile === true) {
