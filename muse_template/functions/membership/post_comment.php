@@ -23,6 +23,7 @@ function tcd_membership_action_post_comment()
     // 投稿ボタンの表示 / 非表示
     $flg_submit_flag = false;
     if ((int)$user_id > 0) {
+        // user_idが取得できる場合は投稿ボタンを表示
         $flg_submit_flag = true;
     }
     $tcd_membership_vars['flg_submit_flag']  = $flg_submit_flag;
@@ -35,9 +36,10 @@ function tcd_membership_action_post_comment()
             // 文字列のバリデート
             if (isset($_POST['message']) && !empty($_POST['message'])) {
 
-
+                // 投稿者のIPアドレスを取得
                 $ip = $_SERVER['REMOTE_ADDR'];
                 if(isset($_SERVER['HTTP_X_FORWARDED_FOR']) && !empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+                    // WAF使っていた時とかの対応
                     $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
                 }
 
