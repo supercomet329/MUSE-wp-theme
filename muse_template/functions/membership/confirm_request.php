@@ -110,13 +110,18 @@ function tcd_membership_action_confirm_request()
     $specifyUser = false;
     $specifyUserData  = get_post_meta($request_id, 'specify_user_id');
     if (!empty($specifyUserData)) {
-        $specifyUser = $specifyUserData[0];
+        if ((int)$specifyUserData[0] === (int)get_current_user_id()) {
+            $specifyUser = $specifyUserData[0];
+        } else {
+            wp_redirect('/');
+            exit();
+        }
     }
-
     $tcd_membership_vars['specifyUser'] = $specifyUser;
 
     // POSTされた場合
     $error_messages = [];
+    $viewFlag = false;
     if ('POST' == $_SERVER['REQUEST_METHOD']) {
 
         if (!empty($_POST['nonce']) || wp_verify_nonce($_POST['nonce'], 'tcd-membership-confirm_message-' . $request_id)) {
@@ -350,8 +355,16 @@ function tcd_membership_action_confirm_request()
     if ($comment_flag === TRUE) {
         // 受注されている時のみコメントを表示
         $comments = listCommentByPostId($request_id);
+        $viewFlag = true;
     }
     $tcd_membership_vars['comments'] = $comments;
+
+    if ($specifyUser !== FALSE || $comment_flag === TRUE) {
+        if ((int)$specifyUser === (int)get_current_user_id()) {
+            $viewFlag = true;
+        }
+    }
+    $tcd_membership_vars['viewFlag'] = $viewFlag;
 }
 add_action('tcd_membership_action-confirm_request', 'tcd_membership_action_confirm_request');
 

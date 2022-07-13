@@ -10,6 +10,7 @@ get_header();
     </div>
     <div class="row">
         <div class="col-12 item-text mb-2">
+
             <?php echo esc_attr($tcd_membership_vars['title']); ?>
         </div>
         <div class="mb-2 col-8 d-flex justify-content-start text-center">
@@ -57,12 +58,14 @@ get_header();
             <div class="tab-pane active" id="contents" role="tabpanel" aria-labelledby="contents-tab">
                 <div class="container">
                     <div class="row">
-                        <div class="col-12 mt-2 item-text border-bottom-solid ">
-                            依頼タイトル
-                        </div>
-                        <div class="col-12 mt-1 ">
-                            <?php echo esc_attr($tcd_membership_vars['workTitle']); ?>
-                        </div>
+                        <?php if ($tcd_membership_vars['viewFlag'] === TRUE) { ?>
+                            <div class="col-12 mt-2 item-text border-bottom-solid ">
+                                依頼タイトル
+                            </div>
+                            <div class="col-12 mt-1 ">
+                                <?php echo esc_attr($tcd_membership_vars['workTitle']); ?>
+                            </div>
+                        <?php } ?>
                         <div class="col-12 mt-4 item-text border-bottom-solid ">
                             本文
                         </div>
@@ -75,18 +78,21 @@ get_header();
                         <div class="col-12 mt-1 ">
                             <?php echo nl2br($tcd_membership_vars['composition']); ?>
                         </div>
-                        <div class="col-12 mt-4 item-text border-bottom-solid ">
-                            キャラクター
-                        </div>
-                        <div class="col-12 mt-1 ">
-                            <?php echo nl2br($tcd_membership_vars['character']); ?>
-                        </div>
-                        <div class="col-12 mt-4 item-text border-bottom-solid">
-                            受付依頼数
-                        </div>
-                        <div class="col-12 mt-1">
-                            <?php echo nl2br($tcd_membership_vars['orderQuantity']); ?>件
-                        </div>
+                        <?php if ($tcd_membership_vars['viewFlag'] === TRUE) { ?>
+                            <div class="col-12 mt-4 item-text border-bottom-solid ">
+                                キャラクター
+                            </div>
+                            <div class="col-12 mt-1 ">
+                                <?php echo nl2br($tcd_membership_vars['character']); ?>
+                            </div>
+                            <div class="col-12 mt-4 item-text border-bottom-solid">
+                                受付依頼数
+                            </div>
+                            <div class="col-12 mt-1">
+                                <?php echo nl2br($tcd_membership_vars['orderQuantity']); ?>件
+                            </div>
+                        <?php } ?>
+
                         <?php if ($tcd_membership_vars['comment_flag'] === FALSE && $tcd_membership_vars['my_order_flag'] === TRUE) { ?>
                             <div class="col-12 mt-4 mt-xl-4 pt-xl-3 mb-5 text-center">
                                 <form action="<?php echo get_tcd_membership_memberpage_url('confirm_request'); ?>" method="POST">
@@ -141,18 +147,21 @@ get_header();
             <div class="tab-pane" id="budgets" role="tabpanel" aria-labelledby="budgets-tab">
                 <div class="container block">
                     <div class="row">
-                        <div class="col-12 mt-2 item-text border-bottom-solid">
-                            予算
-                        </div>
-                        <div class="col-12 mt-1">
-                            <?php echo esc_attr($tcd_membership_vars['budget']); ?>
-                        </div>
-                        <div class="col-12 mt-4 item-text border-bottom-solid">
-                            応募期限
-                        </div>
-                        <div class="col-12 mt-1">
-                            <?php echo esc_attr($tcd_membership_vars['app_deadline_date']); ?>
-                        </div>
+                        <?php if ($tcd_membership_vars['viewFlag'] === TRUE) { ?>
+
+                            <div class="col-12 mt-2 item-text border-bottom-solid">
+                                予算
+                            </div>
+                            <div class="col-12 mt-1">
+                                <?php echo esc_attr($tcd_membership_vars['budget']); ?>
+                            </div>
+                            <div class="col-12 mt-4 item-text border-bottom-solid">
+                                応募期限
+                            </div>
+                            <div class="col-12 mt-1">
+                                <?php echo esc_attr($tcd_membership_vars['app_deadline_date']); ?>
+                            </div>
+                        <?php } ?>
                         <?php if (!empty($tcd_membership_vars['desired_date'])) { ?>
                             <div class="col-12 mt-4 item-text border-bottom-solid">
                                 納品希望日
