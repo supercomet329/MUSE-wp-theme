@@ -69,7 +69,7 @@ get_template_part( 'functions/membership/follows' );
 get_template_part( 'functions/membership/followers' );
 // get_template_part( 'functions/membership/likes' );
 get_template_part( 'functions/membership/request' );
-get_template_part( 'functions/membership/comfirm_request' );
+get_template_part( 'functions/membership/confirm_request' );
 get_template_part( 'functions/membership/order_search' );
 get_template_part( 'functions/membership/list_received' );
 // get_template_part( 'functions/membership/confirm_received' );

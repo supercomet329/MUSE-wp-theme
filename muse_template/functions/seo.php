@@ -169,7 +169,7 @@ function seo_title($title)
 					$title['title'] = $site_title . ' | ' . sprintf(__('メッセージ詳細', 'tcd-w'));
 				}
 				break;
-			case 'comfirm_request':
+			case 'confirm_request':
 				// 依頼詳細
 				$postData = get_post($tcd_membership_vars['requestData']['post_id']);
 				$title['title'] = $site_title . ' | ' . sprintf(__('依頼詳細 | %s', 'tcd-w'), $postData->post_title);

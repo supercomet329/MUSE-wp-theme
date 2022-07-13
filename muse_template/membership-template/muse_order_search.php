@@ -39,7 +39,7 @@ get_header();
         }
     ?>
         <div class="col-12 request-area mt-3">
-            <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('comfirm_request')); ?>&request_id=<?php echo $one_order->post_id; ?>">
+            <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('confirm_request')); ?>&request_id=<?php echo $one_order->post_id; ?>">
                 <div class="request-title font-weight-bold mt-3 mb-2">
                     <?php echo esc_attr($one_order->post_title); ?>
                 </div>

@@ -61,7 +61,7 @@ get_header();
                             依頼タイトル
                         </div>
                         <div class="col-12 mt-1 ">
-                            <?php echo esc_attr($tcd_membership_vars['title']); ?>
+                            <?php echo esc_attr($tcd_membership_vars['workTitle']); ?>
                         </div>
                         <div class="col-12 mt-4 item-text border-bottom-solid ">
                             本文
@@ -89,7 +89,7 @@ get_header();
                         </div>
                         <?php if ($tcd_membership_vars['comment_flag'] === FALSE && $tcd_membership_vars['my_order_flag'] === TRUE) { ?>
                             <div class="col-12 mt-4 mt-xl-4 pt-xl-3 mb-5 text-center">
-                                <form action="<?php echo get_tcd_membership_memberpage_url('comfirm_request'); ?>" method="POST">
+                                <form action="<?php echo get_tcd_membership_memberpage_url('confirm_request'); ?>" method="POST">
                                     <button type="submit" class="btn text-white save-btn">依頼を受ける</button>
                                     <input type="hidden" name="request_type" value='received' />
                                     <input type="hidden" name="request_id" value='<?php echo esc_attr($tcd_membership_vars['request_id']); ?>' />
@@ -126,7 +126,7 @@ get_header();
                         /** endif */ ?>
                         <?php if ($tcd_membership_vars['comment_flag'] === FALSE && $tcd_membership_vars['my_order_flag'] === TRUE) { ?>
                             <div class="col-12 mt-4 mt-xl-4 pt-xl-3 mb-5 text-center">
-                                <form action="<?php echo get_tcd_membership_memberpage_url('comfirm_request'); ?>" method="POST">
+                                <form action="<?php echo get_tcd_membership_memberpage_url('confirm_request'); ?>" method="POST">
                                     <button type="submit" class="btn text-white save-btn">依頼を受ける</button>
                                     <input type="hidden" name="request_type" value='received' />
                                     <input type="hidden" name="request_id" value='<?php echo esc_attr($tcd_membership_vars['request_id']); ?>' />
@@ -164,7 +164,7 @@ get_header();
                         /** endif */ ?>
                         <?php if ($tcd_membership_vars['comment_flag'] === FALSE && $tcd_membership_vars['my_order_flag'] === TRUE) { ?>
                             <div class="col-12 mt-4 mt-xl-4 pt-xl-3 mb-5 text-center">
-                                <form action="<?php echo get_tcd_membership_memberpage_url('comfirm_request'); ?>" method="POST">
+                                <form action="<?php echo get_tcd_membership_memberpage_url('confirm_request'); ?>" method="POST">
                                     <button type="submit" class="btn text-white save-btn">依頼を受ける</button>
                                     <input type="hidden" name="request_type" value='received' />
                                     <input type="hidden" name="request_id" value='<?php echo esc_attr($tcd_membership_vars['request_id']); ?>' />
@@ -211,7 +211,7 @@ get_header();
                         /** endforeach */ ?>
                     </div>
 
-                    <form action="<?php echo get_tcd_membership_memberpage_url('comfirm_request'); ?>" method="POST">
+                    <form action="<?php echo get_tcd_membership_memberpage_url('confirm_request'); ?>" method="POST">
                         <div class="col-12 mt-5 text-center">
                             <textarea name="comment" rows="3" id="chat_input" class="w-100 border border-0 request-comment"></textarea>
                         </div>
