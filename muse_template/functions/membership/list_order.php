@@ -95,23 +95,23 @@ function lisetOrder($sort, $search_txt, $sel_up_budget, $sel_down_budget, $sel_l
     $sql .= ' AND wp_posts.post_status = \'publish\'';
     $sql .= ' AND NOT EXISTS(';
     $sql .= ' SELECT * 
-				FROM wp_tcd_membership_actions 
-				WHERE 
-					wp_tcd_membership_actions.post_id = wp_posts.ID 
-				AND 
-					wp_tcd_membership_actions.type = \'received\' 
-				';
+            FROM wp_tcd_membership_actions 
+            WHERE 
+                wp_tcd_membership_actions.post_id = wp_posts.ID 
+            AND 
+                wp_tcd_membership_actions.type = \'received\' 
+            ';
     $sql .= ' ) ';
     $sql .= ' AND EXISTS(';
-    $sql .= ' 	SELECT * 
-				FROM wp_postmeta 
-				WHERE 
-					wp_postmeta.post_id = wp_posts.ID 
-				AND 
-					wp_postmeta.meta_key = \'appDeadlineDate\' 
-				AND 
-					wp_postmeta.meta_value > NOW()
-	';
+    $sql .= ' SELECT * 
+            FROM wp_postmeta 
+            WHERE 
+                wp_postmeta.post_id = wp_posts.ID 
+            AND 
+                wp_postmeta.meta_key = \'appDeadlineDate\' 
+            AND 
+                wp_postmeta.meta_value > NOW()
+    ';
     $sql .= ')';
 
     if (!empty($sel_up_budget)) {
