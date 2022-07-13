@@ -93,6 +93,10 @@
         background: #3c7fc3;
     }
     
+    .request-comment {
+        background-color: #e0e0e0;
+    }
+    
     footer img {
         width: 60px;
         height: 60px;

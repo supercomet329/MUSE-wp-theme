@@ -1,283 +1,240 @@
 <?php
 global $dp_options, $tcd_membership_vars;
-
 get_header();
 ?>
-<form method="POST">
-    <div class="container request_show">
-        <div class="row">
-            <div class="mt-4 col-12 item-text">
-                <?php echo esc_attr($tcd_membership_vars['requestData']['post_name']); ?>
-            </div>
-            <div class="mt-4 mb-2 col-12 d-flex justify-content-start text-center">
-                <img src="<?php echo esc_url($tcd_membership_vars['requestData']['profile_image']); ?>" alt="profile" class="rounded-circle" width="50">
-                <span class="font-weight-bold mr-auto"><?php echo esc_attr($tcd_membership_vars['requestData']['display_name']); ?></span>
-                <div class="w-25">
-                    <?php if ($tcd_membership_vars['requestData']['viewReceivedButton']) { ?>
-                        <div class="border rounded-pill py-1 px-1 f-size-10 font-weight-bold keep_off">
-                            <?php if (is_keep($tcd_membership_vars['requestData']['post_id'])) { ?>
-                                <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/keep_on.png" alt="keep-off" class="js-toggle-keep keep-on" data-post-id="<?php echo $tcd_membership_vars['requestData']['post_id']; ?>">
-                            <?php } else { ?>
-                                <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/keep_off.png" alt="keep-off" class="js-toggle-keep keep-on" data-post-id="<?php echo $tcd_membership_vars['requestData']['post_id']; ?>">
-                            <?php }
-                            /** endif */ ?>
+<div class="container pt-2 request_show">
+    <div class="row mb-2">
+        <div class="col-12">
+            <a href="javascript:history.back();">← 戻る</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 item-text mb-2">
+            <?php echo esc_attr($tcd_membership_vars['title']); ?>
+        </div>
+        <div class="mb-2 col-8 d-flex justify-content-start text-center">
+            <img src="<?php echo esc_url($tcd_membership_vars['profile_image']); ?>" alt="profile" class="rounded-circle" width="50">
+            <span class="font-weight-bold mr-auto">
+                <?php echo esc_attr($tcd_membership_vars['display_name']); ?>
+            </span>
+        </div>
+        <div class="col-4 my-auto">
+            <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('page_report')); ?>&request_id=<?php echo esc_attr($tcd_membership_vars['request_id']); ?>" class="btn btn-primary text-white rounded-pill btn-sm text-white btn-lg main-color float-right">通報する</a>
+        </div>
+    </div>
+    <div class="row d-flex justify-content-center">
+        <div class="col-12 tab-area text-center pt-1 pb-1 ml-1 mr-2">
+            <ul class="nav nav-pills nav-fill custom-nav" id="horizontal_list" role="tablist">
+                <li class="nav-item each-tab mx-2">
+                    <a class="nav-link active btn text-white" id="contents-tab" data-toggle="tab" href="#contents" role="tab" aria-controls="contents" aria-selected="true">
+                        <div class="mx-auto">依頼内容</div>
+                    </a>
+                </li>
+                <li class="nav-item each-tab mx-2">
+                    <a class="nav-link btn text-white not-selected-tab" id="files-tab" data-toggle="tab" href="#files" role="tab" aria-controls="files" aria-selected="false">
+                        <div class="mx-auto">添付ファイル<br>参考URL</div>
+                    </a>
+                </li>
+                <li class="nav-item each-tab mx-2">
+                    <a class="nav-link btn text-white not-selected-tab" id="budgets-tab" data-toggle="tab" href="#budgets" role="tab" aria-controls="budgets" aria-selected="false">
+                        <div class="mx-auto">予算<br>納品希望日</div>
+                    </a>
+                </li>
+                <?php if ($tcd_membership_vars['comment_flag'] === TRUE) { ?>
+                    <li class="nav-item each-tab mx-2">
+                        <a class="nav-link btn text-white not-selected-tab" id="comments-tab" data-toggle="tab" href="#comments" role="tab" aria-controls="comments" aria-selected="false">
+                            <div class="mx-auto">コメント</div>
+                        </a>
+                    </li>
+                <?php }
+                /** endif */ ?>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="tab-content w-100">
+            <div class="tab-pane active" id="contents" role="tabpanel" aria-labelledby="contents-tab">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 mt-2 item-text border-bottom-solid ">
+                            依頼タイトル
                         </div>
-                    <?php }
-                    /** endif */ ?>
-
-                </div>
-            </div>
-            <div class="tab-area">
-                <ul class="nav nav-tabs tab-menu d-flex justify-content-between" id="horizontal_list" role="tablist">
-                    <li class="nav-item item mt-auto mb-auto py-1 pl-2">
-                        <a class="nav-link active small font-weight-bold rounded-pill" id="contents-tab" data-toggle="tab" href="#contents" role="tab" aria-controls="contents" aria-selected="true">依頼内容</a>
-                    </li>
-                    <li class="nav-item mt-auto mb-auto py-1">
-                        <a class="nav-link small font-weight-bold rounded-pill" id="files-tab" data-toggle="tab" href="#files" role="tab" aria-controls="files" aria-selected="false">添付ファイル<br>参考URL</span></a>
-                    </li>
-                    <li class="nav-item mt-auto mb-auto py-1">
-                        <a class="nav-link small font-weight-bold rounded-pill" id="budgets-tab" data-toggle="tab" href="#budgets" role="tab" aria-controls="budgets" aria-selected="false">予算<br>納品希望日</a>
-                    </li>
-                    <li class="nav-item mt-auto mb-auto py-1 pr-2">
-                        <a class="nav-link small font-weight-bold rounded-pill" id="comments-tab" data-toggle="tab" href="#comments" role="tab" aria-controls="comments" aria-selected="false">コメント</a>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="tab-content w-100">
-
-                <div class="tab-pane active" id="contents" role="tabpanel" aria-labelledby="contents-tab">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-12 mt-4 item-text border-bottom-solid ">
-                                依頼タイトル
-                            </div>
-                            <div class="col-12 mt-1 ">
-                                <?php echo esc_attr($tcd_membership_vars['requestData']['title']); ?>
-                            </div>
-                            <div class="col-12 mt-4 item-text border-bottom-solid ">
-                                本文
-                            </div>
-                            <div class="col-12 mt-1 ">
-                                <?php echo nl2br($tcd_membership_vars['requestData']['content']); ?>
-                            </div>
-                            <div class="col-12 mt-4 item-text border-bottom-solid ">
-                                構図
-                            </div>
-                            <div class="col-12 mt-1 ">
-                                <?php echo nl2br($tcd_membership_vars['requestData']['composition']); ?>
-                            </div>
-                            <div class="col-12 mt-4 item-text border-bottom-solid ">
-                                キャラクター
-                            </div>
-                            <div class="col-12 mt-1 ">
-                                <?php echo nl2br($tcd_membership_vars['requestData']['character']); ?>
-                            </div>
-                            <div class="col-12 mt-4 item-text border-bottom-solid">
-                                受付依頼数
-                            </div>
-                            <div class="col-12 mt-1">
-                                <?php echo nl2br($tcd_membership_vars['requestData']['orderQuantity']); ?>
-                                件
-                            </div>
-                            <div class="col-12 mt-4 item-text border-bottom-solid">
-                                特記事項
-                            </div>
-                            <div class="col-12 mt-1">
-                                <?php echo nl2br($tcd_membership_vars['requestData']['specialNotes']); ?>
-                            </div>
-                            <?php if ($tcd_membership_vars['requestData']['viewReceivedButton']) { ?>
-                                <form method="POST" action="<?php echo esc_attr(get_tcd_membership_memberpage_url('comfirm_request')); ?>">
-                                    <div class="col-12 mt-4 mt-xl-4 pt-xl-3 mb-5 text-center">
-                                        <?php /** FIXED 受託になると思うのでボタン変更 */ ?>
-                                        <!-- button class="btn text-white save-btn">依頼投稿</button -->
-                                        <button type="submit" class="btn text-white save-btn">依頼を受ける</button>
-                                        <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd-membership-confirm_request-' . $tcd_membership_vars['requestData']['post_id'])); ?>">
-                                        <input type="hidden" name="request_id" value="<?php echo esc_attr($tcd_membership_vars['requestData']['post_id']); ?>">
-                                        <input type="hidden" name="request_type" value="contract">
-                                    </div>
+                        <div class="col-12 mt-1 ">
+                            <?php echo esc_attr($tcd_membership_vars['title']); ?>
+                        </div>
+                        <div class="col-12 mt-4 item-text border-bottom-solid ">
+                            本文
+                        </div>
+                        <div class="col-12 mt-1 ">
+                            <?php echo nl2br($tcd_membership_vars['content']); ?>
+                        </div>
+                        <div class="col-12 mt-4 item-text border-bottom-solid ">
+                            構図
+                        </div>
+                        <div class="col-12 mt-1 ">
+                            <?php echo nl2br($tcd_membership_vars['composition']); ?>
+                        </div>
+                        <div class="col-12 mt-4 item-text border-bottom-solid ">
+                            キャラクター
+                        </div>
+                        <div class="col-12 mt-1 ">
+                            <?php echo nl2br($tcd_membership_vars['character']); ?>
+                        </div>
+                        <div class="col-12 mt-4 item-text border-bottom-solid">
+                            受付依頼数
+                        </div>
+                        <div class="col-12 mt-1">
+                            <?php echo nl2br($tcd_membership_vars['orderQuantity']); ?>件
+                        </div>
+                        <?php if ($tcd_membership_vars['comment_flag'] === FALSE && $tcd_membership_vars['my_order_flag'] === TRUE) { ?>
+                            <div class="col-12 mt-4 mt-xl-4 pt-xl-3 mb-5 text-center">
+                                <form action="<?php echo get_tcd_membership_memberpage_url('comfirm_request'); ?>" method="POST">
+                                    <button type="submit" class="btn text-white save-btn">依頼を受ける</button>
+                                    <input type="hidden" name="request_type" value='received' />
+                                    <input type="hidden" name="request_id" value='<?php echo esc_attr($tcd_membership_vars['request_id']); ?>' />
+                                    <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd-membership-confirm_message-' . $tcd_membership_vars['request_id'])); ?>">
                                 </form>
-                            <?php }
-                            /** endif */ ?>
-                        </div>
+                            </div>
+                        <?php }
+                        /** endif */ ?>
                     </div>
                 </div>
+            </div>
+            <div class="tab-pane" id="files" role="tabpanel" aria-labelledby="files-tab">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 mt-2 item-text border-bottom-solid">
+                            添付ファイル
+                        </div>
+                        <div class="col-12 mt-1">
+                            <a href="<?php echo esc_url($tcd_membership_vars['requestFileUrl']); ?>">
+                                <?php echo esc_url($tcd_membership_vars['requestFileName']); ?>
+                            </a>
+                        </div>
 
-
-                <div class="tab-pane" id="files" role="tabpanel" aria-labelledby="files-tab">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-12 mt-4 item-text border-bottom-solid">
-                                添付ファイル
-                            </div>
-                            <div class="col-12 mt-1">
-                                <?php if ($tcd_membership_vars['requestData']['requestFileFlag']) { ?>
-                                    <img src="<?php echo esc_url($tcd_membership_vars['requestData']['requestFileUrl']); ?>" alt="upload_image" class="w-100">
-                                <?php } else { ?>
-                                    <a target="_blank" href="<?php echo esc_url($tcd_membership_vars['requestData']['requestFileUrl']); ?>"><?php echo esc_attr($tcd_membership_vars['requestData']['requestFileName']); ?></a>
-                                <?php } ?>
-                            </div>
+                        <?php if (!empty($tcd_membership_vars['refUrl'])) { ?>
                             <div class="col-12 mt-4 item-text border-bottom-solid">
                                 参考URL
                             </div>
                             <div class="col-12 mt-1">
-                                <a target="_blank" href="<?php echo esc_url($tcd_membership_vars['requestData']['refUrl']); ?>"><?php echo esc_attr($tcd_membership_vars['requestData']['refUrl']); ?></a>
+                                <a target="_blank" href="<?php echo esc_url($tcd_membership_vars['refUrl']); ?>">
+                                    <?php echo esc_url($tcd_membership_vars['refUrl']); ?>
+                                </a>
                             </div>
-                            <?php if ($tcd_membership_vars['requestData']['viewReceivedButton']) { ?>
-                                <form method="POST" action="<?php echo esc_attr(get_tcd_membership_memberpage_url('comfirm_request')); ?>">
-                                    <div class="col-12 mt-4 mt-xl-4 pt-xl-3 mb-5 text-center">
-                                        <?php /** FIXED 受託になると思うのでボタン変更 */ ?>
-                                        <!-- button class="btn text-white save-btn">依頼投稿</button -->
-                                        <button type="submit" class="btn text-white save-btn">依頼を受ける</button>
-                                        <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd-membership-confirm_request-' . $tcd_membership_vars['requestData']['post_id'])); ?>">
-                                        <input type="hidden" name="request_id" value="<?php echo esc_attr($tcd_membership_vars['requestData']['post_id']); ?>">
-                                        <input type="hidden" name="request_type" value="contract">
-                                    </div>
+                        <?php }
+                        /** endif */ ?>
+                        <?php if ($tcd_membership_vars['comment_flag'] === FALSE && $tcd_membership_vars['my_order_flag'] === TRUE) { ?>
+                            <div class="col-12 mt-4 mt-xl-4 pt-xl-3 mb-5 text-center">
+                                <form action="<?php echo get_tcd_membership_memberpage_url('comfirm_request'); ?>" method="POST">
+                                    <button type="submit" class="btn text-white save-btn">依頼を受ける</button>
+                                    <input type="hidden" name="request_type" value='received' />
+                                    <input type="hidden" name="request_id" value='<?php echo esc_attr($tcd_membership_vars['request_id']); ?>' />
+                                    <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd-membership-confirm_message-' . $tcd_membership_vars['request_id'])); ?>">
                                 </form>
-                            <?php }
-                            /** endif */ ?>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="tab-pane" id="budgets" role="tabpanel" aria-labelledby="budgets-tab">
-                    <div class="container block">
-                        <div class="row">
-                            <div class="col-12 mt-4 item-text border-bottom-solid">
-                                予算
                             </div>
-                            <div class="col-12 mt-1">
-                                <?php echo esc_attr($tcd_membership_vars['requestData']['budget']); ?>円
-                            </div>
-                            <div class="col-12 mt-4 item-text border-bottom-solid">
-                                応募期限
-                            </div>
-                            <div class="col-12 mt-1">
-                                <?php echo esc_attr($tcd_membership_vars['requestData']['appDeadlineDate']); ?>
-                            </div>
-                            <?php if ($tcd_membership_vars['requestData']['desiredDate']) { ?>
-                                <div class="col-12 mt-4 item-text border-bottom-solid">
-                                    納品希望日
-                                </div>
-                                <div class="col-12 mt-1">
-                                    <?php echo esc_attr($tcd_membership_vars['requestData']['desiredDate']); ?>
-                                </div>
-                            <?php } /* endif **/ ?>
-                            <?php if ($tcd_membership_vars['requestData']['viewReceivedButton']) { ?>
-                                <form method="POST" action="<?php echo esc_attr(get_tcd_membership_memberpage_url('comfirm_request')); ?>">
-                                    <div class="col-12 mt-4 mt-xl-4 pt-xl-3 mb-5 text-center">
-                                        <?php /** FIXED 受託になると思うのでボタン変更 */ ?>
-                                        <!-- button class="btn text-white save-btn">依頼投稿</button -->
-                                        <button type="submit" class="btn text-white save-btn">依頼を受ける</button>
-                                        <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd-membership-confirm_request-' . $tcd_membership_vars['requestData']['post_id'])); ?>">
-                                        <input type="hidden" name="request_id" value="<?php echo esc_attr($tcd_membership_vars['requestData']['post_id']); ?>">
-                                        <input type="hidden" name="request_type" value="contract">
-                                    </div>
-                                </form>
-                            <?php }
-                            /** endif */ ?>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="tab-pane" id="comments" role="tabpanel" aria-labelledby="comments-tab">
-                    <div class="container message-show-area" id="message_show_area">
-                        <?php /** FIXED 複数のユーザー想定なので 表示させない */ ?>
-                        <!-- div class="font-weight-bold title border-bottom-solid mt-4">
-                            相手のユーザー名
-                        </div-->
-                        <div class="row mb-5 pb-3">
-                            <?php
-                            foreach ($tcd_membership_vars['list_comment'] as $key => $array_comment) {
-                                $dateClass = new DateTime($key);
-                            ?>
-                                <div class="d-flex col-12 justify-content-center">
-                                    <div class="main-color font-weight-bold text-white text-center rounded-pill small w-25 mt-4">
-                                        <?php echo esc_attr($dateClass->format('Y/m/d')); ?>
-                                    </div>
-                                </div>
-                                <?php foreach ($array_comment as $one_comment) { ?>
-                                    <?php if ($tcd_membership_vars['requestData']['author_id'] === (int)$one_comment['user_id']) { ?>
-                                        <?php /** 発言が発注者の場合 */ ?>
-                                        <div class="col-12">
-                                            <div class="balloon_r">
-                                                <div class="faceicon">
-                                                    <img src="<?php echo esc_url($one_comment['profile_image']) ?>" class="rounded-circle" alt="">
-                                                    <div class="ml-xl-4 ml-1">
-                                                        <?php echo esc_attr($one_comment['comment_date']) ?>
-                                                    </div>
-                                                </div>
-                                                <div class="says">
-                                                    <p>
-                                                        <?php echo nl2br($one_comment['comment']) ?>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    <?php } else { ?>
-                                        <?php /** 発言が発注者ではない場合 */ ?>
-                                        <div class="col-12">
-                                            <div class="balloon_l">
-                                                <div class="faceicon">
-                                                    <img src="<?php echo esc_url($one_comment['profile_image']) ?>" alt="" class="rounded-circle">
-                                                    <div class="ml-xl-4 ml-1">
-                                                        <?php echo esc_attr($one_comment['comment_date']) ?>
-                                                    </div>
-                                                </div>
-                                                <p class="says">
-                                                    <?php echo nl2br($one_comment['comment']) ?>
-                                                </p>
-                                            </div>
-                                        </div>
-
-                                    <?php }
-                                    /** endif */ ?>
-                                <?php }
-                                /** endforeach */ ?>
-                            <?php }
-                            /** endforeach */ ?>
-                        </div>
-
-                        <form method="POST" action="<?php echo esc_attr(get_tcd_membership_memberpage_url('comfirm_request')); ?>">
-                            <div class="row text-center message-create">
-                                <div class="col-9">
-                                    <textarea name="message" rows="3" id="chat_input" class="border border-0"></textarea>
-                                </div>
-                                <div class="col-2 icon-area">
-                                    <div>
-                                        <?php /** 画像を登録する必要はない */ ?>
-
-                                        <!-- label>
-                                        <input type="file" name="file" accept="image/png, image/jpeg" id="messages_file_input">
-                                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/camera_bule.png" class="camera" alt="camera">
-                                    </label -->
-                                    </div>
-                                    <label>
-                                        <input type="image" name="btn_confirm" src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/send.png" class="send" alt="send" id="chat_button">
-                                    </label>
-                                </div>
-                            </div>
-                            <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd-membership-confirm_message-' . $tcd_membership_vars['requestData']['post_id'])); ?>">
-                            <input type="hidden" name="request_id" value="<?php echo esc_attr($tcd_membership_vars['requestData']['post_id']); ?>">
-                            <input type="hidden" name="request_type" value="message">
-                        </form>
-                        <!-- 画像投稿時のモーダル -->
-                        <?php /** 画像を登録する必要はない */ ?>
-                        <!-- div class="modal">
-                            <div class="text-center title">
-                                投稿画像確認
-                            </div>
-                            <div class="bigimg"><img src="" alt="bigimg"></div>
-                            <p class="close-btn"><a href="">✖</a></p>
-                            <button type="submit" class="btn btn-primary rounded-pill btn-sm text-white btn-lg main-color post-image-btn" id="post_image_btn">投稿する</button>
-                        </div -->
+                        <?php }
+                        /** endif */ ?>
                     </div>
                 </div>
             </div>
+            <div class="tab-pane" id="budgets" role="tabpanel" aria-labelledby="budgets-tab">
+                <div class="container block">
+                    <div class="row">
+                        <div class="col-12 mt-2 item-text border-bottom-solid">
+                            予算
+                        </div>
+                        <div class="col-12 mt-1">
+                            <?php echo esc_attr($tcd_membership_vars['budget']); ?>
+                        </div>
+                        <div class="col-12 mt-4 item-text border-bottom-solid">
+                            応募期限
+                        </div>
+                        <div class="col-12 mt-1">
+                            <?php echo esc_attr($tcd_membership_vars['app_deadline_date']); ?>
+                        </div>
+                        <?php if (!empty($tcd_membership_vars['desired_date'])) { ?>
+                            <div class="col-12 mt-4 item-text border-bottom-solid">
+                                納品希望日
+                            </div>
+                            <div class="col-12 mt-1">
+                                <?php echo esc_attr($tcd_membership_vars['desired_date']); ?>
+                            </div>
+                        <?php }
+                        /** endif */ ?>
+                        <?php if ($tcd_membership_vars['comment_flag'] === FALSE && $tcd_membership_vars['my_order_flag'] === TRUE) { ?>
+                            <div class="col-12 mt-4 mt-xl-4 pt-xl-3 mb-5 text-center">
+                                <form action="<?php echo get_tcd_membership_memberpage_url('comfirm_request'); ?>" method="POST">
+                                    <button type="submit" class="btn text-white save-btn">依頼を受ける</button>
+                                    <input type="hidden" name="request_type" value='received' />
+                                    <input type="hidden" name="request_id" value='<?php echo esc_attr($tcd_membership_vars['request_id']); ?>' />
+                                    <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd-membership-confirm_message-' . $tcd_membership_vars['request_id'])); ?>">
+                                </form>
+                            </div>
+                        <?php }
+                        /** endif */ ?>
+                    </div>
+                </div>
+            </div>
+            <?php if ($tcd_membership_vars['comment_flag'] === TRUE) { ?>
+                <div class="tab-pane" id="comments" role="tabpanel" aria-labelledby="comments-tab">
+                    <div class="col-12 mt-2 item-text border-bottom-solid">
+                        コメント
+                    </div>
+                    <div class="col-12 mt-1">
+                        <?php foreach ($tcd_membership_vars['comments'] as $comments) { ?>
+                            <div class="row my-3">
+                                <div class="col-3 col-sm-2 col-lg-1 pr-0">
+                                    <img src="<?php echo esc_url($comments['profile_image']); ?>" class="rounded-circle" width="60" height="60">
+                                </div>
+                                <div class="col-8 col-sm-9 col-lg-10 bg-gray p-2 rounded">
+                                    <div class="row">
+                                        <div class="col-12 msg-detail">
+                                            <span class="mr-2 msg-name font-weight-bold">
+                                                <?php echo esc_attr($comments['display_name']); ?>
+                                            </span>
+                                            <span class="msg-date">
+                                                <?php echo esc_attr($comments['date']); ?>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12 msg">
+                                            <p class="mb-0">
+                                                <?php echo nl2br($comments['comment']); ?>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php }
+                        /** endforeach */ ?>
+                    </div>
+
+                    <form action="<?php echo get_tcd_membership_memberpage_url('comfirm_request'); ?>" method="POST">
+                        <div class="col-12 mt-5 text-center">
+                            <textarea name="comment" rows="3" id="chat_input" class="w-100 border border-0 request-comment"></textarea>
+                        </div>
+                        <div class="col-12 mt-1 text-center">
+                            <button type="submit" class="btn text-white save-btn">コメントを投稿</button>
+                        </div>
+                        <input type="hidden" name="request_type" value='comment' />
+                        <input type="hidden" name="request_id" value='<?php echo esc_attr($tcd_membership_vars['request_id']); ?>' />
+                        <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd-membership-confirm_message-' . $tcd_membership_vars['request_id'])); ?>">
+
+                        <?php if (isset($tcd_membership_vars['error_message']['comment'])) { ?>
+                            <div class="col-12 mt-2 text-center">
+                                <div class="error_message"><?php echo esc_attr($tcd_membership_vars['error_message']['comment']); ?></div>
+                            </div>
+                        <?php }
+                        /** endif */ ?>
+                    </form>
+                </div>
+            <?php }
+            /** endif */ ?>
         </div>
     </div>
-</form>
+</div>
 
 <?php
 get_footer();

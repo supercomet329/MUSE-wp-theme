@@ -237,7 +237,7 @@ get_header();
                     <button type="submit" class="btn btn-primary text-white submit-btn" id="requestBtn" disabled>依頼投稿確認</button>
                 </div>
             </div>
-            <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd_membership_action_request')); ?>">
+            <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd-membership-confirm_message-' . $tcd_membership_vars['request_id'])); ?>">
             <input type="hidden" name="request_type" value="input">
             <input type="hidden" name="request_id" value="<?php echo $tcd_membership_vars['requestData']['request_id']; ?>" />
         </form>

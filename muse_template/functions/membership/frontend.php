@@ -457,6 +457,31 @@ function validate_date($date, $format = 'Y-m-d H:i:s')
 }
 
 /**
+ * membership_actionsからデータ取得
+ *
+ * @param int    $post_id
+ * @param string $received
+ * @return object
+ */
+function get_memberShipActionsByPostId($post_id, $received)
+{
+    global $wpdb;
+
+    $sql = '';
+    $sql .= 'SELECT * ';
+    $sql .= ' FROM ';
+    $sql .= ' wp_tcd_membership_actions ';
+    $sql .= ' WHERE ';
+    $sql .= ' post_id = %d ';
+    $sql .= ' AND ';
+    $sql .= ' type = %s ';
+
+    $result = $wpdb->get_results($wpdb->prepare($sql, $post_id, $received));
+    return $result;
+}
+
+
+/**
  * 投稿画像の一覧を取得
  *
  * @return void
