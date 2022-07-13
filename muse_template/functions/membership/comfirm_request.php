@@ -93,12 +93,16 @@ function tcd_membership_action_comfirm_request()
 
     // リクエスト作成者の確認
     // リクエスト作成者とログインユーザーが違う場合 => 確認用テンプレートへ
+    $my_order_flag = true;
     $template = 'muse_comfirm_request';
-    if ($author_id === $user_id) {
+    if ((int)$author_id === (int)$user_id) {
+        $my_order_flag = false;
+
         // リクエスト作成者とログインユーザーが同じ場合 => 入力用テンプレートへ
         $template = 'muse_comfirm_request_modify';
     }
     $tcd_membership_vars['template'] = $template;
+    $tcd_membership_vars['my_order_flag'] = $my_order_flag;
 
     // 受注済か確認
     // 受注済みの場合受注ユーザーの取得
@@ -122,12 +126,6 @@ function tcd_membership_action_comfirm_request()
         $comment_flag = true;
     }
     $tcd_membership_vars['comment_flag'] = $comment_flag;
-
-    $my_order_flag = false;
-    if((int)$user_id !== (int)$postsObj->post_author) {
-        $my_order_flag = true;
-    }
-    $tcd_membership_vars['my_order_flag'] = $my_order_flag;
 
     // 発注ユーザー情報の取得
     $profileImageData = get_user_meta($author_id, 'profile_image', true);
