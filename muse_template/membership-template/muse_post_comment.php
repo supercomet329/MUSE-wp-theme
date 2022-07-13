@@ -7,7 +7,7 @@ get_header();
 <div class="container pt-2 confirm-area">
     <div class="row mb-2">
         <div class="col-12">
-            <a href="timeline.html">← 戻る</a>
+            <a href="javascript:history.back();">← 戻る</a>
         </div>
     </div>
     <div class="row">
@@ -89,8 +89,13 @@ get_header();
         </div>
         <?php if ($tcd_membership_vars['flg_submit_flag'] === TRUE) { ?>
             <div class="col-12 my-3">
-                <form class="mx-1" action="POST" action="<?php echo esc_url(get_tcd_membership_memberpage_url('post_comment')); ?>); ?>">
+                <form class="mx-1" action="<?php echo esc_attr(get_tcd_membership_memberpage_url('post_comment')); ?>" method="post">
                     <textarea name="message" class="form-control" rows="6" placeholder="ここにメッセージを入力"></textarea>
+                    <?php if (!empty($tcd_membership_vars['error_message'])) { ?>
+                        <div class="col-12">
+                            <div class="error_message" id="errPostImage"><?php echo esc_attr($tcd_membership_vars['error_message']); ?></div>
+                        </div>
+                    <?php } ?>
                     <div class="my-3 text-center">
                         <button type="submit" class="btn btn-primary text-white" id="msg-btn">メッセージ送信</button>
                     </div>

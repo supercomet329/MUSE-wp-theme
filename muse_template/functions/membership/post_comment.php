@@ -28,27 +28,38 @@ function tcd_membership_action_post_comment()
     $tcd_membership_vars['flg_submit_flag']  = $flg_submit_flag;
 
     // コメントがPOSTされた場合の処理
+    $error_message = '';
     if ('POST' === $_SERVER['REQUEST_METHOD']) {
-        if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'tcd_membership_action-post_comment')) {
+        if (isset($_POST['nonce']) && wp_verify_nonce($_POST['nonce'], 'tcd_membership_action-post_comment')) {
 
             // 文字列のバリデート
+            if (isset($_POST['message']) && !empty($_POST['message'])) {
 
-            // DBの登録(wp_comments)
-            if (!empty($_POST['message'])) {
+
+                $ip = $_SERVER['REMOTE_ADDR'];
+                if(isset($_SERVER['HTTP_X_FORWARDED_FOR']) && !empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+                    $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+                }
+
+                $user = get_userdata($user_id);
                 // wp_commentの登録
                 $data = [
-                    'comment_post_ID'  => $post_id,
-                    'comment_content'  => $_POST['message'],
-                    'user_id'          => get_current_user_id(),
-                    'comment_date'     => date('Y-m-d H:i:s'),
-                    'comment_approved' => 1,
+                    'comment_post_ID'      => $post_id,
+                    'comment_content'      => $_POST['message'],
+                    'comment_author_IP'    => $ip,
+                    'user_id'              => get_current_user_id(),
+                    'comment_date'         => date('Y-m-d H:i:s'),
+                    'comment_author_email' => $user->user_email,
+                    'comment_approved'     => 1,
                 ];
                 wp_insert_comment($data);
-            }
 
-            // DB登録成功時(同ページへリダイレクト)
-            wp_safe_redirect(esc_url(get_tcd_membership_memberpage_url('post_comment')) . '&post_id=' . $post_id);
-            exit();
+                // DB登録成功時(同ページへリダイレクト)
+                wp_safe_redirect(esc_url(get_tcd_membership_memberpage_url('post_comment')) . '&post_id=' . $post_id);
+                exit();
+            } else {
+                $error_message = 'コメントは必須入力です。';
+            }
         }
     }
 
@@ -82,10 +93,17 @@ function tcd_membership_action_post_comment()
     $tcd_membership_vars['comment']  = $array_comment;
 
     // テンプレートの設定
-    $tcd_membership_vars['template']  = 'muse_post_comment';
+    $tcd_membership_vars['template']       = 'muse_post_comment';
+    $tcd_membership_vars['error_message']  = $error_message;
 }
 add_action('tcd_membership_action-post_comment', 'tcd_membership_action_post_comment');
 
+/**
+ * 投稿のコメントを取得して一覧を生成
+ *
+ * @param int $post_id
+ * @return array
+ */
 function muse_list_comment($post_id)
 {
     $args = array(
@@ -97,7 +115,7 @@ function muse_list_comment($post_id)
     $list_comment = [];
     foreach ($row_comment as $one_comment) {
 
-        if((int)$one_comment->user_id <= 0) {
+        if ((int)$one_comment->user_id <= 0) {
             // ユーザーIDが0の場合落とす
             continue;
         }
