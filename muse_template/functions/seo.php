@@ -208,6 +208,10 @@ function seo_title($title)
 				// ユーザー新規登録
 				$title['title'] = $site_title . ' | ' . sprintf(__('ユーザー新規登録', 'tcd-w'));
 				break;
+			case 'ranking':
+				// ランキング
+				$title['title'] = $site_title . ' | ' . sprintf(__('ランキング', 'tcd-w'));
+				break;
 		}
 	}
 
