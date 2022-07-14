@@ -4,9 +4,9 @@ if (!$dp_options) $dp_options = get_design_plus_option();
 ?>
 <?php if (count(partsRanking()) > 0) { ?>
     <ul class="horizontal-list">
-        <li class="item ml-2 ranking-icon-box"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/ranking_01.png" class="ranking-icon" alt="ranking_icon"><br /></li>
-
-        <?php
+    <li class="item ml-2 ranking-icon-box"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/ranking_01.png" class="ranking-icon" alt="ranking_icon"><br /></li>
+    <?php
+        $loop = 0;
         foreach (partsRanking() as $rankingOne) {
 
             $profile_image = get_template_directory_uri() . '/assets/img/icon/non_profile_image.png';
@@ -15,14 +15,18 @@ if (!$dp_options) $dp_options = get_design_plus_option();
             }
         ?>
             <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('profile')) ?>&user_id=<?php echo esc_attr($rankingOne->user_id); ?>">
-                <li class="item">
+                <li class="item <?php echo ($loop <= 0) ? 'ml-3' : ''; ?>">
                     <img src="<?php echo esc_url($profile_image); ?>" alt="profile" class="rounded-circle">
                 </li>
             </a>
-        <?php }
+        <?php 
+                $loop++;
+            }
         /** endforeach */ ?>
         <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('ranking')) ?>">
-            <li class="item"><img class="transform-x-reverse border border-dark rounded-circle" src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/arrow.png" alt="profile" class="rounded-circle"></li>
+            <li class="item">
+                <img class="transform-x-reverse border border-dark rounded-circle" src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/arrow.png" alt="profile" class="rounded-circle">
+            </li>
         </a>
     </ul>
 <?php }
