@@ -18,7 +18,94 @@ add_action('tcd_membership_action-ranking', 'tcd_membership_action_ranking');
 function partsRanking()
 {
 
-    // DBからランキングの生成
+    $sql = '
+        SELECT
+            wp_users.ID AS user_id
+            ,wp_users.display_name AS display_name 
+            ,tb_user_profile_image.meta_value AS profile_image
+            ,(
+                SELECT
+                    meta_value
+                FROM
+                    wp_tcd_membership_action_metas
+                WHERE
+                    wp_tcd_membership_actions.id = wp_tcd_membership_action_metas.action_id
+                AND
+                    wp_tcd_membership_action_metas.meta_key = \'ranking\'
+                ) AS ranking
+            ,(
+                SELECT
+                    meta_value
+                FROM
+                    wp_tcd_membership_action_metas
+                WHERE
+                    wp_tcd_membership_actions.id = wp_tcd_membership_action_metas.action_id
+                AND
+                    wp_tcd_membership_action_metas.meta_key = \'count_transaction\'
+            ) AS count_transaction
+            ,(
+                SELECT
+                    meta_value
+                FROM
+                    wp_tcd_membership_action_metas
+                WHERE
+                    wp_tcd_membership_actions.id = wp_tcd_membership_action_metas.action_id
+                AND
+                    wp_tcd_membership_action_metas.meta_key = \'average_price\'
+            ) AS average_price
+            ,(
+                SELECT
+                    meta_value
+                FROM
+                    wp_tcd_membership_action_metas
+                WHERE
+                    wp_tcd_membership_actions.id = wp_tcd_membership_action_metas.action_id
+                AND
+                    wp_tcd_membership_action_metas.meta_key = \'count_owned\'
+            ) AS count_owned
+            ,(
+                SELECT
+                    meta_value
+                FROM
+                    wp_tcd_membership_action_metas
+                WHERE
+                    wp_tcd_membership_actions.id = wp_tcd_membership_action_metas.action_id
+                AND
+                    wp_tcd_membership_action_metas.meta_key = \'count_work\'
+            ) AS count_work
+        FROM
+            wp_tcd_membership_actions
+        INNER JOIN
+            wp_users
+        ON
+            wp_tcd_membership_actions.user_id = wp_users.ID
+        AND
+            wp_users.deleted = 0
+        LEFT JOIN
+            wp_usermeta AS tb_user_profile_image
+        ON
+            tb_user_profile_image.user_id = wp_users.ID
+        AND
+            tb_user_profile_image.meta_key = \'profile_image\'
+        WHERE
+        (
+            SELECT
+                meta_value
+            FROM
+                wp_tcd_membership_action_metas
+            WHERE
+                wp_tcd_membership_actions.id = wp_tcd_membership_action_metas.action_id
+            AND
+                wp_tcd_membership_action_metas.meta_key = \'ranking\'
+            ) IS NOT NULL
+        ORDER BY
+            ranking ASC
+    ';
+
+    // DBからランキングデータの取得
+    $result = $wpdb->get_results($wpdb->prepare($sql));
+    publishLog('FILE  => ' . __FILE__ . ' LINE  => ' . __LINE__ . ' ' . print_r($result, true));
+    return $result;
 }
 
 /**
@@ -57,7 +144,7 @@ function makeRankingInDb()
         update_tcd_membership_action_meta($action_id, 'count_owned', 0);
 
         // wp_tcd_membership_action_metasに作品数を登録する(key: count_work)
-        update_tcd_membership_action_meta($action_id, 'count_owned', $objUserOne->count_photo);
+        update_tcd_membership_action_meta($action_id, 'count_work', $objUserOne->count_photo);
 
         $loop++;
     }
@@ -151,5 +238,6 @@ function randomUsers()
         LIMIT 10
     ';
 
-    return $wpdb->get_results($wpdb->prepare($sql));
+    $result = $wpdb->get_results($wpdb->prepare($sql));
+    return $result;
 }
