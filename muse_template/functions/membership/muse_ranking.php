@@ -5,8 +5,10 @@
  */
 function tcd_membership_action_ranking()
 {
-    var_dump(__LINE__);
-    exit;
+    global $tcd_membership_vars;
+    $ranking = partsRanking();
+    $tcd_membership_vars['template'] = 'muse_ranking';
+    $tcd_membership_vars['ranking'] = $ranking;
 }
 add_action('tcd_membership_action-ranking', 'tcd_membership_action_ranking');
 
@@ -18,6 +20,7 @@ add_action('tcd_membership_action-ranking', 'tcd_membership_action_ranking');
 function partsRanking()
 {
     global $wpdb;
+
     $sql = '
         SELECT
             wp_users.ID AS user_id
@@ -100,7 +103,7 @@ function partsRanking()
             ) IS NOT NULL
         ORDER BY
             ranking ASC
-        LIMIT 10
+        LIMIT 20
     ';
 
     // DBからランキングデータの取得
@@ -235,7 +238,7 @@ function randomUsers()
         WHERE
             wp_users.deleted = 0
         ORDER BY count_photo DESC
-        LIMIT 10
+        LIMIT 20
     ';
 
     $result = $wpdb->get_results($wpdb->prepare($sql));

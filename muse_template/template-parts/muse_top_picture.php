@@ -21,7 +21,7 @@ if (!$dp_options) $dp_options = get_design_plus_option();
             </a>
         <?php }
         /** endforeach */ ?>
-        <a href="ranking.html">
+        <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('ranking')) ?>">
             <li class="item"><img class="transform-x-reverse border border-dark rounded-circle" src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/arrow.png" alt="profile" class="rounded-circle"></li>
         </a>
     </ul>
