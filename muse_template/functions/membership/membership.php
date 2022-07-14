@@ -89,6 +89,8 @@ get_template_part( 'functions/membership/post_image' );
 get_template_part( 'functions/membership/page_report' );
 get_template_part( 'functions/membership/post_search' );
 get_template_part( 'functions/membership/in_progress' );
+get_template_part( 'functions/membership/post_comment' );
+get_template_part( 'functions/membership/muse_ranking' );
 
 // load options
 global $dp_options;

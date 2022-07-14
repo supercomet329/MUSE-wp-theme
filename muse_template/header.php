@@ -23,6 +23,8 @@ if (get_current_user_id() > 0) {
     <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
     <meta charset="utf-8">
     <!-- Icon -->
+    <?php wp_head(); ?>
+
     <link rel="shortcut icon" href="<?php echo get_template_directory_uri(); ?>/assets/img/icon/logo.png">
     <link rel="apple-touch-icon" href="<?php echo get_template_directory_uri(); ?>/assets/img/icon/logo.png">
     <!-- Main CSS -->
@@ -33,7 +35,6 @@ if (get_current_user_id() > 0) {
     <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/assets/css/all.min.css">
     <!-- cropper.css -->
     <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/assets/css/cropper.min.css">
-    <?php wp_head(); ?>
 
     <?php
     $json = [];

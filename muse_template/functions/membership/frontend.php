@@ -1423,6 +1423,22 @@ function getPostImageByPostTypeAndPostStatusWhere($txtSearch = '', $selR18 = fal
 }
 
 /**
+ * テンプレートディレクトリのログファイルにログ出力
+ *
+ * @param string|object|array $message
+ * @return void
+ */
+function publishLog($message = NULL)
+{
+    $dateClass = new DateTime();
+    $dateClass->setTimezone(new DateTimeZone('Asia/Tokyo'));
+    $logFile = __DIR__ . '/../../log/' . $dateClass->format('YmdH0000') . '.log';
+
+    $publish = $dateClass->format('Ymd H:i:s') . ' ' . print_r($message, true) . PHP_EOL;
+    file_put_contents($logFile, $publish, FILE_APPEND);
+}
+
+/**
  * Embed/oEmbed制限 wp_embed_register_handlerのコールバック関数
  */
 function tcd_membership_disable_autoembed_callback($matches, $attr, $url, $rawattr)

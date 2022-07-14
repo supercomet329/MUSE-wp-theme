@@ -6,13 +6,13 @@ $user_id = get_current_user_id();
 $user = get_userdata($user_id);
 
 $profileImageData = get_user_meta($user_id, 'profile_image', true);
-$profile_image = get_template_directory_uri() . '/<?php echo get_template_directory_uri(); ?>/assets/img/icon/non_profile_image.png';
+$profile_image = get_template_directory_uri() . '/assets/img/icon/non_profile_image.png';
 if (!empty($profileImageData)) {
     $profile_image = $profileImageData;
 }
 
 $headerImageData = get_user_meta($user_id, 'header_image', true);
-$header_image = get_template_directory_uri() . '/<?php echo get_template_directory_uri(); ?>/assets/img/add_image360-250.png';
+$header_image = get_template_directory_uri() . '/assets/img/add_image360-250.png';
 if (!empty($headerImageData)) {
     $header_image = $headerImageData;
 }

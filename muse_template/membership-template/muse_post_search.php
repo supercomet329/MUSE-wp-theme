@@ -136,7 +136,7 @@ if (!is_null($tcd_membership_vars['imgList'])) {
                 <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/favorite_on.png" alt="favorite_on">
             </div>
             <div class="col-2 text-right">
-                <a class="text-dark" href="post_img_comment.html">…</a>
+                <a class="text-dark" href="<?php echo esc_url(get_tcd_membership_memberpage_url('post_comment')); ?>&post_id=<?php echo esc_attr($imageOne->post_id); ?>">…</a>
             </div>
             <!-- <div class="p-2 bd-highlight col-5"></div>
         <div class="p-2 bd-highlight col-4 arrow_box">
