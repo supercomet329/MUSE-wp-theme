@@ -17,7 +17,7 @@ add_action('tcd_membership_action-ranking', 'tcd_membership_action_ranking');
  */
 function partsRanking()
 {
-
+    global $wpdb;
     $sql = '
         SELECT
             wp_users.ID AS user_id
@@ -100,6 +100,7 @@ function partsRanking()
             ) IS NOT NULL
         ORDER BY
             ranking ASC
+        LIMIT 10
     ';
 
     // DBからランキングデータの取得

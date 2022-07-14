@@ -5,36 +5,22 @@ if (!$dp_options) $dp_options = get_design_plus_option();
 <?php /** TODO: 人気アーティストの表示 */ ?>
 <ul class="horizontal-list">
     <li class="item ml-2 ranking-icon-box"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/ranking_01.png" class="ranking-icon" alt="ranking_icon"><br /></li>
-    <a href="profile.html">
-        <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/profile.jpg" alt="profile" class="rounded-circle"></li>
-    </a>
-    <a href="profile.html">
-        <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_85053177_M.jpg" alt="profile" class="rounded-circle"></li>
-    </a>
-    <a href="profile.html">
-        <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_64747350_M.jpg" alt="profile" class="rounded-circle"></li>
-    </a>
-    <a href="profile.html">
-        <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_27669641_M.jpg" alt="profile" class="rounded-circle"></li>
-    </a>
-    <a href="profile.html">
-        <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_40272765_M.jpg" alt="profile" class="rounded-circle"></li>
-    </a>
-    <a href="profile.html">
-        <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_40855053_M.jpg" alt="profile" class="rounded-circle"></li>
-    </a>
-    <a href="profile.html">
-        <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_45010284_M.jpg" alt="profile" class="rounded-circle"></li>
-    </a>
-    <a href="profile.html">
-        <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_56091176_M.jpg" alt="profile" class="rounded-circle"></li>
-    </a>
-    <a href="profile.html">
-        <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_58266021_M.jpg" alt="profile" class="rounded-circle"></li>
-    </a>
-    <a href="profile.html">
-        <li class="item"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_58642077_M.jpg" alt="profile" class="rounded-circle"></li>
-    </a>
+
+    <?php
+    foreach (partsRanking() as $rankingOne) {
+
+        $profile_image = get_template_directory_uri() . '/assets/img/icon/non_profile_image.png';
+        if (!is_null($rankingOne->profile_image)) {
+            $profile_image = $rankingOne->profile_image;
+        }
+    ?>
+        <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('profile')) ?>&user_id=<?php echo esc_attr($rankingOne->user_id); ?>">
+            <li class="item">
+                <img src="<?php echo esc_url($profile_image); ?>" alt="profile" class="rounded-circle">
+            </li>
+        </a>
+    <?php }
+    /** endforeach */ ?>
     <a href="ranking.html">
         <li class="item"><img class="transform-x-reverse border border-dark rounded-circle" src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/arrow.png" alt="profile" class="rounded-circle"></li>
     </a>
@@ -62,7 +48,7 @@ if (!$dp_options) $dp_options = get_design_plus_option();
 
             ?>
                 <div class="content-item shadow-sm d-flex align-items-center justify-content-center px-1">
-                    <a href="<?php echo esc_html( get_tcd_membership_memberpage_url( 'profile' ) ); ?>&user_id=<?php echo esc_html($one_photo->post_author); ?>"><img src="<?php echo $profile_image; ?>" alt="profile" class="rounded-circle profile"></a>
+                    <a href="<?php echo esc_html(get_tcd_membership_memberpage_url('profile')); ?>&user_id=<?php echo esc_html($one_photo->post_author); ?>"><img src="<?php echo $profile_image; ?>" alt="profile" class="rounded-circle profile"></a>
                     <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('post_comment')); ?>&post_id=<?php echo $one_photo->ID; ?>"><img class="image-list" src="<?php echo esc_html($one_photo->meta_value); ?>"></a>
                 </div>
             <?php }
