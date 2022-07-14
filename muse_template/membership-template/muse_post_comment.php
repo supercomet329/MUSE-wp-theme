@@ -19,7 +19,7 @@ get_header();
                 <div class="swiper-wrapper d-flex align-items-center">
                     <?php foreach ($tcd_membership_vars['post_image_array'] as $post_image_one) { ?>
                         <div class="swiper-slide">
-                            <a href="post_img_comment.html">
+                            <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('post_comment')); ?>&post_id=<?php echo esc_attr($post_image_one->post_id); ?>">
                                 <img class="img-fluid mx-auto" src="<?php echo esc_url($post_image_one); ?>" />
                             </a>
                         </div>
