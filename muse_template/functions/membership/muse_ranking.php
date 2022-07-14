@@ -171,7 +171,6 @@ function deleteRankingUser()
 {
     global $wpdb;
 
-
     // ランキングユーザーの取得
     $sql = '
         SELECT
