@@ -193,8 +193,8 @@ function deleteRankingUser()
         // wp_tcd_membership_actionsのデータを削除
         $results = $wpdb->delete(
             'wp_tcd_membership_actions',
-            array('id' => $oneRankingUser->id),
-            array('%d')
+            ['id' => $oneRankingUser->id],
+            ['%d']
         );
 
         if ($results) {
