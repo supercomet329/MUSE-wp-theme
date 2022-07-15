@@ -51,8 +51,6 @@ function tcd_membership_action_order_search()
     $sel_limit = $selLimit;
     $_SESSION['sel_limit'] = $selLimit;
 
-
-
     // 依頼の一覧を取得
     $listOrder = lisetOrder($sort, $search_txt, $sel_up_budget, $sel_down_budget, $sel_limit);
 

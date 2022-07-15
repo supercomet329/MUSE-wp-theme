@@ -8,33 +8,20 @@ get_header();
             <a href="javascript:history.back();">← 戻る</a>
         </div>
     </div>
-    <div class="text-center font-weight-bold title mb-3">
-        リクエスト一覧
-    </div>
-    <div class="row d-flex justify-content-center">
-        <div class="col-8 tab-area text-center pt-1 pb-1 ml-1 mr-2">
-            <ul class="nav nav-pills nav-fill custom-nav">
-                <li class="nav-item each-tab mx-2">
-                    <a class="nav-link btn text-white not-selected-tab" href="<?php echo esc_attr(get_tcd_membership_memberpage_url('list_order')); ?>">
-                        <div class="mx-auto">募集リクエスト</div>
-                    </a>
-                </li>
-                <li class="nav-item each-tab mx-2">
-                    <a class="nav-link btn text-white selected-tab" href="<?php echo esc_attr(get_tcd_membership_memberpage_url('list_received')); ?>">
-                        <div class="mx-auto">リクエスト</div>
-                    </a>
-                </li>
-                <li class="nav-item each-tab mx-2">
-                    <a class="nav-link btn text-white not-selected-tab" href="<?php echo esc_url(get_tcd_membership_memberpage_url('in_progress')); ?>">
-                        <div class="mx-auto">進行中</div>
-                    </a>
-                </li>
-            </ul>
+    <div class="mb-2">
+        <div class="text-center font-weight-bold title mb-3">
+            リクエスト一覧
         </div>
-        <span class="ml-auto mr-auto">
-            <a href="<?php echo esc_attr(get_tcd_membership_memberpage_url('order_search')); ?>"><img class="mr-2 search" src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/search_blue.png" alt="search"></a>
-            <img class="modal-open search-option" src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/search_option.png" alt="search_option">
-        </span>
+
+        <div class="tab d-flex col-12" id="sort_tab">
+            <a href="<?php echo esc_attr(get_tcd_membership_memberpage_url('list_order')); ?>" class="rounded-pill font-weight-bold small text-center pt-2 not-selected-tab" id="desc">募集リクエスト</a>
+            <a href="<?php echo esc_attr(get_tcd_membership_memberpage_url('list_received')); ?>" class="rounded-pill font-weight-bold  small text-center pt-2 selected-tab" id="asc">リクエスト</a>
+            <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('in_progress')); ?>" class="rounded-pill font-weight-bold small text-center pt-2 not-selected-tab" id="low">進行中</a>
+            <span class="ml-auto mr-auto">
+                <a href="<?php echo esc_attr(get_tcd_membership_memberpage_url('order_search')); ?>"><img class="mr-2 search" src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/search_blue.png" alt="search"></a>
+                <img class="modal-open search-option" src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/search_option.png" alt="search_option">
+            </span>
+        </div>
     </div>
 
     <?php
@@ -108,49 +95,49 @@ get_header();
     }
     ?>
 
-<!-- 検索モーダル -->
-<form class="search-post mb-2" method="POST" action="<?php echo esc_url(get_tcd_membership_memberpage_url('list_received')); ?>">
-    <div class="modal-container">
-        <div class="modal-body">
-            <div class="modal-content text-left p-3">
-                <p class="item-text mx-auto">検索オプション</p>
-                <form class="search-post" method="POST">
-                    <div class="mb-2 item-text">
-                        予算上限
-                    </div>
-                    <div class="select-wrap">
-                        <select name="up_budget" class="select-box mb-3">
-                            <option value="">指定なし</option>
-                            <option value="10000" <?php echo (isset($tcd_membership_vars['post_data']['up_budget']) && (int)$tcd_membership_vars['post_data']['up_budget'] === 10000) ? 'selected' : ''; ?>>10000円</option>
-                            <option value="50000" <?php echo (isset($tcd_membership_vars['post_data']['up_budget']) && (int)$tcd_membership_vars['post_data']['up_budget'] === 50000) ? 'selected' : ''; ?>>50000円</option>
-                            <option value="100000" <?php echo (isset($tcd_membership_vars['post_data']['up_budget']) && (int)$tcd_membership_vars['post_data']['up_budget'] === 100000) ? 'selected' : ''; ?>>100000円</option>
-                        </select>
-                    </div>
-                    <div class="mb-2 item-text">
-                        予算下限
-                    </div>
-                    <div class="select-wrap">
-                        <select name="down_budget" class="select-box mb-3">
-                            <option value="">指定なし</option>
-                            <option value="10000" <?php echo (isset($tcd_membership_vars['post_data']['down_budget']) && (int)$tcd_membership_vars['post_data']['down_budget'] === 10000) ? 'selected' : ''; ?>>10000円</option>
-                            <option value="50000" <?php echo (isset($tcd_membership_vars['post_data']['down_budget']) && (int)$tcd_membership_vars['post_data']['down_budget'] === 50000) ? 'selected' : ''; ?>>50000円</option>
-                            <option value="100000" <?php echo (isset($tcd_membership_vars['post_data']['down_budget']) && (int)$tcd_membership_vars['post_data']['down_budget'] === 100000) ? 'selected' : ''; ?>>100000円</option>
-                        </select>
-                    </div>
-                    <div class="mb-2 item-text">
-                        期日
-                    </div>
-                    <div class="select-wrap">
-                        <select name="deadline" class="select-box mb-3">
-                            <option value="">指定なし</option>
-                            <!-- option value="1hour" <?php echo (isset($tcd_membership_vars['post_data']['deadline']) && $tcd_membership_vars['post_data']['deadline'] === '1hour') ? 'selected' : ''; ?>>1時間以内</option>
+    <!-- 検索モーダル -->
+    <form class="search-post mb-2" method="POST" action="<?php echo esc_url(get_tcd_membership_memberpage_url('list_received')); ?>">
+        <div class="modal-container">
+            <div class="modal-body">
+                <div class="modal-content text-left p-3">
+                    <p class="item-text mx-auto">検索オプション</p>
+                    <form class="search-post" method="POST">
+                        <div class="mb-2 item-text">
+                            予算上限
+                        </div>
+                        <div class="select-wrap">
+                            <select name="up_budget" class="select-box mb-3">
+                                <option value="">指定なし</option>
+                                <option value="10000" <?php echo (isset($tcd_membership_vars['post_data']['up_budget']) && (int)$tcd_membership_vars['post_data']['up_budget'] === 10000) ? 'selected' : ''; ?>>10000円</option>
+                                <option value="50000" <?php echo (isset($tcd_membership_vars['post_data']['up_budget']) && (int)$tcd_membership_vars['post_data']['up_budget'] === 50000) ? 'selected' : ''; ?>>50000円</option>
+                                <option value="100000" <?php echo (isset($tcd_membership_vars['post_data']['up_budget']) && (int)$tcd_membership_vars['post_data']['up_budget'] === 100000) ? 'selected' : ''; ?>>100000円</option>
+                            </select>
+                        </div>
+                        <div class="mb-2 item-text">
+                            予算下限
+                        </div>
+                        <div class="select-wrap">
+                            <select name="down_budget" class="select-box mb-3">
+                                <option value="">指定なし</option>
+                                <option value="10000" <?php echo (isset($tcd_membership_vars['post_data']['down_budget']) && (int)$tcd_membership_vars['post_data']['down_budget'] === 10000) ? 'selected' : ''; ?>>10000円</option>
+                                <option value="50000" <?php echo (isset($tcd_membership_vars['post_data']['down_budget']) && (int)$tcd_membership_vars['post_data']['down_budget'] === 50000) ? 'selected' : ''; ?>>50000円</option>
+                                <option value="100000" <?php echo (isset($tcd_membership_vars['post_data']['down_budget']) && (int)$tcd_membership_vars['post_data']['down_budget'] === 100000) ? 'selected' : ''; ?>>100000円</option>
+                            </select>
+                        </div>
+                        <div class="mb-2 item-text">
+                            期日
+                        </div>
+                        <div class="select-wrap">
+                            <select name="deadline" class="select-box mb-3">
+                                <option value="">指定なし</option>
+                                <!-- option value="1hour" <?php echo (isset($tcd_membership_vars['post_data']['deadline']) && $tcd_membership_vars['post_data']['deadline'] === '1hour') ? 'selected' : ''; ?>>1時間以内</option>
                             <option value="24hour" <?php echo (isset($tcd_membership_vars['post_data']['deadline']) && $tcd_membership_vars['post_data']['deadline'] === '24hour') ? 'selected' : ''; ?>>24時間以内</option -->
-                            <option value="1week" <?php echo (isset($tcd_membership_vars['post_data']['deadline']) && $tcd_membership_vars['post_data']['deadline'] === '1week') ? 'selected' : ''; ?>>1週間以内</option>
-                            <option value="1month" <?php echo (isset($tcd_membership_vars['post_data']['deadline']) && $tcd_membership_vars['post_data']['deadline'] === '1month') ? 'selected' : ''; ?>>1か月以内</option>
-                            <option value="1year" <?php echo (isset($tcd_membership_vars['post_data']['deadline']) && $tcd_membership_vars['post_data']['deadline'] === '1year') ? 'selected' : ''; ?>>1年以内</option>
-                        </select>
-                    </div>
-                    <!-- div class="mb-2 item-text">
+                                <option value="1week" <?php echo (isset($tcd_membership_vars['post_data']['deadline']) && $tcd_membership_vars['post_data']['deadline'] === '1week') ? 'selected' : ''; ?>>1週間以内</option>
+                                <option value="1month" <?php echo (isset($tcd_membership_vars['post_data']['deadline']) && $tcd_membership_vars['post_data']['deadline'] === '1month') ? 'selected' : ''; ?>>1か月以内</option>
+                                <option value="1year" <?php echo (isset($tcd_membership_vars['post_data']['deadline']) && $tcd_membership_vars['post_data']['deadline'] === '1year') ? 'selected' : ''; ?>>1年以内</option>
+                            </select>
+                        </div>
+                        <!-- div class="mb-2 item-text">
                         対象
                     </div>
                     <div class="select-wrap">
@@ -159,14 +146,14 @@ get_header();
                             <option value="r18">R-18</option>
                         </select>
                     </div -->
-                    <div class="text-center mt-3">
-                        <button type="submit" class="btn btn-primary search-btn btn-sm btn-lg text-white">検索</button>
-                    </div>
-                    <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd_membership_action_order_search')); ?>">
-                </form>
+                        <div class="text-center mt-3">
+                            <button type="submit" class="btn btn-primary search-btn btn-sm btn-lg text-white">検索</button>
+                        </div>
+                        <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd_membership_action_order_search')); ?>">
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-</form>
-<?php
-get_footer();
+    </form>
+    <?php
+    get_footer();
