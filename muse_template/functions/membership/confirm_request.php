@@ -107,18 +107,6 @@ function tcd_membership_action_confirm_request()
     }
     $tcd_membership_vars['desired_date'] = $strDesiredDate;
 
-    $specifyUser = false;
-    $specifyUserData  = get_post_meta($request_id, 'specify_user_id');
-    if (!empty($specifyUserData)) {
-        if ((int)$specifyUserData[0] === (int)get_current_user_id()) {
-            $specifyUser = $specifyUserData[0];
-        } else {
-            wp_redirect('/');
-            exit();
-        }
-    }
-    $tcd_membership_vars['specifyUser'] = $specifyUser;
-
     // POSTされた場合
     $error_messages = [];
     $viewFlag = false;
@@ -313,7 +301,15 @@ function tcd_membership_action_confirm_request()
     $tcd_membership_vars['desiredDateM'] = $desiredDateM;
     $tcd_membership_vars['desiredDateD'] = $desiredDateD;
 
-    // リクエスト作成者の確認
+    $specifyUser = false;
+    $approval_users = [];
+    $specifyUserData  = get_post_meta($request_id, 'specify_user_id');
+    if (!empty($specifyUserData)) {
+        $approval_users[(int)get_current_user_id()] = true;
+        $approval_users[(int)$specifyUserData[0]]   = true;
+        $specifyUser = $specifyUserData[0];
+    }
+    $tcd_membership_vars['specifyUser'] = $specifyUser;
 
     // 受注済か確認
     // 受注済みの場合受注ユーザーの取得
@@ -323,20 +319,20 @@ function tcd_membership_action_confirm_request()
         // 受注済の場合は作成者でも確認用テンプレート
         $template = 'muse_confirm_request';
         $receivedData = $receivedData[0];
-        $approval_users = [
-            $receivedData->user_id        => true,
-            $receivedData->target_user_id => true,
-        ];
+        $approval_users[(int)get_current_user_id()]      = true;
+        $approval_users[$receivedData->target_user_id]   = true;
+        $comment_flag = true;
+    }
+    $tcd_membership_vars['comment_flag'] = $comment_flag;
 
+    if (count($approval_users) > 0) {
         // ログインユーザーが発注ユーザーでも受注ユーザーでもない場合
         if (!isset($approval_users[$user_id])) {
             // 受注済みかつ リクエスト作成者とログインユーザーが違う場合 => トップページに遷移
             wp_redirect('/');
             exit();
         }
-        $comment_flag = true;
     }
-    $tcd_membership_vars['comment_flag'] = $comment_flag;
 
     // リクエスト作成者とログインユーザーが違う場合 => 確認用テンプレートへ
     $template = 'muse_confirm_request';
