@@ -14,9 +14,9 @@ get_header();
         </div>
 
         <div class="tab d-flex col-12" id="sort_tab">
-            <a href="<?php echo esc_attr(get_tcd_membership_memberpage_url('list_order')); ?>" class="rounded-pill font-weight-bold small text-center pt-2 not-selected-tab" id="desc">募集リクエスト</a>
-            <a href="<?php echo esc_attr(get_tcd_membership_memberpage_url('list_received')); ?>" class="rounded-pill font-weight-bold  small text-center pt-2 selected-tab" id="asc">リクエスト</a>
-            <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('in_progress')); ?>" class="rounded-pill font-weight-bold small text-center pt-2 not-selected-tab" id="low">進行中</a>
+            <a href="<?php echo esc_attr(get_tcd_membership_memberpage_url('list_order')); ?>" class="ml-1 rounded-pill font-weight-bold small text-center pt-2 not-selected-tab" id="desc">募集リクエスト</a>
+            <a href="<?php echo esc_attr(get_tcd_membership_memberpage_url('list_received')); ?>" class="ml-1 rounded-pill font-weight-bold  small text-center pt-2 selected-tab" id="asc">リクエスト</a>
+            <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('in_progress')); ?>" class="ml-1 rounded-pill font-weight-bold small text-center pt-2 not-selected-tab" id="low">進行中</a>
             <span class="ml-auto mr-auto">
                 <a href="<?php echo esc_attr(get_tcd_membership_memberpage_url('order_search')); ?>"><img class="mr-2 search" src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/search_blue.png" alt="search"></a>
                 <img class="modal-open search-option" src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/search_option.png" alt="search_option">
