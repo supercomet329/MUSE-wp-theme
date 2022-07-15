@@ -2,10 +2,16 @@
 global $dp_options, $tcd_membership_vars;
 get_header();
 ?>
-<div class="text-center font-weight-bold title mt-4">
-    作品依頼検索
-</div>
+
 <div class="container mt-3 request-list">
+    <div class="row mb-2">
+        <div class="col-12">
+            <a href="javascript:history.back();">← 戻る</a>
+        </div>
+    </div>
+    <div class="text-center font-weight-bold title mt-4 mb-2">
+        作品依頼検索
+    </div>
     <div class="mb-2">
         <form class="search-post mb-2" method="POST" action="<?php echo esc_url(get_tcd_membership_memberpage_url('order_search')); ?>">
             <input class="search-box px-2 pb-0" id="search_box" value="<?php echo $tcd_membership_vars['search_txt']; ?>" name="search_txt" type="text" placeholder="検索" />
@@ -76,7 +82,7 @@ get_header();
                                     <?php if (is_keep($one_order->post_id)) { ?>
                                         <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/keep_on.png" alt="keep-off" class="js-toggle-keep keep-off" data-post-id="<?php echo $one_order->post_id; ?>">
                                     <?php } else { ?>
-                                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/keep_off.png" alt="keep-off" class="js-toggle-keep keep-off"  data-post-id="<?php echo $one_order->post_id; ?>">
+                                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/keep_off.png" alt="keep-off" class="js-toggle-keep keep-off" data-post-id="<?php echo $one_order->post_id; ?>">
                                     <?php } ?>
                                 </div>
                             </div>
