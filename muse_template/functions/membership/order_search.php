@@ -112,8 +112,6 @@ function lisetOrder($sort, $search_txt, $sel_up_budget, $sel_down_budget, $sel_l
                 wp_postmeta.post_id = wp_posts.ID 
             AND 
                 wp_postmeta.meta_key = \'specify_user_id\' 
-            AND 
-                wp_postmeta.meta_value > NOW()
     ';
     $sql .= ')';
     $sql .= ' AND NOT EXISTS(';
