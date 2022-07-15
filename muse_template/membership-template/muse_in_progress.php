@@ -8,20 +8,31 @@ get_header();
             <a href="javascript:history.back();">← 戻る</a>
         </div>
     </div>
-    <div class="mb-2">
-        <div class="text-center font-weight-bold title mb-3">
-            進行中リクエスト一覧
-        </div>
 
-        <div class="tab d-flex col-12" id="sort_tab">
-            <a href="<?php echo esc_attr(get_tcd_membership_memberpage_url('list_order')); ?>" class="ml-1 rounded-pill font-weight-bold small text-center pt-2 not-selected-tab" id="desc">募集リクエスト</a>
-            <a href="<?php echo esc_attr(get_tcd_membership_memberpage_url('list_received')); ?>" class="ml-1 rounded-pill font-weight-bold  small text-center pt-2 not-selected-tab" id="asc">リクエスト</a>
-            <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('in_progress')); ?>" class="ml-1 rounded-pill font-weight-bold small text-center pt-2 selected-tab" id="low">進行中</a>
-            <span class="ml-auto mr-auto">
-                <a href="<?php echo esc_attr(get_tcd_membership_memberpage_url('order_search')); ?>"><img class="mr-2 search" src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/search_blue.png" alt="search"></a>
-                <img class="modal-open search-option" src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/search_option.png" alt="search_option">
-            </span>
-        </div>
+    <div class="text-center font-weight-bold title mb-3 col-12">
+        進行中リクエスト一覧
+    </div>
+
+    <div class="d-flex flex-row bd-highlight mb-3">
+        <a href="<?php echo esc_attr(get_tcd_membership_memberpage_url('list_order')); ?>" class="text-nowrap p-2 bd-highlight rounded-pill font-weight-bold small text-center pt-2 not-selected-tab col-4">
+            募集リクエスト
+        </a>
+
+        <a href="<?php echo esc_attr(get_tcd_membership_memberpage_url('list_received')); ?>" class="text-nowrap p-2 bd-highlight rounded-pill font-weight-bold small text-center pt-2 not-selected-tab col-4">
+            リクエスト
+        </a>
+
+        <a href="<?php echo esc_attr(get_tcd_membership_memberpage_url('in_progress')); ?>" class="text-nowrap p-2 bd-highlight rounded-pill font-weight-bold small text-center pt-2 selected-tab col-4">
+            進行中
+        </a>
+    </div>
+
+    <div class="d-flex flex-row bd-highlight mb-3 justify-content-end">
+        <div class="col-1"></div>
+        <a href="<?php echo esc_attr(get_tcd_membership_memberpage_url('order_search')); ?>">
+            <img class="search" src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/search_blue.png" alt="search">
+        </a>
+        <img class="ml-3 modal-open search-option" src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/search_option.png" alt="search_option">
     </div>
 
     <?php
