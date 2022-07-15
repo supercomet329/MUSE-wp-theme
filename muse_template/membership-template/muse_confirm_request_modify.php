@@ -8,14 +8,14 @@ get_header();
             <a href="javascript:history.back();">← 戻る</a>
         </div>
     </div>
-    <form method="POST" action="<?php echo esc_attr(get_tcd_membership_memberpage_url('request')); ?>" enctype="multipart/form-data" method="POST">
+    <form method="POST" action="<?php echo get_tcd_membership_memberpage_url('confirm_request'); ?>" enctype="multipart/form-data" method="POST">
         <div class="row">
             <div class="col-12">
                 <h1 class="text-left font-weight-bold request-title">依頼タイトル（必須）</h1>
             </div>
             <hr class="request-hr">
             <div class="col-12 pb-4">
-                <input class="form-control request-input" type="text" name="requestTitle" id="requestTitle" placeholder="タイトル" value="<?php echo esc_attr(isset($_REQUEST['requestTitle']) ? $_REQUEST['requestTitle'] : ''); ?>" required>
+                <input class="form-control request-input" type="text" name="requestTitle" id="requestTitle" placeholder="タイトル" value="<?php echo esc_attr($tcd_membership_vars['title']); ?>" required>
             </div>
             <div class="col-12">
                 <div class="inputRequestTitle" id="inputRequestTitle">
@@ -38,16 +38,16 @@ get_header();
                 <label for="work-title" class="label-text request-input-title">作品タイトル</label>
             </div>
             <div class="col-12">
-                <?php if ($tcd_membership_vars['specifyUser'] === TRUE) { ?>
+                <?php if ($tcd_membership_vars['specifyUser'] !== FALSE) { ?>
                     <!-- 不特定多数の場合非表示 -->
-                    <input class="form-control request-input" type="text" name="workTitle" id="workTitle" placeholder="作品タイトル" value="<?php echo esc_attr(isset($_REQUEST['workTitle']) ? $_REQUEST['workTitle'] : ''); ?>" required>
+                    <input class="form-control request-input" type="text" name="workTitle" id="workTitle" placeholder="作品タイトル" value="<?php echo esc_attr($tcd_membership_vars['workTitle']); ?>" required>
                 <?php } else { ?>
                     <!-- 不特定多数の場合表示 -->
                     <select class="form-control" name="workTitle" id="workTitle">
-                        <option value="selectbox-1">セレクトボックス1</option>
-                        <option value="selectbox-2">セレクトボックス2</option>
-                        <option value="selectbox-3">セレクトボックス3</option>
-                        <option value="selectbox-4">セレクトボックス4</option>
+                        <option value="selectbox-1" <?php echo ($tcd_membership_vars['workTitle'] === 'selectbox-1') ? 'selected	' : ''; ?>>セレクトボックス1</option>
+                        <option value="selectbox-2" <?php echo ($tcd_membership_vars['workTitle'] === 'selectbox-2') ? 'selected	' : ''; ?>>セレクトボックス2</option>
+                        <option value="selectbox-3" <?php echo ($tcd_membership_vars['workTitle'] === 'selectbox-3') ? 'selected	' : ''; ?>>セレクトボックス3</option>
+                        <option value="selectbox-4" <?php echo ($tcd_membership_vars['workTitle'] === 'selectbox-3') ? 'selected	' : ''; ?>>セレクトボックス4</option>
                     </select>
                 <?php } ?>
             </div>
@@ -66,7 +66,7 @@ get_header();
                 <label for="text" class="label-text request-input-title">本文</label>
             </div>
             <div class="col-12">
-                <textarea class="form-control" name="content" id="text" placeholder="本文" rows="5"><?php echo esc_attr(isset($_REQUEST['content']) ? $_REQUEST['content'] : ''); ?></textarea>
+                <textarea class="form-control" name="content" id="text" placeholder="本文" rows="5"><?php echo esc_attr($tcd_membership_vars['content']); ?></textarea>
             </div>
             <div class="col-12">
                 <div class="inputText" id="inputText">
@@ -81,7 +81,7 @@ get_header();
                 <label for="composition" class="label-text request-input-title">構図</label>
             </div>
             <div class="col-12">
-                <input class="form-control request-input" type="text" name="composition" id="composition" placeholder="構図" value="<?php echo esc_attr(isset($_REQUEST['composition']) ? $_REQUEST['composition'] : ''); ?>" required>
+                <input class="form-control request-input" type="text" name="composition" id="composition" placeholder="構図" value="<?php echo esc_attr($tcd_membership_vars['composition']); ?>" required>
             </div>
             <div class="col-12">
                 <div class="inputComposition" id="inputComposition">
@@ -97,7 +97,7 @@ get_header();
                 <label for="character" class="label-text request-input-title">キャラクター</label>
             </div>
             <div class="col-12">
-                <input class="form-control request-input" type="text" name="character" id="character" placeholder="キャラクター" value="<?php echo esc_attr(isset($_REQUEST['character']) ? $_REQUEST['character'] : ''); ?>" required>
+                <input class="form-control request-input" type="text" name="character" id="character" placeholder="キャラクター" value="<?php echo esc_attr($tcd_membership_vars['character']); ?>" required>
             </div>
             <div class="col-12 mb-3">
                 <div class="inputCharacter" id="inputCharacter">
@@ -128,7 +128,7 @@ get_header();
             </div>
             <hr class="request-hr">
             <div class="col-12">
-                <input class="form-control request-input" type="text" name="refUrl" id="refUrl" placeholder="参考URL" value="<?php echo esc_attr(isset($_REQUEST['refUrl']) ? $_REQUEST['refUrl'] : ''); ?>">
+                <input class="form-control request-input" type="text" name="refUrl" id="refUrl" placeholder="参考URL" value="<?php echo esc_attr($tcd_membership_vars['refUrl']); ?>">
             </div>
             <div class="col-12 mb-4">
                 <div class="validRefUrl" id="validRefUrl">
@@ -143,7 +143,7 @@ get_header();
             </div>
             <hr class="request-hr">
             <div class="col-11">
-                <input class="form-control request-input request-budget-input" type="number" name="budget" id="budget" placeholder="10000" value="<?php echo esc_attr(isset($_REQUEST['budget']) ? $_REQUEST['budget'] : ''); ?>" required>
+                <input class="form-control request-input request-budget-input" type="number" name="budget" id="budget" placeholder="10000" value="<?php echo esc_attr($tcd_membership_vars['budget']); ?>" required>
                 <div class="request-budget-jpy">
                     円～
                 </div>
@@ -211,17 +211,18 @@ get_header();
             <hr class="request-hr mb-2">
             <div class="col-12 pb-4 row">
                 <div class="col-4">
-                    <input type="number" class="deadline-input" name="orderQuantity" id="orderQuantity"  value="<?php echo esc_attr(isset($_REQUEST['orderQuantity']) ? $_REQUEST['orderQuantity'] : 1); ?>">
+                    <input type="number" class="deadline-input" name="orderQuantity" id="orderQuantity" value="<?php echo esc_attr($tcd_membership_vars['orderQuantity']); ?>">
                     <p class="deadline-date">件</p>
                 </div>
             </div>
             <div class="col-12 text-center mt-3 mb-5">
-                <button type="submit" class="btn btn-primary text-white submit-btn" id="requestBtn" disabled>依頼投稿確認</button>
+                <button type="submit" class="btn btn-primary text-white submit-btn" id="requestBtn" disabled>依頼更新</button>
             </div>
         </div>
-        <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd_membership_action_request')); ?>">
         <input type="hidden" name="specify_user_id" value="<?php echo esc_attr($tcd_membership_vars['specifyUserId']); ?>">
-        <input type="hidden" name="request_type" value="input">
+        <input type="hidden" name="request_type" value="moddify">
+        <input type="hidden" name="request_id" value='<?php echo esc_attr($tcd_membership_vars['request_id']); ?>' />
+        <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd-membership-confirm_message-' . $tcd_membership_vars['request_id'])); ?>">
     </form>
 </div>
 <?php

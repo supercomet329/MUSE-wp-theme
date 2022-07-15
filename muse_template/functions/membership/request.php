@@ -20,14 +20,56 @@ function tcd_membership_action_request()
     ];
 
     $user = wp_get_current_user();
+    if (!$user) {
+        wp_safe_redirect(user_trailingslashit(home_url()));
+        exit();
+    }
+
+    $specifyUser = false;
+    $user_id     = false;
+    if (isset($_REQUEST['user_id'])) {
+
+        // 指定ユーザーがいる場合
+        $specifyUser = true;
+        $user_id = $_REQUEST['user_id'];
+        $user    = get_userdata($user_id);
+
+        if ($user === FALSE) {
+            // 指定ユーザーが存在しない場合 => プロフィールページに遷移
+            wp_redirect(get_author_posts_url(get_current_user_id()));
+            exit();
+        }
+    }
+    $tcd_membership_vars['specifyUser']   = $specifyUser;
+    $tcd_membership_vars['specifyUserId'] = $user_id;
 
     $error_messages = [];
     if (isset($_GET['status'])) {
         $error_messages[] = '登録が完了しました。';
     }
 
+    $dateClass = new DateTime();
+    // php.iniの設定が読み込まれない時があるので。。。
+    $dateClass->setTimezone(new DateTimeZone('Asia/Tokyo'));
+    $dateClass->modify('+1 month');
+    $appDeadlineY   = $dateClass->format('Y');
+    $appDeadlineM   = (int)$dateClass->format('m');
+    $appDeadlineD   = (int)$dateClass->format('d');
+
+    $desiredDateY   = '';
+    $desiredDateM   = '';
+    $desiredDateD   = '';
+
     if ('POST' == $_SERVER['REQUEST_METHOD']) {
         $tcd_membership_vars['post_data'] = $_POST;
+
+        $appDeadlineY   = $_POST['appDeadlineY'];
+        $appDeadlineM   = (int)$_POST['appDeadlineM'];
+        $appDeadlineD   = (int)$_POST['appDeadlineD'];
+
+        $desiredDateY   = $_POST['desiredDateY'];
+        $desiredDateM   = (int)$_POST['desiredDateM'];
+        $desiredDateD   = (int)$_POST['desiredDateD'];
 
         // 値がPOSTされたときの対応
         if (empty($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'tcd_membership_action_request')) {
@@ -163,62 +205,78 @@ function tcd_membership_action_request()
                     // ファイルの名称の登録
                     $result = $wpdb->insert(
                         'wp_postmeta',
-                        array(
+                        [
                             'post_id'    => $post_id,
                             'meta_key'   => 'requestFileName',
                             'meta_value' => $requestFileName,
-                        ),
-                        array(
+                        ],
+                        [
                             '%d',
                             '%s',
                             '%s'
-                        )
+                        ]
                     );
 
                     // ファイルのURLの登録
                     $result = $wpdb->insert(
                         'wp_postmeta',
-                        array(
+                        [
                             'post_id'    => $post_id,
                             'meta_key'   => 'requestFileUrl',
                             'meta_value' => $requestFileUrl,
-                        ),
-                        array(
+                        ],
+                        [
                             '%d',
                             '%s',
                             '%s'
-                        )
+                        ]
                     );
 
                     // 応募期限の登録
                     $result = $wpdb->insert(
                         'wp_postmeta',
-                        array(
+                        [
                             'post_id'    => $post_id,
                             'meta_key'   => 'appDeadlineDate',
                             'meta_value' => $appDeadlineDate,
-                        ),
-                        array(
+                        ],
+                        [
                             '%d',
                             '%s',
                             '%s'
-                        )
+                        ]
                     );
 
                     // 納品希望日の登録
                     if ($desiredDate) {
                         $result = $wpdb->insert(
                             'wp_postmeta',
-                            array(
+                            [
                                 'post_id'    => $post_id,
                                 'meta_key'   => 'desiredDate',
                                 'meta_value' => $desiredDate,
-                            ),
-                            array(
+                            ],
+                            [
                                 '%d',
                                 '%s',
                                 '%s'
-                            )
+                            ]
+                        );
+                    }
+
+                    if (isset($_POST['specify_user_id']) && !empty($_POST['specify_user_id'])) {
+                        $result = $wpdb->insert(
+                            'wp_postmeta',
+                            [
+                                'post_id'    => $post_id,
+                                'meta_key'   => 'specify_user_id',
+                                'meta_value' => $_POST['specify_user_id'],
+                            ],
+                            [
+                                '%d',
+                                '%s',
+                                '%s'
+                            ]
                         );
                     }
 
@@ -231,30 +289,15 @@ function tcd_membership_action_request()
             }
         }
     }
-    $dateClass = new DateTime();
+    $tcd_membership_vars['appDeadlineY']   = $appDeadlineY;
+    $tcd_membership_vars['appDeadlineM']   = (int)$appDeadlineM;
+    $tcd_membership_vars['appDeadlineD']   = (int)$appDeadlineD;
 
-    $chkDeadline  = '';
-    if (isset($_POST['deadline'])) {
-        $chkDeadline  = $_POST['deadline'];
-    }
+    $tcd_membership_vars['desiredDateY']   = $desiredDateY;
+    $tcd_membership_vars['desiredDateM']   = (int)$desiredDateM;
+    $tcd_membership_vars['desiredDateD']   = (int)$desiredDateD;
 
-    $selDeadline    = [];
-    for ($i = 1; $i <= 10; $i++) {
-        $dateClass->modify('+1 day');
-        $week = $weekArray[$dateClass->format('w')];
-
-        $deadLineOne = [];
-        $deadLineOne['value'] = $dateClass->format('Y-m-d');
-        $deadLineOne['text']  = $dateClass->format('Y年m月d日(' . $week . ') 24:00');
-        $deadLineOne['check']  = ($chkDeadline === $dateClass->format('Y-m-d')) ? 'selected' : '';
-        $selDeadline[] = $deadLineOne;
-    }
-    $tcd_membership_vars['sel_deadline'] = $selDeadline;
 
     nocache_headers();
-    if (!$user) {
-        wp_safe_redirect(user_trailingslashit(home_url()));
-        exit;
-    }
 }
 add_action('tcd_membership_action-request', 'tcd_membership_action_request');

@@ -372,171 +372,6 @@ function listOrderByPostAuthor($postAuthor)
     return $result;
 }
 
-/**
- * オーダー一覧の取得
- *
- * @param [type] $post_title
- * @param [type] $post_content
- * @return void
- */
-function listOrder($up_budget, $down_budget, $whereDeadLine, $target)
-{
-    global $wpdb;
-
-    $sql = '';
-    $sql .= 'SELECT ';
-    $sql .= 'wp_posts.ID AS post_id ';
-    $sql .= ',wp_posts.post_author AS post_author ';
-    $sql .= ',wp_posts.post_date AS post_date ';
-    $sql .= ',wp_posts.post_title AS post_title ';
-    $sql .= ',wp_posts.post_content AS post_content ';
-    $sql .= ',wp_users.display_name AS display_name ';
-    $sql .= ',wp_tcd_membership_actions.user_id AS contractor_user_id ';
-    $sql .= ',(';
-    $sql .= ' SELECT meta_value FROM wp_postmeta WHERE wp_postmeta.post_id = wp_posts.ID AND meta_key = \'appDeadlineDate\'';
-    $sql .= ') AS appDeadlineDate ';
-    $sql .= ',(';
-    $sql .= ' SELECT meta_value FROM wp_postmeta WHERE wp_postmeta.post_id = wp_posts.ID AND meta_key = \'budget\'';
-    $sql .= ') AS budget ';
-
-    $sql .= 'FROM wp_posts ';
-    $sql .= ' INNER JOIN wp_users ';
-    $sql .= ' ON wp_users.ID = wp_posts.post_author ';
-    $sql .= 'LEFT JOIN wp_tcd_membership_actions ';
-    $sql .= 'ON wp_posts.ID = wp_tcd_membership_actions.post_id ';
-    $sql .= 'WHERE wp_posts.post_type = \'request\' ';
-    $sql .= ' AND wp_posts.post_status = \'publish\'';
-    $sql .= ' AND wp_posts.post_author = ' . get_current_user_id();
-
-    if ($up_budget) {
-        // 予算上限
-        $sql .= ' AND EXISTS( ';
-        $sql .= ' SELECT * FROM wp_postmeta WHERE wp_postmeta.post_id = wp_posts.ID AND meta_key = \'budget\' AND meta_value <= ' . $up_budget;
-        $sql .= ' ) ';
-    }
-
-    if ($down_budget) {
-        // 予算上限
-        $sql .= ' AND EXISTS( ';
-        $sql .= ' SELECT * FROM wp_postmeta WHERE wp_postmeta.post_id = wp_posts.ID AND meta_key = \'budget\' AND meta_value > ' . $down_budget;
-        $sql .= ' ) ';
-    }
-
-    if ($whereDeadLine) {
-        $sql .= ' AND EXISTS( ';
-        $sql .= ' SELECT * FROM wp_postmeta WHERE wp_postmeta.post_id = wp_posts.ID AND meta_key = \'appDeadlineDate\' AND meta_value <= \'' . $whereDeadLine . '\'';
-        $sql .= ' ) ';
-    }
-
-    if ($target) {
-        // $sql .= 'AND wp_posts.post_content LIKE \'%' . $post_content . '%\' ';
-    }
-
-    $sql .= ' AND NOT EXISTS (';
-    $sql .= ' SELECT * FROM wp_tcd_membership_actions WHERE type=\'received\' AND wp_tcd_membership_actions.post_id = wp_posts.ID';
-    $sql .= ')';
-
-    $sql .= ' ORDER BY wp_posts.ID DESC';
-
-    $result = $wpdb->get_results($wpdb->prepare($sql));
-    return $result;
-}
-
-/**
- * 依頼一覧の取得
- */
-function lisetOrder($sort, $search_txt, $sel_up_budget, $sel_down_budget, $sel_limit)
-{
-    global $wpdb;
-
-    $sql = '';
-    $sql .= 'SELECT ';
-    $sql .= ' DISTINCT wp_posts.ID AS post_id ';
-    $sql .= ',wp_posts.post_author AS post_author ';
-    $sql .= ',wp_posts.post_date AS post_date ';
-    $sql .= ',wp_posts.post_title AS post_title ';
-    $sql .= ',wp_posts.post_content AS post_content ';
-    $sql .= ',wp_users.display_name AS display_name ';
-
-    $sql .= ',(';
-    $sql .= ' SELECT meta_value FROM wp_postmeta WHERE wp_postmeta.post_id = wp_posts.ID AND meta_key = \'appDeadlineDate\'';
-    $sql .= ') AS appDeadlineDate ';
-
-    $sql .= ',(';
-    $sql .= ' SELECT meta_value FROM wp_postmeta WHERE wp_postmeta.post_id = wp_posts.ID AND meta_key = \'budget\'';
-    $sql .= ') AS budget ';
-
-    $sql .= 'FROM wp_posts ';
-    $sql .= ' INNER JOIN wp_users ';
-    $sql .= ' ON wp_users.ID = wp_posts.post_author ';
-    $sql .= 'WHERE wp_posts.post_type = \'request\' ';
-    $sql .= ' AND wp_posts.post_status = \'publish\'';
-    $sql .= ' AND NOT EXISTS(';
-    $sql .= ' SELECT * 
-				FROM wp_tcd_membership_actions 
-				WHERE 
-					wp_tcd_membership_actions.post_id = wp_posts.ID 
-				AND 
-					wp_tcd_membership_actions.type = \'received\' 
-				';
-    $sql .= ' ) ';
-    $sql .= ' AND EXISTS(';
-    $sql .= ' 	SELECT * 
-				FROM wp_postmeta 
-				WHERE 
-					wp_postmeta.post_id = wp_posts.ID 
-				AND 
-					wp_postmeta.meta_key = \'appDeadlineDate\' 
-				AND 
-					wp_postmeta.meta_value > NOW()
-	';
-    $sql .= ')';
-
-    if (!empty($sel_up_budget)) {
-        $sql .= ' AND (';
-        $sql .= ' SELECT meta_value FROM wp_postmeta WHERE wp_postmeta.post_id = wp_posts.ID AND meta_key = \'budget\'';
-        $sql .= ') <= ' . $sel_up_budget;
-    }
-
-    if (!empty($sel_down_budget)) {
-        $sql .= ' AND (';
-        $sql .= ' SELECT meta_value FROM wp_postmeta WHERE wp_postmeta.post_id = wp_posts.ID AND meta_key = \'budget\'';
-        $sql .= ') >= ' . $sel_down_budget;
-    }
-
-    if (!empty($sel_limit)) {
-        $dateClass = new DateTime();
-        $dateClass->modify('+' . $sel_limit);
-
-        $sql .= ' AND (';
-        $sql .= ' SELECT meta_value FROM wp_postmeta WHERE wp_postmeta.post_id = wp_posts.ID AND meta_key = \'appDeadlineDate\'';
-        $sql .= ') <= \'' . $dateClass->format('Y-m-d 23:59:59') . '\'';
-    }
-
-    if (!empty($search_txt)) {
-        $sql .= ' AND (
-			wp_posts.post_title LIKE \'%' . $search_txt . '%\'
-			OR
-			wp_posts.post_content LIKE \'%' . $search_txt . '%\'
-			OR
-			wp_posts.post_name LIKE \'%' . $search_txt . '%\'
-		)';
-    }
-
-    if ($sort === 'id_old') {
-        $sql .= ' ORDER BY wp_posts.ID ASC';
-    } else if ($sort === 'budget_down') {
-        $sql .= ' ORDER BY budget ASC';
-    } else if ($sort === 'budget_up') {
-        $sql .= ' ORDER BY budget DESC';
-    } else {
-        $sql .= ' ORDER BY wp_posts.ID DESC';
-    }
-
-    // echo $sql;exit;
-    $result = $wpdb->get_results($wpdb->prepare($sql));
-    return $result;
-}
 
 /**
  * バリデートチェック
@@ -552,75 +387,29 @@ function validate_date($date, $format = 'Y-m-d H:i:s')
 }
 
 /**
- * 受注一覧の取得
+ * membership_actionsからデータ取得
+ *
+ * @param int    $post_id
+ * @param string $received
+ * @return object
  */
-function listReceivedByUserId($user_id, $up_budget, $down_budget, $whereDeadLine, $target)
+function get_memberShipActionsByPostId($post_id, $received)
 {
     global $wpdb;
 
     $sql = '';
-    $sql .= 'SELECT ';
-    $sql .= ' DISTINCT wp_posts.ID AS post_id ';
-    $sql .= ',wp_posts.post_author AS post_author ';
-    $sql .= ',wp_posts.post_date AS post_date ';
-    $sql .= ',wp_posts.post_title AS post_title ';
-    $sql .= ',wp_posts.post_content AS post_content ';
-    $sql .= ',wp_users.display_name AS display_name ';
-    $sql .= ',wp_tcd_membership_actions.user_id AS contractor_user_id ';
-    $sql .= ',(';
-    $sql .= ' SELECT meta_value FROM wp_postmeta WHERE wp_postmeta.post_id = wp_posts.ID AND meta_key = \'appDeadlineDate\'';
-    $sql .= ') AS appDeadlineDate ';
-    $sql .= ',(';
-    $sql .= ' SELECT meta_value FROM wp_postmeta WHERE wp_postmeta.post_id = wp_posts.ID AND meta_key = \'budget\'';
-    $sql .= ') AS budget ';
+    $sql .= 'SELECT * ';
+    $sql .= ' FROM ';
+    $sql .= ' wp_tcd_membership_actions ';
+    $sql .= ' WHERE ';
+    $sql .= ' post_id = %d ';
+    $sql .= ' AND ';
+    $sql .= ' type = %s ';
 
-    $sql .= 'FROM wp_posts ';
-    $sql .= ' INNER JOIN wp_users ';
-    $sql .= ' ON wp_users.ID = wp_posts.post_author ';
-    $sql .= 'LEFT JOIN wp_tcd_membership_actions ';
-    $sql .= 'ON wp_posts.ID = wp_tcd_membership_actions.post_id ';
-    $sql .= 'WHERE wp_posts.post_type = \'request\' ';
-    $sql .= ' AND wp_posts.post_status = \'publish\'';
-    $sql .= ' AND EXISTS(';
-    $sql .= ' SELECT * 
-				FROM wp_tcd_membership_actions 
-				WHERE 
-					wp_tcd_membership_actions.post_id = wp_posts.ID 
-				AND 
-					wp_tcd_membership_actions.type = \'received\' 
-				AND 
-					wp_tcd_membership_actions.user_id = ' . $user_id;
-    $sql .= ' ) ';
-
-    if ($up_budget) {
-        // 予算上限
-        $sql .= ' AND EXISTS( ';
-        $sql .= ' SELECT * FROM wp_postmeta WHERE wp_postmeta.post_id = wp_posts.ID AND meta_key = \'budget\' AND meta_value <= ' . $up_budget;
-        $sql .= ' ) ';
-    }
-
-    if ($down_budget) {
-        // 予算上限
-        $sql .= ' AND EXISTS( ';
-        $sql .= ' SELECT * FROM wp_postmeta WHERE wp_postmeta.post_id = wp_posts.ID AND meta_key = \'budget\' AND meta_value > ' . $down_budget;
-        $sql .= ' ) ';
-    }
-
-    if ($whereDeadLine) {
-        $sql .= ' AND EXISTS( ';
-        $sql .= ' SELECT * FROM wp_postmeta WHERE wp_postmeta.post_id = wp_posts.ID AND meta_key = \'appDeadlineDate\' AND meta_value <= \'' . $whereDeadLine . '\'';
-        $sql .= ' ) ';
-    }
-
-    if ($target) {
-        // $sql .= 'AND wp_posts.post_content LIKE \'%' . $post_content . '%\' ';
-    }
-
-    $sql .= ' ORDER BY wp_posts.ID DESC';
-
-    $result = $wpdb->get_results($wpdb->prepare($sql));
+    $result = $wpdb->get_results($wpdb->prepare($sql, $post_id, $received));
     return $result;
 }
+
 
 /**
  * 投稿画像の一覧を取得

@@ -69,9 +69,8 @@ get_template_part( 'functions/membership/follows' );
 get_template_part( 'functions/membership/followers' );
 // get_template_part( 'functions/membership/likes' );
 get_template_part( 'functions/membership/request' );
-get_template_part( 'functions/membership/comfirm_request' );
+get_template_part( 'functions/membership/confirm_request' );
 get_template_part( 'functions/membership/order_search' );
-get_template_part( 'functions/membership/modify_request' );
 get_template_part( 'functions/membership/list_received' );
 // get_template_part( 'functions/membership/confirm_received' );
 // get_template_part( 'functions/membership/list_all_order' );
@@ -89,6 +88,7 @@ get_template_part( 'functions/membership/notification' );
 get_template_part( 'functions/membership/post_image' );
 get_template_part( 'functions/membership/page_report' );
 get_template_part( 'functions/membership/post_search' );
+get_template_part( 'functions/membership/in_progress' );
 get_template_part( 'functions/membership/post_comment' );
 get_template_part( 'functions/membership/muse_ranking' );
 

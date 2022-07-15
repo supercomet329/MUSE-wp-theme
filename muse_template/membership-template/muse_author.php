@@ -93,7 +93,7 @@ get_header();
                 <?php } else { ?>
                     <button type="button" data-user-id="<?php echo esc_attr($user_id); ?>" class="js-toggle-follow btn rounded-pill btn-outline-primary btn-sm follow-btn follow-off">フォローする</button>
                 <?php } ?>
-                <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('request')); ?>&user_id<?php echo $user_id; ?>"><button class="px-0 mx-1 btn rounded-pill btn-outline-primary outline-btn btn-sm request-btn">　依頼　</button></a>
+                <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('request')); ?>&user_id=<?php echo $user_id; ?>"><button class="px-0 mx-1 btn rounded-pill btn-outline-primary outline-btn btn-sm request-btn">　依頼　</button></a>
             <?php } ?>
         </div>
     </div>
@@ -117,18 +117,18 @@ get_header();
             <?php if (get_current_user_id() == $user_id) { ?>
                 <div class="row">
                     <div class="col-6 float-right font-weight-bold text-left">
-                        <p class="mb-0">売上預金</p>
+                        <p class="mb-0 text-nowrap">売上預金</p>
                     </div>
                     <div class="col-6 float-right font-weight-bold text-right">
-                        <p class="mb-0">￥1,000,000-</p>
+                        <p class="mb-0 text-nowrap">￥1,000,000-</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-6 float-right font-weight-bold text-left">
-                        <p class="mb-0">NFT時価総額</p>
+                        <p class="mb-0 text-nowrap">NFT時価総額</p>
                     </div>
                     <div class="col-6 float-right font-weight-bold text-right">
-                        <p class="mb-0">￥2,000,000-</p>
+                        <p class="mb-0 text-nowrap">￥2,000,000-</p>
                     </div>
                 </div>
             <?php } ?>

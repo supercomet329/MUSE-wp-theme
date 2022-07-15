@@ -13,7 +13,7 @@ function tcd_membership_action_confirm_received()
     }
 
     // 値がPOSTされたときの対応
-    if (empty($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'tcd_membership_comfirm_request')) {
+    if (empty($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'tcd_membership_confirm_request')) {
         // POSTトークンの取得がおかしい場合 => トップページに遷移
         wp_safe_redirect(user_trailingslashit(home_url()));
         exit;
@@ -37,7 +37,7 @@ function tcd_membership_action_confirm_received()
     if (isset($_POST['request_type']) && $_POST['request_type'] === 'confirm') {
         // 確認ページに遷移したとき
         insert_tcd_membership_action('received', $user->ID, $rowResuestData[0]->post_author, $rowResuestData[0]->post_id);
-        $url = get_tcd_membership_memberpage_url('comfirm_request') . '&request_id=' . $rowResuestData[0]->post_id . '&status=complete';
+        $url = get_tcd_membership_memberpage_url('confirm_request') . '&request_id=' . $rowResuestData[0]->post_id . '&status=complete';
         wp_safe_redirect(user_trailingslashit($url));
         exit;
     }

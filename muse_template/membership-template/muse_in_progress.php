@@ -10,7 +10,7 @@ get_header();
     </div>
 
     <div class="text-center font-weight-bold title mb-3 col-12">
-        リクエスト一覧
+        進行中リクエスト一覧
     </div>
 
     <div class="d-flex flex-row bd-highlight mb-3">
@@ -18,11 +18,11 @@ get_header();
             募集リクエスト
         </a>
 
-        <a href="<?php echo esc_attr(get_tcd_membership_memberpage_url('list_received')); ?>" class="text-nowrap p-2 bd-highlight rounded-pill font-weight-bold small text-center pt-2 selected-tab col-4">
+        <a href="<?php echo esc_attr(get_tcd_membership_memberpage_url('list_received')); ?>" class="text-nowrap p-2 bd-highlight rounded-pill font-weight-bold small text-center pt-2 not-selected-tab col-4">
             リクエスト
         </a>
 
-        <a href="<?php echo esc_attr(get_tcd_membership_memberpage_url('in_progress')); ?>" class="text-nowrap p-2 bd-highlight rounded-pill font-weight-bold small text-center pt-2 not-selected-tab col-4">
+        <a href="<?php echo esc_attr(get_tcd_membership_memberpage_url('in_progress')); ?>" class="text-nowrap p-2 bd-highlight rounded-pill font-weight-bold small text-center pt-2 selected-tab col-4">
             進行中
         </a>
     </div>
@@ -37,7 +37,7 @@ get_header();
 
     <?php
     $loop = 0;
-    foreach ($tcd_membership_vars['list_received'] as $one_order) {
+    foreach ($tcd_membership_vars['listOrder'] as $one_order) {
 
         $class = 'request-boundary';
         if ($loop === 0) {
@@ -85,18 +85,6 @@ get_header();
                                 <p class="font-weight-bold mb-0"><?php echo $dateTimeClass->format('Y/m/d'); ?></p>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-2 px-0 mt-1 ml-3 mr-1 request-keep">
-                                <div class="border rounded-pill text-center mb-1 px-1">
-                                    <?php if (is_keep($one_order->post_id)) { ?>
-                                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/keep_on.png" alt="keep-off" class="js-toggle-keep keep-on" data-post-id="<?php echo $one_order->post_id; ?>">
-                                    <?php } else { ?>
-                                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/keep_off.png" alt="keep-off" class="js-toggle-keep keep-off" data-post-id="<?php echo $one_order->post_id; ?>">
-                                    <?php }
-                                    /** endif */ ?>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -106,13 +94,14 @@ get_header();
     }
     ?>
 
+
     <!-- 検索モーダル -->
-    <form class="search-post mb-2" method="POST" action="<?php echo esc_url(get_tcd_membership_memberpage_url('list_received')); ?>">
+    <form class="search-post mb-2" method="POST" action="<?php echo esc_url(get_tcd_membership_memberpage_url('in_progress')); ?>">
         <div class="modal-container">
             <div class="modal-body">
                 <div class="modal-content text-left p-3">
                     <p class="item-text mx-auto">検索オプション</p>
-                    <form class="search-post" method="POST">
+                    <form class="search-post">
                         <div class="mb-2 item-text">
                             予算上限
                         </div>
@@ -142,21 +131,21 @@ get_header();
                             <select name="deadline" class="select-box mb-3">
                                 <option value="">指定なし</option>
                                 <!-- option value="1hour" <?php echo (isset($tcd_membership_vars['post_data']['deadline']) && $tcd_membership_vars['post_data']['deadline'] === '1hour') ? 'selected' : ''; ?>>1時間以内</option>
-                            <option value="24hour" <?php echo (isset($tcd_membership_vars['post_data']['deadline']) && $tcd_membership_vars['post_data']['deadline'] === '24hour') ? 'selected' : ''; ?>>24時間以内</option -->
+                                <option value="24hour" <?php echo (isset($tcd_membership_vars['post_data']['deadline']) && $tcd_membership_vars['post_data']['deadline'] === '24hour') ? 'selected' : ''; ?>>24時間以内</option -->
                                 <option value="1week" <?php echo (isset($tcd_membership_vars['post_data']['deadline']) && $tcd_membership_vars['post_data']['deadline'] === '1week') ? 'selected' : ''; ?>>1週間以内</option>
                                 <option value="1month" <?php echo (isset($tcd_membership_vars['post_data']['deadline']) && $tcd_membership_vars['post_data']['deadline'] === '1month') ? 'selected' : ''; ?>>1か月以内</option>
                                 <option value="1year" <?php echo (isset($tcd_membership_vars['post_data']['deadline']) && $tcd_membership_vars['post_data']['deadline'] === '1year') ? 'selected' : ''; ?>>1年以内</option>
                             </select>
                         </div>
                         <!-- div class="mb-2 item-text">
-                        対象
-                    </div>
-                    <div class="select-wrap">
-                        <select name="target" class="select-box mb-3">
-                            <option value="">全年齢</option>
-                            <option value="r18">R-18</option>
-                        </select>
-                    </div -->
+                            対象
+                            </div>
+                            <div class="select-wrap">
+                            <select class="select-box mb-3">
+                                <option value="">全年齢</option>
+                                <option value="">R-18</option>
+                            </select>
+                            </div-->
                         <div class="text-center mt-3">
                             <button type="submit" class="btn btn-primary search-btn btn-sm btn-lg text-white">検索</button>
                         </div>
@@ -166,5 +155,6 @@ get_header();
             </div>
         </div>
     </form>
-    <?php
-    get_footer();
+</div>
+<?php
+get_footer();
