@@ -28,12 +28,12 @@ get_header();
     <div class="row d-flex justify-content-center">
         <div class="col-12 tab-area text-center pt-1 pb-1 ml-1 mr-2">
             <ul class="nav nav-pills nav-fill">
-                <li class="nav-item each-tab col-3">
+                <li class="nav-item each-tab <?php echo $tcd_membership_vars['tabStyle']; ?>">
                     <a class="nav-link active btn text-white" id="contents-tab" data-toggle="tab" href="#contents" role="tab" aria-controls="contents" aria-selected="true">
                         <div class="mx-auto">依頼内容</div>
                     </a>
                 </li>
-                <li class="nav-item each-tab col-3">
+                <li class="nav-item each-tab <?php echo $tcd_membership_vars['tabStyle']; ?>">
                     <a class="nav-link btn text-white not-selected-tab" id="files-tab" data-toggle="tab" href="#files" role="tab" aria-controls="files" aria-selected="false">
                         <div class="mx-auto">添付ファイル<br>参考URL</div>
                     </a>
@@ -44,7 +44,7 @@ get_header();
                     </a>
                 </li>
                 <?php if ($tcd_membership_vars['comment_flag'] === TRUE) { ?>
-                    <li class="nav-item each-tab col-3">
+                    <li class="nav-item each-tab <?php echo $tcd_membership_vars['tabStyle']; ?>">
                         <a class="nav-link btn text-white not-selected-tab" id="comments-tab" data-toggle="tab" href="#comments" role="tab" aria-controls="comments" aria-selected="false">
                             <div class="mx-auto">コメント</div>
                         </a>

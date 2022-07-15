@@ -314,6 +314,7 @@ function tcd_membership_action_confirm_request()
     // 受注済か確認
     // 受注済みの場合受注ユーザーの取得
     $comment_flag = false;
+    $tabStyle = 'col-4';
     $receivedData = get_memberShipActionsByPostId($request_id, 'received');
     if (count($receivedData) > 0) {
         // 受注済の場合は作成者でも確認用テンプレート
@@ -322,8 +323,10 @@ function tcd_membership_action_confirm_request()
         $approval_users[(int)get_current_user_id()]      = true;
         $approval_users[$receivedData->target_user_id]   = true;
         $comment_flag = true;
+        $tabStyle = 'col-3';
     }
     $tcd_membership_vars['comment_flag'] = $comment_flag;
+    $tcd_membership_vars['tabStyle']     = $tabStyle;
 
     if (count($approval_users) > 0) {
         // ログインユーザーが発注ユーザーでも受注ユーザーでもない場合
