@@ -23,26 +23,28 @@ get_header();
             <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('page_report')); ?>&request_id=<?php echo esc_attr($tcd_membership_vars['request_id']); ?>" class="btn btn-primary text-white rounded-pill btn-sm text-white btn-lg main-color float-right">通報する</a>
         </div>
     </div>
+
+
     <div class="row d-flex justify-content-center">
         <div class="col-12 tab-area text-center pt-1 pb-1 ml-1 mr-2">
-            <ul class="nav nav-pills nav-fill custom-nav" id="horizontal_list" role="tablist">
-                <li class="nav-item each-tab mx-2">
+            <ul class="nav nav-pills nav-fill">
+                <li class="nav-item each-tab col-3">
                     <a class="nav-link active btn text-white" id="contents-tab" data-toggle="tab" href="#contents" role="tab" aria-controls="contents" aria-selected="true">
                         <div class="mx-auto">依頼内容</div>
                     </a>
                 </li>
-                <li class="nav-item each-tab mx-2">
+                <li class="nav-item each-tab col-3">
                     <a class="nav-link btn text-white not-selected-tab" id="files-tab" data-toggle="tab" href="#files" role="tab" aria-controls="files" aria-selected="false">
                         <div class="mx-auto">添付ファイル<br>参考URL</div>
                     </a>
                 </li>
-                <li class="nav-item each-tab mx-2">
+                <li class="nav-item each-tab col-3">
                     <a class="nav-link btn text-white not-selected-tab" id="budgets-tab" data-toggle="tab" href="#budgets" role="tab" aria-controls="budgets" aria-selected="false">
                         <div class="mx-auto">予算<br>納品希望日</div>
                     </a>
                 </li>
                 <?php if ($tcd_membership_vars['comment_flag'] === TRUE) { ?>
-                    <li class="nav-item each-tab mx-2">
+                    <li class="nav-item each-tab col-3">
                         <a class="nav-link btn text-white not-selected-tab" id="comments-tab" data-toggle="tab" href="#comments" role="tab" aria-controls="comments" aria-selected="false">
                             <div class="mx-auto">コメント</div>
                         </a>
