@@ -261,7 +261,11 @@ get_header();
         </div>
 
         <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd-membership-post_image')); ?>">
-        <input type="hidden" id="file-data" name="file_data" value="0" />
+        <input type="hidden" id="upload-image-x" name="profileImageX" value="0" />
+        <input type="hidden" id="upload-image-y" name="profileImageY" value="0" />
+        <input type="hidden" id="upload-image-w" name="profileImageW" value="0" />
+        <input type="hidden" id="upload-image-h" name="profileImageH" value="0" />
+
     </form>
 </div>
 

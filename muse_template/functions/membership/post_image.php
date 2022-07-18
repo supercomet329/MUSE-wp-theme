@@ -1,5 +1,6 @@
 <?php
 // Add 2022/05/10 by H.Okabe
+require_once( ABSPATH . 'wp-admin/includes/image.php' );
 /**
  * 作品依頼発注一覧ページ
  */
@@ -74,11 +75,15 @@ function tcd_membership_action_post_image()
             $resizeFileName = 'resize_' . $file_name;
             $resize_uploaded_file = __DIR__ . '/../../upload_file/' . $resizeFileName;
             $requestResizeFileUrl  = get_template_directory_uri() . '/upload_file/' . $resizeFileName;
+            cropImage($uploaded_file, $resize_uploaded_file);
+
+            /**
             $file_data = $_POST['file_data'];
             $file_data = str_replace(' ', '+', $file_data);
             $file_data = preg_replace('#^data:image/\w+;base64,#i', '', $file_data);
             $file_data = base64_decode($file_data);
             file_put_contents($resize_uploaded_file, $file_data);
+             */
         } else {
             $error_messages['postFile'] = 'ファイルをアップロードしてください。';
         }
@@ -460,3 +465,34 @@ function tcd_membership_action_post_image()
     $tcd_membership_vars['error'] = $error_messages;
 }
 add_action('tcd_membership_action-post_image', 'tcd_membership_action_post_image');
+
+/**
+ *
+ * ファイルのCrop加工
+ * @param string $uploadedFile
+ * @param string $resizeFilePath
+ * @return void
+ */
+function cropImage($uploadedFile, $resizeFilePath) {
+    // var_dump($_POST);exit;
+
+    // 元画像のサイズを取得
+    list($width, $height) = getimagesize($uploadedFile);
+
+    // 切り抜き位置の取得
+    // サイズの倍率の取得
+    $cutWidth  = $width / 319;
+    $cutHeight = $height / 193;
+
+    // 切り出し位置の取得
+    $d_x     = $cutWidth * $_POST['profileImageX'];
+    $d_w     = $cutWidth * $_POST['profileImageW'];
+    $d_h     = $cutHeight * $_POST['profileImageH'];
+
+    // 画像加工
+    $image = wp_get_image_editor($uploadedFile);
+    $image->crop( $d_x, 0, $d_w, $d_h);
+
+    // 画像の出力
+    $image->save( $resizeFilePath );
+}
