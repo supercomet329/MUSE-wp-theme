@@ -13,13 +13,15 @@ jQuery(function($) {
         slideMenu();
 
         if (jQuery("#hamburger-menu").hasClass("open")) {
+            $(".orver-lay").fadeIn();
             jQuery('body').css({
                 'position': 'fixed',
                 'width': '100%',
-                'z-index': '1',
+                'z-index': '100',
             });
 
         } else {
+            $(".orver-lay").fadeOut();
             jQuery('body').css({
                 'position': 'relative',
                 'width': 'auto',
@@ -28,9 +30,10 @@ jQuery(function($) {
         }
     });
 
-    jQuery("body").click(function(event) {
+    jQuery(".orver-lay").click(function(event) {
         var active = jQuery("#hamburger-menu").hasClass("open");
         if (active == true) {
+            $(".orver-lay").fadeOut();
             event.stopPropagation();
             jQuery("#hamburger-menu").toggleClass("open");
             jQuery(".menu-list").toggleClass("active");

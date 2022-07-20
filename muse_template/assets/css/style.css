@@ -30,6 +30,18 @@
         transition: .4s ease-in-out;
     }
     
+    .orver-lay {
+        display: none;
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        overflow: scroll;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        background: rgba(0, 0, 0, 0.5);
+    }
+    
     #menu-wrapper #hamburger-menu span:nth-child(1) {
         top: 0;
     }

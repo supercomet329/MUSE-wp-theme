@@ -51,6 +51,7 @@ if (get_current_user_id() > 0) {
 </head>
 
 <body <?php body_class(); ?>>
+    <div class="orver-lay"></div>
     <header>
         <nav class="navbar navbar-light bg-light">
             <?php
