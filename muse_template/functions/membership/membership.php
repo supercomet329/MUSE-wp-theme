@@ -91,6 +91,7 @@ get_template_part( 'functions/membership/post_search' );
 get_template_part( 'functions/membership/in_progress' );
 get_template_part( 'functions/membership/post_comment' );
 get_template_part( 'functions/membership/muse_ranking' );
+get_template_part( 'functions/membership/muse_oauth' );
 
 // load options
 global $dp_options;

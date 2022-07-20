@@ -109,6 +109,9 @@ function tcd_membership_login_form($args = array())
                     </div>
                 </div>
             </form>
+
+
+            <?php echo makeTwitterOauthLogin(); ?>
             <hr class="hr-line">
             <!-- TODO: Twitterログイン実装 -->
             <!-- <div class="row">
@@ -552,7 +555,7 @@ function tcd_membership_login_form($args = array())
             <div class="row profile-edit-area">
                 <div class="col-12 text-center pt-3">
                     <label>
-                        <input type="file" name="profile_image"  id="profile_img_file_input" accept="image/png, image/jpeg" class="image">
+                        <input type="file" name="profile_image" id="profile_img_file_input" accept="image/png, image/jpeg" class="image">
                         <img src="<?php echo esc_url($profile_image); ?>" class="profile-image rounded-circle" id="profile_image">
                     </label>
                 </div>
@@ -836,7 +839,7 @@ function tcd_membership_login_form($args = array())
                     'show_website' => $dp_options['membership']['show_profile_website'],
                     // Add 2022/05/09 H.Okabe
                     'show_telphone' => true,
-                     // ADD 2022/07/07 追加 H.Okabe
+                    // ADD 2022/07/07 追加 H.Okabe
                     'show_request_box'     => $dp_options['membership']['request_box'],
                     // 'show_facebook' => $dp_options['membership']['show_profile_facebook'],
                     // 'show_twitter' => $dp_options['membership']['show_profile_twitter'],
