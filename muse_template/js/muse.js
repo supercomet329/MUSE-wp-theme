@@ -1880,7 +1880,7 @@ jQuery(function($) {
                 cropper_post = new Cropper(image, {
                     aspectRatio: 9 / 16,
                     initialAspectRatio: 1,
-                    autoCropArea: 1,
+                    autoCropArea: 0.8,
                     cropBoxResizable: false,
                     dragMode: 'move',
                     viewMode: 3,

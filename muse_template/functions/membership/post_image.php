@@ -485,13 +485,15 @@ function cropImage($uploadedFile, $resizeFilePath) {
     $cutHeight = $height / 193;
 
     // 切り出し位置の取得
-    $d_x     = $cutWidth * $_POST['profileImageX'];
-    $d_w     = $cutWidth * $_POST['profileImageW'];
+    $d_x     = $cutWidth *  $_POST['profileImageX'];
+    $d_y     = $cutWidth *  $_POST['profileImageY'];
+    $d_w     = $cutWidth *  $_POST['profileImageW'];
     $d_h     = $cutHeight * $_POST['profileImageH'];
 
     // 画像加工
     $image = wp_get_image_editor($uploadedFile);
-    $image->crop( $d_x, 0, $d_w, $d_h);
+    $image->crop( $d_x, $d_y, $d_w, $d_h);
+    $image->resize( NULL, 250 , true );
 
     // 画像の出力
     $image->save( $resizeFilePath );
