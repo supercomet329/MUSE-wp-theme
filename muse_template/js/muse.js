@@ -4,17 +4,21 @@ jQuery(function($) {
         var activeState = jQuery(".menu-list").hasClass("active");
         jQuery(".menu-list").animate({ left: activeState ? "0%" : "-300px" }, 400);
     }
+
     jQuery("#menu-wrapper").click(function(event) {
+
         event.stopPropagation();
         jQuery("#hamburger-menu").toggleClass("open");
         jQuery(".menu-list").toggleClass("active");
         slideMenu();
+
         if (jQuery("#hamburger-menu").hasClass("open")) {
             jQuery('body').css({
                 'position': 'fixed',
                 'width': '100%',
                 'z-index': '1',
             });
+
         } else {
             jQuery('body').css({
                 'position': 'relative',
@@ -22,7 +26,21 @@ jQuery(function($) {
                 'top': 'auto'
             });
         }
+    });
 
+    jQuery("body").click(function(event) {
+        var active = jQuery("#hamburger-menu").hasClass("open");
+        if (active == true) {
+            event.stopPropagation();
+            jQuery("#hamburger-menu").toggleClass("open");
+            jQuery(".menu-list").toggleClass("active");
+            slideMenu();
+            jQuery('body').css({
+                'position': 'relative',
+                'width': 'auto',
+                'top': 'auto'
+            });
+        }
     });
 });
 
