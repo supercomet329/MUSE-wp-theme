@@ -1879,7 +1879,7 @@ jQuery(function($) {
             // cropper.jsでトリミング可能な画像を表示
             $modal.on('shown.bs.modal', function(event) {
                 cropper_post = new Cropper(image, {
-                    aspectRatio: 9 / 16,
+                    aspectRatio: 3 / 4,
                     initialAspectRatio: 1,
                     autoCropArea: 0.8,
                     cropBoxResizable: false,
