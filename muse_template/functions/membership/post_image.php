@@ -493,7 +493,7 @@ function cropImage($uploadedFile, $resizeFilePath) {
     // 画像加工
     $image = wp_get_image_editor($uploadedFile);
     $image->crop( $d_x, $d_y, $d_w, $d_h);
-    $image->resize( NULL, 250 , true );
+    $image->resize( NULL, 270 , true );
 
     // 画像の出力
     $image->save( $resizeFilePath );

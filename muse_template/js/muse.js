@@ -1286,6 +1286,7 @@ function chkPostButton() {
         disabledFlag = false;
     }
 
+    jQuery('#sidePostBtn').attr('disabled', disabledFlag);
     jQuery('#postBtn').attr('disabled', disabledFlag);
 }
 

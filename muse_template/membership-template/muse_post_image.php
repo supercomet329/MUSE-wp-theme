@@ -5,13 +5,23 @@ global $dp_options, $tcd_membership_vars;
 get_header();
 ?>
 <div class="container pt-2">
-    <div class="row mb-2">
-        <div class="col-12">
-            <a href="javascript:history.back();">← 戻る</a>
-        </div>
-    </div>
     <form method="POST" enctype="multipart/form-data">
+        <div class="row mb-2">
+            <div class="col-6">
+                <a href="javascript:history.back();">← 戻る</a>
+            </div>
+            <div class="col-6 text-center">
+                <button type="submit" class="btn btn-primary text-white side_submit-btn" id="sidePostBtn" disabled>画像登録</button>
+            </div>
+        </div>
+
         <div class="row">
+            <div class="col-12">
+                <label for="saleType" class="label-text post-input-title mt-4">タイトル（必須）</label>
+            </div>
+            <div class="col-12">
+                <input class="form-control post-input" type="text" name="postTitle" id="postTitle" placeholder="タイトルを入力">
+            </div>
             <div class="col-12">
                 <label for="saleType" class="label-text post-input-title">投稿画像（必須）</label>
             </div>
@@ -23,22 +33,22 @@ get_header();
                 </label>
             </div>
             <div class="row col-12 mx-auto">
-                <div class="col-4 post-file-input px-1">
-                    <label class="post-file" id="image_file2">
+                <div class="col-4 sub_post-file-input px-1">
+                    <label class="sub_post-file" id="image_file2">
                         <img src="" class="sub-cover-img d-none" id="cover_img2" class="mx-auto">
                         <input type="file" name="postFile2" id="postFile_2" accept="image/png, image/jpeg">
                         <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/camera_BGblue.png" class="post-file-img">
                     </label>
                 </div>
-                <div class="col-4 post-file-input px-1">
-                    <label class="post-file" id="image_file3">
+                <div class="col-4 sub_post-file-input px-1">
+                    <label class="sub_post-file" id="image_file3">
                         <img src="" class="sub-cover-img d-none" id="cover_img3" class="mx-auto">
                         <input type="file" name="postFile3" id="postFile_3" accept="image/png, image/jpeg">
                         <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/camera_BGblue.png" class="post-file-img">
                     </label>
                 </div>
-                <div class="col-4 post-file-input px-1">
-                    <label class="post-file" id="image_file4">
+                <div class="col-4 sub_post-file-input px-1">
+                    <label class="sub_post-file" id="image_file4">
                         <img src="" class="sub-cover-img d-none" id="cover_img4" class="mx-auto">
                         <input type="file" name="postFile4" id="postFile_4" accept="image/png, image/jpeg">
                         <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/camera_BGblue.png" class="post-file-img">
@@ -50,12 +60,7 @@ get_header();
             </div>
         </div>
         <div class="row">
-            <div class="col-12">
-                <label for="saleType" class="label-text post-input-title mt-4">タイトル（必須）</label>
-            </div>
-            <div class="col-12">
-                <input class="form-control post-input" type="text" name="postTitle" id="postTitle" placeholder="タイトルを入力">
-            </div>
+
             <div class="col-12">
                 <div class="error_message" id="errPostTitle"></div>
             </div>
