@@ -13,8 +13,8 @@ $imageList = getPostImageByPostTypeAndPostStatus();
 
 <?php if (count(partsRanking()) > 0) { ?>
     <ul class="horizontal-list">
-    <li class="item ml-2 ranking-icon-box"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/ranking_01.png" class="ranking-icon" alt="ranking_icon"><br /></li>
-    <?php
+        <li class="item ml-2 ranking-icon-box"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/ranking_01.png" class="ranking-icon" alt="ranking_icon"><br /></li>
+        <?php
         $loop = 0;
         foreach (partsRanking() as $rankingOne) {
 
@@ -28,9 +28,9 @@ $imageList = getPostImageByPostTypeAndPostStatus();
                     <img src="<?php echo esc_url($profile_image); ?>" alt="profile" class="rounded-circle">
                 </li>
             </a>
-        <?php 
-                $loop++;
-            }
+        <?php
+            $loop++;
+        }
         /** endforeach */ ?>
         <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('ranking')) ?>">
             <li class="item">
@@ -113,7 +113,7 @@ foreach ($imageList as $imageOne) {
     </div>
 
     <div class="logo-area d-flex flex-row bd-highlight mb-2">
-        <div class=" bd-highlight col-10 text-nowrap">
+        <div class=" bd-highlight col-9 text-nowrap">
             <?php
             $like_image = 'iine.png';
             if (is_liked($one_photo->post_id, false)) {
@@ -128,8 +128,11 @@ foreach ($imageList as $imageOne) {
             <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/favorite_on.png" alt="favorite_on">
         </div>
         <div class="col-2 text-right">
-            <a class="text-dark" href="<?php echo esc_url(get_tcd_membership_memberpage_url('post_comment')); ?>&post_id=<?php echo esc_attr($imageOne->post_id); ?>">…</a>
+            <a class="text-dark" href="<?php echo esc_url(get_tcd_membership_memberpage_url('post_comment')); ?>&post_id=<?php echo esc_attr($imageOne->post_id); ?>">
+                <img class="float-left" src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/comment_up.png" alt="social_tipping_on">
+            </a>
         </div>
+        <div class=" bd-highlight col-1"></div>
     </div>
 <?php
 }
