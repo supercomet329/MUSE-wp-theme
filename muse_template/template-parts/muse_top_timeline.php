@@ -85,7 +85,7 @@ foreach ($imageList as $imageOne) {
     </div>
 
     <div class="timeline-image">
-        <div class="my-2 slid-img swiper swipertum">
+        <div class="slid-img swiper swipertum">
             <div class="swiper-wrapper d-flex align-items-center">
                 <?php foreach ($imageArray as $photoOne) { ?>
                     <div class="swiper-slide">
@@ -112,8 +112,8 @@ foreach ($imageList as $imageOne) {
         </div>
     </div>
 
-    <div class="logo-area d-flex flex-row bd-highlight mb-3">
-        <div class="p-2 bd-highlight col-10 text-nowrap">
+    <div class="logo-area d-flex flex-row bd-highlight mb-2">
+        <div class=" bd-highlight col-10 text-nowrap">
             <?php
             $like_image = 'iine.png';
             if (is_liked($one_photo->post_id, false)) {
