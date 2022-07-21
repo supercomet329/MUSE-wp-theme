@@ -87,11 +87,6 @@ function tcd_membership_action_oauth_twitter()
             $userData = getUsersMetaByMetaKeyAndMetaValue('twitter_user_id', $profileArray['data']['id']);
             if (count($userData) > 0) {
                 // 存在する場合 => ユーザー情報を取得してログイン
-                $creds                  = [];
-                $creds['user_login']    = $userData[0]->user_login;
-                $creds['user_password'] = $userData[0]->user_pass;
-                wp_signon($creds, false);
-
                 wp_clear_auth_cookie();
                 wp_set_current_user($userData[0]->ID);
                 wp_set_auth_cookie($userData[0]->ID);
