@@ -19,67 +19,11 @@
  * option_value: Twitter Developersから取得しClient Secret
  * autoload: yes
  */
-
 function tcd_membership_action_oauth_twitter()
 {
     if (isset($_GET['code']) && !empty($_GET['code'])) {
 
-        $twitter_client_id     = get_option('twitter_client_id');
-        $twitter_client_secret = get_option('twitter_client_secret');
-
-        // TwitterのOauthからcodeが取得できた場合
-        $code = $_GET['code'];
-
-        $body = '';
-        $body .= 'grant_type=authorization_code';
-        $body .= '&redirect_uri=' . urlencode(home_url() . '/?memberpage=oauth_twitter');
-        $body .= '&code_verifier=' . $_SESSION['code_verifier'];
-        $body .= '&client_id=' . $twitter_client_id;
-        $body .= '&code=' . $code;
-
-        // アクセストークンの取得
-        $ch = curl_init();
-        $options = [
-            CURLOPT_URL => 'https://api.twitter.com/2/oauth2/token',
-            CURLOPT_HTTPHEADER => [
-                'Content-Type: application/x-www-form-urlencoded',
-            ],
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_POST => true,
-            CURLOPT_USERPWD => $twitter_client_id . ':' . $twitter_client_secret,
-            CURLOPT_POSTFIELDS => $body,
-            CURLOPT_SSL_VERIFYPEER => false,
-            CURLOPT_SSL_VERIFYHOST => false,
-            CURLOPT_RETURNTRANSFER => true,
-        ];
-        curl_setopt_array($ch, $options);
-        $response   = curl_exec($ch);
-        $tokenArray = json_decode($response, true);
-        curl_close($ch);
-
-        $access_token  = $tokenArray['access_token'];
-        // $refresh_token = $tokenArray['refresh_token'];
-
-        // Twitterのコードからユーザー情報の取得
-        // ヘッダ生成
-        $ch = curl_init();
-        $options = [
-            CURLOPT_URL => 'https://api.twitter.com/2/users/me',
-            CURLOPT_HTTPHEADER => [
-                'Content-Type: application/json; charser=UTF-8',
-                'Authorization: Bearer ' . $access_token
-            ],
-            CURLOPT_RETURNTRANSFER => true
-        ];
-        curl_setopt_array($ch, $options);
-        $response   = curl_exec($ch);
-        $profileArray = json_decode($response, true);
-        curl_close($ch);
-
-        // TODO: メールアドレスの取得にはTwitter管理画面の設定が必要なため(利用規約のページ And プライバシーポリシーがbasic他がない状態で必要)
-        // メールアドレスを取得しwp_usersにメールアドレスがあるか?確認
-        // メールアドレスが存在する場合 => wp_usersのユーザーを取得してログイン状態にしてリダイレクト
-        // メールアドレスが存在しない場合 => メールアドレスに新規登録メールを送信する
+        $profileArray = getTwitterProfile($_GET['code'], home_url() . '/?memberpage=oauth_twitter');
 
         // 取得したユーザー情報内にtwitterのIDがあるか?確認
         if (isset($profileArray['data']['id']) && !empty($profileArray['data']['id'])) {
@@ -102,76 +46,40 @@ function tcd_membership_action_oauth_twitter()
 }
 add_action('tcd_membership_action-oauth_twitter', 'tcd_membership_action_oauth_twitter');
 
+/**
+ * Oauth認証
+ * 
+ * 注: 使用する場合は, Twitterの開発者登録が必要
+ * Callback URI / Redirect URLに/?memberpage=oauth_twitterのページを登録しておく
+ * 
+ * 以下, DBに登録しておく
+ * テーブル名: wp_options
+ * 
+ * 1, 
+ * option_name: twitter_client_id
+ * option_value: Twitter Developersから取得したclient_id
+ * autoload: yes
+ *
+ * 2, 
+ * option_name: twitter_client_secret
+ * option_value: Twitter Developersから取得しClient Secret
+ * autoload: yes
+ */
 function tcd_membership_action_oauth_login_twitter()
 {
     $message = 'Twitterの認証に失敗しました。';
     if (isset($_GET['code']) && !empty($_GET['code'])) {
 
-        $twitter_client_id     = get_option('twitter_client_id');
-        $twitter_client_secret = get_option('twitter_client_secret');
-
-        // TwitterのOauthからcodeが取得できた場合
-        $code = $_GET['code'];
-
-        $body = '';
-        $body .= 'grant_type=authorization_code';
-        $body .= '&redirect_uri=' . urlencode(home_url() . '/?memberpage=oauth_login_twitter');
-        $body .= '&code_verifier=' . $_SESSION['code_verifier'];
-        $body .= '&client_id=' . $twitter_client_id;
-        $body .= '&code=' . $code;
-
-        // アクセストークンの取得
-        $ch = curl_init();
-        $options = [
-            CURLOPT_URL => 'https://api.twitter.com/2/oauth2/token',
-            CURLOPT_HTTPHEADER => [
-                'Content-Type: application/x-www-form-urlencoded',
-            ],
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_POST => true,
-            CURLOPT_USERPWD => $twitter_client_id . ':' . $twitter_client_secret,
-            CURLOPT_POSTFIELDS => $body,
-            CURLOPT_SSL_VERIFYPEER => false,
-            CURLOPT_SSL_VERIFYHOST => false,
-            CURLOPT_RETURNTRANSFER => true,
-        ];
-        curl_setopt_array($ch, $options);
-        $response   = curl_exec($ch);
-        $tokenArray = json_decode($response, true);
-        curl_close($ch);
-
-        $access_token  = $tokenArray['access_token'];
-        // $refresh_token = $tokenArray['refresh_token'];
-
-        // Twitterのコードからユーザー情報の取得
-        // ヘッダ生成
-        $ch = curl_init();
-        $options = [
-            CURLOPT_URL => 'https://api.twitter.com/2/users/me',
-            CURLOPT_HTTPHEADER => [
-                'Content-Type: application/json; charser=UTF-8',
-                'Authorization: Bearer ' . $access_token
-            ],
-            CURLOPT_RETURNTRANSFER => true
-        ];
-        curl_setopt_array($ch, $options);
-        $response   = curl_exec($ch);
-        $profileArray = json_decode($response, true);
-        curl_close($ch);
-
-        // TODO: メールアドレスの取得にはTwitter管理画面の設定が必要なため(利用規約のページ And プライバシーポリシーがbasic他がない状態で必要)
-        // メールアドレスを取得しwp_usersにメールアドレスがあるか?確認
-        // メールアドレスが存在する場合 => wp_usersのユーザーを取得してログイン状態にしてリダイレクト
-        // メールアドレスが存在しない場合 => メールアドレスに新規登録メールを送信する
+        $profileArray = getTwitterProfile($_GET['code'], home_url() . '/?memberpage=oauth_login_twitter');
 
         // 取得したユーザー情報内にtwitterのIDがあるか?確認
         if (isset($profileArray['data']['id']) && !empty($profileArray['data']['id'])) {
 
             $user_id = get_current_user_id();
             // 現行のusermetaを削除
-            delete_usermeta( $user_id, 'twitter_user_id' );
+            delete_usermeta($user_id, 'twitter_user_id');
             // 新規にusermetaを登録
-            add_user_meta( $user_id, 'twitter_user_id', $profileArray['data']['id'] );
+            add_user_meta($user_id, 'twitter_user_id', $profileArray['data']['id']);
             $message = 'Twitterの認証に成功しました。';
         }
     }
@@ -215,7 +123,7 @@ function makeTwitterOauthLogin()
         $button .= '<div class="col-12 login-with-sns">';
         $button .= '<a href="' . $base_url . '?' . http_build_query($query) . '" rel="noreferrer">';
         $button .= '<button class="twitter-btn">';
-        $button .= '<img class="col-3 float-left twitter-icon" src="' . get_template_directory_uri() .'/assets/img/icon/twitter_icon.png" alt="twitter">';
+        $button .= '<img class="col-3 float-left twitter-icon" src="' . get_template_directory_uri() . '/assets/img/icon/twitter_icon.png" alt="twitter">';
         $button .= '<div class="con-6 twitter-login-text">Twitterでログインする</div>';
         $button .= '<div class="con-3"></div>';
         $button .= '</button>';
@@ -227,6 +135,7 @@ function makeTwitterOauthLogin()
 
     return "";
 }
+
 
 function makeTwitterOauthLoginLink()
 {
@@ -253,7 +162,7 @@ function makeTwitterOauthLoginLink()
         $button .= '<div class="col-12 login-with-sns">';
         $button .= '<a href="' . $base_url . '?' . http_build_query($query) . '" rel="noreferrer">';
         $button .= '<button class="twitter-btn">';
-        $button .= '<img class="col-3 float-left twitter-icon" src="' . get_template_directory_uri() .'/assets/img/icon/twitter_icon.png" alt="twitter">';
+        $button .= '<img class="col-3 float-left twitter-icon" src="' . get_template_directory_uri() . '/assets/img/icon/twitter_icon.png" alt="twitter">';
         $button .= '<div class="con-6 twitter-login-text">Twitterで認証を行う</div>';
         $button .= '<div class="con-3"></div>';
         $button .= '</button>';
@@ -292,4 +201,67 @@ function getUsersMetaByMetaKeyAndMetaValue($meta_key, $meta_value)
 
     $result = $wpdb->get_results($wpdb->prepare($sql, [$meta_key, $meta_value]));
     return $result;
+}
+
+/**
+ * Twitter APIを使用して
+ * プロフィール情報の取得
+ */
+function getTwitterProfile($code, $redirect_url)
+{
+    $twitter_client_id     = get_option('twitter_client_id');
+    $twitter_client_secret = get_option('twitter_client_secret');
+
+    $body = '';
+    $body .= 'grant_type=authorization_code';
+    $body .= '&redirect_uri=' . urlencode($redirect_url);
+    $body .= '&code_verifier=' . $_SESSION['code_verifier'];
+    $body .= '&client_id=' . $twitter_client_id;
+    $body .= '&code=' . $code;
+
+    // アクセストークンの取得
+    $ch = curl_init();
+    $options = [
+        CURLOPT_URL => 'https://api.twitter.com/2/oauth2/token',
+        CURLOPT_HTTPHEADER => [
+            'Content-Type: application/x-www-form-urlencoded',
+        ],
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_POST => true,
+        CURLOPT_USERPWD => $twitter_client_id . ':' . $twitter_client_secret,
+        CURLOPT_POSTFIELDS => $body,
+        CURLOPT_SSL_VERIFYPEER => false,
+        CURLOPT_SSL_VERIFYHOST => false,
+        CURLOPT_RETURNTRANSFER => true,
+    ];
+    curl_setopt_array($ch, $options);
+    $response   = curl_exec($ch);
+    $tokenArray = json_decode($response, true);
+    curl_close($ch);
+
+    $access_token  = $tokenArray['access_token'];
+    // $refresh_token = $tokenArray['refresh_token'];
+
+    // Twitterのコードからユーザー情報の取得
+    // ヘッダ生成
+    $ch = curl_init();
+    $options = [
+        CURLOPT_URL => 'https://api.twitter.com/2/users/me',
+        CURLOPT_HTTPHEADER => [
+            'Content-Type: application/json; charser=UTF-8',
+            'Authorization: Bearer ' . $access_token
+        ],
+        CURLOPT_RETURNTRANSFER => true
+    ];
+    curl_setopt_array($ch, $options);
+    $response   = curl_exec($ch);
+    $profileArray = json_decode($response, true);
+    curl_close($ch);
+
+    // TODO: メールアドレスの取得にはTwitter管理画面の設定が必要なため(利用規約のページ And プライバシーポリシーがbasic他がない状態で必要)
+    // メールアドレスを取得しwp_usersにメールアドレスがあるか?確認
+    // メールアドレスが存在する場合 => wp_usersのユーザーを取得してログイン状態にしてリダイレクト
+    // メールアドレスが存在しない場合 => メールアドレスに新規登録メールを送信する
+
+    return $profileArray;
 }
