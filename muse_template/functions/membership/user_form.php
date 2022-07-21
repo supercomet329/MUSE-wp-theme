@@ -550,6 +550,14 @@ function tcd_membership_login_form($args = array())
             <?php if (!empty($successMessage)) : ?>
                 <p><?php echo $successMessage; ?></p>
             <?php endif; ?>
+
+            <?php
+                if (isset($_SESSION['success_twitter_message'])) {
+                    $massage = $_SESSION['success_twitter_message'];
+                    unset($_SESSION['success_twitter_message']);
+            ?>
+                <p><?php echo $massage; ?></p>
+            <?php } ?>
         </div>
         <div class="container">
             <div class="row profile-edit-area">
@@ -563,6 +571,7 @@ function tcd_membership_login_form($args = array())
                 <div class="col-12 text-center title my-2" id="UserNameMsg"></div>
                 <div class="col-12 text-center title my-2" id="CalendarMsg"></div>
                 <div class="col-12 text-center title my-2" id="UrlMsg"></div>
+                <?php echo makeTwitterOauthLoginLink(); ?>
                 <div class="col-6 text-left title py-2 mt-0 border-bottom-dashed">
                     名前
                 </div>
