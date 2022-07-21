@@ -1,6 +1,6 @@
 <?php
 // Add 2022/05/10 by H.Okabe
-require_once( ABSPATH . 'wp-admin/includes/image.php' );
+require_once(ABSPATH . 'wp-admin/includes/image.php');
 /**
  * 作品依頼発注一覧ページ
  */
@@ -473,28 +473,37 @@ add_action('tcd_membership_action-post_image', 'tcd_membership_action_post_image
  * @param string $resizeFilePath
  * @return void
  */
-function cropImage($uploadedFile, $resizeFilePath) {
-    // var_dump($_POST);exit;
-
+function cropImage($uploadedFile, $resizeFilePath)
+{
     // 元画像のサイズを取得
     list($width, $height) = getimagesize($uploadedFile);
 
     // 切り抜き位置の取得
     // サイズの倍率の取得
     $cutWidth  = $width / 319;
+
+    // 縦4: 横 3の対応
     $cutHeight = $height / 193;
 
+    // 正方形の対応
+    // $cutHeight = $height / 319;
+
     // 切り出し位置の取得
-    $d_x     = $cutWidth *  $_POST['profileImageX'];
-    $d_y     = $cutWidth *  $_POST['profileImageY'];
-    $d_w     = $cutWidth *  $_POST['profileImageW'];
+    $d_x     = $cutWidth  * $_POST['profileImageX'];
+    $d_y     = $cutWidth  * $_POST['profileImageY'];
+    $d_w     = $cutWidth  * $_POST['profileImageW'];
     $d_h     = $cutHeight * $_POST['profileImageH'];
 
     // 画像加工
     $image = wp_get_image_editor($uploadedFile);
-    $image->crop( $d_x, $d_y, $d_w, $d_h);
-    $image->resize( NULL, 270 , true );
+    $image->crop($d_x, $d_y, $d_w, $d_h);
+
+    // 縦4: 横 3の対応
+    $image->resize(NULL, 400, true);
+
+    // 正方形の対応
+    // $image->resize(400, 400, true);
 
     // 画像の出力
-    $image->save( $resizeFilePath );
+    $image->save($resizeFilePath);
 }
