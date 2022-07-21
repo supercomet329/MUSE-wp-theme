@@ -22,16 +22,10 @@
 
 function tcd_membership_action_oauth_twitter()
 {
-    global $tcd_membership_vars;
     if (isset($_GET['code']) && !empty($_GET['code'])) {
 
-        $token_url              = 'https://api.twitter.com/2/oauth2/token';
         $twitter_client_id     = get_option('twitter_client_id');
         $twitter_client_secret = get_option('twitter_client_secret');
-        $header = [
-            "Content-Type: application/x-www-form-urlencoded",
-        ];
-
 
         // TwitterのOauthからcodeが取得できた場合
         $code = $_GET['code'];
@@ -64,7 +58,7 @@ function tcd_membership_action_oauth_twitter()
         curl_close($ch);
 
         $access_token  = $tokenArray['access_token'];
-        $refresh_token = $tokenArray['refresh_token'];
+        // $refresh_token = $tokenArray['refresh_token'];
 
         // Twitterのコードからユーザー情報の取得
         // ヘッダ生成
@@ -115,17 +109,11 @@ add_action('tcd_membership_action-oauth_twitter', 'tcd_membership_action_oauth_t
 
 function tcd_membership_action_oauth_login_twitter()
 {
-    global $tcd_membership_vars;
     $message = 'Twitterの認証に失敗しました。';
     if (isset($_GET['code']) && !empty($_GET['code'])) {
 
-        $token_url              = 'https://api.twitter.com/2/oauth2/token';
         $twitter_client_id     = get_option('twitter_client_id');
         $twitter_client_secret = get_option('twitter_client_secret');
-        $header = [
-            "Content-Type: application/x-www-form-urlencoded",
-        ];
-
 
         // TwitterのOauthからcodeが取得できた場合
         $code = $_GET['code'];
@@ -158,7 +146,7 @@ function tcd_membership_action_oauth_login_twitter()
         curl_close($ch);
 
         $access_token  = $tokenArray['access_token'];
-        $refresh_token = $tokenArray['refresh_token'];
+        // $refresh_token = $tokenArray['refresh_token'];
 
         // Twitterのコードからユーザー情報の取得
         // ヘッダ生成
