@@ -111,31 +111,31 @@ function tcd_membership_login_form($args = array())
             </form>
 
 
-            <?php echo makeTwitterOauthLogin(); ?>
             <hr class="hr-line">
             <!-- TODO: Twitterログイン実装 -->
-            <!-- <div class="row">
-				<div class="col-12">
-					<h1 class="text-center mt-3 mb-3 contents-title font-weight-bold">SNSログイン</h1>
-				</div>
-				<div class="col-12 login-with-sns">
-					<a href="https://twitter.com" target="_blank" rel="noreferrer">
-						<button class="twitter-btn">
-							<img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/twitter_icon.png" alt="twitter" class="twitter-icon">
-							Twitterでログインする
-						</button>
-					</a>
-				</div>
-				<div class="col-12 login-with-sns mt-3">
-					<a href="https://google.com" target="_blank" rel="noreferrer">
-						<button class="google-btn">
-							<img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/g-logo.png" alt="google" class="google-icon">
-							Googleアカウントでログインする
-						</button>
-					</a>
-				</div>
-			</div>
-			<hr class="hr-line mt-3">-->
+            <div class="row">
+                <div class="col-12">
+                    <h1 class="text-center mt-3 mb-3 contents-title font-weight-bold">SNSログイン</h1>
+                </div>
+                <?php echo makeTwitterOauthLogin(); ?>
+                <!-- div class="col-12 login-with-sns">
+                    <a href="https://twitter.com" target="_blank" rel="noreferrer">
+                        <button class="twitter-btn">
+                            <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/twitter_icon.png" alt="twitter" class="twitter-icon">
+                            Twitterでログインする
+                        </button>
+                    </a>
+                </div -->
+                <!-- div class="col-12 login-with-sns mt-3">
+                    <a href="https://google.com" target="_blank" rel="noreferrer">
+                        <button class="google-btn">
+                            <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/g-logo.png" alt="google" class="google-icon">
+                            Googleアカウントでログインする
+                        </button>
+                    </a>
+                </div -->
+            </div>
+            <hr class="hr-line mt-3">
             <div class="row">
                 <div class="col-12">
                     <h1 class="text-center mt-3 mb-3 contents-title font-weight-bold">新規会員登録</h1>

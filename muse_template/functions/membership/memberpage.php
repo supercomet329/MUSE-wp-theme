@@ -45,6 +45,7 @@ function tcd_membership_memberpage_init()
 			'in_progress',
 			'post_comment',
 			'ranking',
+			'login_twitter',
 			'oauth_twitter',
 		), 
 		'memberpage_guest_types' => array(
