@@ -571,7 +571,6 @@ function tcd_membership_login_form($args = array())
                 <div class="col-12 text-center title my-2" id="UserNameMsg"></div>
                 <div class="col-12 text-center title my-2" id="CalendarMsg"></div>
                 <div class="col-12 text-center title my-2" id="UrlMsg"></div>
-                <?php echo makeTwitterOauthLoginLink(); ?>
                 <div class="col-6 text-left title py-2 mt-0 border-bottom-dashed">
                     名前
                 </div>
@@ -620,11 +619,13 @@ function tcd_membership_login_form($args = array())
                 <div class="col-12 text-center my-4">
                     <button type="submit" class="btn btn-lg btn-danger save-btn" id="save-btn">　保存　</button>
                 </div>
+
             </div>
         </div>
         <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd-membership-edit_profile')); ?>">
         <input type="hidden" id="icon-file" name="icon_file" value="0" />
     </form>
+    <?php echo makeTwitterOauthLoginLink(); ?>
 
     <!-- モーダル -->
     <div class="modal fade profile-edit-modal" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">

@@ -254,15 +254,18 @@ function makeTwitterOauthLoginLink()
             'code_challenge_method' => 'plain'
         ];
 
-        $link = '';
-        $link .= '<div class="col-6 text-left title py-2 mt-0 border-bottom-dashed">';
-        $link .= 'Twitter認証';
-        $link .= '</div>';
-        $link .= '<a href ="' . $base_url . '?' . http_build_query($query) . '">';
-        $link .= 'Twitter認証を行う';
-        $link .= '</a>';
+        $button = '';
+        $button .= '<div class="col-12 login-with-sns">';
+        $button .= '<a href="' . $base_url . '?' . http_build_query($query) . '" rel="noreferrer">';
+        $button .= '<button class="twitter-btn">';
+        $button .= '<img class="col-3 float-left twitter-icon" src="' . get_template_directory_uri() .'/assets/img/icon/twitter_icon.png" alt="twitter">';
+        $button .= '<div class="con-6 twitter-login-text">Twitterで認証を行う</div>';
+        $button .= '<div class="con-3"></div>';
+        $button .= '</button>';
+        $button .= '</a>';
+        $button .= '</div>';
 
-        return $link;
+        return $button;
     }
 
     return "";
