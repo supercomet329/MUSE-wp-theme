@@ -26,6 +26,12 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
             $response = api_get_top_image($params);
             break;
 
+        case 'tail_image':
+            // トップページの表示
+            // アクセストークンがある場合がある
+            $response = api_get_tail_image($params);
+            break;
+
         case 'login':
             // ログインの対応
             $response = api_muse_login($params);
