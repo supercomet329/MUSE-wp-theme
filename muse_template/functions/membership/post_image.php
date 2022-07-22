@@ -61,7 +61,9 @@ function tcd_membership_action_post_image()
         $requestFileUrl  = false;
         $requestFileName = false;
         if (isset($_FILES['postFile']['name']) && !empty($_FILES['postFile']['name'])) {
-            $extension = pathinfo($_FILES['postFile']['name'], PATHINFO_EXTENSION);
+
+            $extension = getExtension($_FILES['postFile']['tmp_name']);
+
             $file_name = substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 100) . '.' . $extension;
             $uploaded_file = __DIR__ . '/../../upload_file/' . $file_name;
             $result = move_uploaded_file($_FILES['postFile']['tmp_name'], $uploaded_file);
@@ -90,7 +92,7 @@ function tcd_membership_action_post_image()
 
         $requestFileUrl2  = false;
         if (isset($_FILES['postFile2']['name']) && !empty($_FILES['postFile2']['name'])) {
-            $extension = pathinfo($_FILES['postFile2']['name'], PATHINFO_EXTENSION);
+            $extension = getExtension($_FILES['postFile2']['tmp_name']);
             $file_name = substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 100) . '.' . $extension;
             $uploaded_file = __DIR__ . '/../../upload_file/' . $file_name;
             $result = move_uploaded_file($_FILES['postFile2']['tmp_name'], $uploaded_file);
@@ -103,7 +105,8 @@ function tcd_membership_action_post_image()
 
         $requestFileUrl3  = false;
         if (isset($_FILES['postFile3']['name']) && !empty($_FILES['postFile3']['name'])) {
-            $extension = pathinfo($_FILES['postFile3']['name'], PATHINFO_EXTENSION);
+
+            $extension = getExtension($_FILES['postFile3']['tmp_name']);
             $file_name = substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 100) . '.' . $extension;
             $uploaded_file = __DIR__ . '/../../upload_file/' . $file_name;
             $result = move_uploaded_file($_FILES['postFile3']['tmp_name'], $uploaded_file);
@@ -116,7 +119,8 @@ function tcd_membership_action_post_image()
 
         $requestFileUrl4  = false;
         if (isset($_FILES['postFile4']['name']) && !empty($_FILES['postFile4']['name'])) {
-            $extension = pathinfo($_FILES['postFile4']['name'], PATHINFO_EXTENSION);
+
+            $extension = getExtension($_FILES['postFile4']['tmp_name']);
             $file_name = substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 100) . '.' . $extension;
             $uploaded_file = __DIR__ . '/../../upload_file/' . $file_name;
             $result = move_uploaded_file($_FILES['postFile4']['tmp_name'], $uploaded_file);
@@ -507,4 +511,28 @@ function cropImage($uploadedFile, $resizeFilePath)
     // 画像の出力
     $image->save($resizeFilePath);
     // exit;
+}
+
+function getExtension($path)
+{
+    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+    $info = finfo_file($finfo, $path);
+    finfo_close($finfo);
+
+    switch ($info) {
+        case 'image/gif':
+            $extension = 'gif';
+            break;
+
+        case 'image/jpg':
+        case 'image/jpeg':
+            $extension = 'jpg';
+            break;
+
+        case 'image/png':
+            $extension = 'png';
+            break;
+    }
+
+    return $extension;
 }
