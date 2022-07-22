@@ -105,6 +105,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
         case 'list_message':
             // メッセージ一覧
             // アクセストークン必須
+            $response = api_get_messages($params);
             break;
 
         case 'list_detail_message':
