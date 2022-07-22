@@ -1880,9 +1880,9 @@ jQuery(function($) {
             $modal.on('shown.bs.modal', function(event) {
                 cropper_post = new Cropper(image, {
                     // 縦 4: 横 3の対応
-                    aspectRatio: 3 / 4,
+                    // aspectRatio: 3 / 4,
                     // 正方形時の対応
-                    // aspectRatio: 1,
+                    aspectRatio: 1,
                     initialAspectRatio: 1,
                     autoCropArea: 0.8,
                     cropBoxResizable: false,

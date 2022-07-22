@@ -483,10 +483,10 @@ function cropImage($uploadedFile, $resizeFilePath)
     $cutWidth  = $width / 319;
 
     // 縦4: 横 3の対応
-    $cutHeight = $height / 193;
+    // $cutHeight = $height / 193;
 
     // 正方形の対応
-    // $cutHeight = $height / 319;
+    $cutHeight = $height / 319;
 
     // 切り出し位置の取得
     $d_x     = $cutWidth  * $_POST['profileImageX'];
