@@ -3,27 +3,41 @@ global $dp_options, $tcd_membership_vars, $tcd_membership_post, $post;
 
 get_header();
 ?>
+<div class="container pt-2">
+    <div class="row mb-2">
+        <div class="col-12">
+            <a href="javascript:history.back();">← 戻る</a>
+        </div>
+    </div>
+</div>
+
 <form action="<?php echo esc_attr(get_tcd_membership_memberpage_url('detail_message')); ?>" method="POST" enctype="multipart/form-data">
     <div class="container message-show-area" id="message_show_area">
-        <div class="font-weight-bold title border-bottom-solid mt-4">
-            <?php if (!is_null($tcd_membership_vars['target_user_id'])) { ?>
+        <?php if (!is_null($tcd_membership_vars['target_user_id'])) { ?>
+
+            <!-- ユーザー指定がある場合 -->
+            <div class="font-weight-bold title border-bottom-solid mt-4">
                 <?php echo esc_attr($tcd_membership_vars['title_user_name']); ?>
-                <input type="hidden" name="user_id" value="<?php echo $tcd_membership_vars['target_user_id']; ?>" />
-            <?php } else { ?>
-                <?php if ($tcd_membership_vars['list_follow']) { ?>
-                    <select class="p-user-list__search-select" name="user_id">
+                <input type="hidden" name="user_id" value="<?php echo $tcd_membership_vars['target_user_id']; ?>" wtx-context="4C293744-6AAE-4895-9E4D-551C00D5FF73">
+            </div>
+        <?php } else { ?>
+            <div class="form-group col-12 px-0 my-2">
+                <?php if ($tcd_membership_vars['list_user']) { ?>
+                    <!-- ユーザー指定がない場合 -->
+                    <select name="user_id" class="shadow-none form-control form-control-sm col-12 col-md-5 col-lg-4 mb-2">
                         <?php
-                        foreach ($tcd_membership_vars['list_follow'] as $one_follow) {
-                            $target_user = get_user_by('id', $one_follow->target_user_id);
+                        foreach ($tcd_membership_vars['list_user'] as $one_user) {
+                            $target_user = get_user_by('id', $one_user->ID);
                         ?>
-                            <option value="<?php echo $one_follow->target_user_id; ?>"><?php echo $target_user->data->display_name; ?></option>
+                            <option value="<?php echo $one_user->ID; ?>"><?php echo $target_user->data->display_name; ?></option>
                         <?php } ?>
                     </select>
                 <?php } else { ?>
                     送信できるユーザーがいません
                 <?php } ?>
-            <?php } ?>
-        </div>
+            </div>
+        <?php } ?>
+
         <div class="row mb-5 pb-3">
             <?php
             foreach ($tcd_membership_vars['list_message'] as $date => $row_message) {
