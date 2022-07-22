@@ -1583,7 +1583,12 @@ function list_non_read_thread($user_id = NULL)
 function count_non_read_thread($user_id = NULL)
 {
 	$count = list_non_read_thread($user_id);
-	return count($count);
+	$result = false;
+	if ($count !== FALSE) {
+		$result = count($count);
+	}
+
+	return $result;
 }
 
 function read_on_message($target_user_id, $user_id = NULL)

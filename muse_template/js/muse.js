@@ -4,25 +4,46 @@ jQuery(function($) {
         var activeState = jQuery(".menu-list").hasClass("active");
         jQuery(".menu-list").animate({ left: activeState ? "0%" : "-300px" }, 400);
     }
+
     jQuery("#menu-wrapper").click(function(event) {
+
         event.stopPropagation();
         jQuery("#hamburger-menu").toggleClass("open");
         jQuery(".menu-list").toggleClass("active");
         slideMenu();
+
         if (jQuery("#hamburger-menu").hasClass("open")) {
+            $(".orver-lay").fadeIn();
             jQuery('body').css({
                 'position': 'fixed',
                 'width': '100%',
-                'z-index': '1',
+                'z-index': '100',
             });
+
         } else {
+            $(".orver-lay").fadeOut();
             jQuery('body').css({
                 'position': 'relative',
                 'width': 'auto',
                 'top': 'auto'
             });
         }
+    });
 
+    jQuery(".orver-lay").click(function(event) {
+        var active = jQuery("#hamburger-menu").hasClass("open");
+        if (active == true) {
+            $(".orver-lay").fadeOut();
+            event.stopPropagation();
+            jQuery("#hamburger-menu").toggleClass("open");
+            jQuery(".menu-list").toggleClass("active");
+            slideMenu();
+            jQuery('body').css({
+                'position': 'relative',
+                'width': 'auto',
+                'top': 'auto'
+            });
+        }
     });
 });
 
@@ -1265,6 +1286,7 @@ function chkPostButton() {
         disabledFlag = false;
     }
 
+    jQuery('#sidePostBtn').attr('disabled', disabledFlag);
     jQuery('#postBtn').attr('disabled', disabledFlag);
 }
 
@@ -1857,9 +1879,12 @@ jQuery(function($) {
             // cropper.jsでトリミング可能な画像を表示
             $modal.on('shown.bs.modal', function(event) {
                 cropper_post = new Cropper(image, {
-                    aspectRatio: 9 / 16,
+                    // 縦 4: 横 3の対応
+                    // aspectRatio: 3 / 4,
+                    // 正方形時の対応
+                    aspectRatio: 1,
                     initialAspectRatio: 1,
-                    autoCropArea: 1,
+                    autoCropArea: 0.8,
                     cropBoxResizable: false,
                     dragMode: 'move',
                     viewMode: 3,
