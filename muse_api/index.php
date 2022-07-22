@@ -144,6 +144,11 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
             $response = api_get_follow($params);
             break;
 
+        case 'get_followers':
+            // フォロワー一覧取得
+            // アクセストークン必須
+            $response = api_get_followers($params);
+
         case 'like':
             // いいね登録/更新
             // アクセストークン必須
