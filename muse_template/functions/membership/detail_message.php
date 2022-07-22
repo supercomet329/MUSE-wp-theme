@@ -45,7 +45,7 @@ function tcd_membership_action_detail_message()
     }
 
     $list_message = [];
-    $list_follow  = false;
+    $list_user    = false;
     $message_flag = false;
     if (!is_null($target_user_id)) {
         // 送信先のユーザー情報できた場合
@@ -81,13 +81,13 @@ function tcd_membership_action_detail_message()
     } else {
         // 送信先のユーザー情報が取得できない場合
         // フォローしているユーザーの一覧を取得
-        $list_follow = muse_list_follow($user->ID);
-        if(count($list_follow) > 0) {
+        $list_user = muse_list_user();
+        if(count($list_user) > 0) {
             $message_flag = true;
         }
     }
 
-    $tcd_membership_vars['list_follow'] = $list_follow;
+    $tcd_membership_vars['list_user'] = $list_user;
     $tcd_membership_vars['template']  = 'muse_detail_message';
     $tcd_membership_vars['list_message'] = $list_message;
     $tcd_membership_vars['title_user_name'] = $display_user->display_name;

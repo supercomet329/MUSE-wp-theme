@@ -2,10 +2,16 @@
 global $dp_options, $tcd_membership_vars;
 get_header();
 ?>
-<div class="text-center font-weight-bold title">
-    メッセージ一覧
-</div>
-<div class="container">
+<div class="container pt-2">
+    <div class="row mb-2">
+        <div class="col-12">
+            <a href="javascript:history.back();">← 戻る</a>
+        </div>
+    </div>
+    <div class="text-center font-weight-bold title">
+        メッセージ一覧
+    </div>
+
     <div class="row">
         <div class="col-12">
             <ul class="list-area">

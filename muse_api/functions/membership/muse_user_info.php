@@ -38,13 +38,12 @@ function api_get_profile($params)
         }
 
         $authorImageData = get_user_meta($user_id, 'profile_image', true);
-        $author_iamge = get_template_directory_uri() . '/assets/img/icon/non_profile_image.png';
+        $author_iamge = 'http://localhost.nft.info/wp-content/themes/muse_template/assets/img/icon/non_profile_image.png';
         if (!empty($authorImageData)) {
             $author_iamge = $authorImageData;
         }
-
         $bannerImageData = get_user_meta($user_id, 'header_image', true);
-        $banner_image = get_template_directory_uri() . '/assets/img/add_image360-250.png';
+        $banner_image = 'http://localhost.nft.info/wp-content/themes/muse_template/assets/img/add_image360-250.png';
         if (!empty($bannerImageData)) {
             $banner_image = $bannerImageData;
         }
