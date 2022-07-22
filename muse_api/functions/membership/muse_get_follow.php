@@ -56,12 +56,14 @@ function api_get_follow($params)
 
             // フォローしている人の画像・名前・IDを取得
             $content[] = [
-                'profile_image' => $profile_image,
-                'author_name'   => $user_info->display_name,
+                'profile_image'  => $profile_image,
+                'author_name'    => $user_info->data->display_name,
                 'is_following'   => is_following($one_follow->target_user_id),
-                'target_user_id'   => $one_follow->target_user_id
+                'target_user_id' => $one_follow->target_user_id,
+                'description'    => $description
             ];
         }
+
         // レスポンスを返す
         $response = [
             'result'        => true,
