@@ -23,6 +23,9 @@ get_header();
                 <input class="form-control post-input" type="text" name="postTitle" id="postTitle" placeholder="タイトルを入力">
             </div>
             <div class="col-12">
+                <div class="error_message" id="errPostTitle"></div>
+            </div>
+            <div class="col-12">
                 <label for="saleType" class="label-text post-input-title">投稿画像（必須）</label>
             </div>
             <div class="col-12 post-file-input px-1">
@@ -56,14 +59,17 @@ get_header();
                 </div>
             </div>
             <div class="col-12">
-                <div class="error_message" id="errPostImage"></div>
+                <div class="error_message" id="errPostImage">
+                    <?php if (isset($tcd_membership_vars['error']['postFile'])) {
+                        echo $tcd_membership_vars['error']['postFile'];
+                    }
+                    ?>
+                </div>
             </div>
         </div>
         <div class="row">
 
-            <div class="col-12">
-                <div class="error_message" id="errPostTitle"></div>
-            </div>
+
             <div class="col-12">
                 <label for="saleType" class="label-text post-input-title mt-4">詳細（任意）</label>
             </div>
@@ -270,8 +276,8 @@ get_header();
         <input type="hidden" id="upload-image-y" name="profileImageY" value="0" />
         <input type="hidden" id="upload-image-w" name="profileImageW" value="0" />
         <input type="hidden" id="upload-image-h" name="profileImageH" value="0" />
-        <input type="hidden" id="campus-image-w" name="campusWidth"   value="0" />
-        <input type="hidden" id="campus-image-h" name="campusHeight"  value="0" />
+        <input type="hidden" id="campus-image-w" name="campusWidth" value="0" />
+        <input type="hidden" id="campus-image-h" name="campusHeight" value="0" />
 
     </form>
 </div>

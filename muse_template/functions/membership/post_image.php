@@ -62,22 +62,27 @@ function tcd_membership_action_post_image()
         $requestFileName = false;
         if (isset($_FILES['postFile']['name']) && !empty($_FILES['postFile']['name'])) {
 
-            $extension = getExtension($_FILES['postFile']['tmp_name']);
+            $sizeFlag = checkImageSize($_FILES['postFile']['tmp_name']);
+            if ($sizeFlag === TRUE) {
+                $extension = getExtension($_FILES['postFile']['tmp_name']);
 
-            $file_name = substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 100) . '.' . $extension;
-            $uploaded_file = __DIR__ . '/../../upload_file/' . $file_name;
-            $result = move_uploaded_file($_FILES['postFile']['tmp_name'], $uploaded_file);
-            if ($result) {
-                $requestFileUrl  = get_template_directory_uri() . '/upload_file/' . $file_name;
-                $requestFileName = $_FILES['postFile']['name'];
+                $file_name = substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 100) . '.' . $extension;
+                $uploaded_file = __DIR__ . '/../../upload_file/' . $file_name;
+                $result = move_uploaded_file($_FILES['postFile']['tmp_name'], $uploaded_file);
+                if ($result) {
+                    $requestFileUrl  = get_template_directory_uri() . '/upload_file/' . $file_name;
+                    $requestFileName = $_FILES['postFile']['name'];
+                } else {
+                    $error_messages['postFile'] = 'ファイルのアップロードに失敗しました。';
+                }
+
+                $resizeFileName = 'resize_' . $file_name;
+                $resize_uploaded_file = __DIR__ . '/../../upload_file/' . $resizeFileName;
+                $requestResizeFileUrl  = get_template_directory_uri() . '/upload_file/' . $resizeFileName;
+                cropImage($uploaded_file, $resize_uploaded_file);
             } else {
-                $error_messages['postFile'] = 'ファイルのアップロードに失敗しました。';
+                $error_messages['postFile'] = 'ファイルの大きさが小さいです。';
             }
-
-            $resizeFileName = 'resize_' . $file_name;
-            $resize_uploaded_file = __DIR__ . '/../../upload_file/' . $resizeFileName;
-            $requestResizeFileUrl  = get_template_directory_uri() . '/upload_file/' . $resizeFileName;
-            cropImage($uploaded_file, $resize_uploaded_file);
 
             /**
             $file_data = $_POST['file_data'];
@@ -511,6 +516,18 @@ function cropImage($uploadedFile, $resizeFilePath)
     // 画像の出力
     $image->save($resizeFilePath);
     // exit;
+}
+
+function checkImageSize($tmp_name)
+{
+    list($width, $height) = getimagesize($tmp_name);
+
+    $flg = false;
+    if ($width >= 800 && $height >= 800) {
+        $flg = true;
+    }
+
+    return $flg;
 }
 
 function getExtension($path)
