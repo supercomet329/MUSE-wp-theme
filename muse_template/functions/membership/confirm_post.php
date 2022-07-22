@@ -15,90 +15,92 @@ function tcd_membership_action_confirm_post()
         exit;
     }
 
-    $postDateClass = new DateTime($rowPostData->post_date);
-    $postDate      = $postDateClass->format('Y/m/d H:i');
+    // 販売しない場合のテンプレート
+    $template = 'muse_comfirm_post_no_sale';
 
-    // テンプレート指定
-    $postImageData = [];
-    $postImageData['post_id']      = $rowPostData->ID;
-    $postImageData['post_author']  = (int)$rowPostData->post_author;
-    $postImageData['post_title']   = $rowPostData->post_title;
-    $postImageData['post_content'] = $rowPostData->post_content;
-    $postImageData['post_date']    = $postDate;
-
-    $viewButtonFlag = false;
-    if (!is_null(get_current_user_id())) {
-        if ((int)$rowPostData->post_author !== get_current_user_id()) {
-            $viewButtonFlag = true;
-        }
-    }
-    $postImageData['viewButtonFlag']    = $viewButtonFlag;
-
-    $postImageData['post_image']   = get_post_meta($rowPostData->ID, 'main_image', true);
     $saleType = get_post_meta($rowPostData->ID, 'saleType', true);
-
-    $r18String = '全年齢';
-    $r18Flag   = get_post_meta($rowPostData->ID, 'r18', true);
-    if ($r18Flag > 0) {
-        $r18String = 'R18指定';
-    }
-    $postImageData['r18String']   = $r18String;
-
+    $imagePrice       = 0;
+    $auctionDate      = false;
+    $auctionStartDate = false;
+    $auctionEndDate   = false;
+    $binPrice         = false;
+    $auctionString    = '指定しない';
+    $extendAuction    = 'なし';
     if ($saleType === 'sale') {
-        // 通常販売の場合
+        // 販売の場合のテンプレート
         $template = 'muse_comfirm_post_sale';
+        $imagePrice = get_post_meta($rowPostData->ID, 'imagePrice', true);
 
-        // 金額を取得
-        $postImageData['imagePrice']   = get_post_meta($rowPostData->ID, 'imagePrice', true);
+        $selectAuction = get_post_meta($rowPostData->ID, 'selectAuction', true);
+        if ($selectAuction === 'Auction') {
+            // オークションの場合のテンプレート
+            $template = 'muse_comfirm_post_auction';
 
-        // 即決金額を取得
-        $postImageData['binPrice']   = get_post_meta($rowPostData->ID, 'binPrice', true);
-    } elseif ($saleType === 'auction') {
-        // オークションの場合
-        $template = 'muse_comfirm_post_auction';
+            $auctionSelDate = get_post_meta($rowPostData->ID, 'auctionStartDate', true);
+            if ($auctionSelDate === 'specify') {
+                $auctionString  = '開始時間指定';
+                $binPrice          = get_post_meta($rowPostData->ID, 'binPrice', true);
 
-        $auctionCheckFlag = get_post_meta($rowPostData->ID, 'auctionStartDate', true);
-        $auctionFlag = false;
-        $auctionStartDate = false;
-        $auctionEndDate = false;
-        $extendAuctionString  = false;
-        if ($auctionCheckFlag === 'specify') {
-            // オークション時刻指定あり
-            $auctionFlag = true;
+                $rowAuctionDate    = get_post_meta($rowPostData->ID, 'auctionDate', true);
+                if (!empty($rowAuctionDate)) {
+                    $auctionDateClass = new DateTime($rowAuctionDate);
+                    $auctionDateClass->setTimezone(new DateTimeZone('Asia/Tokyo'));
+                    $auctionStartDate = $auctionDateClass->format('Y/m/d H:i:s');
+                }
 
-            // 開始時刻の取得
-            $auctionDate = get_post_meta($rowPostData->ID, 'auctionDate', true);
-            $auctionDateClass = new DateTime($auctionDate);
-            $auctionStartDate = $auctionDateClass->format('Y/m/d H:i:s');
+                $rowAuctionEndDate = get_post_meta($rowPostData->ID, 'auctionEndDate', true);
+                if (!empty($rowAuctionEndDate)) {
+                    $auctionEndDateClass = new DateTime($rowAuctionEndDate);
+                    $auctionEndDateClass->setTimezone(new DateTimeZone('Asia/Tokyo'));
+                    $auctionEndDate = $auctionEndDateClass->format('Y/m/d H:i:s');
+                }
 
-            // 終了時刻の取得
-            $auctionEndDate = get_post_meta($rowPostData->ID, 'auctionEndDate', true);
-            $auctionEndDateClass = new DateTime($auctionEndDate);
-            $auctionEndDate = $auctionEndDateClass->format('Y/m/d H:i:s');
-
-            // 自動延長の文字列の取得
-            $extendAuctionString = 'なし';
-            $extendAuctionFlag = get_post_meta($rowPostData->ID, 'extendAuction', true);
-            if ($extendAuctionFlag === 'enableAutoExtend') {
-                $extendAuctionString = 'あり';
+                $strExtendAuction = get_post_meta($rowPostData->ID, 'extendAuction', true);
+                if ($strExtendAuction === 'enableAutoExtend') {
+                    $extendAuction  = 'あり';
+                }
             }
         }
-        $postImageData['auctionFlag']         = $auctionFlag;
-        $postImageData['auctionStartDate']    = $auctionStartDate;
-        $postImageData['auctionEndDate']      = $auctionEndDate;
-        $postImageData['extendAuctionString'] = $extendAuctionString;
-    } else {
-        // 販売しない場合
-        $template = 'muse_comfirm_post_no_sale';
     }
 
-    $tcd_membership_vars['template']  = $template;
-    $tcd_membership_vars['postData']  = $postImageData;
+    $image  = get_post_meta($rowPostData->ID, 'main_image', true);
+    $image2 = get_post_meta($rowPostData->ID, 'main_image2', true);
+    $image3 = get_post_meta($rowPostData->ID, 'main_image3', true);
+    $image4 = get_post_meta($rowPostData->ID, 'main_image4', true);
 
-    $user = get_userdata($rowPostData->post_author);
-    $userArray = [];
-    $userArray['display_name'] = $user->display_name;
-    $tcd_membership_vars['user']  = $userArray;
+    $imageArray = [];
+    $imageArray[] = $image;
+    if (!empty($image2)) {
+        $imageArray[] = $image2;
+    }
+
+    if (!empty($image3)) {
+        $imageArray[] = $image3;
+    }
+
+    if (!empty($image4)) {
+        $imageArray[] = $image4;
+    }
+
+    $viewSubmitButton = false;
+    $user = wp_get_current_user();
+    if ($user->ID > 0) {
+        $viewSubmitButton = true;
+    }
+
+    $tcd_membership_vars['template']         = $template;
+    $tcd_membership_vars['imageArray']       = $imageArray;
+    $tcd_membership_vars['post_id']          = $post_id;
+    $tcd_membership_vars['post_title']       = $rowPostData->post_title;
+    $tcd_membership_vars['post_content']     = $rowPostData->post_content;
+    $tcd_membership_vars['imagePrice']       = $imagePrice;
+    $tcd_membership_vars['auctionString']    = $auctionString;
+    $tcd_membership_vars['binPrice']         = $binPrice;
+    $tcd_membership_vars['auctionDate']      = $auctionDate;
+    $tcd_membership_vars['auctionStartDate'] = $auctionStartDate;
+    $tcd_membership_vars['auctionEndDate']   = $auctionEndDate;
+    $tcd_membership_vars['extendAuction']    = $extendAuction;
+    $tcd_membership_vars['viewSubmitButton'] = $viewSubmitButton;
 
     nocache_headers();
 }
