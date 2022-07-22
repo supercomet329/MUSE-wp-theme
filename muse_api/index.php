@@ -49,6 +49,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
 
         case 'profile_image':
             // ユーザーの投稿画像 / いいね投稿の情報を取得
+            $response = api_get_profile_image($params);
             break;
 
         case 'edit_profile':
