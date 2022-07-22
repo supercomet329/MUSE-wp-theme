@@ -23,6 +23,13 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
         case 'top_image':
             // トップページの表示
             // アクセストークンがある場合がある
+            $response = api_get_top_image($params);
+            break;
+
+        case 'tail_image':
+            // トップページの表示
+            // アクセストークンがある場合がある
+            $response = api_get_tail_image($params);
             break;
 
         case 'login':
@@ -103,11 +110,13 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
         case 'list_detail_message':
             // メッセージ詳細
             // アクセストークン必須
+            $response = api_get_detail_messages($params);
             break;
 
         case 'insert_message':
             // メッセージ登録
             // アクセストークン必須
+            $response = api_insert_message($params);
             break;
 
         case 'get_non_read_count':
@@ -118,6 +127,19 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
         case 'follow':
             // フォロー登録/更新
             // アクセストークン必須
+            $response = api_follow($params);
+            break;
+
+        case 'get_tail_follow':
+            // フォロータイル一覧取得
+            // アクセストークン必須
+            $response = api_get_tail_follow($params);
+            break;
+
+        case 'get_follow':
+            // フォロー一覧取得
+            // アクセストークン必須
+            $response = api_get_follow($params);
             break;
 
         case 'like':

@@ -93,14 +93,14 @@ get_header();
                 </div>
             </div>
         </div>
-        <input type="hidden" name="nonce"   value="<?php echo esc_attr(wp_create_nonce('tcd_membership_comfirm_request')); ?>">
+        <input type="hidden" name="nonce"   value="<?php echo esc_attr(wp_create_nonce('tcd_membership_confirm_request')); ?>">
         <input type="hidden" name="post_id" value="<?php echo $tcd_membership_vars['requestData']['post_id']; ?>">
         <input type="hidden" name="request_type" value="confirm">
     </form>
 </div>
 <script>
     $('#back').on('click', function() {
-        window.location.href = "<?php echo get_tcd_membership_memberpage_url('comfirm_request'); ?>&request_id=<?php echo $tcd_membership_vars['requestData']['post_id']; ?>";
+        window.location.href = "<?php echo get_tcd_membership_memberpage_url('confirm_request'); ?>&request_id=<?php echo $tcd_membership_vars['requestData']['post_id']; ?>";
     });
 </script>
 <?php

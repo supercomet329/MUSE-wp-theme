@@ -1,6 +1,5 @@
 <?php
 global $dp_options, $tcd_membership_vars;
-$tcd_membership_vars['list_like'];
 get_header();
 ?>
 <div class="container pt-2">
