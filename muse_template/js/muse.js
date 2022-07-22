@@ -1836,9 +1836,6 @@ jQuery(function($) {
     if (cropper_post.length > 0) {
 
         $(document).ready(function() {
-            // エンドポイントを定義
-            const endpoint = "http://localhost:3000/api";
-
             // 拡大表示で使用する変数定義
             let $zoom = jQuery('#zoom');
             $zoom.data('oldVal', $zoom.val());
@@ -1855,6 +1852,7 @@ jQuery(function($) {
                     $modal.modal('show');
                 };
                 console.log(image);
+                console.log(files);
                 // FileReader、選択ファイル、生成URLを初期化
                 let reader;
                 let file;
@@ -1862,17 +1860,20 @@ jQuery(function($) {
 
                 // ファイルが選択された場合
                 if (files && files.length > 0) {
-                    console.log(2)
+                    console.log(2);
                     file = files[0];
                     if (URL) {
+                        console.log(1);
                         done(URL.createObjectURL(file));
                     } else if (FileReader) {
+                        console.log(1);
                         reader = new FileReader();
                         reader.onload = function(e) {
                             done(reader.result);
                         };
                         reader.readAsDataURL(file);
                     }
+
                 }
             });
 
@@ -1882,9 +1883,9 @@ jQuery(function($) {
                     // 縦 4: 横 3の対応
                     // aspectRatio: 3 / 4,
                     // 正方形時の対応
-                    aspectRatio: 1,
+                    aspectRatio: 4 / 4,
                     initialAspectRatio: 1,
-                    autoCropArea: 0.8,
+                    autoCropArea: 1,
                     cropBoxResizable: false,
                     dragMode: 'move',
                     viewMode: 3,
@@ -1901,20 +1902,21 @@ jQuery(function($) {
                 // cover_imgの数カウント
 
                 var img_id = "#cover_img1";
-                var img_src = $(img_id).attr('src');
-                if (img_src === "") {
-                    var cover_img = img_id
-                    var upload_image_x = "#upload-image-x";
-                    var upload_image_y = "#upload-image-y";
-                    var upload_image_w = "#upload-image-w";
-                    var upload_image_h = "#upload-image-h";
-                }
+
+                var cover_img = img_id
+                var upload_image_x = "#upload-image-x";
+                var upload_image_y = "#upload-image-y";
+                var upload_image_w = "#upload-image-w";
+                var upload_image_h = "#upload-image-h";
+                var campus_image_h = "#campus-image-h";
+                var campus_image_w = "#campus-image-w";
                 jQuery('#post_file').css('height', 'auto');
 
                 canvas = cropper_post.getCroppedCanvas({
                     width: cropper_post['cropBoxData']['width'],
                     height: cropper_post['cropBoxData']['height'],
                 });
+
                 $(cover_img).removeClass('d-none')
                 canvas.toBlob(function(blob) {
                     url = URL.createObjectURL(blob);
@@ -1922,18 +1924,18 @@ jQuery(function($) {
                     reader.readAsDataURL(blob);
                     reader.onloadend = function() {
                         let base64data = reader.result;
-                        const base64EncodedFile = base64data.replace(/data:.*\/.*;base64,/, '');
+                        console.log(base64data);
                         $(cover_img).attr('src', base64data);
                         $modal.modal('hide');
                         $zoom.val(0);
                         $zoom.data('oldVal', 0);
                         console.log(cropper_post);
-                        console.log(base64data);
                         $(upload_image_x).val(cropper_post['cropBoxData']['left']);
                         $(upload_image_y).val(cropper_post['cropBoxData']['top']);
                         $(upload_image_w).val(cropper_post['cropBoxData']['width']);
                         $(upload_image_h).val(cropper_post['cropBoxData']['height']);
-                        $("#file-data").val(base64EncodedFile);
+                        $(campus_image_h).val(cropper_post['containerData']['height']);
+                        $(campus_image_w).val(cropper_post['containerData']['width']);
                     }
                 });
             })
@@ -1949,4 +1951,4 @@ jQuery(function($) {
             // });
         });
     };
-});
+})
