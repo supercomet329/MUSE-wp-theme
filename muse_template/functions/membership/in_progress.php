@@ -1,15 +1,20 @@
 <?php
-// Add 2022/05/10 by H.Okabe
+
 /**
- * 依頼一覧ページ
+ * 進行中一覧
  */
-function tcd_membership_action_list_order()
+function tcd_membership_action_in_progress()
 {
     global $tcd_membership_vars;
 
-    nocache_headers();
+    // user_idの取得
+    $user_id = get_current_user_id();
 
-    $user = wp_get_current_user();
+    // user_idが取得できない場合 => ログインページ遷移
+    if ($user_id <= 0) {
+        wp_safe_redirect(user_trailingslashit(home_url()));
+        exit;
+    }
 
     $up_budget = false;
     $down_budget = false;
@@ -21,6 +26,7 @@ function tcd_membership_action_list_order()
     if ('POST' == $_SERVER['REQUEST_METHOD']) {
         $postData = $_POST;
         // 値がPOSTされたときの対応
+
         if (!empty($_POST['nonce']) || wp_verify_nonce($_POST['nonce'], 'tcd_membership_action_order_search')) {
 
             // 予算上限
@@ -49,30 +55,25 @@ function tcd_membership_action_list_order()
         }
     }
 
-    if (!$user) {
-        wp_safe_redirect(user_trailingslashit(home_url()));
-        exit;
-    }
 
-    // 発注の一覧を取得
-    $listOrder = listOrder($up_budget, $down_budget, $whereDeadLine, $target);
+    // 自分が発注して受注されたリクエストの一覧の取得
+    $listInProgress = listInProgress($up_budget, $down_budget, $whereDeadLine, $target);
 
-    // テンプレート指定
-    $tcd_membership_vars['template']   = 'muse_list_order';
-    $tcd_membership_vars['list_order'] = $listOrder;
+    // テンプレートに値を渡す
+    $tcd_membership_vars['template']  = 'muse_in_progress';
+    $tcd_membership_vars['listOrder'] = $listInProgress;
     $tcd_membership_vars['post_data']  = $postData;
 }
-add_action('tcd_membership_action-list_order', 'tcd_membership_action_list_order');
+add_action('tcd_membership_action-in_progress', 'tcd_membership_action_in_progress');
 
 /**
- * オーダー一覧の取得
+ * 自分自身が登録したリクエストで受注がされている一覧を取得
  *
- * @param [type] $post_title
- * @param [type] $post_content
  * @return void
  */
-function listOrder($up_budget, $down_budget, $whereDeadLine, $target)
+function listInProgress($up_budget, $down_budget, $whereDeadLine, $target)
 {
+
     global $wpdb;
 
     $sql = '';
@@ -94,11 +95,16 @@ function listOrder($up_budget, $down_budget, $whereDeadLine, $target)
     $sql .= 'FROM wp_posts ';
     $sql .= ' INNER JOIN wp_users ';
     $sql .= ' ON wp_users.ID = wp_posts.post_author ';
-    $sql .= 'LEFT JOIN wp_tcd_membership_actions ';
+    $sql .= 'INNER JOIN wp_tcd_membership_actions ';
     $sql .= 'ON wp_posts.ID = wp_tcd_membership_actions.post_id ';
+    $sql .= ' AND wp_tcd_membership_actions.type = \'received\' ';
     $sql .= 'WHERE wp_posts.post_type = \'request\' ';
     $sql .= ' AND wp_posts.post_status = \'publish\'';
-    $sql .= ' AND wp_posts.post_author = ' . get_current_user_id();
+    $sql .= ' AND ( ';
+    $sql .= ' wp_posts.post_author = ' . get_current_user_id();
+    $sql .= ' OR ';
+    $sql .= ' wp_tcd_membership_actions.user_id = ' . get_current_user_id();
+    $sql .= ' ) ';
 
     if ($up_budget) {
         // 予算上限
@@ -124,13 +130,8 @@ function listOrder($up_budget, $down_budget, $whereDeadLine, $target)
         // $sql .= 'AND wp_posts.post_content LIKE \'%' . $post_content . '%\' ';
     }
 
-    $sql .= ' AND NOT EXISTS (';
-    $sql .= ' SELECT * FROM wp_tcd_membership_actions WHERE type=\'received\' AND wp_tcd_membership_actions.post_id = wp_posts.ID';
-    $sql .= ')';
-
     $sql .= ' ORDER BY wp_posts.ID DESC';
 
     $result = $wpdb->get_results($wpdb->prepare($sql));
-    //    echo $sql;exit;
     return $result;
 }

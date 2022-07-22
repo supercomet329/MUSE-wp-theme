@@ -100,6 +100,7 @@ add_filter( 'user_search_columns', 'tcd_membership_user_search_columns', 10, 3 )
 function tcd_membership_users_can_register() {
 	global $dp_options;
 
+	return true;
 	// マルチサイトの場合、マルチサイト側でユーザー登録可でも会員制オプションで不可の場合も考慮
 	if ( is_multisite() ) {
 		return get_option( 'users_can_register' ) && $dp_options['membership']['users_can_register'];
