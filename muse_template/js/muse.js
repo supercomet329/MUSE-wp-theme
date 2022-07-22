@@ -1935,7 +1935,7 @@ jQuery(function($) {
                         $(upload_image_w).val(cropper_post['cropBoxData']['width']);
                         $(upload_image_h).val(cropper_post['cropBoxData']['height']);
                         $(campus_image_h).val(cropper_post['containerData']['height']);
-                        $(campus_image_w).val(cropper_post['containerData']['height']);
+                        $(campus_image_w).val(cropper_post['containerData']['width']);
                     }
                 });
             })

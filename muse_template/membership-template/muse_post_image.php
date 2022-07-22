@@ -270,6 +270,8 @@ get_header();
         <input type="hidden" id="upload-image-y" name="profileImageY" value="0" />
         <input type="hidden" id="upload-image-w" name="profileImageW" value="0" />
         <input type="hidden" id="upload-image-h" name="profileImageH" value="0" />
+        <input type="hidden" id="campus-image-w" name="campusWidth"   value="0" />
+        <input type="hidden" id="campus-image-h" name="campusHeight"  value="0" />
 
     </form>
 </div>

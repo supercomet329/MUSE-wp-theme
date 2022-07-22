@@ -480,30 +480,31 @@ function cropImage($uploadedFile, $resizeFilePath)
 
     // 切り抜き位置の取得
     // サイズの倍率の取得
-    $cutWidth  = $width / 319;
+    $cutWidth  = $width / $_POST['campusWidth'];
 
     // 縦4: 横 3の対応
     // $cutHeight = $height / 193;
 
     // 正方形の対応
-    $cutHeight = $height / 319;
+    $cutHeight = $height / $_POST['campusHeight'];
 
     // 切り出し位置の取得
-    $d_x     = $cutWidth  * $_POST['profileImageX'];
-    $d_y     = $cutWidth  * $_POST['profileImageY'];
-    $d_w     = $cutWidth  * $_POST['profileImageW'];
-    $d_h     = $cutHeight * $_POST['profileImageH'];
+    $d_x = $cutWidth  * $_POST['profileImageX'];
+    $d_y = $cutHeight * $_POST['profileImageY'];
+    $d_w = $cutWidth  * $_POST['profileImageW'];
+    $d_h = $cutHeight * $_POST['profileImageH'];
 
     // 画像加工
     $image = wp_get_image_editor($uploadedFile);
     $image->crop($d_x, $d_y, $d_w, $d_h);
 
     // 縦4: 横 3の対応
-    $image->resize(NULL, 400, true);
+    // $image->resize(NULL, 400, true);
 
     // 正方形の対応
-    // $image->resize(400, 400, true);
+    $image->resize(400, 400, true);
 
     // 画像の出力
     $image->save($resizeFilePath);
+    // exit;
 }
