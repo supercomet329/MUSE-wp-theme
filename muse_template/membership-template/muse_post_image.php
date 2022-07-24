@@ -92,10 +92,10 @@ get_header();
             </div>
             <div class="col-12 row">
                 <div class="col-5 post-radio ml-2">
-                    <label><input type="radio" name="suitableAges" value="allAges" id="allAges" <?php echo ($tcd_membership_vars['setDataParams']['suitableAges'] === 'notSpecified') ? 'checked' : ''; ?>>全年齢</label>
+                    <label><input type="radio" name="suitableAges" value="allAges" id="allAges" <?php echo ($tcd_membership_vars['setDataParams']['suitableAges'] === 'allAges') ? 'checked' : ''; ?>>全年齢</label>
                 </div>
                 <div class="col-5 post-radio ml-2">
-                    <label><input type="radio" name="suitableAges" value="r18" id="restrictedAge" <?php echo ($tcd_membership_vars['setDataParams']['suitableAges'] !== 'notSpecified') ? 'checked' : ''; ?>>R-18</label>
+                    <label><input type="radio" name="suitableAges" value="r18" id="restrictedAge" <?php echo ($tcd_membership_vars['setDataParams']['suitableAges'] !== 'allAges') ? 'checked' : ''; ?>>R-18</label>
                 </div>
             </div>
 
