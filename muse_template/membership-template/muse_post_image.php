@@ -20,7 +20,7 @@ get_header();
                 <label for="saleType" class="label-text post-input-title mt-4">タイトル（必須）</label>
             </div>
             <div class="col-12">
-                <input class="form-control post-input" type="text" name="postTitle" id="postTitle" placeholder="タイトルを入力">
+                <input class="form-control post-input" type="text" name="postTitle" value="<?php echo $tcd_membership_vars['setDataParams']['postTitle']; ?>" id="postTitle" placeholder="タイトルを入力">
             </div>
             <div class="col-12">
                 <div class="error_message" id="errPostTitle"></div>
@@ -74,7 +74,7 @@ get_header();
                 <label for="saleType" class="label-text post-input-title mt-4">詳細（任意）</label>
             </div>
             <div class="col-12">
-                <textarea class="form-control post-detail" name="postDetail" id="postDetail" placeholder="詳細を入力"></textarea>
+                <textarea class="form-control post-detail" name="postDetail" id="postDetail" placeholder="詳細を入力"><?php echo $tcd_membership_vars['setDataParams']['postDetail']; ?></textarea>
             </div>
             <div class="col-12 mt-2">
                 <label for="saleType" class="label-text post-input-title mt-4">販売形式（必須）</label>
@@ -120,7 +120,7 @@ get_header();
                     <label for="imagePrice" class="label-text post-input-title mt-4">販売価格（必須）</label>
                 </div>
                 <div class="col-12">
-                    <input class="form-control post-input image-price-input" type="number" name="imagePrice" id="imagePrice" placeholder="金額を入力">
+                    <input class="form-control post-input image-price-input" type="number" value="<?php echo $tcd_membership_vars['setDataParams']['imagePrice']; ?>" name="imagePrice" id="imagePrice" placeholder="金額を入力">
                     <div class="image-price-jpy">
                         円
                     </div>
@@ -153,7 +153,7 @@ get_header();
                     <label for="binPrice" class="label-text post-input-title mt-4">即決価格（必須）</label>
                 </div>
                 <div class="col-11">
-                    <input class="form-control post-input image-price-input" type="number" name="binPrice" id="binPrice" placeholder="金額を入力">
+                    <input class="form-control post-input image-price-input" type="number" name="binPrice"  value="<?php echo $tcd_membership_vars['setDataParams']['binPrice']; ?>" id="binPrice" placeholder="金額を入力">
                     <div class="image-price-jpy">
                         円
                     </div>

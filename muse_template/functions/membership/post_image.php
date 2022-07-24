@@ -17,6 +17,15 @@ function tcd_membership_action_post_image()
     }
 
     $setDataParams = [];
+    $setDataParams['postTitle'] = '';
+    $setDataParams['postDetail'] = '';
+    $setDataParams['saleType'] = 'notForSale';
+    $setDataParams['suitableAges'] = 'allAges';
+    $setDataParams['selectAuction'] = 'notAuction';
+    $setDataParams['imagePrice'] = '';
+    $setDataParams['binPrice'] = '';
+    $setDataParams['extendAuction'] = '';
+
     $dateClass = new DateTime();
     // FIXED: nginxの場合 php.iniの反映が去れないことがある
     $dateClass->setTimezone(new DateTimeZone('Asia/Tokyo'));
@@ -35,8 +44,10 @@ function tcd_membership_action_post_image()
 
     $error_messages = [];
     if ('POST' == $_SERVER['REQUEST_METHOD']) {
+        // var_dump($_POST);exit;
         $tcd_membership_vars['post_data'] = $_POST;
 
+        $setDataParams = $_POST;
         $setDataParams['setAuctionDateY']   = $_POST['auctionDateY'];
         $setDataParams['setAuctionDateM']   = $_POST['auctionDateM'];
         $setDataParams['setAuctionDateD']   = $_POST['auctionDateD'];
@@ -466,6 +477,7 @@ function tcd_membership_action_post_image()
 
     // テンプレート指定
     $tcd_membership_vars['setDataParams'] = $setDataParams;
+    // var_dump($setDataParams);exit;
     $tcd_membership_vars['template']  = 'muse_post_image';
     $tcd_membership_vars['chk_sele_type'] = $chkSaleType;
     $tcd_membership_vars['extend_auction'] = $extendAuction;
@@ -523,7 +535,7 @@ function checkImageSize($tmp_name)
     list($width, $height) = getimagesize($tmp_name);
 
     $flg = false;
-    if ($width >= 500 && $height >= 500) {
+    if ($width >= 5000 && $height >= 5000) {
         $flg = true;
     }
 
