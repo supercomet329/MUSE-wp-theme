@@ -22,9 +22,10 @@ function tcd_membership_action_post_image()
     $setDataParams['saleType'] = 'notForSale';
     $setDataParams['suitableAges'] = 'allAges';
     $setDataParams['selectAuction'] = 'notAuction';
+    $setDataParams['auctionStartDate'] = 'notSpecified';
     $setDataParams['imagePrice'] = '';
     $setDataParams['binPrice'] = '';
-    $setDataParams['extendAuction'] = '';
+    $setDataParams['extendAuction'] = 'disableAutoExtend';
 
     $dateClass = new DateTime();
     // FIXED: nginxの場合 php.iniの反映が去れないことがある
@@ -530,18 +531,31 @@ function cropImage($uploadedFile, $resizeFilePath)
     // exit;
 }
 
+/**
+ * 画像サイズの取得
+ *
+ * @param string $tmp_name
+ * @return boolean
+ *
+ */
 function checkImageSize($tmp_name)
 {
     list($width, $height) = getimagesize($tmp_name);
 
     $flg = false;
-    if ($width >= 5000 && $height >= 5000) {
+    if ($width >= 500 && $height >= 500) {
         $flg = true;
     }
 
     return $flg;
 }
 
+/**
+ * ファイルの拡張子の取得
+ *
+ * @param string $path
+ * @return string
+ */
 function getExtension($path)
 {
     $finfo = finfo_open(FILEINFO_MIME_TYPE);
