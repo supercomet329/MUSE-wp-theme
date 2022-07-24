@@ -17,6 +17,16 @@ function tcd_membership_action_post_image()
     }
 
     $setDataParams = [];
+    $setDataParams['postTitle'] = '';
+    $setDataParams['postDetail'] = '';
+    $setDataParams['saleType'] = 'notForSale';
+    $setDataParams['suitableAges'] = 'allAges';
+    $setDataParams['selectAuction'] = 'notAuction';
+    $setDataParams['auctionStartDate'] = 'notSpecified';
+    $setDataParams['imagePrice'] = '';
+    $setDataParams['binPrice'] = '';
+    $setDataParams['extendAuction'] = 'disableAutoExtend';
+
     $dateClass = new DateTime();
     // FIXED: nginxの場合 php.iniの反映が去れないことがある
     $dateClass->setTimezone(new DateTimeZone('Asia/Tokyo'));
@@ -35,8 +45,10 @@ function tcd_membership_action_post_image()
 
     $error_messages = [];
     if ('POST' == $_SERVER['REQUEST_METHOD']) {
+        // var_dump($_POST);exit;
         $tcd_membership_vars['post_data'] = $_POST;
 
+        $setDataParams = $_POST;
         $setDataParams['setAuctionDateY']   = $_POST['auctionDateY'];
         $setDataParams['setAuctionDateM']   = $_POST['auctionDateM'];
         $setDataParams['setAuctionDateD']   = $_POST['auctionDateD'];
@@ -61,21 +73,28 @@ function tcd_membership_action_post_image()
         $requestFileUrl  = false;
         $requestFileName = false;
         if (isset($_FILES['postFile']['name']) && !empty($_FILES['postFile']['name'])) {
-            $extension = pathinfo($_FILES['postFile']['name'], PATHINFO_EXTENSION);
-            $file_name = substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 100) . '.' . $extension;
-            $uploaded_file = __DIR__ . '/../../upload_file/' . $file_name;
-            $result = move_uploaded_file($_FILES['postFile']['tmp_name'], $uploaded_file);
-            if ($result) {
-                $requestFileUrl  = get_template_directory_uri() . '/upload_file/' . $file_name;
-                $requestFileName = $_FILES['postFile']['name'];
-            } else {
-                $error_messages['postFile'] = 'ファイルのアップロードに失敗しました。';
-            }
 
-            $resizeFileName = 'resize_' . $file_name;
-            $resize_uploaded_file = __DIR__ . '/../../upload_file/' . $resizeFileName;
-            $requestResizeFileUrl  = get_template_directory_uri() . '/upload_file/' . $resizeFileName;
-            cropImage($uploaded_file, $resize_uploaded_file);
+            $sizeFlag = checkImageSize($_FILES['postFile']['tmp_name']);
+            if ($sizeFlag === TRUE) {
+                $extension = getExtension($_FILES['postFile']['tmp_name']);
+
+                $file_name = substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 100) . '.' . $extension;
+                $uploaded_file = __DIR__ . '/../../upload_file/' . $file_name;
+                $result = move_uploaded_file($_FILES['postFile']['tmp_name'], $uploaded_file);
+                if ($result) {
+                    $requestFileUrl  = get_template_directory_uri() . '/upload_file/' . $file_name;
+                    $requestFileName = $_FILES['postFile']['name'];
+                } else {
+                    $error_messages['postFile'] = 'ファイルのアップロードに失敗しました。';
+                }
+
+                $resizeFileName = 'resize_' . $file_name;
+                $resize_uploaded_file = __DIR__ . '/../../upload_file/' . $resizeFileName;
+                $requestResizeFileUrl  = get_template_directory_uri() . '/upload_file/' . $resizeFileName;
+                cropImage($uploaded_file, $resize_uploaded_file);
+            } else {
+                $error_messages['postFile'] = 'ファイルの大きさが小さいです。';
+            }
 
             /**
             $file_data = $_POST['file_data'];
@@ -90,7 +109,7 @@ function tcd_membership_action_post_image()
 
         $requestFileUrl2  = false;
         if (isset($_FILES['postFile2']['name']) && !empty($_FILES['postFile2']['name'])) {
-            $extension = pathinfo($_FILES['postFile2']['name'], PATHINFO_EXTENSION);
+            $extension = getExtension($_FILES['postFile2']['tmp_name']);
             $file_name = substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 100) . '.' . $extension;
             $uploaded_file = __DIR__ . '/../../upload_file/' . $file_name;
             $result = move_uploaded_file($_FILES['postFile2']['tmp_name'], $uploaded_file);
@@ -103,7 +122,8 @@ function tcd_membership_action_post_image()
 
         $requestFileUrl3  = false;
         if (isset($_FILES['postFile3']['name']) && !empty($_FILES['postFile3']['name'])) {
-            $extension = pathinfo($_FILES['postFile3']['name'], PATHINFO_EXTENSION);
+
+            $extension = getExtension($_FILES['postFile3']['tmp_name']);
             $file_name = substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 100) . '.' . $extension;
             $uploaded_file = __DIR__ . '/../../upload_file/' . $file_name;
             $result = move_uploaded_file($_FILES['postFile3']['tmp_name'], $uploaded_file);
@@ -116,7 +136,8 @@ function tcd_membership_action_post_image()
 
         $requestFileUrl4  = false;
         if (isset($_FILES['postFile4']['name']) && !empty($_FILES['postFile4']['name'])) {
-            $extension = pathinfo($_FILES['postFile4']['name'], PATHINFO_EXTENSION);
+
+            $extension = getExtension($_FILES['postFile4']['tmp_name']);
             $file_name = substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 100) . '.' . $extension;
             $uploaded_file = __DIR__ . '/../../upload_file/' . $file_name;
             $result = move_uploaded_file($_FILES['postFile4']['tmp_name'], $uploaded_file);
@@ -457,6 +478,7 @@ function tcd_membership_action_post_image()
 
     // テンプレート指定
     $tcd_membership_vars['setDataParams'] = $setDataParams;
+    // var_dump($setDataParams);exit;
     $tcd_membership_vars['template']  = 'muse_post_image';
     $tcd_membership_vars['chk_sele_type'] = $chkSaleType;
     $tcd_membership_vars['extend_auction'] = $extendAuction;
@@ -507,4 +529,53 @@ function cropImage($uploadedFile, $resizeFilePath)
     // 画像の出力
     $image->save($resizeFilePath);
     // exit;
+}
+
+/**
+ * 画像サイズの取得
+ *
+ * @param string $tmp_name
+ * @return boolean
+ *
+ */
+function checkImageSize($tmp_name)
+{
+    list($width, $height) = getimagesize($tmp_name);
+
+    $flg = false;
+    if ($width >= 500 && $height >= 500) {
+        $flg = true;
+    }
+
+    return $flg;
+}
+
+/**
+ * ファイルの拡張子の取得
+ *
+ * @param string $path
+ * @return string
+ */
+function getExtension($path)
+{
+    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+    $info = finfo_file($finfo, $path);
+    finfo_close($finfo);
+
+    switch ($info) {
+        case 'image/gif':
+            $extension = 'gif';
+            break;
+
+        case 'image/jpg':
+        case 'image/jpeg':
+            $extension = 'jpg';
+            break;
+
+        case 'image/png':
+            $extension = 'png';
+            break;
+    }
+
+    return $extension;
 }

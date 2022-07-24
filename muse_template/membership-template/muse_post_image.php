@@ -20,7 +20,10 @@ get_header();
                 <label for="saleType" class="label-text post-input-title mt-4">タイトル（必須）</label>
             </div>
             <div class="col-12">
-                <input class="form-control post-input" type="text" name="postTitle" id="postTitle" placeholder="タイトルを入力">
+                <input class="form-control post-input" type="text" name="postTitle" value="<?php echo $tcd_membership_vars['setDataParams']['postTitle']; ?>" id="postTitle" placeholder="タイトルを入力">
+            </div>
+            <div class="col-12">
+                <div class="error_message" id="errPostTitle"></div>
             </div>
             <div class="col-12">
                 <label for="saleType" class="label-text post-input-title">投稿画像（必須）</label>
@@ -56,29 +59,32 @@ get_header();
                 </div>
             </div>
             <div class="col-12">
-                <div class="error_message" id="errPostImage"></div>
+                <div class="error_message" id="errPostImage">
+                    <?php if (isset($tcd_membership_vars['error']['postFile'])) {
+                        echo $tcd_membership_vars['error']['postFile'];
+                    }
+                    ?>
+                </div>
             </div>
         </div>
         <div class="row">
 
-            <div class="col-12">
-                <div class="error_message" id="errPostTitle"></div>
-            </div>
+
             <div class="col-12">
                 <label for="saleType" class="label-text post-input-title mt-4">詳細（任意）</label>
             </div>
             <div class="col-12">
-                <textarea class="form-control post-detail" name="postDetail" id="postDetail" placeholder="詳細を入力"></textarea>
+                <textarea class="form-control post-detail" name="postDetail" id="postDetail" placeholder="詳細を入力"><?php echo $tcd_membership_vars['setDataParams']['postDetail']; ?></textarea>
             </div>
             <div class="col-12 mt-2">
                 <label for="saleType" class="label-text post-input-title mt-4">販売形式（必須）</label>
             </div>
             <div class="col-12 row">
                 <div class="col-5 post-radio ml-2">
-                    <label><input type="radio" name="saleType" value="sale" id="sale">NFT販売</label>
+                    <label><input type="radio" name="saleType" value="sale" id="sale" <?php echo ($tcd_membership_vars['setDataParams']['saleType'] === 'sale') ? 'checked' : ''; ?>>NFT販売</label>
                 </div>
                 <div class="col-5 post-radio ml-2">
-                    <label><input type="radio" name="saleType" value="notForSale" id="notForSale" checked>販売しない</label>
+                    <label><input type="radio" name="saleType" value="notForSale" id="notForSale"  <?php echo ($tcd_membership_vars['setDataParams']['saleType'] !== 'sale') ? 'checked' : ''; ?>>販売しない</label>
                 </div>
             </div>
             <div class="col-12">
@@ -86,35 +92,35 @@ get_header();
             </div>
             <div class="col-12 row">
                 <div class="col-5 post-radio ml-2">
-                    <label><input type="radio" name="suitableAges" value="allAges" id="allAges" checked>全年齢</label>
+                    <label><input type="radio" name="suitableAges" value="allAges" id="allAges" <?php echo ($tcd_membership_vars['setDataParams']['suitableAges'] === 'notSpecified') ? 'checked' : ''; ?>>全年齢</label>
                 </div>
                 <div class="col-5 post-radio ml-2">
-                    <label><input type="radio" name="suitableAges" value="r18" id="restrictedAge">R-18</label>
+                    <label><input type="radio" name="suitableAges" value="r18" id="restrictedAge" <?php echo ($tcd_membership_vars['setDataParams']['suitableAges'] !== 'notSpecified') ? 'checked' : ''; ?>>R-18</label>
                 </div>
             </div>
 
-            <div id="saleForm" style="display: none;">
+            <div id="saleForm" style="<?php echo ($tcd_membership_vars['setDataParams']['saleType'] !== 'sale') ? 'display: none;' : ''; ?>">
                 <div class="col-12 mt-2">
                     <label for="selectAuction" class="label-text post-input-title mt-4">オークション開催（必須）</label>
                 </div>
                 <div class="col-12 row">
                     <div class="col-5 post-radio ml-2 text-nowrap">
-                        <label><input type="radio" name="selectAuction" value="Auction" id="auction">あり</label>
+                        <label><input type="radio" name="selectAuction" value="Auction" id="auction" <?php echo ($tcd_membership_vars['setDataParams']['selectAuction'] === 'Auction') ? 'checked' : ''; ?>>あり</label>
                     </div>
 
                     <div class="col-5 post-radio ml-2 text-nowrap">
-                        <label><input type="radio" name="selectAuction" value="notAuction" id="notAuction" checked>なし</label>
+                        <label><input type="radio" name="selectAuction" value="notAuction" id="notAuction" <?php echo ($tcd_membership_vars['setDataParams']['selectAuction'] !== 'Auction') ? 'checked' : ''; ?>>なし</label>
                     </div>
                 </div>
             </div>
 
             <!-- NFT販売 -->
-            <div id="nftSaleForm" style="display: none;">
+            <div id="nftSaleForm" style="<?php echo ($tcd_membership_vars['setDataParams']['selectAuction'] !== 'Auction') ? '' : 'display: none;'; ?>">
                 <div class="col-12">
                     <label for="imagePrice" class="label-text post-input-title mt-4">販売価格（必須）</label>
                 </div>
                 <div class="col-12">
-                    <input class="form-control post-input image-price-input" type="number" name="imagePrice" id="imagePrice" placeholder="金額を入力">
+                    <input class="form-control post-input image-price-input" type="number" value="<?php echo $tcd_membership_vars['setDataParams']['imagePrice']; ?>" name="imagePrice" id="imagePrice" placeholder="金額を入力">
                     <div class="image-price-jpy">
                         円
                     </div>
@@ -129,16 +135,16 @@ get_header();
             </div>
 
             <!-- オークション販売 -->
-            <div id="auctionSaleForm" style="display: none;">
+            <div id="auctionSaleForm" style="<?php echo ($tcd_membership_vars['setDataParams']['selectAuction'] !== 'Auction') ? 'display: none;' : ''; ?>">
                 <div class="col-12">
                     <label for="auctionStartDate" class="label-text post-input-title mt-4">オークション開始日時（必須）</label>
                 </div>
                 <div class="col-12 row">
                     <div class="col-5 post-radio ml-2 text-nowrap">
-                        <label><input type="radio" name="auctionStartDate" value="notSpecified" id="notSpecified" checked>指定しない</label>
+                        <label><input type="radio" name="auctionStartDate" value="notSpecified" id="notSpecified" <?php echo ($tcd_membership_vars['setDataParams']['auctionStartDate'] === 'notSpecified') ? 'checked' : ''; ?>>指定しない</label>
                     </div>
                     <div class="col-5 post-radio ml-2 text-nowrap">
-                        <label><input type="radio" name="auctionStartDate" value="specify" id="specify">開始時間指定</label>
+                        <label><input type="radio" name="auctionStartDate" value="specify" id="specify" <?php echo ($tcd_membership_vars['setDataParams']['auctionStartDate'] !== 'notSpecified') ? 'checked' : ''; ?>>開始時間指定</label>
                     </div>
                 </div>
 
@@ -147,7 +153,7 @@ get_header();
                     <label for="binPrice" class="label-text post-input-title mt-4">即決価格（必須）</label>
                 </div>
                 <div class="col-11">
-                    <input class="form-control post-input image-price-input" type="number" name="binPrice" id="binPrice" placeholder="金額を入力">
+                    <input class="form-control post-input image-price-input" type="number" name="binPrice"  value="<?php echo $tcd_membership_vars['setDataParams']['binPrice']; ?>" id="binPrice" placeholder="金額を入力">
                     <div class="image-price-jpy">
                         円
                     </div>
@@ -156,7 +162,7 @@ get_header();
                     <div class="error_message" id="errBinPrice"></div>
                 </div>
 
-                <div id="auctionTimeForm">
+                <div id="auctionTimeForm" <?php echo ($tcd_membership_vars['setDataParams']['auctionStartDate'] !== 'notSpecified') ? '' : 'style="display:none;"'; ?>>
 
                     <div class="col-12">
                         <label for="auctionStartDate" class="label-text post-input-title mt-4">オークション開始日時</label>
@@ -248,10 +254,10 @@ get_header();
                         </div>
                         <div class="col-12 row">
                             <div class="col-5 post-radio ml-2">
-                                <label><input type="radio" name="extendAuction" value="enableAutoExtend" id="enableAutoExtend" checked>あり</label>
+                                <label><input type="radio" name="extendAuction" value="enableAutoExtend" id="enableAutoExtend" <?php echo ($tcd_membership_vars['setDataParams']['extendAuction'] !== 'disableAutoExtend') ? 'checked' : ''; ?>>あり</label>
                             </div>
                             <div class="col-5 post-radio ml-2">
-                                <label><input type="radio" name="extendAuction" value="disableAutoExtend" id="disableAutoExtend">なし</label>
+                                <label><input type="radio" name="extendAuction" value="disableAutoExtend" id="disableAutoExtend"  <?php echo ($tcd_membership_vars['setDataParams']['extendAuction'] === 'disableAutoExtend') ? 'checked' : ''; ?>>なし</label>
                             </div>
                         </div>
                         <p class="auction-notes">※終了5分前に入札されると、5分延長されます。</p>
@@ -270,8 +276,8 @@ get_header();
         <input type="hidden" id="upload-image-y" name="profileImageY" value="0" />
         <input type="hidden" id="upload-image-w" name="profileImageW" value="0" />
         <input type="hidden" id="upload-image-h" name="profileImageH" value="0" />
-        <input type="hidden" id="campus-image-w" name="campusWidth"   value="0" />
-        <input type="hidden" id="campus-image-h" name="campusHeight"  value="0" />
+        <input type="hidden" id="campus-image-w" name="campusWidth" value="0" />
+        <input type="hidden" id="campus-image-h" name="campusHeight" value="0" />
 
     </form>
 </div>
