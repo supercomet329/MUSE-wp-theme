@@ -523,7 +523,7 @@ function checkImageSize($tmp_name)
     list($width, $height) = getimagesize($tmp_name);
 
     $flg = false;
-    if ($width >= 800 && $height >= 800) {
+    if ($width >= 500 && $height >= 500) {
         $flg = true;
     }
 
