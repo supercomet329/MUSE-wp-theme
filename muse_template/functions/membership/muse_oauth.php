@@ -23,7 +23,7 @@ function tcd_membership_action_oauth_twitter()
 {
     if (isset($_GET['code']) && !empty($_GET['code'])) {
 
-        $profileArray = getTwitterProfile($_GET['code'], home_url() . '/?memberpage=oauth_twitter');
+        $profileArray = getTwitterProfile($_GET['code'], '/?memberpage=oauth_twitter');
 
         // 取得したユーザー情報内にtwitterのIDがあるか?確認
         if (isset($profileArray['data']['id']) && !empty($profileArray['data']['id'])) {
@@ -70,7 +70,7 @@ function tcd_membership_action_oauth_login_twitter()
     $message = 'Twitterの認証に失敗しました。';
     if (isset($_GET['code']) && !empty($_GET['code'])) {
 
-        $profileArray = getTwitterProfile($_GET['code'], home_url() . '/?memberpage=oauth_login_twitter');
+        $profileArray = getTwitterProfile($_GET['code'], '/?memberpage=oauth_login_twitter');
 
         // 取得したユーザー情報内にtwitterのIDがあるか?確認
         if (isset($profileArray['data']['id']) && !empty($profileArray['data']['id'])) {
@@ -205,14 +205,14 @@ function getUsersMetaByMetaKeyAndMetaValue($meta_key, $meta_value)
  * Twitter APIを使用して
  * プロフィール情報の取得
  */
-function getTwitterProfile($code, $redirect_url)
+function getTwitterProfile($code, $uri)
 {
     $twitter_client_id     = get_option('twitter_client_id');
     $twitter_client_secret = get_option('twitter_client_secret');
 
     $body = '';
     $body .= 'grant_type=authorization_code';
-    $body .= '&redirect_uri=' . urlencode($redirect_url);
+    $body .= '&redirect_uri=' . urlencode(home_url() . $uri);
     $body .= '&code_verifier=' . $_SESSION['code_verifier'];
     $body .= '&client_id=' . $twitter_client_id;
     $body .= '&code=' . $code;
