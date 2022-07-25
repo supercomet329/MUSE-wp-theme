@@ -87,7 +87,6 @@ function tcd_membership_action_oauth_login_twitter()
             add_user_meta($user_id, 'twitter_user_id', $profileArray['profile']['data']['id']);
             addTwitterToken($user_id, $profileArray['access_token'], $profileArray['refresh_token']);
             $message = 'Twitterの認証に成功しました。';
-
         }
     }
 
@@ -100,6 +99,14 @@ function tcd_membership_action_oauth_login_twitter()
 }
 add_action('tcd_membership_action-oauth_login_twitter', 'tcd_membership_action_oauth_login_twitter');
 
+/**
+ * user_metaにTwitterのアクセストークン / リフレッシュトークンをDelete => Insert
+ *
+ * @param int $user_id
+ * @param string $access_token
+ * @param string $refresh_token
+ * @return void
+ */
 function addTwitterToken($user_id, $access_token, $refresh_token)
 {
     // Twitterのアクセストークン / リフレッシュトークン / リミットタイムの登録
@@ -114,6 +121,87 @@ function addTwitterToken($user_id, $access_token, $refresh_token)
     $dateClass->modify('+2 hour');
     $dateClass->setTimezone(new DateTimeZone('Asia/Tokyo'));
     add_user_meta($user_id, 'twitter_limit_token_time', $dateClass->format('Y-m-d H:i:s'));
+}
+
+/**
+ * Twitterに出力
+ *
+ * @return void
+ */
+function publishTwitter($message, $uri)
+{
+    $user_id          = get_current_user_id();
+    $access_token     = get_user_meta($user_id, 'twitter_access_token',     true);
+
+    $limit_token_time = get_user_meta($user_id, 'twitter_limit_token_time', true);
+    if (empty($access_token)) {
+        // アクセストークンが取得できない場合 => なにもしない
+        return true;
+    }
+
+    $nowDateClass = new DateTime();
+    $nowDateClass->setTimezone(new DateTimeZone('Asia/Tokyo'));
+    $now          = $nowDateClass->format('U');
+
+    $limitDateClass = new DateTime($limit_token_time);
+    $limitDateClass->setTimezone(new DateTimeZone('Asia/Tokyo'));
+    $limit          = $limitDateClass->format('U');
+
+    if ($now >= $limit) {
+        $refresh_token         = get_user_meta($user_id, 'twitter_refresh_token',    true);
+        $twitter_client_id     = get_option('twitter_client_id');
+        $twitter_client_secret = get_option('twitter_client_secret');
+        // アクセストークンの期限が切れている場合 => リフレッシュトークンで再生成
+        $ch = curl_init();
+
+        $body = '';
+        $body .= 'grant_type=refresh_token';
+        $body .= '&refresh_token=' . urlencode($refresh_token);
+        $body .= '&client_id=' . $twitter_client_id;
+
+        $options = [
+            CURLOPT_URL        => 'https://api.twitter.com/2/oauth2/token',
+            CURLOPT_HTTPHEADER => [
+                'Content-Type: application/x-www-form-urlencoded',
+            ],
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST           => true,
+            CURLOPT_USERPWD        => $twitter_client_id . ':' . $twitter_client_secret,
+            CURLOPT_POSTFIELDS     => $body,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_SSL_VERIFYHOST => false,
+            CURLOPT_RETURNTRANSFER => true,
+        ];
+        curl_setopt_array($ch, $options);
+        $response   = curl_exec($ch);
+        $tokenArray = json_decode($response, true);
+        curl_close($ch);
+        addTwitterToken($user_id, $tokenArray['access_token'], $tokenArray['refresh_token']);
+        $access_token = $tokenArray['access_token'];
+    }
+
+    $publish = [
+        'text' => $message . PHP_EOL . home_url() . $uri,
+    ];
+
+    $ch = curl_init();
+    $options = [
+        CURLOPT_URL        => 'https://api.twitter.com/2/tweets',
+        CURLOPT_HTTPHEADER => [
+            'Content-type: application/json',
+            'Authorization: Bearer ' . $access_token
+        ],
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_POST           => true,
+        CURLOPT_POSTFIELDS     => json_encode($publish),
+        CURLOPT_SSL_VERIFYPEER => false,
+        CURLOPT_SSL_VERIFYHOST => false,
+        CURLOPT_RETURNTRANSFER => true,
+    ];
+    curl_setopt_array($ch, $options);
+    $test = curl_exec($ch);
+    curl_close($ch);
+    var_dump($test);exit;
 }
 
 /**
@@ -158,7 +246,11 @@ function makeTwitterOauthLogin()
     return "";
 }
 
-
+/**
+ * Twitterの認証用のボタンを作成
+ *
+ * @return string
+ */
 function makeTwitterOauthLoginLink()
 {
     $twitter_client_id = get_option('twitter_client_id');

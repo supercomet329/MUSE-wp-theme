@@ -451,7 +451,9 @@ function tcd_membership_action_post_image()
             }
 
             // Twitterに投稿
-            
+            $message = '画像を投稿しました。';
+            $uri     = '?memberpage=post_comment&post_id=' . $post_id;
+            publishTwitter($message, $uri);
 
             $url = get_author_posts_url(get_current_user_id());
             wp_safe_redirect($url);
