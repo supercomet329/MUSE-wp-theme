@@ -627,6 +627,7 @@ function tcd_membership_login_form($args = array())
         <input type="hidden" id="icon-file" name="icon_file" value="0" />
     </form>
     <?php echo makeTwitterOauthLoginLink(); ?>
+    <?php echo makeGoogleOauthLoginLink(); ?>
 
     <!-- モーダル -->
     <div class="modal fade profile-edit-modal" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">

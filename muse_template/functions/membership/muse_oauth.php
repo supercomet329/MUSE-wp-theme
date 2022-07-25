@@ -104,7 +104,6 @@ function makeTwitterOauthLogin()
     $base_url = 'https://twitter.com/i/oauth2/authorize';
     if (!empty($twitter_client_id)) {
 
-        // TODO: 20220721 code_challenge_methodをs256で対応
         $state         = substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 50);
         $code_verifier = substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 128);
         $_SESSION['code_verifier'] = $code_verifier;
@@ -143,7 +142,6 @@ function makeTwitterOauthLoginLink()
     $base_url = 'https://twitter.com/i/oauth2/authorize';
     if (!empty($twitter_client_id)) {
 
-        // TODO: 20220721 code_challenge_methodをs256で対応
         $state         = substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 50);
         $code_verifier = substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 128);
         $_SESSION['code_verifier'] = $code_verifier;
@@ -289,7 +287,7 @@ function tcd_membership_action_oauth_login_google()
 {
 
     if (isset($_GET['code']) && !empty($_GET['code'])) {
-        $profileArray = getGoogleProfile($_GET['code']);
+        $profileArray = getGoogleProfile($_GET['code'], '/?memberpage=oauth_login_google');
 
         if (isset($profileArray['id']) && !empty($profileArray['id'])) {
 
@@ -335,19 +333,6 @@ function makeGoogleAuthButton()
             'scope'         => 'openid email profile',
         ];
 
-        /**
-        $url = 'https://accounts.google.com/o/oauth2/v2/auth?' . http_build_query($params);
-        $button .= '<div class="col-12 login-with-sns mt-3">';
-        $button .= '<a href="' . $url . '">';
-        $button .= '<button class="google-btn">';
-        $button .= '<img src="' . get_template_directory_uri() . '/assets/img/icon/g-logo.png" alt="google" class="google-icon">';
-        $button .= 'Googleアカウントでログインする';
-        $button .= '</button>';
-        $button .= '</a>';
-        $button .= '</div>';
-        $button = '';
- */
-
         $url = 'https://accounts.google.com/o/oauth2/v2/auth?' . http_build_query($params);
         $button .= '<div class="col-12 login-with-sns mt-3">';
         $button .= '<a href="' . $url . '" rel="noreferrer">';
@@ -369,7 +354,7 @@ function makeGoogleAuthButton()
  * @param string $code
  * @return void
  */
-function getGoogleProfile($code)
+function getGoogleProfile($code, $uri)
 {
 
     $google_api_key    = get_option('google_client_id');
@@ -378,12 +363,11 @@ function getGoogleProfile($code)
     $postData = [
         "grant_type"    => "authorization_code",
         "code"          => $code,
-        "redirect_uri"  => home_url() . '/?memberpage=oauth_login_google',
+        "redirect_uri"  => home_url() . $uri,
         "client_id"     => $google_api_key,
         "client_secret" => $google_secret_key
     ];
 
-    // 
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded'));
     curl_setopt($ch, CURLOPT_URL, 'https://oauth2.googleapis.com/token');
@@ -413,3 +397,68 @@ function getGoogleProfile($code)
 
     return $profileArray;
 }
+
+function makeGoogleOauthLoginLink()
+{
+    $google_api_key    = get_option('google_client_id');
+
+    $button = '';
+    if (!empty($google_api_key)) {
+
+        $state             = rand();
+        $nonce             = hash('sha512', openssl_random_pseudo_bytes(128));
+        $_SESSION['state'] = $state;
+        $params = [
+            'response_type' => 'code',
+            'client_id'     => $google_api_key,
+            'redirect_uri'  => home_url() . '/?memberpage=oauth_google',
+            'state'         => $state,
+            'nonce'         => $nonce,
+            'scope'         => 'openid email profile',
+        ];
+
+        $url = 'https://accounts.google.com/o/oauth2/v2/auth?' . http_build_query($params);
+        $button .= '<div class="col-12 login-with-sns mt-3">';
+        $button .= '<a href="' . $url . '" rel="noreferrer">';
+        $button .= '<button class="google-btn">';
+        $button .= '<img class="col-3 float-left sns-icon" src="' . get_template_directory_uri() . '/assets/img/icon/g-logo.png" alt="google">';
+        $button .= '<div class="con-6 twitter-login-text">Googleで認証を行う</div>';
+        $button .= '<div class="con-3"></div>';
+        $button .= '</button>';
+        $button .= '</a>';
+        $button .= '</div>';
+
+        return $button;
+    }
+
+    return "";
+}
+
+function tcd_membership_action_oauth_google()
+{
+    $message = 'Googleの認証に失敗しました。';
+    if (isset($_GET['code']) && !empty($_GET['code'])) {
+
+        $profileArray = getGoogleProfile($_GET['code'], '/?memberpage=oauth_google');
+
+        // 取得したユーザー情報内にtwitterのIDがあるか?確認
+        if (isset($profileArray['id']) && !empty($profileArray['id'])) {
+
+            $user_id = get_current_user_id();
+            // 現行のusermetaを削除
+            delete_usermeta($user_id, 'google_user_id');
+            // 新規にusermetaを登録
+            add_user_meta($user_id, 'google_user_id', $profileArray['id']);
+            $message = 'Googleの認証に成功しました。';
+        }
+    }
+
+    /**
+     * 必要情報がない場合 => ログインページにリダイレクト
+     */
+    $_SESSION['success_twitter_message'] = $message;
+    wp_safe_redirect(home_url('/?memberpage=edit_profile'));
+    exit();
+}
+add_action('tcd_membership_action-oauth_google', 'tcd_membership_action_oauth_google');
+
