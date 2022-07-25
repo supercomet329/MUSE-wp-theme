@@ -450,6 +450,9 @@ function tcd_membership_action_post_image()
                 }
             }
 
+            // Twitterに投稿
+            
+
             $url = get_author_posts_url(get_current_user_id());
             wp_safe_redirect($url);
             exit();

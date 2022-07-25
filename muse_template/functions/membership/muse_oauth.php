@@ -26,14 +26,19 @@ function tcd_membership_action_oauth_twitter()
         $profileArray = getTwitterProfile($_GET['code'], '/?memberpage=oauth_twitter');
 
         // 取得したユーザー情報内にtwitterのIDがあるか?確認
-        if (isset($profileArray['data']['id']) && !empty($profileArray['data']['id'])) {
+        if (isset($profileArray['profile']['data']['id']) && !empty($profileArray['profile']['data']['id'])) {
 
-            $userData = getUsersMetaByMetaKeyAndMetaValue('twitter_user_id', $profileArray['data']['id']);
+            $userData = getUsersMetaByMetaKeyAndMetaValue('twitter_user_id', $profileArray['profile']['data']['id']);
             if (count($userData) > 0) {
                 // 存在する場合 => ユーザー情報を取得してログイン
+                $user_id = $userData[0]->ID;
                 wp_clear_auth_cookie();
-                wp_set_current_user($userData[0]->ID);
-                wp_set_auth_cookie($userData[0]->ID);
+                wp_set_current_user($user_id);
+                wp_set_auth_cookie($user_id);
+
+                addTwitterToken($user_id, $profileArray['access_token'], $profileArray['refresh_token']);
+
+                // 使用期限の登録(発行から二時間後)
             }
         }
     }
@@ -73,14 +78,16 @@ function tcd_membership_action_oauth_login_twitter()
         $profileArray = getTwitterProfile($_GET['code'], '/?memberpage=oauth_login_twitter');
 
         // 取得したユーザー情報内にtwitterのIDがあるか?確認
-        if (isset($profileArray['data']['id']) && !empty($profileArray['data']['id'])) {
+        if (isset($profileArray['profile']['data']['id']) && !empty($profileArray['profile']['data']['id'])) {
 
             $user_id = get_current_user_id();
             // 現行のusermetaを削除
             delete_usermeta($user_id, 'twitter_user_id');
             // 新規にusermetaを登録
-            add_user_meta($user_id, 'twitter_user_id', $profileArray['data']['id']);
+            add_user_meta($user_id, 'twitter_user_id', $profileArray['profile']['data']['id']);
+            addTwitterToken($user_id, $profileArray['access_token'], $profileArray['refresh_token']);
             $message = 'Twitterの認証に成功しました。';
+
         }
     }
 
@@ -92,6 +99,22 @@ function tcd_membership_action_oauth_login_twitter()
     exit();
 }
 add_action('tcd_membership_action-oauth_login_twitter', 'tcd_membership_action_oauth_login_twitter');
+
+function addTwitterToken($user_id, $access_token, $refresh_token)
+{
+    // Twitterのアクセストークン / リフレッシュトークン / リミットタイムの登録
+    delete_usermeta($user_id, 'twitter_access_token');
+    delete_usermeta($user_id, 'twitter_refresh_token');
+    delete_usermeta($user_id, 'twitter_limit_token_time');
+
+    add_user_meta($user_id, 'twitter_access_token',  $access_token);
+    add_user_meta($user_id, 'twitter_refresh_token', $refresh_token);
+
+    $dateClass = new DateTime();
+    $dateClass->modify('+2 hour');
+    $dateClass->setTimezone(new DateTimeZone('Asia/Tokyo'));
+    add_user_meta($user_id, 'twitter_limit_token_time', $dateClass->format('Y-m-d H:i:s'));
+}
 
 /**
  * ログイン用のURLを取得
@@ -238,7 +261,7 @@ function getTwitterProfile($code, $uri)
     curl_close($ch);
 
     $access_token  = $tokenArray['access_token'];
-    // $refresh_token = $tokenArray['refresh_token'];
+    $refresh_token = $tokenArray['refresh_token'];
 
     // Twitterのコードからユーザー情報の取得
     // ヘッダ生成
@@ -261,7 +284,11 @@ function getTwitterProfile($code, $uri)
     // メールアドレスが存在する場合 => wp_usersのユーザーを取得してログイン状態にしてリダイレクト
     // メールアドレスが存在しない場合 => メールアドレスに新規登録メールを送信する
 
-    return $profileArray;
+    return [
+        'profile'       => $profileArray,
+        'access_token'  => $access_token,
+        'refresh_token' => $refresh_token,
+    ];
 }
 
 /**
@@ -461,4 +488,3 @@ function tcd_membership_action_oauth_google()
     exit();
 }
 add_action('tcd_membership_action-oauth_google', 'tcd_membership_action_oauth_google');
-
