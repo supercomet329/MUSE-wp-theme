@@ -118,6 +118,7 @@ function tcd_membership_login_form($args = array())
                     <h1 class="text-center mt-3 mb-3 contents-title font-weight-bold">SNSログイン</h1>
                 </div>
                 <?php echo makeTwitterOauthLogin(); ?>
+                <?php echo makeGoogleAuthButton(); ?>
                 <!-- div class="col-12 login-with-sns">
                     <a href="https://twitter.com" target="_blank" rel="noreferrer">
                         <button class="twitter-btn">

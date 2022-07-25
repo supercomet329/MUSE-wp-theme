@@ -195,7 +195,7 @@ function getUsersMetaByMetaKeyAndMetaValue($meta_key, $meta_value)
     $sql .= ' WHERE ';
     $sql .= ' wp_usermeta.meta_key = \'%s\' ';
     $sql .= ' AND ';
-    $sql .= ' wp_usermeta.meta_value = \'%d\' ';
+    $sql .= ' wp_usermeta.meta_value = \'%s\' ';
     $sql .= ' AND ';
     $sql .= ' wp_users.deleted = 0 ';
 
@@ -222,14 +222,14 @@ function getTwitterProfile($code, $redirect_url)
     // アクセストークンの取得
     $ch = curl_init();
     $options = [
-        CURLOPT_URL => 'https://api.twitter.com/2/oauth2/token',
+        CURLOPT_URL        => 'https://api.twitter.com/2/oauth2/token',
         CURLOPT_HTTPHEADER => [
             'Content-Type: application/x-www-form-urlencoded',
         ],
         CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_POST => true,
-        CURLOPT_USERPWD => $twitter_client_id . ':' . $twitter_client_secret,
-        CURLOPT_POSTFIELDS => $body,
+        CURLOPT_POST           => true,
+        CURLOPT_USERPWD        => $twitter_client_id . ':' . $twitter_client_secret,
+        CURLOPT_POSTFIELDS     => $body,
         CURLOPT_SSL_VERIFYPEER => false,
         CURLOPT_SSL_VERIFYHOST => false,
         CURLOPT_RETURNTRANSFER => true,
@@ -254,7 +254,7 @@ function getTwitterProfile($code, $redirect_url)
         CURLOPT_RETURNTRANSFER => true
     ];
     curl_setopt_array($ch, $options);
-    $response   = curl_exec($ch);
+    $response     = curl_exec($ch);
     $profileArray = json_decode($response, true);
     curl_close($ch);
 
@@ -262,6 +262,140 @@ function getTwitterProfile($code, $redirect_url)
     // メールアドレスを取得しwp_usersにメールアドレスがあるか?確認
     // メールアドレスが存在する場合 => wp_usersのユーザーを取得してログイン状態にしてリダイレクト
     // メールアドレスが存在しない場合 => メールアドレスに新規登録メールを送信する
+
+    return $profileArray;
+}
+
+/**
+ * Oauth新規登録 / ログインページ
+ * 
+ * 注: 使用する場合は, Googleの開発者登録が必要
+ * Callback URI / Redirect URLに/?memberpage=oauth_googleのページを登録しておく
+ * 
+ * 以下, DBに登録しておく
+ * テーブル名: wp_options
+ * 
+ * 1, 
+ * option_name: google_client_id
+ * option_value: Google Cloudから取得したクライアントID
+ * autoload: yes
+ *
+ * 2, 
+ * option_name: google_secret_key
+ * option_value: Google Cloudから取得したシークレット
+ * autoload: yes
+ */
+function tcd_membership_action_oauth_login_google()
+{
+
+    if (isset($_GET['code']) && !empty($_GET['code'])) {
+        $profileArray = getGoogleProfile($_GET['code']);
+
+        if (isset($profileArray['id']) && !empty($profileArray['id'])) {
+
+            $userData = getUsersMetaByMetaKeyAndMetaValue('google_user_id', $profileArray['id']);
+            if (count($userData) > 0) {
+                // 存在する場合 => ユーザー情報を取得してログイン
+                wp_clear_auth_cookie();
+                wp_set_current_user($userData[0]->ID);
+                wp_set_auth_cookie($userData[0]->ID);
+            }
+        }
+    }
+
+    /**
+     * 必要情報がない場合 => ログインページにリダイレクト
+     */
+    wp_safe_redirect(home_url('/?memberpage=login&oauth_error=login_error'));
+    exit();
+}
+add_action('tcd_membership_action-oauth_login_google', 'tcd_membership_action_oauth_login_google');
+
+/**
+ * グーグル用のログインボタンの生成
+ *
+ * @return void
+ */
+function makeGoogleAuthButton()
+{
+    $google_api_key    = get_option('google_client_id');
+
+    $button = '';
+    if (!empty($google_api_key)) {
+
+        $state             = rand();
+        $nonce             = hash('sha512', openssl_random_pseudo_bytes(128));
+        $_SESSION['state'] = $state;
+        $params = [
+            'response_type' => 'code',
+            'client_id'     => $google_api_key,
+            'redirect_uri'  => home_url() . '/?memberpage=oauth_login_google',
+            'state'         => $state,
+            'nonce'         => $nonce,
+            'scope'         => 'openid email profile',
+        ];
+
+        $url = 'https://accounts.google.com/o/oauth2/v2/auth?' . http_build_query($params);
+        $button .= '<div class="col-12 login-with-sns mt-3">';
+        $button .= '<a href="' . $url . '">';
+        $button .= '<button class="google-btn">';
+        $button .= '<img src="' . get_template_directory_uri() . '/assets/img/icon/g-logo.png" alt="google" class="google-icon">';
+        $button .= 'Googleアカウントでログインする';
+        $button .= '</button>';
+        $button .= '</a>';
+        $button .= '</div>';
+    }
+
+    return $button;
+}
+
+/**
+ * Google APIからプロフィール情報の取得
+ *
+ * @param string $code
+ * @return void
+ */
+function getGoogleProfile($code)
+{
+
+    $google_api_key    = get_option('google_client_id');
+    $google_secret_key = get_option('google_secret_key');
+
+    $postData = [
+        "grant_type"    => "authorization_code",
+        "code"          => $code,
+        "redirect_uri"  => home_url() . '/?memberpage=oauth_login_google',
+        "client_id"     => $google_api_key,
+        "client_secret" => $google_secret_key
+    ];
+
+    // 
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded'));
+    curl_setopt($ch, CURLOPT_URL, 'https://oauth2.googleapis.com/token');
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($ch);
+    $tokenArray = json_decode($response, true);
+    curl_close($ch);
+
+    $access_token = $tokenArray['access_token'];
+    $id_token     = $tokenArray['id_token'];
+
+    $ch = curl_init();
+    $options = [
+        CURLOPT_URL => 'https://www.googleapis.com/oauth2/v1/userinfo',
+        CURLOPT_HTTPHEADER => [
+            'Content-Type: application/json; charser=UTF-8',
+            'Authorization: Bearer ' . $access_token
+        ],
+        CURLOPT_RETURNTRANSFER => true
+    ];
+    curl_setopt_array($ch, $options);
+    $response     = curl_exec($ch);
+    $profileArray = json_decode($response, true);
+    curl_close($ch);
 
     return $profileArray;
 }
