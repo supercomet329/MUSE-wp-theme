@@ -123,7 +123,7 @@ function makeTwitterOauthLogin()
         $button .= '<div class="col-12 login-with-sns">';
         $button .= '<a href="' . $base_url . '?' . http_build_query($query) . '" rel="noreferrer">';
         $button .= '<button class="twitter-btn">';
-        $button .= '<img class="col-3 float-left twitter-icon" src="' . get_template_directory_uri() . '/assets/img/icon/twitter_icon.png" alt="twitter">';
+        $button .= '<img class="col-3 float-left sns-icon" src="' . get_template_directory_uri() . '/assets/img/icon/twitter_icon.png" alt="twitter">';
         $button .= '<div class="con-6 twitter-login-text">Twitterでログインする</div>';
         $button .= '<div class="con-3"></div>';
         $button .= '</button>';
@@ -335,12 +335,26 @@ function makeGoogleAuthButton()
             'scope'         => 'openid email profile',
         ];
 
+        /**
         $url = 'https://accounts.google.com/o/oauth2/v2/auth?' . http_build_query($params);
         $button .= '<div class="col-12 login-with-sns mt-3">';
         $button .= '<a href="' . $url . '">';
         $button .= '<button class="google-btn">';
         $button .= '<img src="' . get_template_directory_uri() . '/assets/img/icon/g-logo.png" alt="google" class="google-icon">';
         $button .= 'Googleアカウントでログインする';
+        $button .= '</button>';
+        $button .= '</a>';
+        $button .= '</div>';
+        $button = '';
+ */
+
+        $url = 'https://accounts.google.com/o/oauth2/v2/auth?' . http_build_query($params);
+        $button .= '<div class="col-12 login-with-sns mt-3">';
+        $button .= '<a href="' . $url . '" rel="noreferrer">';
+        $button .= '<button class="google-btn">';
+        $button .= '<img class="col-3 float-left sns-icon" src="' . get_template_directory_uri() . '/assets/img/icon/g-logo.png" alt="google">';
+        $button .= '<div class="con-6 twitter-login-text">Googleでログインする</div>';
+        $button .= '<div class="con-3"></div>';
         $button .= '</button>';
         $button .= '</a>';
         $button .= '</div>';

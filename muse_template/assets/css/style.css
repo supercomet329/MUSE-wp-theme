@@ -2019,7 +2019,7 @@
             font-size: 16px;
         }
         /* Twitterアイコン */
-        .twitter-icon {
+        .sns-icon {
             height: 90% !important;
             width: 90% !important;
             margin-top: 2px;
@@ -2033,8 +2033,8 @@
             border-radius: 300px;
             border: none;
             background-color: #ffffff;
-            height: 25px;
-            width: 95%;
+            height: 40px;
+            width: 300px;
             color: #616161;
             font-size: 16px;
             border: 1px solid #616161;
