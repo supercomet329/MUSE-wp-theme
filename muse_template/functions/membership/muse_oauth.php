@@ -130,6 +130,7 @@ function addTwitterToken($user_id, $access_token, $refresh_token)
  */
 function publishTwitter($message, $uri)
 {
+
     $user_id          = get_current_user_id();
     $access_token     = get_user_meta($user_id, 'twitter_access_token',     true);
 
@@ -204,8 +205,11 @@ function publishTwitter($message, $uri)
         CURLOPT_RETURNTRANSFER => true,
     ];
     curl_setopt_array($ch, $options);
-    curl_exec($ch);
+    $test= curl_exec($ch);
     curl_close($ch);
+    $publish_message[] = '====';
+    $publish_message[] = '投稿ユーザーID:' . $user_id;
+    publishLog($publish_message);
 }
 
 /**
