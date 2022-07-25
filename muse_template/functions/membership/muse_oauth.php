@@ -180,8 +180,13 @@ function publishTwitter($message, $uri)
         $access_token = $tokenArray['access_token'];
     }
 
+    $publish_message = [];
+    $publish_message[] = $message;
+    $publish_message[] = home_url() . $uri;
+    $publish_message[] = '#MUSE';
+
     $publish = [
-        'text' => $message . PHP_EOL . home_url() . $uri,
+        'text' => implode(PHP_EOL, $publish_message),
     ];
 
     $ch = curl_init();
@@ -199,9 +204,8 @@ function publishTwitter($message, $uri)
         CURLOPT_RETURNTRANSFER => true,
     ];
     curl_setopt_array($ch, $options);
-    $test = curl_exec($ch);
+    curl_exec($ch);
     curl_close($ch);
-    var_dump($test);exit;
 }
 
 /**

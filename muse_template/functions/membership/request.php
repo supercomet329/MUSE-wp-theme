@@ -278,6 +278,11 @@ function tcd_membership_action_request()
                                 '%s'
                             ]
                         );
+                    } else {
+                        // 指定ユーザーがいない場合Tweet
+                        $message = '依頼が発行されました。';
+                        $uri = '/?memberpage=confirm_request&request_id=' . $post_id;
+                        publishTwitter($message, $uri);
                     }
 
                     // TODO: 登録完了時に遷移させるのは依頼一覧
