@@ -616,7 +616,7 @@ function cronPublishTwitter()
     // Twitterに投稿
     $message = '投稿された画像です。';
     $uri     = '?memberpage=post_comment&post_id=' . $result[0]->ID;
-    publishTwitter($message, $uri);
+    publishTwitter($message, $uri, 1);
 
     publishLog('FILE  => ' . __FILE__ . ' LINE  => ' . __LINE__ . ' END  => Twitter投稿');
 }

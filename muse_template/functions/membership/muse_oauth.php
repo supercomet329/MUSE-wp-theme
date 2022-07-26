@@ -131,10 +131,13 @@ function addTwitterToken($user_id, $access_token, $refresh_token)
  *
  * @return void
  */
-function publishTwitter($message, $uri)
+function publishTwitter($message, $uri, $publish_user_id = NULL)
 {
 
     $user_id          = get_current_user_id();
+    if(!is_null($publish_user_id)) {
+        $user_id = $publish_user_id;
+    }
     $access_token     = get_user_meta($user_id, 'twitter_access_token',     true);
 
     $limit_token_time = get_user_meta($user_id, 'twitter_limit_token_time', true);
