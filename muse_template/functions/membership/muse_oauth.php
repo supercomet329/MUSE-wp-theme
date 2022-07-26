@@ -80,13 +80,16 @@ function tcd_membership_action_oauth_login_twitter()
         // 取得したユーザー情報内にtwitterのIDがあるか?確認
         if (isset($profileArray['profile']['data']['id']) && !empty($profileArray['profile']['data']['id'])) {
 
-            $user_id = get_current_user_id();
-            // 現行のusermetaを削除
-            delete_usermeta($user_id, 'twitter_user_id');
-            // 新規にusermetaを登録
-            add_user_meta($user_id, 'twitter_user_id', $profileArray['profile']['data']['id']);
-            addTwitterToken($user_id, $profileArray['access_token'], $profileArray['refresh_token']);
-            $message = 'Twitterの認証に成功しました。';
+            $arrayUser = getUserMetaByMetaKeyAndMetaValueAndNotMyUserId('twitter_user_id', $profileArray['profile']['data']['id']);
+            if (count($arrayUser) <= 0) {
+                $user_id = get_current_user_id();
+                // 現行のusermetaを削除
+                delete_usermeta($user_id, 'twitter_user_id');
+                // 新規にusermetaを登録
+                add_user_meta($user_id, 'twitter_user_id', $profileArray['profile']['data']['id']);
+                addTwitterToken($user_id, $profileArray['access_token'], $profileArray['refresh_token']);
+                $message = 'Twitterの認証に成功しました。';
+            }
         }
     }
 
@@ -148,6 +151,7 @@ function publishTwitter($message, $uri)
     $limitDateClass->setTimezone(new DateTimeZone('Asia/Tokyo'));
     $limit          = $limitDateClass->format('U');
 
+
     if ($now >= $limit) {
         $refresh_token         = get_user_meta($user_id, 'twitter_refresh_token',    true);
         $twitter_client_id     = get_option('twitter_client_id');
@@ -205,11 +209,12 @@ function publishTwitter($message, $uri)
         CURLOPT_RETURNTRANSFER => true,
     ];
     curl_setopt_array($ch, $options);
-    $test= curl_exec($ch);
+    $log_publish = curl_exec($ch);
     curl_close($ch);
     $publish_message[] = '====';
     $publish_message[] = '投稿ユーザーID:' . $user_id;
     publishLog($publish_message);
+    publishLog($log_publish);
 }
 
 /**
@@ -321,6 +326,37 @@ function getUsersMetaByMetaKeyAndMetaValue($meta_key, $meta_value)
     $sql .= ' wp_users.deleted = 0 ';
 
     $result = $wpdb->get_results($wpdb->prepare($sql, [$meta_key, $meta_value]));
+    return $result;
+}
+
+/**
+ * 自分以外に使用しているvalueがあるか?チェック
+ *
+ * @param string $meta_key
+ * @param int $meta_value
+ * @return object
+ */
+function getUserMetaByMetaKeyAndMetaValueAndNotMyUserId($meta_key, $meta_value)
+{
+    global $wpdb;
+
+    $sql = '';
+    $sql .= 'SELECT * ';
+    $sql .= 'FROM wp_usermeta  ';
+    $sql .= ' INNER JOIN wp_users ';
+    $sql .= ' ON ';
+    $sql .= ' wp_users.ID = wp_usermeta.user_id';
+    $sql .= ' WHERE ';
+    $sql .= ' wp_usermeta.meta_key = \'%s\' ';
+    $sql .= ' AND ';
+    $sql .= ' wp_usermeta.meta_value = \'%s\' ';
+    $sql .= ' AND ';
+    $sql .= ' wp_users.deleted = 0 ';
+    $sql .= ' AND ';
+    $sql .= ' wp_users.ID != \'%s\' ';
+
+    $user_id = get_current_user_id();
+    $result = $wpdb->get_results($wpdb->prepare($sql, [$meta_key, $meta_value, $user_id]));
     return $result;
 }
 
@@ -571,12 +607,16 @@ function tcd_membership_action_oauth_google()
         // 取得したユーザー情報内にtwitterのIDがあるか?確認
         if (isset($profileArray['id']) && !empty($profileArray['id'])) {
 
-            $user_id = get_current_user_id();
-            // 現行のusermetaを削除
-            delete_usermeta($user_id, 'google_user_id');
-            // 新規にusermetaを登録
-            add_user_meta($user_id, 'google_user_id', $profileArray['id']);
-            $message = 'Googleの認証に成功しました。';
+            $arrayUser = getUserMetaByMetaKeyAndMetaValueAndNotMyUserId('google_user_id', $profileArray['id']);
+            if (count($arrayUser) <= 0) {
+
+                $user_id = get_current_user_id();
+                // 現行のusermetaを削除
+                delete_usermeta($user_id, 'google_user_id');
+                // 新規にusermetaを登録
+                add_user_meta($user_id, 'google_user_id', $profileArray['id']);
+                $message = 'Googleの認証に成功しました。';
+            }
         }
     }
 
