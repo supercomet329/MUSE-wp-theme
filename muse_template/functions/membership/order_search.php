@@ -72,12 +72,19 @@ function lisetOrder($sort, $search_txt, $sel_up_budget, $sel_down_budget, $sel_l
 {
     global $wpdb;
 
+    $minimum_order_price = 0;
+    $user_id = get_current_user_id();
+    $get_minimum_order_price = get_user_meta($user_id, 'minimum_order_price', true);
+    if(!empty($get_minimum_order_price)) {
+        $minimum_order_price = $get_minimum_order_price;
+    }
+
     $sql = '';
     $sql .= 'SELECT ';
-    $sql .= ' DISTINCT wp_posts.ID AS post_id ';
-    $sql .= ',wp_posts.post_author AS post_author ';
-    $sql .= ',wp_posts.post_date AS post_date ';
-    $sql .= ',wp_posts.post_title AS post_title ';
+    $sql .= ' DISTINCT wp_posts.ID  AS post_id ';
+    $sql .= ',wp_posts.post_author  AS post_author ';
+    $sql .= ',wp_posts.post_date    AS post_date ';
+    $sql .= ',wp_posts.post_title   AS post_title ';
     $sql .= ',wp_posts.post_content AS post_content ';
     $sql .= ',wp_users.display_name AS display_name ';
 
@@ -94,15 +101,10 @@ function lisetOrder($sort, $search_txt, $sel_up_budget, $sel_down_budget, $sel_l
     $sql .= ' ON wp_users.ID = wp_posts.post_author ';
     $sql .= 'WHERE wp_posts.post_type = \'request\' ';
     $sql .= ' AND wp_posts.post_status = \'publish\'';
-    $sql .= ' AND NOT EXISTS(';
-    $sql .= ' SELECT * 
-            FROM wp_tcd_membership_actions 
-            WHERE 
-                wp_tcd_membership_actions.post_id = wp_posts.ID 
-            AND 
-                wp_tcd_membership_actions.type = \'received\' 
-            ';
-    $sql .= ' ) ';
+    $sql .= ' AND (';
+    $sql .= ' SELECT meta_value FROM wp_postmeta WHERE wp_postmeta.post_id = wp_posts.ID AND meta_key = \'budget\'';
+    $sql .= ') >= ' . (int)$minimum_order_price;
+
     $sql .= ' AND NOT EXISTS(';
     $sql .= ' SELECT * 
             FROM wp_postmeta 
