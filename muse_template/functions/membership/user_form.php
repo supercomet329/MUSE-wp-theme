@@ -878,6 +878,7 @@ function tcd_membership_login_form($args = array())
                     'show_telphone' => true,
                     // ADD 2022/07/07 追加 H.Okabe
                     'show_request_box'     => $dp_options['membership']['request_box'],
+                    'show_twitter_alignment'    => $dp_options['membership']['twitter_alignment'],
                     // 'show_facebook' => $dp_options['membership']['show_profile_facebook'],
                     // 'show_twitter' => $dp_options['membership']['show_profile_twitter'],
                     // 'show_instagram' => $dp_options['membership']['show_profile_instagram'],
@@ -1644,6 +1645,7 @@ function tcd_membership_login_form($args = array())
                 }
             }
 
+            // var_dump($_POST);exit;
             foreach (array(
                 'mail_magazine',
                 'member_news_notify',
@@ -1651,7 +1653,8 @@ function tcd_membership_login_form($args = array())
                 'messages_notify',
                 // ADD 2022/05/09 H.Okabe Add
                 'telphone',
-                'request_box'
+                'request_box',
+                'twitter_alignment',
             ) as $meta_key) {
                 if ($args['show_' . $meta_key]) {
                     $metadata[$meta_key] = isset($data[$meta_key]) ? tcd_membership_sanitize_content($data[$meta_key]) : 'yes';

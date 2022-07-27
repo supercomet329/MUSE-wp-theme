@@ -391,6 +391,7 @@ function tcd_membership_options_default() {
 		'messages_notify_hour' => '12',
 		'messages_notify_minute' => '00',
 		'request_box' => 1,
+		'twitter_alignment' => 1,
 
 		// mail
 		'mail_from_email' => get_bloginfo( 'admin_email' ),
