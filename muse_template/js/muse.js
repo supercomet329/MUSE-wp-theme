@@ -876,7 +876,7 @@ jQuery(function($) {
         let file = this.files[0];
         let fileInput = jQuery('#cover_img_file_input').get(0);
         let image = jQuery('#cover_image').get(0);
-        validateImageSize(file, fileInput)
+        validateImageSize(file, fileInput);
         replaceImage(file, image);
     });
 

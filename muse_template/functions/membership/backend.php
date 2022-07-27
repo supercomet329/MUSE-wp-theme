@@ -391,7 +391,7 @@ function tcd_membership_mail( $mail_type, $mailto = null, $replaces = array() ) 
 
 	// 件名・本文フィルター
 	$subject = apply_filters( 'tcd_membership_mail_subject-' . $mail_type, $subject, $replaces, $mailto );
-	$body = apply_filters( 'tcd_membership_mail_body-' . $mail_type, $body, $replaces, $mailto );
+	$body    = apply_filters( 'tcd_membership_mail_body-' . $mail_type, $body, $replaces, $mailto );
 
 	if ( ! $subject && ! $body ) {
 		return false;

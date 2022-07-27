@@ -406,6 +406,7 @@ add_action('admin_enqueue_scripts', 'tcd_user_profile_image_field_scripts');
  */
 function tcd_user_profile_image_field_upload($args)
 {
+
     $default_args = array(
         'user_id' => 0,
         'file_input_name' => null,
@@ -423,6 +424,7 @@ function tcd_user_profile_image_field_upload($args)
     );
 
     $args = array_merge($default_args, $args);
+    // var_dump($args);
 
     if (!$args['user_id'] || !$args['file_input_name']) {
         return false;
@@ -464,12 +466,14 @@ function tcd_user_profile_image_field_upload($args)
 
         if (!empty($wp_handle_upload['file']) && !empty($wp_handle_upload['url'])) {
 
-            // アップロードファイルをbase_64データに変更
-            $icon_file = $_POST['icon_file'];
-            $icon_file = str_replace(' ', '+', $icon_file);
-            $icon_file = preg_replace('#^data:image/\w+;base64,#i', '', $icon_file);
-            $icon_file = base64_decode($icon_file);
-            file_put_contents($wp_handle_upload['file'], $icon_file);
+            if($args['file_input_name'] === 'profile_image') {
+                // アイコン画像の場合 => アップロードファイルをbase_64データに変更
+                $icon_file = $_POST['icon_file'];
+                $icon_file = str_replace(' ', '+', $icon_file);
+                $icon_file = preg_replace('#^data:image/\w+;base64,#i', '', $icon_file);
+                $icon_file = base64_decode($icon_file);
+                file_put_contents($wp_handle_upload['file'], $icon_file);
+            }
 
             // Windows directory separator対策 /に置換しないとメタ保存された際に\が消える
             if (false !== strpos($wp_handle_upload['file'], '\\')) {

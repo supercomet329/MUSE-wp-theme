@@ -783,6 +783,7 @@ add_action( 'before_delete_post', 'tcd_membership_image_delete_before_delete_pos
  * ajaxでのフロント用画像アップロード 投稿用・ユーザー用兼用
  */
 function tcd_membership_ajax_image_upload() {
+	
 	global $dp_options, $tcd_membership_vars, $_wp_additional_image_sizes;
 
 	$json = array(
@@ -796,6 +797,7 @@ function tcd_membership_ajax_image_upload() {
 
 	// プロフィール編集
 	} elseif ( 'edit_profile' === $_POST['type'] ) {
+
 		if ( ! wp_verify_nonce( $_POST['nonce'], 'tcd-membership-edit_profile' ) ) {
 			$json['message'] = __( 'Invalid nonce.', 'tcd-w' );
 		} else {
