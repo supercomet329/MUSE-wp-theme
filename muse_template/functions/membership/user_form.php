@@ -534,6 +534,13 @@ function tcd_membership_login_form($args = array())
                 }
             }
 
+            // 受注の最低金額の取得
+            $minimum_order_price = 0;
+            $getMinimumOrderPrice = get_user_meta(get_current_user_id(), 'minimum_order_price', true);
+            if(!empty($getMinimumOrderPrice)) {
+                $minimum_order_price = $getMinimumOrderPrice;
+            }
+
             $successMessage = '';
             if (isset($_GET['message']) && $_GET['message'] === 'updated') {
                 $successMessage = 'プロフィール情報の更新を行いました。';
@@ -603,11 +610,17 @@ function tcd_membership_login_form($args = array())
                     所在地
                 </div>
                 <input name="area" type="text" value="<?php echo esc_attr($area); ?>​" class="col-6 border-bottom-dashed">
+
                 <div class="col-6 text-left title py-2 mt-0 border-bottom-dashed my-auto">
                     webサイト
                 </div>
-
                 <input type="text" name="website_url" value="<?php echo esc_attr($user->data->user_url); ?>" id="url_box" name="url_box" class="col-6 border-bottom-dashed text-primary">
+
+                <div class="col-6 text-left title py-2 mt-0 border-bottom-dashed my-auto">
+                    最低受注金額
+                </div>
+                <input type="text" name="minimum_order_price" value="<?php echo esc_attr($minimum_order_price); ?>" id="minimum_order_price" class="col-6 border-bottom-dashed text-primary">
+
                 <div class="col-6 text-left title border-bottom-dashed mt-0 py-2">
                     依頼
                 </div>
@@ -879,6 +892,7 @@ function tcd_membership_login_form($args = array())
                     // ADD 2022/07/07 追加 H.Okabe
                     'show_request_box'     => $dp_options['membership']['request_box'],
                     'show_twitter_alignment'    => $dp_options['membership']['twitter_alignment'],
+                    'show_minimum_order_price'  => $dp_options['membership']['minimum_order_price'],
                     // 'show_facebook' => $dp_options['membership']['show_profile_facebook'],
                     // 'show_twitter' => $dp_options['membership']['show_profile_twitter'],
                     // 'show_instagram' => $dp_options['membership']['show_profile_instagram'],
@@ -1655,6 +1669,7 @@ function tcd_membership_login_form($args = array())
                 'telphone',
                 'request_box',
                 'twitter_alignment',
+                'minimum_order_price',
             ) as $meta_key) {
                 if ($args['show_' . $meta_key]) {
                     $metadata[$meta_key] = isset($data[$meta_key]) ? tcd_membership_sanitize_content($data[$meta_key]) : 'yes';
