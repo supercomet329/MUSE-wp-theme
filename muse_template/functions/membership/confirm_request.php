@@ -471,12 +471,6 @@ function update_request($requestFileUrl, $requestFileName)
     ];
 
     $specify_user_id = get_post_meta($request_id, 'specify_user_id', true);
-    if (empty($specify_user_id)) {
-        // 依頼の指名ユーザーがいない場合 => TwitterにTweet
-        $message = '依頼が更新されました。';
-        $uri = '/?memberpage=confirm_request&request_id=' . $request_id;
-        publishTwitter($message, $uri);
-    }
 
     // データベースにある投稿を更新する
     wp_update_post($my_post);
