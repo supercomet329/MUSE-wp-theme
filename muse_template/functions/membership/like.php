@@ -56,10 +56,6 @@ function ajax_toggle_like() {
 					$json['likes_number'] = $likes_number;
 					update_post_meta( $post_id, '_likes', $likes_number );
 
-					// Tweet
-					$message = '作品にいいねしました。';
-					$uri = '/?memberpage=post_comment&post_id=' . $post_id;
-					publishTwitter($message, $uri);
 				} else {
 					$json['message'] = 'Add like error: ' . __( 'Failed to save the database.', 'tcd-w' );
 				}
