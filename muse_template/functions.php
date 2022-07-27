@@ -960,3 +960,75 @@ function init_session_start()
 	}
 }
 add_action('init', 'init_session_start');
+
+/**
+ * 管理画面でユーザー確認の更新
+ *
+ * @param int $user_id
+ * @return void
+ */
+function online_user_identification_save($user_id)
+{
+	$meta_keys = 'identification';
+	if (isset($_POST[$meta_keys])) {
+		if (is_numeric($_POST[$meta_keys])) {
+			update_user_meta($user_id, $meta_keys, $_POST[$meta_keys]);
+		}
+	}
+}
+add_action('profile_update', 'online_user_identification_save');
+
+/**
+ * 管理画面にユーザーの本人確認項目を追加
+ *
+ * @param object $edituser
+ * @return void
+ */
+function online_add_user_form($edituser)
+{
+
+	$setSel       = 0;
+	$identificationData = get_user_meta($edituser->ID, 'identification', true);
+	if (!empty($identificationData) && $identificationData > 0) {
+		$setSel            = $identificationData;
+	}
+?>
+	<h3>本人確認</h3>
+	<select name="identification">
+		<option value="0" <?php echo ($setSel <= 0) ? 'selected' : ''; ?>>未確認</option>>
+		<option value="1" <?php echo ($setSel > 0) ? 'selected' : ''; ?>>確認済</option>>
+	</select>
+<?php
+}
+add_action('show_user_profile', 'online_add_user_form');
+add_action('edit_user_profile', 'online_add_user_form');
+
+
+
+function user_profile_hide_script($hook)
+{
+
+	$script = <<<SCRIPT
+	jQuery(function($) {
+	  jQuery('#your-profile .user-rich-editing-wrap').hide(); //ビジュアルエディター
+	  jQuery('#your-profile .user-syntax-highlighting-wrap').hide(); //シンタックスハイライト
+	  jQuery('#your-profile .user-admin-color-wrap').hide(); // 管理画面の配色
+	  jQuery('#your-profile .user-comment-shortcuts-wrap').hide(); // キーボードショートカット
+	  jQuery('#your-profile .user-admin-bar-front-wrap').hide(); // ツールバー
+	  jQuery('#your-profile .user-language-wrap').hide(); // 言語
+	  jQuery('#your-profile .user-user-login-wrap').hide(); // ユーザー名
+	  jQuery('#your-profile .user-role-wrap').hide(); // 権限グループ
+	  jQuery('#your-profile .user-first-name-wrap').hide(); // 姓
+	  jQuery('#your-profile .user-display-name-wrap').hide(); // ブログ上の表示名
+	  jQuery('#your-profile .user-facebook_url-wrap').hide(); // Facebook
+	  jQuery('#your-profile .user-twitter_url-wrap').hide(); // Twitter
+	  jQuery('#your-profile .user-instagram_url-wrap').hide(); // インスタグラム
+	  jQuery('#your-profile .user-youtube_url-wrap').hide(); // YouTube
+	  jQuery('#your-profile .user-tiktok_url-wrap').hide(); // Tiktok
+	  // 
+	  
+	});
+SCRIPT;
+	wp_add_inline_script('jquery-core', $script);
+}
+add_action('admin_enqueue_scripts', 'user_profile_hide_script');

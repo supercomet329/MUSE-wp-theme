@@ -59,74 +59,74 @@ function tcd_user_profile_edit_user_profile($user)
         <?php
         if ($dp_options['membership']['show_account_area'] || $dp_options['membership']['show_profile_area']) {
         ?>
-            <tr>
+            <!-- tr>
                 <th><label for="area"><?php echo esc_html($dp_options['membership']['field_label_area']); ?></label></th>
                 <td><?php echo get_tcd_user_profile_input_area($user->area); ?></td>
-            </tr>
+            </tr -->
         <?php
         }
         if ($dp_options['membership']['show_account_gender']) {
         ?>
-            <tr>
+            <!-- tr>
                 <th><label for="gender"><?php echo esc_html($dp_options['membership']['field_label_gender']); ?></label></th>
                 <td><?php echo get_tcd_user_profile_input_radio('gender', $gender_options, $user->gender, 'man'); ?></td>
-            </tr>
+            </tr -->
         <?php
         }
         if ($dp_options['membership']['show_account_birthday'] || $dp_options['membership']['show_profile_birthday']) {
         ?>
-            <tr>
+            <!-- tr>
                 <th><label for="birthday"><?php echo esc_html($dp_options['membership']['field_label_birthday']); ?></label></th>
                 <td><?php echo get_tcd_user_profile_input_birthday('_birthday', $user->_birthday); ?></td>
-            </tr>
+            </tr -->
         <?php
         }
         if ($dp_options['membership']['show_profile_company']) {
         ?>
-            <tr>
+            <!-- tr>
                 <th><label for="job"><?php echo esc_html($dp_options['membership']['field_label_company']); ?></label></th>
                 <td><input class="regular-text" id="company" name="company" type="text" value="<?php echo esc_attr($user->company); ?>"></td>
-            </tr>
+            </tr -->
         <?php
         }
         if ($dp_options['membership']['show_profile_job']) {
         ?>
-            <tr>
+            <!-- tr>
                 <th><label for="job"><?php echo esc_html($dp_options['membership']['field_label_job']); ?></label></th>
                 <td><input class="regular-text" id="job" name="job" type="text" value="<?php echo esc_attr($user->job); ?>"></td>
-            </tr>
+            </tr -->
         <?php
         }
         if ($dp_options['membership']['use_mail_magazine']) {
         ?>
-            <tr>
+            <!-- tr>
                 <th><label for="mail_magazine"><?php echo esc_html($dp_options['membership']['field_label_mail_magazine']); ?></label></th>
                 <td><?php echo get_tcd_user_profile_input_radio('mail_magazine', $receive_options, $user->mail_magazine, 'yes'); ?></td>
-            </tr>
+            </tr -->
         <?php
         }
         if ($dp_options['membership']['use_member_news_notify']) {
         ?>
-            <tr>
+            <!-- tr>
                 <th><label for="member_news_notify"><?php echo esc_html($dp_options['membership']['field_label_member_news_notify']); ?></label></th>
                 <td><?php echo get_tcd_user_profile_input_radio('member_news_notify', $notify_options, $user->member_news_notify, 'yes'); ?></td>
-            </tr>
+            </tr -->
         <?php
         }
         if ($dp_options['membership']['use_social_notify']) {
         ?>
-            <tr>
+            <!-- tr>
                 <th><label for="social_notify"><?php echo esc_html($dp_options['membership']['field_label_social_notify']); ?></label></th>
                 <td><?php echo get_tcd_user_profile_input_radio('social_notify', $notify_options, $user->social_notify, 'yes'); ?></td>
-            </tr>
+            </tr -->
         <?php
         }
         if ($dp_options['membership']['use_messages_notify']) {
         ?>
-            <tr>
+            <!-- tr>
                 <th><label for="messages_notify"><?php echo esc_html($dp_options['membership']['field_label_messages_notify']); ?></label></th>
                 <td><?php echo get_tcd_user_profile_input_radio('messages_notify', $notify_options, $user->messages_notify, 'yes'); ?></td>
-            </tr>
+            </tr -->
         <?php
         }
         ?>

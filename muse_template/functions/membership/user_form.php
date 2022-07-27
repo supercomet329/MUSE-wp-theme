@@ -1552,6 +1552,12 @@ function tcd_membership_login_form($args = array())
 
             $metadata = array();
 
+            $meta_key = 'last_name';
+            if(isset($data[$meta_key])) {
+                $meta_key = 'last_name';
+                $metadata[$meta_key] = isset($data[$meta_key]) ? tcd_membership_sanitize_content($data[$meta_key]) : '';
+            }
+
             if ($args['show_fullname']) {
                 $meta_key = 'first_name';
                 $metadata[$meta_key] = isset($data[$meta_key]) ? tcd_membership_sanitize_content($data[$meta_key]) : '';
