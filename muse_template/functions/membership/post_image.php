@@ -526,10 +526,10 @@ function cropImage($uploadedFile, $resizeFilePath)
     $image->crop($d_x, $d_y, $d_w, $d_h);
 
     // 縦4: 横 3の対応
-    // $image->resize(NULL, 400, true);
+    $image->resize(300, 480, true);
 
     // 正方形の対応
-    $image->resize(400, 400, true);
+    // $image->resize(400, 400, true);
 
     // 画像の出力
     $image->save($resizeFilePath);
