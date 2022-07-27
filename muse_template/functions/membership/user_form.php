@@ -523,6 +523,17 @@ function tcd_membership_login_form($args = array())
                 $strAccountNumber = $accountNumberData;
             }
 
+            $twitterAlignmentFlg = 0;
+            $twitterAccessToken = get_user_meta(get_current_user_id(), 'twitter_access_token', true);
+            $twitterAlignment = 0;
+            if (!empty($twitterAccessToken)) {
+                $twitterAlignmentFlg = true;
+                $getTwitterAlignment = get_user_meta(get_current_user_id(), 'twitter_alignment', true);
+                if (!empty($getTwitterAlignment)) {
+                    $twitterAlignment = $getTwitterAlignment;
+                }
+            }
+
             $successMessage = '';
             if (isset($_GET['message']) && $_GET['message'] === 'updated') {
                 $successMessage = 'プロフィール情報の更新を行いました。';
@@ -553,9 +564,9 @@ function tcd_membership_login_form($args = array())
             <?php endif; ?>
 
             <?php
-                if (isset($_SESSION['success_twitter_message'])) {
-                    $massage = $_SESSION['success_twitter_message'];
-                    unset($_SESSION['success_twitter_message']);
+            if (isset($_SESSION['success_twitter_message'])) {
+                $massage = $_SESSION['success_twitter_message'];
+                unset($_SESSION['success_twitter_message']);
             ?>
                 <p><?php echo $massage; ?></p>
             <?php } ?>
@@ -604,12 +615,26 @@ function tcd_membership_login_form($args = array())
                     <option value="1" <?php echo ($inReception > 0) ? 'selected' : ''; ?>>受付中</option>
                     <option value="0" <?php echo ($inReception <= 0) ? 'selected' : ''; ?>>受け付けない</option>
                 </select>
+
+                <?php if ($twitterAlignmentFlg > 0) { ?>
+                    <div class="col-6 text-left title border-bottom-dashed mt-0 py-2">
+                        Twitter自動連携
+                    </div>
+                    <div class="col-6 text-left border-bottom-dashed mt-0 py-2 d-flex">
+                        <select id="request_box" name="twitter_alignment" class="col-10 border-top-0 border-right-0 border-left-0 border-bottom-dashed">
+                            <option value="1" <?php echo ($twitterAlignment > 0) ? 'selected' : ''; ?>>連携する</option>
+                            <option value="0" <?php echo ($twitterAlignment <= 0) ? 'selected' : ''; ?>>連携しない</option>
+                        </select>
+                    </div>
+                <?php } ?>
+
                 <div class="col-6 text-left title border-bottom-dashed mt-0 py-2">
                     本人確認
                 </div>
                 <div class="col-6 text-left border-bottom-dashed mt-0 py-2 d-flex">
                     <?php echo esc_attr($strIdentification); ?>
                 </div>
+
                 <div class="col-6 text-left title border-bottom-dashed mt-0 py-2">
                     口座
                 </div>
@@ -1552,8 +1577,8 @@ function tcd_membership_login_form($args = array())
 
             $metadata = array();
 
-            $meta_key = 'last_name';
-            if(isset($data[$meta_key])) {
+
+            if (isset($data[$meta_key])) {
                 $meta_key = 'last_name';
                 $metadata[$meta_key] = isset($data[$meta_key]) ? tcd_membership_sanitize_content($data[$meta_key]) : '';
             }

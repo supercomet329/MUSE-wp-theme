@@ -135,10 +135,26 @@ function publishTwitter($message, $uri, $publish_user_id = NULL)
 {
 
     $user_id          = get_current_user_id();
-    if(!is_null($publish_user_id)) {
+    if (!is_null($publish_user_id)) {
         $user_id = $publish_user_id;
     }
     $access_token     = get_user_meta($user_id, 'twitter_access_token',     true);
+
+    if (empty($access_token)) {
+        // アクセストークンが取得できない場合はTweetしない
+        return true;
+    }
+
+    $getTwitterAlignment = get_user_meta($user_id, 'twitter_alignment', true);
+    if (empty($getTwitterAlignment)) {
+        // Tweetの自動連携をしない場合はTweetしない
+        return true;
+    }
+
+    if ((int)$getTwitterAlignment <= 0) {
+        // Tweetの自動連携をしない場合はTweetしない
+        return true;
+    }
 
     $limit_token_time = get_user_meta($user_id, 'twitter_limit_token_time', true);
     if (empty($access_token)) {
