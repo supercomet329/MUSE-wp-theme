@@ -11,7 +11,7 @@ get_header();
                 <a href="javascript:history.back();">← 戻る</a>
             </div>
             <div class="col-6 text-center">
-                <button type="submit" class="btn btn-primary text-white side_submit-btn" id="sidePostBtn" disabled>画像登録</button>
+                <button type="submit" class="btn btn-primary text-white side_submit-btn" id="sidePostBtn" disabled>画像投稿</button>
             </div>
         </div>
 
