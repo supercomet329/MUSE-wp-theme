@@ -314,7 +314,7 @@ function tcd_membership_action_confirm_request()
     // 受注済か確認
     // 受注済みの場合受注ユーザーの取得
     $comment_flag = false;
-    $tabStyle = 'col-4';
+    $tabStyle     = 'col-4';
     $receivedData = get_memberShipActionsByPostId($request_id, 'received');
     if (count($receivedData) > 0) {
         // 受注済の場合は作成者でも確認用テンプレート
@@ -340,6 +340,7 @@ function tcd_membership_action_confirm_request()
     // リクエスト作成者とログインユーザーが違う場合 => 確認用テンプレートへ
     $template = 'muse_confirm_request';
 
+    $my_order_flag = true;
     if (
         (int)$author_id === (int)$user_id &&
         $comment_flag === FALSE
@@ -348,6 +349,13 @@ function tcd_membership_action_confirm_request()
 
         // リクエスト作成者とログインユーザーが同じ場合 => 入力用テンプレートへ
         $template = 'muse_confirm_request_modify';
+    }
+
+    if ($specifyUser !== FALSE) {
+        // 指名ユーザーがいる場合
+        if ((int)$specifyUser !== (int)get_current_user_id()) {
+            $my_order_flag = false;
+        }
     }
     $tcd_membership_vars['template'] = $template;
     $tcd_membership_vars['my_order_flag'] = $my_order_flag;
@@ -369,6 +377,7 @@ function tcd_membership_action_confirm_request()
             $viewFlag = true;
         }
     }
+
     $tcd_membership_vars['viewFlag'] = $viewFlag;
 }
 add_action('tcd_membership_action-confirm_request', 'tcd_membership_action_confirm_request');
