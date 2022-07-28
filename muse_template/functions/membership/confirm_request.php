@@ -2,7 +2,7 @@
 // Add 2022/05/10 by H.Okabe
 /**
  * 依頼している依頼の詳細画面
- * TODO: 2022/05/11 メッセージのやり取りの対応
+ *
  */
 function tcd_membership_action_confirm_request()
 {
