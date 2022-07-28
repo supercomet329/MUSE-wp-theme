@@ -600,7 +600,7 @@ function makeGoogleOauthLoginLink()
         ];
 
         $url = 'https://accounts.google.com/o/oauth2/v2/auth?' . http_build_query($params);
-        $button .= '<div class="col-12 login-with-sns mt-3">';
+        $button .= '<div class="col-12 login-with-sns mt-2 mb-3">';
         $button .= '<a href="' . $url . '" rel="noreferrer">';
         $button .= '<button class="google-btn">';
         $button .= '<img class="col-3 float-left sns-icon" src="' . get_template_directory_uri() . '/assets/img/icon/g-logo.png" alt="google">';
