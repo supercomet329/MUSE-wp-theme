@@ -147,7 +147,7 @@ function remove_favorite($post_id, $user_id = 0)
     }
 
     // キープしていない場合
-    if (false === is_keep($post_id, $user_id)) {
+    if (false === is_favorite($post_id, $user_id)) {
         return 0;
     }
 
