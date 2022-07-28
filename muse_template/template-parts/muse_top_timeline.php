@@ -50,6 +50,10 @@ foreach ($listTimeline as $oneTimeline) {
         $profileImage = get_template_directory_uri() . '/assets/img/icon/non_profile_image.png';
     }
 
+    $dateClass = new DateTime($oneTimeline->post_date);
+    // FIXED: nginxの場合 php.iniの反映が去れないことがある
+    $dateClass->setTimezone(new DateTimeZone('Asia/Tokyo'));
+
     if ($oneTimeline->post_type === 'photo') {
         // 投稿画像の表示
         $imageArray = [];
@@ -64,9 +68,6 @@ foreach ($listTimeline as $oneTimeline) {
             $imageArray[] = $oneTimeline->main_image4;
         }
 
-        $dateClass = new DateTime($oneTimeline->post_date);
-        // FIXED: nginxの場合 php.iniの反映が去れないことがある
-        $dateClass->setTimezone(new DateTimeZone('Asia/Tokyo'));
 ?>
         <div class="col-12 pt-1">
             <ul class="tweet-area">
