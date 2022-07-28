@@ -99,7 +99,7 @@ get_header();
                 </div>
             </div>
 
-            <div id="saleForm" style="<?php echo ($tcd_membership_vars['setDataParams']['saleType'] !== 'sale') ? 'display: none;' : ''; ?>">
+            <div id="saleForm" style="<?php echo $tcd_membership_vars['viewSaleForm']; ?>">
                 <div class="col-12 mt-2">
                     <label for="selectAuction" class="label-text post-input-title mt-4">オークション開催（必須）</label>
                 </div>
@@ -115,7 +115,7 @@ get_header();
             </div>
 
             <!-- NFT販売 -->
-            <div id="nftSaleForm" style="<?php echo ($tcd_membership_vars['setDataParams']['selectAuction'] !== 'Auction') ? '' : 'display: none;'; ?>">
+            <div id="nftSaleForm" style="<?php echo $tcd_membership_vars['viewNftSaleForm']; ?>">
                 <div class="col-12">
                     <label for="imagePrice" class="label-text post-input-title mt-4">販売価格（必須）</label>
                 </div>
@@ -135,7 +135,7 @@ get_header();
             </div>
 
             <!-- オークション販売 -->
-            <div id="auctionSaleForm" style="<?php echo ($tcd_membership_vars['setDataParams']['selectAuction'] !== 'Auction') ? 'display: none;' : ''; ?>">
+            <div id="auctionSaleForm" style="<?php echo $tcd_membership_vars['viewAuctionSaleForm']; ?>">
                 <div class="col-12">
                     <label for="auctionStartDate" class="label-text post-input-title mt-4">オークション開始日時（必須）</label>
                 </div>
@@ -162,7 +162,7 @@ get_header();
                     <div class="error_message" id="errBinPrice"></div>
                 </div>
 
-                <div id="auctionTimeForm" <?php echo ($tcd_membership_vars['setDataParams']['auctionStartDate'] !== 'notSpecified') ? '' : 'style="display:none;"'; ?>>
+                <div id="auctionTimeForm" style="<?php echo $tcd_membership_vars['viewAuctionTimeForm']; ?>">
 
                     <div class="col-12">
                         <label for="auctionStartDate" class="label-text post-input-title mt-4">オークション開始日時</label>
