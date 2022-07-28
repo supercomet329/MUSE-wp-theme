@@ -1257,8 +1257,6 @@ function listTopTimeLine()
             (' . $unionSql2 . ') 
         ORDER BY post_date DESC
     ';
-    echo $sql;
-    exit;
 
     $result = $wpdb->get_results($wpdb->prepare($sql));
     return $result;
