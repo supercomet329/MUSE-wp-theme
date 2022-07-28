@@ -193,3 +193,39 @@ function is_favorite($post_id = null, $user_id = 0)
         return false;
     }
 }
+
+/**
+ * 購入保管一覧の対応
+ *
+ * @param int $user_id
+ * @return array
+ */
+function muse_list_favorite($user_id)
+{
+    global $wpdb, $user_ids;
+
+    $sql = '';
+    $sql .= 'SELECT ';
+    $sql .= 'wp_posts.ID AS post_id ';
+    $sql .= ',wp_postmeta.meta_value AS main_image ';
+    $sql .= 'FROM wp_tcd_membership_actions ';
+    $sql .= 'INNER JOIN wp_posts ';
+    $sql .= 'ON wp_posts.ID = wp_tcd_membership_actions.post_id ';
+    $sql .= 'INNER JOIN wp_postmeta ';
+    $sql .= 'ON wp_posts.ID = wp_postmeta.post_id ';
+    $sql .= 'WHERE wp_posts.post_type = %s ';
+    if (!is_null($user_id)) {
+        $sql .= 'AND wp_tcd_membership_actions.user_id = %d ';
+    }
+    $sql .= 'AND wp_postmeta.meta_key = \'main_image\' ';
+    $sql .= 'AND wp_tcd_membership_actions.type = \'favorite\' ';
+    $sql .= ' ORDER BY wp_tcd_membership_actions.created_gmt DESC ';
+
+    $result = $wpdb->get_results($wpdb->prepare($sql, 'photo', $user_id));
+
+    $return = [];
+    if (!is_null($result)) {
+        $return = $result;
+    }
+    return $return;
+}

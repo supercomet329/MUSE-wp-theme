@@ -48,17 +48,17 @@ if (!empty($active)) {
 }
 $arrayCount = get_author_list_totals($user_id);
 
-// 発注の一覧を取得
 $listPost = muse_list_post($user_id);
-
-// テンプレート指定
 $chunk_list_post = array_chunk($listPost, 3);
 $list_post = $chunk_list_post;
 
-$listLike  = muse_list_like($user->ID);
+$listLike  = muse_list_like($user_id);
 $chunk_list_like = array_chunk($listLike, 3);
 $list_like = $chunk_list_like;
 
+$listFavorite = muse_list_favorite($user_id);
+$chunk_list_favorite = array_chunk($listFavorite, 3);
+$list_favorite = $chunk_list_favorite;
 get_header();
 ?>
 <div class="container pt-2">
@@ -182,7 +182,7 @@ get_header();
 <div class="d-none py-1" id="favorite_list">
     <?php foreach ($list_like as $array_like) { ?>
         <div class="content">
-            <?php foreach ($array_post as $onePost) { ?>
+            <?php foreach ($array_like as $onePost) { ?>
                 <div class="content-item shadow d-flex align-items-center justify-content-center px-1">
                     <img class="image-list" src="<?php echo $onePost->main_image; ?>">
                 </div>
@@ -196,7 +196,19 @@ get_header();
 <!-- 購入保管した画像一覧 -->
 <div class="d-none py-1" id="purcher_list">
     <?php /** TODO: NFTが決まったら対応 */ ?>
+    <?php foreach ($list_favorite as $array_favorite) { ?>
+        <div class="content">
+            <?php foreach ($array_favorite as $onePost) { ?>
+                <div class="content-item shadow d-flex align-items-center justify-content-center px-1">
+                    <img class="image-list" src="<?php echo $onePost->main_image; ?>">
+                </div>
+            <?php }
+            /** endforeach */ ?>
+        </div>
+    <?php }
+    /** endforeach */ ?>
 </div>
+
 <!-- 所有NFT一覧 -->
 <div class="d-none py-1" id="have_nft_list">
     <?php /** TODO: NFTが決まったら対応 */ ?>

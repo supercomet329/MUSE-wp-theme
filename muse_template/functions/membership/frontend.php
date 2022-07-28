@@ -414,7 +414,7 @@ function get_memberShipActionsByPostId($post_id, $received)
 /**
  * 投稿画像の一覧を取得
  *
- * @return void
+ * @return array
  */
 function muse_list_post($user_id = NULL)
 {
@@ -450,14 +450,16 @@ function muse_list_post($user_id = NULL)
  * いいねの一覧を取得
  *
  * @param int $user_id
- * @return void
+ * @return array
  */
 function muse_list_like($user_id = NULL)
 {
     global $wpdb, $user_ids;
 
     $sql = '';
-    $sql .= 'SELECT * ';
+    $sql .= 'SELECT ';
+    $sql .= 'wp_posts.ID AS post_id ';
+    $sql .= ',wp_postmeta.meta_value AS main_image ';
     $sql .= 'FROM wp_tcd_membership_actions ';
     $sql .= 'INNER JOIN wp_posts ';
     $sql .= 'ON wp_posts.ID = wp_tcd_membership_actions.post_id ';
@@ -468,6 +470,7 @@ function muse_list_like($user_id = NULL)
         $sql .= 'AND wp_tcd_membership_actions.user_id = %d ';
     }
     $sql .= 'AND wp_postmeta.meta_key = \'main_image\' ';
+    $sql .= 'AND wp_tcd_membership_actions.type = \'like\' ';
     $sql .= ' ORDER BY wp_tcd_membership_actions.created_gmt DESC ';
 
     $result = $wpdb->get_results($wpdb->prepare($sql, 'photo', $user_id));
