@@ -1109,14 +1109,13 @@ function tcd_membership_disable_autoembed_the_post()
 }
 
 /**
- * wp_postsの情報を取得
+ * トップページタイムラインの表示
  *
- * @param string $postType
- * @return void
+ * @return object
  */
-function getPostImageByPostTypeAndPostStatus($post_type = 'photo', $post_status = 'publish')
+function listTopTimeLine()
 {
-    global $dp_options, $wpdb;
+    global $wpdb;
 
     $r18Flag = false;
     if (!is_null(get_current_user_id())) {
@@ -1132,91 +1131,136 @@ function getPostImageByPostTypeAndPostStatus($post_type = 'photo', $post_status 
         }
     }
 
-    $sql = '
+    // 取得カラム
+
+    // 投稿画像一覧のSQL
+    $unionSql1 = '
         SELECT
-            wp_users.ID                    AS user_id
-            ,wp_users.display_name         AS display_name
-            ,wp_usermeta.meta_value        AS profile_image
-            ,wp_posts.ID                   AS post_id
-            ,wp_posts.post_date            AS post_date
-            ,main_image_table.meta_value   AS main_image
+            wu.ID                          AS user_id
+            ,wu.display_name               AS display_name
+            ,wp.ID                         AS post_id
+            ,wumeta.meta_value             AS profile_image
+            ,wp.post_title                 AS post_title
+            ,wp.post_date                  AS post_date
+            ,wp.post_type                  AS post_type
             ,resize_image_table.meta_value AS resize_image
             ,main_image_table2.meta_value  AS main_image2
             ,main_image_table3.meta_value  AS main_image3
             ,main_image_table4.meta_value  AS main_image4
         FROM
-            wp_posts AS wp_posts
-        INNER JOIN 
-            wp_users AS wp_users
-        ON
-            wp_users.ID = wp_posts.post_author
+            wp_posts AS wp
         INNER JOIN
-            wp_postmeta AS main_image_table
+            wp_users AS wu
         ON
-            main_image_table.post_id = wp_posts.ID
-        AND
-            main_image_table.meta_key = \'main_image\'
+            wu.ID = wp.post_author
+
         INNER JOIN
             wp_postmeta AS resize_image_table
         ON
-            resize_image_table.post_id = wp_posts.ID
+            resize_image_table.post_id = wp.ID
         AND
             resize_image_table.meta_key = \'resize_image\'
+
         LEFT JOIN
-            wp_usermeta AS wp_usermeta
+            wp_usermeta AS wumeta
         ON
-            wp_usermeta.user_id = wp_users.ID
+            wumeta.user_id = wu.ID
         AND
-            wp_usermeta.meta_key = \'profile_image\'
+            wumeta.meta_key = \'profile_image\'
+
         LEFT JOIN
             wp_postmeta AS main_image_table2
         ON
-            main_image_table2.post_id = wp_posts.ID
+            main_image_table2.post_id = wp.ID
         AND
             main_image_table2.meta_key = \'main_image2\'
         LEFT JOIN
             wp_postmeta AS main_image_table3
         ON
-            main_image_table3.post_id = wp_posts.ID
+            main_image_table3.post_id = wp.ID
         AND
             main_image_table3.meta_key = \'main_image3\'
         LEFT JOIN
             wp_postmeta AS main_image_table4
         ON
-            main_image_table4.post_id = wp_posts.ID
+            main_image_table4.post_id = wp.ID
         AND
             main_image_table4.meta_key = \'main_image4\'
 
-        LEFT JOIN
-            wp_postmeta AS t18_table
-        ON
-            t18_table.post_id = wp_posts.ID
-        AND
-            t18_table.meta_key = \'r18\'
-
         WHERE
-            wp_posts.post_type = \'%s\'
+            wu.deleted = 0
         AND
-            wp_posts.post_status = \'%s\'
+            wp.post_status = \'publish\'
         AND
-            wp_users.deleted = 0
+            wp.post_type = \'photo\'
     ';
-
     if (!$r18Flag) {
         // R18フラグがfalseの場合はR18の商品を表示させない
-        $sql .= ' AND NOT EXISTS ( ';
-        $sql .= 'SELECT * ';
-        $sql .= 'FROM wp_postmeta ';
-        $sql .= 'WHERE meta_key = \'r18\' ';
-        $sql .= 'AND wp_posts.ID = wp_postmeta.post_id ';
-        $sql .= ' ) ';
+        $unionSql1 .= ' AND NOT EXISTS ( ';
+        $unionSql1 .= 'SELECT * ';
+        $unionSql1 .= 'FROM wp_postmeta ';
+        $unionSql1 .= 'WHERE meta_key = \'r18\' ';
+        $unionSql1 .= 'AND wp.ID = wp_postmeta.post_id ';
+        $unionSql1 .= ' ) ';
     }
 
-    $sql .= '
-            ORDER BY wp_posts.post_date DESC
-        ';
+    // リクエストの一覧のSQL
+    // 依頼済みは一覧に表示しない
+    $unionSql2 = '
+        SELECT
+            wu.ID              AS user_id
+            ,wu.display_name   AS display_name
+            ,wp.ID             AS post_id
+            ,wumeta.meta_value AS profile_image
+            ,wp.post_title     AS post_title
+            ,wp.post_date      AS post_date
+            ,wp.post_type      AS post_type
+            ,NULL              AS main_image
+            ,NULL              AS main_image2
+            ,NULL              AS main_image3
+            ,NULL              AS main_image4
+        FROM
+            wp_posts AS wp
+        INNER JOIN
+            wp_users AS wu
+        ON
+            wu.ID = wp.post_author
 
-    $result = $wpdb->get_results($wpdb->prepare($sql, $post_type, $post_status));
+        LEFT JOIN
+            wp_usermeta AS wumeta
+        ON
+            wumeta.user_id = wu.ID
+        AND
+            wumeta.meta_key = \'profile_image\'
+
+        WHERE
+            wu.deleted = 0
+        AND
+            wp.post_status = \'publish\'
+        AND
+            wp.post_type = \'request\'
+
+        AND NOT EXISTS (
+            SELECT * 
+            FROM wp_tcd_membership_actions
+            WHERE 
+                type=\'received\' 
+            AND 
+                wp_tcd_membership_actions.post_id = wp.ID
+        )
+    ';
+
+    $sql  = '';
+    $sql .= '
+            (' . $unionSql1 . ')
+        UNION
+            (' . $unionSql2 . ') 
+        ORDER BY post_date DESC
+    ';
+    echo $sql;
+    exit;
+
+    $result = $wpdb->get_results($wpdb->prepare($sql));
     return $result;
 }
 
