@@ -1247,7 +1247,7 @@ function listTopTimeLine()
             SELECT * 
             FROM wp_tcd_membership_actions
             WHERE 
-                type=\'received\' 
+                type=\'complete\' 
             AND 
                 wp_tcd_membership_actions.post_id = wp.ID
         )
