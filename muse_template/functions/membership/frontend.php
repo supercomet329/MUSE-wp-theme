@@ -1208,7 +1208,7 @@ function listTopTimeLine()
     }
 
     // リクエストの一覧のSQL
-    // 依頼済みは一覧に表示しない
+    // 依頼が完了済みのもののみ表示する
     $unionSql2 = '
         SELECT
             wu.ID              AS user_id
@@ -1247,7 +1247,7 @@ function listTopTimeLine()
             SELECT * 
             FROM wp_tcd_membership_actions
             WHERE 
-                type=\'received\' 
+                type=\'complete\' 
             AND 
                 wp_tcd_membership_actions.post_id = wp.ID
         )

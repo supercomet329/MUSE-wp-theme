@@ -1853,6 +1853,40 @@ jQuery(function($) {
 });
 
 jQuery(function($) {
+
+    // 投稿画像2の画像を表示
+    $('#postFile_2').on('change', function(e) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            $("#cover_img2").removeClass('d-none')
+            let base64data = reader.result;
+            $("#cover_img2").attr('src', base64data);
+        }
+        reader.readAsDataURL(e.target.files[0]);
+    });
+
+    // 投稿画像3の画像を表示
+    $('#postFile_3').on('change', function(e) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            $("#cover_img3").removeClass('d-none')
+            let base64data = reader.result;
+            $("#cover_img3").attr('src', base64data);
+        }
+        reader.readAsDataURL(e.target.files[0]);
+    });
+
+    // 投稿画像4の画像を表示
+    $('#postFile_4').on('change', function(e) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            $("#cover_img4").removeClass('d-none')
+            let base64data = reader.result;
+            $("#cover_img4").attr('src', base64data);
+        }
+        reader.readAsDataURL(e.target.files[0]);
+    });
+
     // ページ内に該当のクラス名のカウント
     var cropper_post = document.querySelectorAll('#post_file');
     if (cropper_post.length > 0) {
@@ -1939,7 +1973,7 @@ jQuery(function($) {
                     height: cropper_post['cropBoxData']['height'],
                 });
 
-                $(cover_img).removeClass('d-none')
+                $(cover_img).removeClass('d-none');
                 canvas.toBlob(function(blob) {
                     url = URL.createObjectURL(blob);
                     let reader = new FileReader();

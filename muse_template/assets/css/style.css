@@ -2347,7 +2347,7 @@
         }
         .sub_post-file .sub-cover-img {
             z-index: 0;
-            width: auto;
+            width: 120px;
             height: 100%;
             object-fit: cover;
             border: solid 2px #e7e7e7;
