@@ -48,7 +48,7 @@ function tcd_membership_action_confirm_request()
     // 依頼タイトルの取得
     $title        = $postsObj->post_title;
 
-    $workTitle    = $postsObj->post_name;
+    $workTitle    = urldecode($postsObj->post_name);
 
     // 本文の取得
     $content      = $postsObj->post_content;
