@@ -280,6 +280,11 @@ function tcd_membership_action_request()
                         );
                     }
 
+                    // 指定ユーザーがいない場合Tweet
+                    $message = '依頼が発行されました。';
+                    $uri = '/?memberpage=confirm_request&request_id=' . $post_id;
+                    publishTwitter($message, $uri);
+
                     // TODO: 登録完了時に遷移させるのは依頼一覧
                     $redirect = get_tcd_membership_memberpage_url('list_order') . '&status=request_complete';
                     wp_redirect(remove_query_arg('settings-updated', $redirect));

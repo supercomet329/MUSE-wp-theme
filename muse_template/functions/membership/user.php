@@ -390,6 +390,7 @@ function tcd_membership_action_registration() {
 
 	// POST
 	if ( 'POST' == $_SERVER['REQUEST_METHOD'] ) {
+
 		$formdata = wp_unslash( $_POST );
 		$error_messages = array();
 
@@ -448,7 +449,9 @@ function tcd_membership_action_registration() {
 					'[user_email]' => $formdata['email'],
 					'[registration_account_url]' => $registration_account_url
 				);
+
 				if ( ! tcd_membership_mail( 'registration', $formdata['email'], $replaces ) ) {
+					
 					$error_messages[] = __( 'Failed to send mail.', 'tcd-w' );
 					delete_tcd_membership_action_by_id( $action_id );
 				}
@@ -874,6 +877,7 @@ function tcd_membership_action_edit_profile() {
 
 			// ファイルアップロード header_image
 			if ( ! empty( $_FILES['header_image']['name'] ) ) {
+
 				$upload = tcd_user_profile_image_field_upload( array(
 					'user_id' => $user->ID,	// 確認画面はないのでこの時点でuser_idを渡してユーザーメタ上書き
 					'file_input_name' => 'header_image',
@@ -925,6 +929,7 @@ function tcd_membership_action_edit_profile() {
 				tcd_user_profile_delete_image( $user->ID, 'profile_image' );
 			}
 
+			// exit();
 			// メタ保存
 			tcd_membership_user_form_fields_save_metas( 'edit_profile', $formdata, $user );
 

@@ -876,7 +876,7 @@ jQuery(function($) {
         let file = this.files[0];
         let fileInput = jQuery('#cover_img_file_input').get(0);
         let image = jQuery('#cover_image').get(0);
-        validateImageSize(file, fileInput)
+        validateImageSize(file, fileInput);
         replaceImage(file, image);
     });
 
@@ -1171,13 +1171,15 @@ jQuery(function($) {
         chkPostButton();
     });
 
+    jQuery('#postDetail').on('blur', function() {
+        chkPostButton();
+    });
+
     $('input[name="disableAutoExtend"]:radio').on('click', function() {
         chkPostButton();
     });
 });
 
-// 登録ボタンの表示切り替え
-// 使用HTML(post.html)
 function chkPostButton() {
 
     var disabledFlag = true;
@@ -1187,10 +1189,72 @@ function chkPostButton() {
     jQuery('#errAppDeadline').html('');
     jQuery('#errAuctionEnd').html('');
 
-    var fileSize = jQuery('[name="file_data"]').val();
+    var errorFlag = false;
+    var fileSize = jQuery('[name="postFile"]').val();
+    if (fileSize == 0) {
+        errorFlag = true;
+        jQuery('#errPostImage').html('画像は必須選択です。');
+    }
+
     var postTitle = jQuery('#postTitle').val();
+    if (postTitle === '') {
+        errorFlag = true;
+        jQuery('#errPostTitle').html('タイトルは必須入力です。');
+    }
+
+    // バリデート種類の設定
+    var radioSaleType = jQuery('input:radio[name="saleType"]:checked').val();
+    var radioSelectAuction = jQuery('input:radio[name="selectAuction"]:checked').val();
+    var radioAuctionStartDate = jQuery('input:radio[name="auctionStartDate"]:checked').val();
+
+    // バリデート
+    var typeValidate = false;
+    if (radioSaleType === 'sale') {
+        // NFT販売の場合
+        typeValidate = validateSaleForm();
+        if (radioSelectAuction === 'Auction') {
+            // オークションありの場合
+            typeValidate = validateAuction();
+            if (radioAuctionStartDate === 'specify') {
+                // オークション => 時間指定ありの場合
+                typeValidate = validateAuctionStartDate();
+            }
+        }
+    }
+
+    if (errorFlag === false && typeValidate === false) {
+        disabledFlag = false;
+    }
+
+    jQuery('#sidePostBtn').attr('disabled', disabledFlag);
+    jQuery('#postBtn').attr('disabled', disabledFlag);
+}
+
+// オークションの場合のバリデート
+// 使用HTML(post.html)
+function validateAuction() {
+    var errorFlag = false;
 
     var binPrice = jQuery('#binPrice').val();
+    if (binPrice === '') {
+        errorFlag = true;
+
+        jQuery('#errBinPrice').html('即決価格は必須入力です。');
+    }
+    return errorFlag;
+}
+
+// オークション開始時間指定ありの場合のバリデート
+// 使用HTML(post.html)
+function validateAuctionStartDate() {
+    var errorFlag = false;
+
+    var binPrice = jQuery('#binPrice').val();
+    if (binPrice === '') {
+        errorFlag = true;
+
+        jQuery('#errBinPrice').html('即決価格は必須入力です。');
+    }
 
     var auctionDateY = jQuery('#auctionDateY').val();
     var auctionDateM = jQuery('#auctionDateM').val();
@@ -1198,96 +1262,54 @@ function chkPostButton() {
     var auctionDateH = jQuery('#auctionDateH').val();
     var auctionDateMin = jQuery('#auctionDateMin').val();
 
+    var errorAuctionDate = false;
+    if (auctionDateY === '' || auctionDateM === '' || auctionDateD === '' || auctionDateH === '' || auctionDateMin === '') {
+        errorFlag = true;
+        errorAuctionDate = true;
+        jQuery('#errAppDeadline').html('オークション開始日時は必須入力です。');
+    }
+
     var auctionEndDateY = jQuery('#auctionEndDateY').val();
     var auctionEndDateM = jQuery('#auctionEndDateM').val();
     var auctionEndDateD = jQuery('#auctionEndDateD').val();
     var auctionEndDateH = jQuery('#auctionEndDateH').val();
     var auctionEndDateMin = jQuery('#auctionEndDateMin').val();
 
-    var auctionStartDate = jQuery('input:radio[name="auctionStartDate"]:checked').val();
-
-    var imagePrice = jQuery('#imagePrice').val();
-
-    var errorFlag = false;
-    if (fileSize == 0) {
+    var errorAuctionEndDate = false;
+    if (auctionEndDateY === '' || auctionEndDateM === '' || auctionEndDateD === '' || auctionEndDateH === '' || auctionEndDateMin === '') {
         errorFlag = true;
-        jQuery('#errPostImage').html('画像は必須選択です。');
+        errorAuctionEndDate = true;
+        jQuery('#errAuctionEnd').html('オークション終了日時は必須入力です。');
     }
 
-    if (postTitle === '') {
-        if (errorFlag !== false) {
+    if (errorAuctionEndDate === false && errorAuctionDate === false) {
+        var now = new Date();
+        var appDeadline = new Date(auctionDateY, auctionDateM, auctionDateD, auctionDateH, auctionDateMin);
+        var auctionEndDate = new Date(auctionEndDateY, auctionEndDateM, auctionEndDateD, auctionEndDateH, auctionEndDateMin);
+
+        if (now.getTime() > appDeadline.getTime()) {
             errorFlag = true;
+            jQuery('#errAppDeadline').html('オークション開始日時の御確認を御願い致します。');
         }
-        jQuery('#errPostTitle').html('タイトルは必須入力です。');
-    }
 
-    var saleType = jQuery('input:radio[name="saleType"]:checked').val();
-    if (saleType === 'sale') {
-
-        var selectAuction = jQuery('input:radio[name="selectAuction"]:checked').val();
-        if (selectAuction === 'Auction') {
-            if (binPrice === '') {
-                if (errorFlag !== false) {
-                    errorFlag = true;
-                }
-
-                jQuery('#errBinPrice').html('即決価格は必須入力です。');
-            }
-
-            if (auctionStartDate === 'specify') {
-                if (auctionDateY === '' || auctionDateM === '' || auctionDateD === '' || auctionDateH === '' || auctionDateMin === '') {
-                    if (errorFlag !== false) {
-                        errorFlag = true;
-                    }
-
-                    jQuery('#errAppDeadline').html('オークション開始日時は必須入力です。');
-                }
-
-                if (auctionEndDateY === '' || auctionEndDateM === '' || auctionEndDateD === '' || auctionEndDateH === '' || auctionEndDateMin === '') {
-                    if (errorFlag !== false) {
-                        errorFlag = true;
-                    }
-
-                    jQuery('#errAuctionEnd').html('オークション終了日時は必須入力です。');
-                }
-
-                var now = new Date();
-                var appDeadline = new Date(auctionDateY, auctionDateM, auctionDateD, auctionDateH, auctionDateMin);
-                var auctionEndDate = new Date(auctionEndDateY, auctionEndDateM, auctionEndDateD, auctionEndDateH, auctionEndDateMin);
-
-                if (now.getTime() > appDeadline.getTime()) {
-                    if (errorFlag !== false) {
-                        errorFlag = true;
-                    }
-
-                    jQuery('#errAppDeadline').html('オークション開始日時の御確認を御願い致します。');
-                }
-
-                if (appDeadline.getTime() > auctionEndDate.getTime()) {
-                    if (errorFlag !== false) {
-                        errorFlag = true;
-                    }
-
-                    jQuery('#errAuctionEnd').html('オークション終了日時を正しく入力して下さい。');
-                }
-            }
-        } else {
-            if (imagePrice === '') {
-                if (errorFlag !== false) {
-                    errorFlag = true;
-                }
-
-                jQuery('#errImagePrice').html('販売価格は必須入力です。');
-            }
+        if (appDeadline.getTime() > auctionEndDate.getTime()) {
+            errorFlag = true;
+            jQuery('#errAuctionEnd').html('オークション終了日時を正しく入力して下さい。');
         }
     }
+    return errorFlag;
+}
 
-    if (errorFlag === false) {
-        disabledFlag = false;
+// NFT販売の場合のバリデート
+function validateSaleForm() {
+    var errorFlag = false;
+    var imagePrice = jQuery('#imagePrice').val();
+    if (imagePrice === '') {
+        jQuery('#errImagePrice').html('販売価格は必須入力です。');
+        errorFlag = true;
     }
 
-    jQuery('#sidePostBtn').attr('disabled', disabledFlag);
-    jQuery('#postBtn').attr('disabled', disabledFlag);
+    return errorFlag;
 }
 
 // フォームの表示の切り替え
@@ -1881,11 +1903,11 @@ jQuery(function($) {
             $modal.on('shown.bs.modal', function(event) {
                 cropper_post = new Cropper(image, {
                     // 縦 4: 横 3の対応
-                    // aspectRatio: 3 / 4,
+                    aspectRatio: 3 / 4,
                     // 正方形時の対応
-                    aspectRatio: 4 / 4,
+                    // aspectRatio: 4 / 4,
                     initialAspectRatio: 1,
-                    autoCropArea: 1,
+                    autoCropArea: 0.8,
                     cropBoxResizable: false,
                     dragMode: 'move',
                     viewMode: 3,
@@ -1951,4 +1973,4 @@ jQuery(function($) {
             // });
         });
     };
-})
+});

@@ -109,30 +109,34 @@ function tcd_membership_login_form($args = array())
                     </div>
                 </div>
             </form>
+
+
             <hr class="hr-line">
             <!-- TODO: Twitterログイン実装 -->
-            <!-- <div class="row">
-				<div class="col-12">
-					<h1 class="text-center mt-3 mb-3 contents-title font-weight-bold">SNSログイン</h1>
-				</div>
-				<div class="col-12 login-with-sns">
-					<a href="https://twitter.com" target="_blank" rel="noreferrer">
-						<button class="twitter-btn">
-							<img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/twitter_icon.png" alt="twitter" class="twitter-icon">
-							Twitterでログインする
-						</button>
-					</a>
-				</div>
-				<div class="col-12 login-with-sns mt-3">
-					<a href="https://google.com" target="_blank" rel="noreferrer">
-						<button class="google-btn">
-							<img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/g-logo.png" alt="google" class="google-icon">
-							Googleアカウントでログインする
-						</button>
-					</a>
-				</div>
-			</div>
-			<hr class="hr-line mt-3">-->
+            <div class="row">
+                <div class="col-12">
+                    <h1 class="text-center mt-3 mb-3 contents-title font-weight-bold">SNSログイン</h1>
+                </div>
+                <?php echo makeTwitterOauthLogin(); ?>
+                <?php echo makeGoogleAuthButton(); ?>
+                <!-- div class="col-12 login-with-sns">
+                    <a href="https://twitter.com" target="_blank" rel="noreferrer">
+                        <button class="twitter-btn">
+                            <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/twitter_icon.png" alt="twitter" class="twitter-icon">
+                            Twitterでログインする
+                        </button>
+                    </a>
+                </div -->
+                <!-- div class="col-12 login-with-sns mt-3">
+                    <a href="https://google.com" target="_blank" rel="noreferrer">
+                        <button class="google-btn">
+                            <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/g-logo.png" alt="google" class="google-icon">
+                            Googleアカウントでログインする
+                        </button>
+                    </a>
+                </div -->
+            </div>
+            <hr class="hr-line mt-3">
             <div class="row">
                 <div class="col-12">
                     <h1 class="text-center mt-3 mb-3 contents-title font-weight-bold">新規会員登録</h1>
@@ -519,6 +523,24 @@ function tcd_membership_login_form($args = array())
                 $strAccountNumber = $accountNumberData;
             }
 
+            $twitterAlignmentFlg = 0;
+            $twitterAccessToken = get_user_meta(get_current_user_id(), 'twitter_access_token', true);
+            $twitterAlignment = 0;
+            if (!empty($twitterAccessToken)) {
+                $twitterAlignmentFlg = true;
+                $getTwitterAlignment = get_user_meta(get_current_user_id(), 'twitter_alignment', true);
+                if (!empty($getTwitterAlignment)) {
+                    $twitterAlignment = $getTwitterAlignment;
+                }
+            }
+
+            // 受注の最低金額の取得
+            $minimum_order_price = 0;
+            $getMinimumOrderPrice = get_user_meta(get_current_user_id(), 'minimum_order_price', true);
+            if(!empty($getMinimumOrderPrice)) {
+                $minimum_order_price = $getMinimumOrderPrice;
+            }
+
             $successMessage = '';
             if (isset($_GET['message']) && $_GET['message'] === 'updated') {
                 $successMessage = 'プロフィール情報の更新を行いました。';
@@ -547,12 +569,20 @@ function tcd_membership_login_form($args = array())
             <?php if (!empty($successMessage)) : ?>
                 <p><?php echo $successMessage; ?></p>
             <?php endif; ?>
+
+            <?php
+            if (isset($_SESSION['success_twitter_message'])) {
+                $massage = $_SESSION['success_twitter_message'];
+                unset($_SESSION['success_twitter_message']);
+            ?>
+                <p><?php echo $massage; ?></p>
+            <?php } ?>
         </div>
         <div class="container">
             <div class="row profile-edit-area">
                 <div class="col-12 text-center pt-3">
                     <label>
-                        <input type="file" name="profile_image"  id="profile_img_file_input" accept="image/png, image/jpeg" class="image">
+                        <input type="file" name="profile_image" id="profile_img_file_input" accept="image/png, image/jpeg" class="image">
                         <img src="<?php echo esc_url($profile_image); ?>" class="profile-image rounded-circle" id="profile_image">
                     </label>
                 </div>
@@ -580,11 +610,17 @@ function tcd_membership_login_form($args = array())
                     所在地
                 </div>
                 <input name="area" type="text" value="<?php echo esc_attr($area); ?>​" class="col-6 border-bottom-dashed">
+
                 <div class="col-6 text-left title py-2 mt-0 border-bottom-dashed my-auto">
                     webサイト
                 </div>
-
                 <input type="text" name="website_url" value="<?php echo esc_attr($user->data->user_url); ?>" id="url_box" name="url_box" class="col-6 border-bottom-dashed text-primary">
+
+                <div class="col-6 text-left title py-2 mt-0 border-bottom-dashed my-auto">
+                    最低受注金額
+                </div>
+                <input type="text" name="minimum_order_price" value="<?php echo esc_attr($minimum_order_price); ?>" id="minimum_order_price" class="col-6 border-bottom-dashed text-primary">
+
                 <div class="col-6 text-left title border-bottom-dashed mt-0 py-2">
                     依頼
                 </div>
@@ -592,12 +628,26 @@ function tcd_membership_login_form($args = array())
                     <option value="1" <?php echo ($inReception > 0) ? 'selected' : ''; ?>>受付中</option>
                     <option value="0" <?php echo ($inReception <= 0) ? 'selected' : ''; ?>>受け付けない</option>
                 </select>
+
+                <?php if ($twitterAlignmentFlg > 0) { ?>
+                    <div class="col-6 text-left title border-bottom-dashed mt-0 py-2">
+                        Twitter自動連携
+                    </div>
+                    <div class="col-6 text-left border-bottom-dashed mt-0 py-2 d-flex">
+                        <select id="request_box" name="twitter_alignment" class="col-10 border-top-0 border-right-0 border-left-0 border-bottom-dashed">
+                            <option value="1" <?php echo ($twitterAlignment > 0) ? 'selected' : ''; ?>>連携する</option>
+                            <option value="0" <?php echo ($twitterAlignment <= 0) ? 'selected' : ''; ?>>連携しない</option>
+                        </select>
+                    </div>
+                <?php } ?>
+
                 <div class="col-6 text-left title border-bottom-dashed mt-0 py-2">
                     本人確認
                 </div>
                 <div class="col-6 text-left border-bottom-dashed mt-0 py-2 d-flex">
                     <?php echo esc_attr($strIdentification); ?>
                 </div>
+
                 <div class="col-6 text-left title border-bottom-dashed mt-0 py-2">
                     口座
                 </div>
@@ -608,11 +658,14 @@ function tcd_membership_login_form($args = array())
                 <div class="col-12 text-center my-4">
                     <button type="submit" class="btn btn-lg btn-danger save-btn" id="save-btn">　保存　</button>
                 </div>
+
             </div>
         </div>
         <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd-membership-edit_profile')); ?>">
         <input type="hidden" id="icon-file" name="icon_file" value="0" />
     </form>
+    <?php echo makeTwitterOauthLoginLink(); ?>
+    <?php echo makeGoogleOauthLoginLink(); ?>
 
     <!-- モーダル -->
     <div class="modal fade profile-edit-modal" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
@@ -836,8 +889,10 @@ function tcd_membership_login_form($args = array())
                     'show_website' => $dp_options['membership']['show_profile_website'],
                     // Add 2022/05/09 H.Okabe
                     'show_telphone' => true,
-                     // ADD 2022/07/07 追加 H.Okabe
+                    // ADD 2022/07/07 追加 H.Okabe
                     'show_request_box'     => $dp_options['membership']['request_box'],
+                    'show_twitter_alignment'    => $dp_options['membership']['twitter_alignment'],
+                    'show_minimum_order_price'  => $dp_options['membership']['minimum_order_price'],
                     // 'show_facebook' => $dp_options['membership']['show_profile_facebook'],
                     // 'show_twitter' => $dp_options['membership']['show_profile_twitter'],
                     // 'show_instagram' => $dp_options['membership']['show_profile_instagram'],
@@ -1537,6 +1592,12 @@ function tcd_membership_login_form($args = array())
 
             $metadata = array();
 
+
+            if (isset($data[$meta_key])) {
+                $meta_key = 'last_name';
+                $metadata[$meta_key] = isset($data[$meta_key]) ? tcd_membership_sanitize_content($data[$meta_key]) : '';
+            }
+
             if ($args['show_fullname']) {
                 $meta_key = 'first_name';
                 $metadata[$meta_key] = isset($data[$meta_key]) ? tcd_membership_sanitize_content($data[$meta_key]) : '';
@@ -1598,6 +1659,7 @@ function tcd_membership_login_form($args = array())
                 }
             }
 
+            // var_dump($_POST);exit;
             foreach (array(
                 'mail_magazine',
                 'member_news_notify',
@@ -1605,7 +1667,9 @@ function tcd_membership_login_form($args = array())
                 'messages_notify',
                 // ADD 2022/05/09 H.Okabe Add
                 'telphone',
-                'request_box'
+                'request_box',
+                'twitter_alignment',
+                'minimum_order_price',
             ) as $meta_key) {
                 if ($args['show_' . $meta_key]) {
                     $metadata[$meta_key] = isset($data[$meta_key]) ? tcd_membership_sanitize_content($data[$meta_key]) : 'yes';

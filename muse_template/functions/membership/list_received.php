@@ -96,13 +96,13 @@ function listReceivedByUserId($user_id, $up_budget, $down_budget, $whereDeadLine
     $sql .= ' AND wp_posts.post_status = \'publish\'';
     $sql .= ' AND EXISTS(';
     $sql .= ' SELECT * 
-            FROM wp_tcd_membership_actions 
+            FROM wp_postmeta
             WHERE 
-                wp_tcd_membership_actions.post_id = wp_posts.ID 
+                wp_postmeta.post_id = wp_posts.ID 
             AND 
-                wp_tcd_membership_actions.type = \'specify_user_id\' 
+                wp_postmeta.meta_key = \'specify_user_id\' 
             AND 
-                wp_tcd_membership_actions.user_id = ' . $user_id;
+                wp_postmeta.meta_value = ' . $user_id;
     $sql .= ' ) ';
 
     $sql .= ' AND NOT EXISTS(';

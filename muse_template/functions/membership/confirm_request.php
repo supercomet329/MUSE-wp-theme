@@ -2,7 +2,7 @@
 // Add 2022/05/10 by H.Okabe
 /**
  * 依頼している依頼の詳細画面
- * TODO: 2022/05/11 メッセージのやり取りの対応
+ *
  */
 function tcd_membership_action_confirm_request()
 {
@@ -16,7 +16,7 @@ function tcd_membership_action_confirm_request()
         exit();
     }
 
-    $request_id = $_REQUEST['request_id'];
+    $request_id                        = $_REQUEST['request_id'];
     $tcd_membership_vars['request_id'] = $request_id;
 
     // ユーザー情報の取得
@@ -33,33 +33,33 @@ function tcd_membership_action_confirm_request()
 
     // 発注ユーザー情報の取得
     $profileImageData = get_user_meta($author_id, 'profile_image', true);
-    $profile_image = get_template_directory_uri() . '/assets/img/icon/non_profile_image.png';
+    $profile_image    = get_template_directory_uri() . '/assets/img/icon/non_profile_image.png';
     if (!empty($profileImageData)) {
         $profile_image = $profileImageData;
     }
 
     // 発注ユーザーのディスプレイネームの取得
-    $user = get_userdata($author_id);
-    $tcd_membership_vars['display_name']    = $user->data->display_name;
+    $user                                 = get_userdata($author_id);
+    $tcd_membership_vars['display_name']  = $user->data->display_name;
 
     // 発注ユーザーアイコン画像の取得
-    $tcd_membership_vars['profile_image']   = $profile_image;
+    $tcd_membership_vars['profile_image'] = $profile_image;
 
     // 依頼タイトルの取得
-    $title     = $postsObj->post_title;
+    $title        = $postsObj->post_title;
 
-    $workTitle = $postsObj->post_name;
+    $workTitle    = urldecode($postsObj->post_name);
 
     // 本文の取得
-    $content   = $postsObj->post_content;
+    $content      = $postsObj->post_content;
 
     // 構図の取得
-    $composition = get_post_meta($request_id, 'composition');
-    $composition = $composition[0];
+    $composition   = get_post_meta($request_id, 'composition');
+    $composition   = $composition[0];
 
     // キャラクターの取得
-    $character = get_post_meta($request_id, 'character');
-    $character = $character[0];
+    $character     = get_post_meta($request_id, 'character');
+    $character     = $character[0];
 
     // 受付依頼数の取得
     $orderQuantity = get_post_meta($request_id, 'orderQuantity');
@@ -72,12 +72,12 @@ function tcd_membership_action_confirm_request()
     $requestFileUrl  = $requestFileUrl[0];
 
     // 参考URLの取得
-    $refUrl = get_post_meta($request_id, 'refUrl');
-    $refUrl = $refUrl[0];
+    $refUrl          = get_post_meta($request_id, 'refUrl');
+    $refUrl          = $refUrl[0];
 
     // 予算の取得
-    $budget = get_post_meta($request_id, 'budget');
-    $budget = $budget[0];
+    $budget          = get_post_meta($request_id, 'budget');
+    $budget          = $budget[0];
 
     // 応募期限の取得
     $appDeadlineDate      = get_post_meta($request_id, 'appDeadlineDate');
@@ -109,7 +109,7 @@ function tcd_membership_action_confirm_request()
 
     // POSTされた場合
     $error_messages = [];
-    $viewFlag = false;
+    $viewFlag       = false;
     if ('POST' == $_SERVER['REQUEST_METHOD']) {
 
         if (!empty($_POST['nonce']) || wp_verify_nonce($_POST['nonce'], 'tcd-membership-confirm_message-' . $request_id)) {
@@ -314,7 +314,7 @@ function tcd_membership_action_confirm_request()
     // 受注済か確認
     // 受注済みの場合受注ユーザーの取得
     $comment_flag = false;
-    $tabStyle = 'col-4';
+    $tabStyle     = 'col-4';
     $receivedData = get_memberShipActionsByPostId($request_id, 'received');
     if (count($receivedData) > 0) {
         // 受注済の場合は作成者でも確認用テンプレート
@@ -340,11 +340,22 @@ function tcd_membership_action_confirm_request()
     // リクエスト作成者とログインユーザーが違う場合 => 確認用テンプレートへ
     $template = 'muse_confirm_request';
 
-    if ((int)$author_id === (int)$user_id && $comment_flag === FALSE) {
+    $my_order_flag = true;
+    if (
+        (int)$author_id === (int)$user_id &&
+        $comment_flag === FALSE
+    ) {
         $my_order_flag = false;
 
         // リクエスト作成者とログインユーザーが同じ場合 => 入力用テンプレートへ
         $template = 'muse_confirm_request_modify';
+    }
+
+    if ($specifyUser !== FALSE) {
+        // 指名ユーザーがいる場合
+        if ((int)$specifyUser !== (int)get_current_user_id()) {
+            $my_order_flag = false;
+        }
     }
     $tcd_membership_vars['template'] = $template;
     $tcd_membership_vars['my_order_flag'] = $my_order_flag;
@@ -358,11 +369,15 @@ function tcd_membership_action_confirm_request()
     }
     $tcd_membership_vars['comments'] = $comments;
 
-    if ($specifyUser !== FALSE || $comment_flag === TRUE) {
+    if (
+        $specifyUser !== FALSE ||
+        $comment_flag === TRUE
+    ) {
         if ((int)$specifyUser === (int)get_current_user_id()) {
             $viewFlag = true;
         }
     }
+
     $tcd_membership_vars['viewFlag'] = $viewFlag;
 }
 add_action('tcd_membership_action-confirm_request', 'tcd_membership_action_confirm_request');
@@ -463,6 +478,8 @@ function update_request($requestFileUrl, $requestFileName)
         'post_content' => $content,
         'post_name'    => $workTitle,
     ];
+
+    $specify_user_id = get_post_meta($request_id, 'specify_user_id', true);
 
     // データベースにある投稿を更新する
     wp_update_post($my_post);

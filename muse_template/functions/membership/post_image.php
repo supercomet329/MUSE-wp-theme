@@ -17,15 +17,15 @@ function tcd_membership_action_post_image()
     }
 
     $setDataParams = [];
-    $setDataParams['postTitle'] = '';
-    $setDataParams['postDetail'] = '';
-    $setDataParams['saleType'] = 'notForSale';
-    $setDataParams['suitableAges'] = 'allAges';
-    $setDataParams['selectAuction'] = 'notAuction';
+    $setDataParams['postTitle']        = '';
+    $setDataParams['postDetail']       = '';
+    $setDataParams['saleType']         = 'notForSale';
+    $setDataParams['suitableAges']     = 'allAges';
+    $setDataParams['selectAuction']    = 'notAuction';
     $setDataParams['auctionStartDate'] = 'notSpecified';
-    $setDataParams['imagePrice'] = '';
-    $setDataParams['binPrice'] = '';
-    $setDataParams['extendAuction'] = 'disableAutoExtend';
+    $setDataParams['imagePrice']       = '';
+    $setDataParams['binPrice']         = '';
+    $setDataParams['extendAuction']    = 'disableAutoExtend';
 
     $dateClass = new DateTime();
     // FIXED: nginxの場合 php.iniの反映が去れないことがある
@@ -450,6 +450,11 @@ function tcd_membership_action_post_image()
                 }
             }
 
+            // Twitterに投稿
+            $message = '画像を投稿しました。';
+            $uri     = '?memberpage=post_comment&post_id=' . $post_id;
+            publishTwitter($message, $uri);
+
             $url = get_author_posts_url(get_current_user_id());
             wp_safe_redirect($url);
             exit();
@@ -485,6 +490,36 @@ function tcd_membership_action_post_image()
     $tcd_membership_vars['chk_suitable_ages'] = $suitableAges;
     $tcd_membership_vars['auction_start_date'] = $auctionStartDate;
     $tcd_membership_vars['error'] = $error_messages;
+
+    $viewSaleForm        = 'display:none;';
+    $viewNftSaleForm     = 'display:none;';
+    $viewAuctionSaleForm = 'display:none;';
+    $viewAuctionTimeForm = 'display:none;';
+
+    // 販売形式が(NFT販売の場合)
+    if($setDataParams['saleType'] === 'sale') {
+        $viewNftSaleForm = '';
+        $viewSaleForm    = '';
+    }
+
+    // オークション開催(必須)がありの場合
+    if($setDataParams['selectAuction'] === 'Auction') {
+        $viewNftSaleForm     = 'display:none;';
+        $viewAuctionSaleForm = '';
+    }
+
+    // オークション開始日時が開始時間指定の場合
+    if($setDataParams['auctionStartDate'] === 'specify') {
+        $viewNftSaleForm     = 'display:none;';
+        $viewAuctionSaleForm = '';
+        $viewAuctionTimeForm  = '';
+    }
+
+    $tcd_membership_vars['viewSaleForm']        = $viewSaleForm;
+    $tcd_membership_vars['viewNftSaleForm']     = $viewNftSaleForm;
+    $tcd_membership_vars['viewAuctionSaleForm'] = $viewAuctionSaleForm;
+    $tcd_membership_vars['viewAuctionTimeForm'] = $viewAuctionTimeForm;
+
 }
 add_action('tcd_membership_action-post_image', 'tcd_membership_action_post_image');
 
@@ -521,10 +556,10 @@ function cropImage($uploadedFile, $resizeFilePath)
     $image->crop($d_x, $d_y, $d_w, $d_h);
 
     // 縦4: 横 3の対応
-    // $image->resize(NULL, 400, true);
+    $image->resize(300, 480, true);
 
     // 正方形の対応
-    $image->resize(400, 400, true);
+    // $image->resize(400, 400, true);
 
     // 画像の出力
     $image->save($resizeFilePath);

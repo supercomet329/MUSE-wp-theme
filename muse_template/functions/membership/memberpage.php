@@ -45,6 +45,10 @@ function tcd_membership_memberpage_init()
 			'in_progress',
 			'post_comment',
 			'ranking',
+			'oauth_login_twitter',
+			'oauth_twitter',
+			'oauth_login_google',
+			'oauth_google',
 		), 
 		'memberpage_guest_types' => array(
 			'login',
@@ -60,6 +64,9 @@ function tcd_membership_memberpage_init()
 			'post_search',
 			'post_comment',
 			'ranking',
+			'oauth_twitter',
+			'oauth_login_google',
+			'oauth_google',
 		),
 		'memberpage_static_member_menu_types' => array(
 			'news',
