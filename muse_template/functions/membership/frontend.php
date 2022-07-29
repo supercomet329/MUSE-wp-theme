@@ -1208,7 +1208,7 @@ function listTopTimeLine()
     }
 
     // リクエストの一覧のSQL
-    // 依頼済みは一覧に表示しない
+    // 依頼が完了済みのもののみ表示する
     $unionSql2 = '
         SELECT
             wu.ID              AS user_id
