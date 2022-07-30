@@ -368,7 +368,7 @@ function listOrderByPostAuthor($postAuthor)
     $sql .= 'ON wp_posts.ID = wp_tcd_membership_actions.post_id ';
     $sql .= 'WHERE wp_posts.post_author = %d ';
     $sql .= 'AND wp_posts.post_type = %s ';
-    $result = $wpdb->get_results($wpdb->prepare($sql, $postAuthor, 'request'));
+    $result = $wpdb->get_results($wpdb->prepare($sql, $postAuthor, 'post'));
     return $result;
 }
 
@@ -570,7 +570,7 @@ function get_request($request_id)
     $sql .= 'FROM wp_posts ';
     $sql .= 'WHERE wp_posts.ID = ' . $request_id;
     $sql .= ' AND wp_posts.post_status = \'publish\'';
-    $sql .= ' AND wp_posts.post_type   = \'request\'';
+    $sql .= ' AND wp_posts.post_type   = \'post\'';
     $sql .= ' AND EXISTS(';
     $sql .= ' 	SELECT * 
 				FROM wp_postmeta 
@@ -1216,7 +1216,7 @@ function listTopTimeLine()
             ,wp.ID             AS post_id
             ,wumeta.meta_value AS profile_image
             ,wp.post_title     AS post_title
-            ,wp.post_date      AS post_date
+            ,wtmsa.created_gmt AS post_date
             ,wp.post_type      AS post_type
             ,NULL              AS main_image
             ,NULL              AS main_image2
@@ -1224,6 +1224,14 @@ function listTopTimeLine()
             ,NULL              AS main_image4
         FROM
             wp_posts AS wp
+
+        INNER JOIN
+            wp_tcd_membership_actions AS wtmsa
+        ON
+            wp.ID = wtmsa.post_id
+        AND
+            wtmsa.type = \'complete\'
+
         INNER JOIN
             wp_users AS wu
         ON
@@ -1241,16 +1249,7 @@ function listTopTimeLine()
         AND
             wp.post_status = \'publish\'
         AND
-            wp.post_type = \'request\'
-
-        AND NOT EXISTS (
-            SELECT * 
-            FROM wp_tcd_membership_actions
-            WHERE 
-                type=\'complete\' 
-            AND 
-                wp_tcd_membership_actions.post_id = wp.ID
-        )
+            wp.post_type = \'post\'
     ';
 
     $sql  = '';
@@ -1411,6 +1410,71 @@ function publishLog($message = NULL)
 
     $publish = $dateClass->format('Ymd H:i:s') . ' ' . print_r($message, true) . PHP_EOL;
     file_put_contents($logFile, $publish, FILE_APPEND);
+}
+
+/**
+ * 自分自身が関係するtcd_member_ship_actionsのデータを取得
+ *
+ * @param int $post_id
+ * @param string $type
+ * @param int $user_id
+ * @return object
+ */
+function getMyWpTcdMembershipActionsByTypeAndPostIdAndUserId($type, $post_id)
+{
+    global $wpdb;
+
+    if (is_null($user_id) === TRUE) {
+        // ユーザーIDが渡されない場合 => WordPressからログインしているユーザーIDを取得
+        $user_id = get_current_user_id();
+    }
+
+    $sql = '';
+    $sql .= 'SELECT ';
+    $sql .= ' type ';
+    $sql .= ' ,user_id ';
+    $sql .= ' ,target_user_id ';
+    $sql .= ' ,post_id ';
+    $sql .= 'FROM wp_tcd_membership_actions ';
+    $sql .= ' WHERE ';
+    $sql .= ' type = \'%s\' ';
+    $sql .= ' AND ';
+    $sql .= ' post_id = \'%s\' ';
+
+    $result = $wpdb->get_results($wpdb->prepare($sql, $type, $post_id, $user_id));
+    return (isset($result[0])) ? $result[0] : '';
+}
+
+function updateWpTcdMembershipActionsByPostId($type, $post_id)
+{
+    global $wpdb;
+
+    $data        = [];
+    $data_format = [];
+    $data['post_id'] = $post_id;
+    $data_format[]   = '%d';
+    $data['type']    = $type;
+    $data_format[]   = '%s';
+
+    // アクションidがある場合のみ更新
+    $tablename = get_tcd_membership_tablename('actions');
+    $result = $wpdb->update(
+        $tablename,
+        $data,
+        [
+            'post_id' => $post_id
+        ],
+        $data_format,
+        [
+            '%d',
+        ]
+    );
+
+    if ($result) {
+        return $post_id;
+    } else {
+        return false;
+    }
 }
 
 /**

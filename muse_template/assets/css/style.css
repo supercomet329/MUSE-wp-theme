@@ -2154,7 +2154,7 @@
         /* 作品依頼　入力項目タイトル */
         .request-input-title {
             margin-top: 5px;
-            margin-bottom: -10px;
+            margin-bottom: 10px;
         }
         /* 作品依頼　画像ファイル選択 */
         .request-file {

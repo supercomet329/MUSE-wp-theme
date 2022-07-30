@@ -99,7 +99,7 @@ function lisetOrder($sort, $search_txt, $sel_up_budget, $sel_down_budget, $sel_l
     $sql .= 'FROM wp_posts ';
     $sql .= ' INNER JOIN wp_users ';
     $sql .= ' ON wp_users.ID = wp_posts.post_author ';
-    $sql .= 'WHERE wp_posts.post_type = \'request\' ';
+    $sql .= 'WHERE wp_posts.post_type = \'post\' ';
     $sql .= ' AND wp_posts.post_status = \'publish\'';
     $sql .= ' AND (';
     $sql .= ' SELECT meta_value FROM wp_postmeta WHERE wp_postmeta.post_id = wp_posts.ID AND meta_key = \'budget\'';

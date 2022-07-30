@@ -96,7 +96,7 @@ function listOrder($up_budget, $down_budget, $whereDeadLine, $target)
     $sql .= ' ON wp_users.ID = wp_posts.post_author ';
     $sql .= 'LEFT JOIN wp_tcd_membership_actions ';
     $sql .= 'ON wp_posts.ID = wp_tcd_membership_actions.post_id ';
-    $sql .= 'WHERE wp_posts.post_type = \'request\' ';
+    $sql .= 'WHERE wp_posts.post_type = \'post\' ';
     $sql .= ' AND wp_posts.post_status = \'publish\'';
     $sql .= ' AND wp_posts.post_author = ' . get_current_user_id();
 
