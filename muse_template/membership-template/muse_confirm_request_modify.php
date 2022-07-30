@@ -8,8 +8,20 @@ get_header();
             <a href="javascript:history.back();">← 戻る</a>
         </div>
     </div>
+
     <form method="POST" action="<?php echo get_tcd_membership_memberpage_url('confirm_request'); ?>" enctype="multipart/form-data" method="POST">
         <div class="row">
+            <div class="col-12">
+                <?php
+                if (isset($_SESSION['messageUpdateConfirm'])) {
+                    $message = $_SESSION['messageUpdateConfirm'];
+                    unset($_SESSION['messageUpdateConfirm']);
+                ?>
+                    <div class="error_message"><?php echo esc_attr($message); ?></div>
+                <?php }
+                /** endif */ ?>
+            </div>
+
             <div class="col-12">
                 <h1 class="text-left font-weight-bold request-title">依頼タイトル（必須）</h1>
             </div>

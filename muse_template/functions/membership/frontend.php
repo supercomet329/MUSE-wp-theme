@@ -1421,11 +1421,11 @@ function publishLog($message = NULL)
  * @param int $user_id
  * @return object
  */
-function getMyWpTcdMembershipActionsByTypeAndPostIdAndUserId($type, $post_id, $user_id = NULL)
+function getMyWpTcdMembershipActionsByTypeAndPostIdAndUserId($type, $post_id)
 {
     global $wpdb;
 
-    if(is_null($user_id) === TRUE) {
+    if (is_null($user_id) === TRUE) {
         // ユーザーIDが渡されない場合 => WordPressからログインしているユーザーIDを取得
         $user_id = get_current_user_id();
     }
@@ -1441,11 +1441,41 @@ function getMyWpTcdMembershipActionsByTypeAndPostIdAndUserId($type, $post_id, $u
     $sql .= ' type = \'%s\' ';
     $sql .= ' AND ';
     $sql .= ' post_id = \'%s\' ';
-    $sql .= ' AND ';
-    $sql .= ' user_id = \'%s\' ';
 
     $result = $wpdb->get_results($wpdb->prepare($sql, $type, $post_id, $user_id));
-    return $result;
+    return (isset($result[0])) ? $result[0] : '';
+}
+
+function updateWpTcdMembershipActionsByPostId($type, $post_id)
+{
+    global $wpdb;
+
+    $data        = [];
+    $data_format = [];
+    $data['post_id'] = $post_id;
+    $data_format[]   = '%d';
+    $data['type']    = $type;
+    $data_format[]   = '%s';
+
+    // アクションidがある場合のみ更新
+    $tablename = get_tcd_membership_tablename('actions');
+    $result = $wpdb->update(
+        $tablename,
+        $data,
+        [
+            'post_id' => $post_id
+        ],
+        $data_format,
+        [
+            '%d',
+        ]
+    );
+
+    if ($result) {
+        return $post_id;
+    } else {
+        return false;
+    }
 }
 
 /**

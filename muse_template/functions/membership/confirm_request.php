@@ -22,7 +22,7 @@ function tcd_membership_action_confirm_request()
     $tcd_membership_vars['request_id'] = $request_id;
 
     // ユーザー情報の取得
-    $user_id = get_current_user_id();
+    $user_id = (int)get_current_user_id();
 
     // リクエストIDからリクエスト情報の取得
     $postsObj = get_post($request_id);
@@ -118,7 +118,8 @@ function tcd_membership_action_confirm_request()
         $specifyUser = $specifyUserData[0];
     }
     $tcd_membership_vars['specifyUser'] = $specifyUser;
-
+    $receivedResult = getMyWpTcdMembershipActionsByTypeAndPostIdAndUserId($typeReceived, $request_id);
+    $completeResult = getMyWpTcdMembershipActionsByTypeAndPostIdAndUserId($typeComplete, $request_id);
 
     // POSTされた場合
     $error_messages = [];
@@ -166,14 +167,20 @@ function tcd_membership_action_confirm_request()
                     wp_safe_redirect(get_tcd_membership_memberpage_url('confirm_request') . '&request_id=' . $request_id);
                     exit;
                 } elseif ($request_type === $typeComplete) {
-                    // 依頼を完了にする場合
-                    insert_tcd_membership_action($typeComplete, $user_id, $postsObj->post_author, $request_id);
 
-                    // Twitterに投稿
-                    $message = '依頼を投稿しました。';
-                    $uri     = '?memberpage=confirm_request&request_id=' . $request_id;
-                    publishTwitter($message, $uri);
+                    $message = '依頼を完了にできませんでした。';
+                    if (!empty($receivedResult) && (int)$receivedResult->user_id === $user_id) {
+                        // 依頼を完了にする場合
+                        updateWpTcdMembershipActionsByPostId($typeComplete, $request_id);
 
+                        // Twitterに投稿
+                        $message = '依頼を完了しました。';
+                        $uri     = '?memberpage=confirm_request&request_id=' . $request_id;
+                        publishTwitter($message, $uri);
+                        $message = '依頼を完了にしました。';
+                    }
+
+                    $_SESSSION['message'] = $message;
                     wp_safe_redirect(get_tcd_membership_memberpage_url('confirm_request') . '&request_id=' . $request_id);
                     exit;
                 } elseif ($request_type === 'moddify') {
@@ -289,6 +296,7 @@ function tcd_membership_action_confirm_request()
                     if (count($error_messages) <= 0) {
 
                         update_request($requestFileUrl, $requestFileName);
+                        $_SESSION['messageUpdateConfirm'] = '更新が完了しました。';
                         wp_safe_redirect(get_tcd_membership_memberpage_url('confirm_request') . '&request_id=' . $request_id);
                         exit;
                     }
@@ -337,17 +345,15 @@ function tcd_membership_action_confirm_request()
      * => 登録ユーザーかつ未受託 もしくは 依頼完了済
      */
     $template = 'muse_confirm_request';
-    $receivedResult = getMyWpTcdMembershipActionsByTypeAndPostIdAndUserId($typeReceived, $request_id);
-    $completeResult = getMyWpTcdMembershipActionsByTypeAndPostIdAndUserId($typeComplete, $request_id);
     if (!empty($receivedResult) || !empty($completeResult)) {
-        // ステータスが受託済でも完了でもない場合 =>
 
         if (!empty($completeResult)) {
             $approval_users[(int)$completeResult->user_id] = true;
             $approval_users[(int)$completeResult->target_user_id] = true;
         }
-
-        if ((int)$author_id === (int)get_current_user_id()) {
+    } else {
+        // ステータスが受託済でも完了でもない かつ 登録ユーザーの場合 => 依頼編集表示に変更
+        if ((int)$author_id === $user_id) {
             // 依頼登録ユーザーの場合 => 入力用テンプレート
             $template = 'muse_confirm_request_modify';
         }
@@ -367,7 +373,7 @@ function tcd_membership_action_confirm_request()
             $approval_users[(int)$receivedResult->target_user_id] = true;
         }
 
-        if (isset($approval_users[(int)get_current_user_id()])) {
+        if (isset($approval_users[$user_id])) {
             // 依頼ユーザー or 受託ユーザーのみ表示
             $flgComment = true;
         }
@@ -381,7 +387,7 @@ function tcd_membership_action_confirm_request()
         $flgReceived = false;
     }
 
-    if ((int)get_current_user_id() !== (int)$author_id) {
+    if ($user_id === (int)$author_id) {
         // 依頼ユーザーの場合
         $flgReceived = false;
     }
@@ -401,7 +407,7 @@ function tcd_membership_action_confirm_request()
      * ・ 対象指名ユーザー
      */
     $flgView = false;
-    if (isset($approval_users[(int)get_current_user_id()])) {
+    if (isset($approval_users[$user_id])) {
         // 依頼ユーザー or 受託ユーザーのみ表示
         $flgView = true;
     }
@@ -414,7 +420,7 @@ function tcd_membership_action_confirm_request()
      */
     $flgComplete = false;
     if (!empty($receivedResult)) {
-        if ((int)get_current_user_id() === (int)$receivedResult->user_id) {
+        if ($user_id === (int)$receivedResult->user_id) {
             $flgComplete = true;
         }
     }

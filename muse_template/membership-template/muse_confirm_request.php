@@ -9,8 +9,17 @@ get_header();
         </div>
     </div>
     <div class="row">
+        <div class="col-12 mb-2">
+            <?php
+            if (isset($_SESSION['messageUpdateConfirm'])) {
+                $message = $_SESSION['messageUpdateConfirm'];
+                unset($_SESSION['messageUpdateConfirm']);
+            ?>
+                <div class="error_message"><?php echo esc_attr($message); ?></div>
+            <?php }
+            /** endif */ ?>
+        </div>
         <div class="col-12 item-text mb-2">
-
             <?php echo esc_attr($tcd_membership_vars['title']); ?>
         </div>
         <div class="mb-2 col-8 d-flex justify-content-start text-center">
