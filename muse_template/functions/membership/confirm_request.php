@@ -376,8 +376,16 @@ function tcd_membership_action_confirm_request()
         if (isset($approval_users[$user_id])) {
             // 依頼ユーザー or 受託ユーザーのみ表示
             $flgComment = true;
+
         }
     }
+
+    $comments = [];
+    if ($flgComment === TRUE) {
+        // 受注されている時のみコメントを表示
+        $comments = listCommentByPostId($request_id);
+    }
+    $tcd_membership_vars['comments'] = $comments;
 
     /**
      * 受託ボタン
