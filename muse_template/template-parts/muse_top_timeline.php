@@ -92,7 +92,7 @@ foreach ($listTimeline as $oneTimeline) {
                 <div class="swiper-wrapper d-flex align-items-center">
                     <?php foreach ($imageArray as $photoOne) { ?>
                         <div class="swiper-slide">
-                            <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('post_comment')); ?>&post_id=<?php echo esc_attr($imageOne->post_id); ?>">
+                            <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('post_comment')); ?>&post_id=<?php echo esc_attr($oneTimeline->post_id); ?>">
                                 <img class="img-fluid mx-auto" src="<?php echo esc_url($photoOne); ?>" />
                             </a>
                         </div>

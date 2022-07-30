@@ -14,14 +14,51 @@ if (get_current_user_id() > 0) {
     $url = get_author_posts_url(get_current_user_id());
 }
 
+
+$ogp_title     = false;
+$ogp_url       = false;
+$ogp_image     = false;
+$ogp_site_name = false;
+if (isset($_GET['memberpage']) && isset($_GET['post_id']) && $_GET['memberpage'] === 'post_comment') {
+    $post_id = $_GET['post_id'];
+    $post = get_post($post_id);
+    $ogp_title     = $post->post_title;
+    $ogp_url       = home_url() . '?memberpage=post_comment&post_id=' . $post_id;
+    $ogp_image     = get_post_meta($post_id, 'main_image', true);
+}
+
+if (isset($_GET['memberpage']) && isset($_GET['request_id']) && $_GET['memberpage'] === 'confirm_request') {
+    $post_id = $_GET['request_id'];
+    $post = get_post($post_id);
+    $ogp_title     = $post->post_title;
+    $ogp_url       = home_url() . '?memberpage=confirm_request&request_id=' . $post_id;
+    $ogp_image     = get_post_meta($post_id, 'main_image', true);
+}
 ?>
 <!doctype html>
 <html lang="ja">
 
-<head>
+<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
     <!-- Required meta tags -->
     <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
     <meta charset="utf-8">
+
+    <?php if ($ogp_title !== FALSE && ! empty($ogp_title)) { ?>
+        <meta property="og:title" content="<?php echo esc_attr($ogp_title); ?>" />
+    <?php }
+    /** endif */ ?>
+
+    <?php if ($ogp_image !== FALSE && ! empty($ogp_image)) { ?>
+        <meta property="og:image" content="<?php echo esc_url($ogp_image); ?>" />
+    <?php }
+    /** endif */ ?>
+
+    <?php if ($ogp_url !== FALSE && ! empty($ogp_url)) { ?>
+        <meta property="og:url" content="<?php echo esc_attr($ogp_url); ?>" />
+    <?php }
+    /** endif */ ?>
+    <meta property="og:site_name" content="<?php echo esc_attr(bloginfo('name')); ?>" />
+
     <!-- Icon -->
     <?php wp_head(); ?>
 
@@ -102,4 +139,3 @@ if (get_current_user_id() > 0) {
             <div class="side_down">&nbsp;</div>
         </ul>
     </sidebar>
-    
