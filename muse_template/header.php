@@ -57,6 +57,7 @@ if (isset($_GET['memberpage']) && isset($_GET['request_id']) && $_GET['memberpag
         <meta property="og:url" content="<?php echo esc_attr($ogp_url); ?>" />
     <?php }
     /** endif */ ?>
+    <meta name="twitter:card" content="summary_large_image" />
     <meta property="og:site_name" content="<?php echo esc_attr(bloginfo('name')); ?>" />
 
     <!-- Icon -->
