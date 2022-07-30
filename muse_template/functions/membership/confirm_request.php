@@ -24,7 +24,7 @@ function tcd_membership_action_confirm_request()
 
     // リクエストIDからリクエスト情報の取得
     $postsObj = get_post($request_id);
-    if ($postsObj->post_status !== 'publish' || $postsObj->post_type !== 'request') {
+    if ($postsObj->post_status !== 'publish' || $postsObj->post_type !== 'post') {
         // 公開中のリクエストではない場合 => トップページに遷移
         wp_redirect('/');
         exit();

@@ -174,13 +174,13 @@ function tcd_membership_action_request()
                     // 登録処理
                     // $tcd_membership_vars['template']  = 'muse_request_input_confirm';
 
-                    $my_post = array(
+                    $my_post = [
                         'post_title'        => $_POST['requestTitle'],
                         'post_content'      => $_POST['content'],
                         'post_name'         => $_POST['workTitle'],
                         'post_status'       => 'publish',
-                        'post_type'         => 'request'
-                    );
+                        'post_type'         => 'post'
+                    ];
                     $post_id = wp_insert_post($my_post);
 
                     // wp_tcd_membership_action_metasの登録

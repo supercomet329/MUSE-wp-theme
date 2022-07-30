@@ -368,7 +368,7 @@ function listOrderByPostAuthor($postAuthor)
     $sql .= 'ON wp_posts.ID = wp_tcd_membership_actions.post_id ';
     $sql .= 'WHERE wp_posts.post_author = %d ';
     $sql .= 'AND wp_posts.post_type = %s ';
-    $result = $wpdb->get_results($wpdb->prepare($sql, $postAuthor, 'request'));
+    $result = $wpdb->get_results($wpdb->prepare($sql, $postAuthor, 'post'));
     return $result;
 }
 
@@ -570,7 +570,7 @@ function get_request($request_id)
     $sql .= 'FROM wp_posts ';
     $sql .= 'WHERE wp_posts.ID = ' . $request_id;
     $sql .= ' AND wp_posts.post_status = \'publish\'';
-    $sql .= ' AND wp_posts.post_type   = \'request\'';
+    $sql .= ' AND wp_posts.post_type   = \'post\'';
     $sql .= ' AND EXISTS(';
     $sql .= ' 	SELECT * 
 				FROM wp_postmeta 
@@ -1241,7 +1241,7 @@ function listTopTimeLine()
         AND
             wp.post_status = \'publish\'
         AND
-            wp.post_type = \'request\'
+            wp.post_type = \'post\'
 
         AND NOT EXISTS (
             SELECT * 

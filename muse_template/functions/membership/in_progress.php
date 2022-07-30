@@ -98,7 +98,7 @@ function listInProgress($up_budget, $down_budget, $whereDeadLine, $target)
     $sql .= 'INNER JOIN wp_tcd_membership_actions ';
     $sql .= 'ON wp_posts.ID = wp_tcd_membership_actions.post_id ';
     $sql .= ' AND wp_tcd_membership_actions.type = \'received\' ';
-    $sql .= 'WHERE wp_posts.post_type = \'request\' ';
+    $sql .= 'WHERE wp_posts.post_type = \'post\' ';
     $sql .= ' AND wp_posts.post_status = \'publish\'';
     $sql .= ' AND ( ';
     $sql .= ' wp_posts.post_author = ' . get_current_user_id();
