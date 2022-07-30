@@ -43,7 +43,7 @@ get_header();
                         <div class="mx-auto">予算<br>納品希望日</div>
                     </a>
                 </li>
-                <?php if ($tcd_membership_vars['comment_flag'] === TRUE) { ?>
+                <?php if ($tcd_membership_vars['flgComment'] === TRUE) { ?>
                     <li class="nav-item each-tab <?php echo $tcd_membership_vars['tabStyle']; ?>">
                         <a class="nav-link btn text-white not-selected-tab" id="comments-tab" data-toggle="tab" href="#comments" role="tab" aria-controls="comments" aria-selected="false">
                             <div class="mx-auto">コメント</div>
@@ -60,7 +60,7 @@ get_header();
             <div class="tab-pane active" id="contents" role="tabpanel" aria-labelledby="contents-tab">
                 <div class="container">
                     <div class="row">
-                        <?php if ($tcd_membership_vars['viewFlag'] === TRUE) { ?>
+                        <?php if ($tcd_membership_vars['flgView'] === TRUE) { ?>
                             <div class="col-12 mt-2 item-text border-bottom-solid ">
                                 依頼タイトル
                             </div>
@@ -80,7 +80,7 @@ get_header();
                         <div class="col-12 mt-1 ">
                             <?php echo nl2br($tcd_membership_vars['composition']); ?>
                         </div>
-                        <?php if ($tcd_membership_vars['viewFlag'] === TRUE) { ?>
+                        <?php if ($tcd_membership_vars['flgView'] === TRUE) { ?>
                             <div class="col-12 mt-4 item-text border-bottom-solid ">
                                 キャラクター
                             </div>
@@ -95,11 +95,23 @@ get_header();
                             </div>
                         <?php } ?>
 
-                        <?php if ($tcd_membership_vars['comment_flag'] === FALSE && $tcd_membership_vars['my_order_flag'] === TRUE) { ?>
+                        <?php if ($tcd_membership_vars['flgReceived'] === TRUE) { ?>
                             <div class="col-12 mt-4 mt-xl-4 pt-xl-3 mb-5 text-center">
                                 <form action="<?php echo get_tcd_membership_memberpage_url('confirm_request'); ?>" method="POST">
                                     <button type="submit" class="btn text-white save-btn">依頼を受ける</button>
                                     <input type="hidden" name="request_type" value='received' />
+                                    <input type="hidden" name="request_id" value='<?php echo esc_attr($tcd_membership_vars['request_id']); ?>' />
+                                    <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd-membership-confirm_message-' . $tcd_membership_vars['request_id'])); ?>">
+                                </form>
+                            </div>
+                        <?php }
+                        /** endif */ ?>
+
+                        <?php if ($tcd_membership_vars['flgComplete'] === TRUE) { ?>
+                            <div class="col-12 mt-4 mt-xl-4 pt-xl-3 mb-5 text-center">
+                                <form action="<?php echo get_tcd_membership_memberpage_url('confirm_request'); ?>" method="POST">
+                                    <button type="submit" class="btn text-white save-btn">依頼を完了にする</button>
+                                    <input type="hidden" name="request_type" value='complete' />
                                     <input type="hidden" name="request_id" value='<?php echo esc_attr($tcd_membership_vars['request_id']); ?>' />
                                     <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd-membership-confirm_message-' . $tcd_membership_vars['request_id'])); ?>">
                                 </form>
@@ -132,11 +144,23 @@ get_header();
                             </div>
                         <?php }
                         /** endif */ ?>
-                        <?php if ($tcd_membership_vars['comment_flag'] === FALSE && $tcd_membership_vars['my_order_flag'] === TRUE) { ?>
+                        <?php if ($tcd_membership_vars['flgReceived'] === TRUE) { ?>
                             <div class="col-12 mt-4 mt-xl-4 pt-xl-3 mb-5 text-center">
                                 <form action="<?php echo get_tcd_membership_memberpage_url('confirm_request'); ?>" method="POST">
                                     <button type="submit" class="btn text-white save-btn">依頼を受ける</button>
                                     <input type="hidden" name="request_type" value='received' />
+                                    <input type="hidden" name="request_id" value='<?php echo esc_attr($tcd_membership_vars['request_id']); ?>' />
+                                    <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd-membership-confirm_message-' . $tcd_membership_vars['request_id'])); ?>">
+                                </form>
+                            </div>
+                        <?php }
+                        /** endif */ ?>
+
+                        <?php if ($tcd_membership_vars['flgComplete'] === TRUE) { ?>
+                            <div class="col-12 mt-4 mt-xl-4 pt-xl-3 mb-5 text-center">
+                                <form action="<?php echo get_tcd_membership_memberpage_url('confirm_request'); ?>" method="POST">
+                                    <button type="submit" class="btn text-white save-btn">依頼を完了にする</button>
+                                    <input type="hidden" name="request_type" value='complete' />
                                     <input type="hidden" name="request_id" value='<?php echo esc_attr($tcd_membership_vars['request_id']); ?>' />
                                     <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd-membership-confirm_message-' . $tcd_membership_vars['request_id'])); ?>">
                                 </form>
@@ -149,7 +173,7 @@ get_header();
             <div class="tab-pane" id="budgets" role="tabpanel" aria-labelledby="budgets-tab">
                 <div class="container block">
                     <div class="row">
-                        <?php if ($tcd_membership_vars['viewFlag'] === TRUE) { ?>
+                        <?php if ($tcd_membership_vars['flgView'] === TRUE) { ?>
 
                             <div class="col-12 mt-2 item-text border-bottom-solid">
                                 予算
@@ -173,7 +197,7 @@ get_header();
                             </div>
                         <?php }
                         /** endif */ ?>
-                        <?php if ($tcd_membership_vars['comment_flag'] === FALSE && $tcd_membership_vars['my_order_flag'] === TRUE) { ?>
+                        <?php if ($tcd_membership_vars['flgReceived'] === TRUE) { ?>
                             <div class="col-12 mt-4 mt-xl-4 pt-xl-3 mb-5 text-center">
                                 <form action="<?php echo get_tcd_membership_memberpage_url('confirm_request'); ?>" method="POST">
                                     <button type="submit" class="btn text-white save-btn">依頼を受ける</button>
@@ -184,10 +208,22 @@ get_header();
                             </div>
                         <?php }
                         /** endif */ ?>
+
+                        <?php if ($tcd_membership_vars['flgComplete'] === TRUE) { ?>
+                            <div class="col-12 mt-4 mt-xl-4 pt-xl-3 mb-5 text-center">
+                                <form action="<?php echo get_tcd_membership_memberpage_url('confirm_request'); ?>" method="POST">
+                                    <button type="submit" class="btn text-white save-btn">依頼を完了にする</button>
+                                    <input type="hidden" name="request_type" value='complete' />
+                                    <input type="hidden" name="request_id" value='<?php echo esc_attr($tcd_membership_vars['request_id']); ?>' />
+                                    <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd-membership-confirm_message-' . $tcd_membership_vars['request_id'])); ?>">
+                                </form>
+                            </div>
+                        <?php }
+                        /** endif */ ?>
                     </div>
                 </div>
             </div>
-            <?php if ($tcd_membership_vars['comment_flag'] === TRUE) { ?>
+            <?php if ($tcd_membership_vars['flgComment'] === TRUE) { ?>
                 <div class="tab-pane" id="comments" role="tabpanel" aria-labelledby="comments-tab">
                     <div class="col-12 mt-2 item-text border-bottom-solid">
                         コメント

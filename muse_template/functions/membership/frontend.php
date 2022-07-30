@@ -1414,6 +1414,41 @@ function publishLog($message = NULL)
 }
 
 /**
+ * 自分自身が関係するtcd_member_ship_actionsのデータを取得
+ *
+ * @param int $post_id
+ * @param string $type
+ * @param int $user_id
+ * @return object
+ */
+function getMyWpTcdMembershipActionsByTypeAndPostIdAndUserId($type, $post_id, $user_id = NULL)
+{
+    global $wpdb;
+
+    if(is_null($user_id) === TRUE) {
+        // ユーザーIDが渡されない場合 => WordPressからログインしているユーザーIDを取得
+        $user_id = get_current_user_id();
+    }
+
+    $sql = '';
+    $sql .= 'SELECT ';
+    $sql .= ' type ';
+    $sql .= ' ,user_id ';
+    $sql .= ' ,target_user_id ';
+    $sql .= ' ,post_id ';
+    $sql .= 'FROM wp_tcd_membership_actions ';
+    $sql .= ' WHERE ';
+    $sql .= ' type = \'%s\' ';
+    $sql .= ' AND ';
+    $sql .= ' post_id = \'%s\' ';
+    $sql .= ' AND ';
+    $sql .= ' user_id = \'%s\' ';
+
+    $result = $wpdb->get_results($wpdb->prepare($sql, $type, $post_id, $user_id));
+    return $result;
+}
+
+/**
  * Embed/oEmbed制限 wp_embed_register_handlerのコールバック関数
  */
 function tcd_membership_disable_autoembed_callback($matches, $attr, $url, $rawattr)
