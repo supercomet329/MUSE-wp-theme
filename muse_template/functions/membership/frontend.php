@@ -1216,7 +1216,7 @@ function listTopTimeLine()
             ,wp.ID             AS post_id
             ,wumeta.meta_value AS profile_image
             ,wp.post_title     AS post_title
-            ,wp.post_date      AS post_date
+            ,wtmsa.created_gmt AS post_date
             ,wp.post_type      AS post_type
             ,NULL              AS main_image
             ,NULL              AS main_image2
@@ -1224,6 +1224,14 @@ function listTopTimeLine()
             ,NULL              AS main_image4
         FROM
             wp_posts AS wp
+
+        INNER JOIN
+            wp_tcd_membership_actions AS wtmsa
+        ON
+            wp.ID = wtmsa.post_id
+        AND
+            wtmsa.type = \'complete\'
+
         INNER JOIN
             wp_users AS wu
         ON
@@ -1242,15 +1250,6 @@ function listTopTimeLine()
             wp.post_status = \'publish\'
         AND
             wp.post_type = \'post\'
-
-        AND NOT EXISTS (
-            SELECT * 
-            FROM wp_tcd_membership_actions
-            WHERE 
-                type=\'complete\' 
-            AND 
-                wp_tcd_membership_actions.post_id = wp.ID
-        )
     ';
 
     $sql  = '';
