@@ -50,7 +50,7 @@ get_header();
             }
             ?>
             <img class="js-toggle-like float-left" data-post-id="<?php echo esc_attr($tcd_membership_vars['post_id']); ?>" src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/<?php echo $like_image; ?>" alt="iine">
-
+            <p class="mb-1 float-left mx-2 font-weight-bold" id="count_like_<?php echo esc_attr($tcd_membership_vars['post_id']); ?>" id="count_like_<?php echo esc_attr($tcd_membership_vars['post_id']); ?>"><?php echo esc_attr(get_likes_number($oneTimeline->post_id)); ?></p>
             <!-- TODO: 投げ銭対応の時に対応 -->
             <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/social_tipping_on.png" alt="social_tipping_on">
         </div>

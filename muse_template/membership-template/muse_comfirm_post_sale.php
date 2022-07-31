@@ -45,11 +45,12 @@ get_header();
             <div class="logo-area col-6">
                 <?php
                 $like_image = 'iine.png';
-                if (is_liked($one_photo->post_id, false)) {
+                if (is_liked($tcd_membership_vars['post_id'], false)) {
                     $like_image = 'iine_on.png';
                 }
                 ?>
                 <img class="js-toggle-like float-left" data-post-id="<?php echo esc_attr($tcd_membership_vars['post_id']); ?>" src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/<?php echo esc_attr($like_image); ?>" alt="iine">
+                <p class="mb-1 float-left mx-2 font-weight-bold" id="count_like_<?php echo esc_attr($tcd_membership_vars['post_id']); ?>" id="count_like_<?php echo esc_attr($tcd_membership_vars['post_id']); ?>"><?php echo esc_attr(get_likes_number($tcd_membership_vars['post_id'])); ?></p>
                 <!-- TODO: NFT決まったら -->
                 <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/social_tipping_on.png" alt="social_tipping_on">
             </div>
