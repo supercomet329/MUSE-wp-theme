@@ -131,7 +131,7 @@ if (!is_null($tcd_membership_vars['imgList'])) {
                 }
                 ?>
                 <img class="js-toggle-like float-left" data-post-id="<?php echo esc_attr($imageOne->post_id); ?>" src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/<?php echo esc_attr($like_image); ?>" alt="iine">
-                <p class="mb-1 float-left mx-2 font-weight-bold"><?php echo esc_attr(get_likes_number($imageOne->post_id)); ?></p>
+                <p class="mb-1 float-left mx-2 font-weight-bold" id="count_like_<?php echo esc_attr($oneTimeline->post_id); ?>"><?php echo esc_attr(get_likes_number($imageOne->post_id)); ?></p>
                 <img class="float-left" src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/social_tipping_on.png" alt="social_tipping_on">
                 <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/favorite_on.png" alt="favorite_on">
             </div>

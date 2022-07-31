@@ -273,7 +273,7 @@ class Styled_Post_List_widget extends WP_Widget {
 					endif;
 					if ( $use_like && $show_likes_number ) :
 ?>
-			<li class="p-has-icon p-icon-like<?php if ( is_liked() ) echo 'd'; ?> js-toggle-like" data-post-id="<?php echo get_the_ID(); ?>"><?php echo get_likes_number(); ?></li>
+			<li class="p-has-icon p-icon-like<?php if ( is_liked() ) echo 'd'; ?> js-toggle-like" data-post-id="<?php echo get_the_ID(); ?>" id="count_like_<?php echo get_the_ID(); ?>"><?php echo get_likes_number(); ?></li>
 <?php
 					endif;
 ?>

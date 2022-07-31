@@ -124,7 +124,7 @@ foreach ($listTimeline as $oneTimeline) {
                 }
                 ?>
                 <img class="js-toggle-like float-left" data-post-id="<?php echo esc_attr($oneTimeline->post_id); ?>" src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/<?php echo esc_attr($like_image); ?>" alt="iine">
-                <p class="mb-1 float-left mx-2 font-weight-bold"><?php echo esc_attr(get_likes_number($imageOne->post_id)); ?></p>
+                <p class="mb-1 float-left mx-2 font-weight-bold" id="count_like_<?php echo esc_attr($oneTimeline->post_id); ?>" id="count_like_<?php echo esc_attr($oneTimeline->post_id); ?>"><?php echo esc_attr(get_likes_number($oneTimeline->post_id)); ?></p>
                 <?php /** TODO: 仮想通貨時に対応 */ ?>
                 <img class="float-left" src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/social_tipping_on.png" alt="social_tipping_on">
                 <?php
@@ -136,7 +136,7 @@ foreach ($listTimeline as $oneTimeline) {
                 <img class="js-toggle-favorite" data-post-id="<?php echo esc_attr($oneTimeline->post_id); ?>" src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/<?php echo $favorite_image; ?>" alt="favorite_on">
             </div>
             <div class="col-2 text-right">
-                <a class="text-dark" href="<?php echo esc_url(get_tcd_membership_memberpage_url('post_comment')); ?>&post_id=<?php echo esc_attr($imageOne->post_id); ?>">
+                <a class="text-dark" href="<?php echo esc_url(get_tcd_membership_memberpage_url('post_comment')); ?>&post_id=<?php echo esc_attr($oneTimeline->post_id); ?>">
                     <img class="float-left" src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/comment_up.png" alt="social_tipping_on">
                 </a>
             </div>

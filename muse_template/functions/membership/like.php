@@ -86,7 +86,7 @@ function get_likes_number( $post_id = null ) {
 	global $wpdb;
 
 	$tablename = get_tcd_membership_tablename( 'actions' );
-	$sql = "SELECT COUNT(id) FROM {$tablename} WHERE type = 'like' AND post_id = %d";
+	$sql = "SELECT COUNT(id) FROM {$tablename} WHERE type = 'like' AND post_id = '%d'";
 	return $wpdb->get_var( $wpdb->prepare( $sql, $post_id ) );
 }
 
