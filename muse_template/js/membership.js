@@ -510,9 +510,11 @@ jQuery(function($) {
                 if (data.result == 'added') {
                     // $(el).addClass('p-icon-liked').removeClass('p-icon-like').html(data.likes_number);
                     $(el).attr('src', '/wp-content/themes/muse_template/assets/img/icon/iine_on.png');
+                    $('#count_like_' + post_id).text(data.likes_number);
                 } else if (data.result == 'removed') {
                     // $(el).addClass('p-icon-like').removeClass('p-icon-liked').html(data.likes_number);
                     $(el).attr('src', '/wp-content/themes/muse_template/assets/img/icon/iine.png');
+                    $('#count_like_' + post_id).text(data.likes_number);
                 } else if (data.message) {
                     showModalAlert(data.message);
                 } else {
@@ -538,7 +540,7 @@ jQuery(function($) {
         // 未ログインの場合はモーダルログイン表示
         if (!$('body').hasClass('logged-in')) {
             waitLoginVars = {
-                type: 'like',
+                type: 'favorite',
                 post_id: post_id,
                 $elem: $(this)
             };
@@ -564,6 +566,7 @@ jQuery(function($) {
             },
             success: function(data, textStatus, XMLHttpRequest) {
                 $(el).removeClass('is-ajaxing');
+
                 if (data.result == 'added') {
                     // $(el).addClass('p-icon-liked').removeClass('p-icon-like').html(data.likes_number);
                     $(el).attr('src', '/wp-content/themes/muse_template/assets/img/icon/favorite_on.png');

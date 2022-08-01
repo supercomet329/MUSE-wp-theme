@@ -10,7 +10,10 @@ function tcd_membership_action_confirm_post()
     $post_id = $_GET['post_id'];
     $rowPostData = get_post($post_id);
 
-    if (count($rowPostData) <= 0) {
+    if (count($rowPostData) <= 0 || $rowPostData->post_type !== 'photo') {
+
+        // データが存在しない場合 => トップページにリダイレクト
+        // post_typeがphotoじゃない場合 => トップページにリダイレクト
         wp_safe_redirect(user_trailingslashit(home_url()));
         exit;
     }

@@ -139,7 +139,7 @@ if ( have_posts() ) :
 			endif;
 			if ( $use_like && $dp_options['show_likes_number_archive_photo'] ) :
 ?>
-					<li class="p-has-icon p-icon-like<?php if ( is_liked() ) echo 'd'; ?> js-toggle-like" data-post-id="<?php echo get_the_ID(); ?>"><?php echo get_likes_number(); ?></li>
+					<li class="p-has-icon p-icon-like<?php if ( is_liked() ) echo 'd'; ?> js-toggle-like" data-post-id="<?php echo get_the_ID(); ?>" id="count_like_<?php echo get_the_ID(); ?>"><?php echo get_likes_number(); ?></li>
 <?php
 			endif;
 ?>
