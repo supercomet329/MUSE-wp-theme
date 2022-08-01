@@ -541,11 +541,6 @@ function tcd_membership_login_form($args = array())
                 $minimum_order_price = $getMinimumOrderPrice;
             }
 
-            $successMessage = '';
-            if (isset($_GET['message']) && $_GET['message'] === 'updated') {
-                $successMessage = 'プロフィール情報の更新を行いました。';
-            }
-
             if (!$args['echo']) :
                 ob_start();
             endif;
@@ -566,10 +561,6 @@ function tcd_membership_login_form($args = array())
             </label>
         </div>
         <div class="emailSentMsg" id="emailSentMsg">
-            <?php if (!empty($successMessage)) : ?>
-                <p><?php echo $successMessage; ?></p>
-            <?php endif; ?>
-
             <?php
             if (isset($_SESSION['success_twitter_message'])) {
                 $massage = $_SESSION['success_twitter_message'];
