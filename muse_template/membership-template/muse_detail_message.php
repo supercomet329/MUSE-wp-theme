@@ -91,7 +91,7 @@ get_header();
                                 </div>
                                 <?php if (!$one_message['image_flag']) { ?>
                                     <div class="says">
-                                        <p><?php echo nl2br($one_message['message']); ?></p>
+                                        <p><?php echo esc_attr($one_message['message']); ?></p>
                                     </div>
                                 <?php }
                                 /** endif */ ?>
