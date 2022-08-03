@@ -69,6 +69,16 @@ get_header();
     </div>
 </div>
 
+<div class="emailSentMsg" id="emailSentMsg">
+    <?php
+    if (isset($_SESSION['success'])) {
+        $massage = $_SESSION['success'];
+        unset($_SESSION['success']);
+    ?>
+        <p><?php echo $massage; ?></p>
+    <?php } ?>
+</div>
+
 <div class="cover-area">
     <img src="<?php echo esc_attr($header_image); ?>" class="img-fluid cover-image" id="cover_image">
 </div>
