@@ -11,7 +11,7 @@ function tcd_membership_action_profile()
 
     $user_id = $_GET['user_id'];
     $tcd_membership_vars['user_id']   = $user_id;
-    $tcd_membership_vars['template']  = 'muse_author';
+    $tcd_membership_vars['template']  = 'muse_profile';
 
     $userData = get_userdata($user_id);
     if (!$userData) {
