@@ -66,6 +66,7 @@ get_header();
                                             $others = '他';
                                         }
 
+                                        $names = [];
                                         foreach ($value as $valueOne) {
 
                                             $profileImageData = get_user_meta($valueOne['user_id'], 'profile_image', true);
@@ -75,7 +76,8 @@ get_header();
                                             }
                                             $images[] = $profile_image;
 
-                                            if (count($images) >= 2) {
+                                            if (count($names) <= 1) {
+                                                // 同時にフォローの場合の名称表示は2名まで
                                                 $user = get_userdata($valueOne['user_id']);
                                                 $names[]  = $user->display_name . 'さん';
                                             }
