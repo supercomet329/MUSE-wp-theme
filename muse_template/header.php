@@ -43,17 +43,17 @@ if (isset($_GET['memberpage']) && isset($_GET['request_id']) && $_GET['memberpag
     <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
     <meta charset="utf-8">
 
-    <?php if ($ogp_title !== FALSE && ! empty($ogp_title)) { ?>
+    <?php if ($ogp_title !== FALSE && !empty($ogp_title)) { ?>
         <meta property="og:title" content="<?php echo esc_attr($ogp_title); ?>" />
     <?php }
     /** endif */ ?>
 
-    <?php if ($ogp_image !== FALSE && ! empty($ogp_image)) { ?>
+    <?php if ($ogp_image !== FALSE && !empty($ogp_image)) { ?>
         <meta property="og:image" content="<?php echo esc_url($ogp_image); ?>" />
     <?php }
     /** endif */ ?>
 
-    <?php if ($ogp_url !== FALSE && ! empty($ogp_url)) { ?>
+    <?php if ($ogp_url !== FALSE && !empty($ogp_url)) { ?>
         <meta property="og:url" content="<?php echo esc_attr($ogp_url); ?>" />
     <?php }
     /** endif */ ?>
@@ -127,16 +127,29 @@ if (isset($_GET['memberpage']) && isset($_GET['request_id']) && $_GET['memberpag
 
     <sidebar class="d-block d-sm-none">
         <ul class="menu-list accordion">
-            <li class="toggle accordion-toggle side_mar my-3"><a href="#" class="py-0 pl-4"><span>項目1</span></a></li>
-            <li class="toggle accordion-toggle side_mar my-3"><a href="#" class="py-0 pl-4"><span>項目2</span></a></li>
-            <li class="toggle accordion-toggle side_mar my-3"><a href="#" class="py-0 pl-4"><span>項目3</span></a></li>
-            <li class="toggle accordion-toggle side_mar my-3"><a href="#" class="py-0 pl-4"><span>項目4</span></a></li>
-            <li class="toggle accordion-toggle side_mar my-3"><a href="#" class="py-0 pl-4"><span>項目5</span></a></li>
-            <li class="toggle accordion-toggle side_mar my-3"><a href="#" class="py-0 pl-4"><span>項目6</span></a></li>
-            <li class="toggle accordion-toggle side_mar my-3"><a href="#" class="py-0 pl-4"><span>項目7</span></a></li>
-            <li class="toggle accordion-toggle side_mar my-3"><a href="#" class="py-0 pl-4"><span>項目8</span></a></li>
-            <li class="toggle accordion-toggle side_mar my-3"><a href="#" class="py-0 pl-4"><span>項目9</span></a></li>
-            <li class="toggle accordion-toggle side_mar my-3"><a href="#" class="py-0 pl-4"><span>項目10</span></a></li>
+            <li class="toggle accordion-toggle side_mar my-3"><a href="/" class="py-0 pl-4"><span>ホーム</span></a></li>
+            <li class="toggle accordion-toggle side_mar my-3"><a href="<?php echo esc_url(get_tcd_membership_memberpage_url('ranking')) ?>" class="py-0 pl-4"><span>ランキング</span></a></li>
+            <li class="toggle accordion-toggle side_mar my-3"><a href="<?php echo $url; ?>" class="py-0 pl-4"><span>プロフィール</span></a></li>
+            <li class="toggle accordion-toggle side_mar my-3"><a href="#" class="py-0 pl-4"><span>NFT売買</span></a></li>
+            <li class="toggle accordion-toggle side_mar my-3"><a href="#" class="py-0 pl-4"><span>NFTコレクション</span></a></li>
+            <!-- li class="toggle accordion-toggle side_mar my-3"><a href="#" class="py-0 pl-4"><span>ランキング</span></a></li -->
+            <li class="toggle accordion-toggle side_mar my-3"><a href="<?php echo esc_url(get_tcd_membership_memberpage_url('notification')); ?>" class="py-0 pl-4"><span>通知</span></a></li>
+            <li class="toggle accordion-toggle side_mar my-3"><a href="<?php echo esc_url(get_tcd_membership_memberpage_url('list_message')); ?>" class="py-0 pl-4"><span>メッセージ</span></a></li>
+            <li class="toggle accordion-toggle side_mar my-3"><a href="<?php echo esc_attr(get_tcd_membership_memberpage_url('list_received')); ?>" class="py-0 pl-4"><span>受注リクエスト</span></a></li>
+            <!-- li class="toggle accordion-toggle side_mar my-3"><a href="#" class="py-0 pl-4"><span>表示変更</span></a></li -->
+            <li class="toggle accordion-toggle side_mar my-3"><a href="/<?php echo $getParams; ?>" class="py-0 pl-4"><span>表示変更</span></a></li>
+            <li class="toggle accordion-toggle side_mar my-3 more_menu">
+                <label for="menu_bar01"><span class="more_text">もっと見る</span></label>
+                <input type="checkbox" id="menu_bar01" />
+                <ul id="links01">
+                    <li class="toggle accordion-toggle side_mar my-3"><a href="<?php echo esc_attr(get_tcd_membership_memberpage_url('post_image')); ?>" class="py-0 pl-4"><span>投稿</span></a></li>
+                    <li class="toggle accordion-toggle side_mar my-3"><a href="#" class="py-0 pl-4"><span>残高振込申請</span></a></li>
+                    <li class="toggle accordion-toggle side_mar my-3"><a href="#" class="py-0 pl-4"><span>ガイドライン</span></a></li>
+                    <li class="toggle accordion-toggle side_mar my-3"><a href="#" class="py-0 pl-4"><span>NFTについて</span></a></li>
+                    <li class="toggle accordion-toggle side_mar my-3"><a href="#" class="py-0 pl-4"><span>著作権について</span></a></li>
+                    <li class="toggle accordion-toggle side_mar my-3"><a href="<?php echo wp_logout_url(); ?>" class="py-0 pl-4"><span>ログアウト</span></a></li>
+                </ul>
+            </li>
             <div class="side_down">&nbsp;</div>
         </ul>
     </sidebar>
