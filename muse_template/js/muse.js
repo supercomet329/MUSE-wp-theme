@@ -2008,3 +2008,11 @@ jQuery(function($) {
         });
     };
 });
+
+
+// SPアコーディオンメニュー
+$(function() {
+    $('.more_text').click(function() {
+        $(this).toggleClass('active');
+    });
+});

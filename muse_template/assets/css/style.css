@@ -809,12 +809,13 @@
     
     .message-create textarea {
         position: fixed;
-        border-radius: 20px;
+        border-radius: 10px;
         background-color: #e0e0e0;
         bottom: 100px;
         left: 20%;
         width: 60% !important;
         resize: none;
+        opacity: 0.8;
     }
     
     .message-create .icon-area .camera {
@@ -1576,6 +1577,7 @@
                 bottom: 60px;
                 left: 6.5%;
                 width: 75% !important;
+                padding: 10px;
             }
             .message-create .icon-area .camera {
                 position: fixed;
@@ -1615,7 +1617,6 @@
             }
             img.post-image.result {
                 width: 80%;
-                height: 30vh;
                 object-fit: cover;
             }
             .tab-area .tab-menu {
@@ -2728,4 +2729,52 @@
             width: 85px;
             height: 85px;
         }
+    }
+    /* メニューもっと見るCSS */
+    
+    .menu-list label {
+        display: block;
+        margin: 0 0 4px 0;
+        padding: 5px 15px 5px 15px;
+        line-height: 1;
+        color: #fff;
+        cursor: pointer;
+    }
+    
+    .menu-list input {
+        display: none;
+    }
+    
+    .menu-list #links01 li {
+        height: 0;
+        overflow: hidden;
+        -webkit-transition: all 0.5s;
+        -moz-transition: all 0.5s;
+        -ms-transition: all 0.5s;
+        -o-transition: all 0.5s;
+        transition: all 0.5s;
+        line-height: 20px;
+        margin-left: -20px;
+    }
+    
+    .more_text::after {
+        content: "　▼";
+    }
+    
+    .more_text.active::after {
+        content: "　▲";
+    }
+    
+    #menu_bar01:checked~#links01 li {
+        height: 22px;
+        margin-left: -20px;
+        opacity: 1;
+    }
+    
+    #links01 {
+        margin-left: -20px;
+    }
+    
+    .more_menu {
+        margin-left: 10px;
     }
