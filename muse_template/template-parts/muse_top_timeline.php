@@ -137,7 +137,7 @@ foreach ($listTimeline as $oneTimeline) {
             </div>
             <div class="col-2 text-right">
                 <a class="text-dark" href="<?php echo esc_url(get_tcd_membership_memberpage_url('post_comment')); ?>&post_id=<?php echo esc_attr($oneTimeline->post_id); ?>">
-                    <img class="float-left" src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/comment_up.png" alt="social_tipping_on">
+                    <img class="float-left" src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/comment_up_02.png" alt="social_tipping_on">
                 </a>
             </div>
             <div class=" bd-highlight col-1"></div>
