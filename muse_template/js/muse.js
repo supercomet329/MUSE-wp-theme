@@ -2011,8 +2011,8 @@ jQuery(function($) {
 
 
 // SPアコーディオンメニュー
-$(function() {
-    $('.more_text').click(function() {
+jQuery(function() {
+    jQuery('.more_text').click(function() {
         $(this).toggleClass('active');
     });
 });
