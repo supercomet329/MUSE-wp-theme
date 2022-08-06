@@ -763,13 +763,13 @@
         box-sizing: border-box;
         margin: 0 !important;
         line-height: 1.5;
+        overflow-wrap: break-word;
+        word-break: break-word;
     }
     
     .balloon_r .says {
         background: #8bc34a;
         color: #ffffff;
-        overflow-wrap: break-word;
-        word-break: break-word;
     }
     
     .says p {
