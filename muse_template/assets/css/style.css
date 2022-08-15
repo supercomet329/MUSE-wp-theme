@@ -2919,3 +2919,49 @@
     .transform-x-reverse {
         transform: rotate( 180deg);
     }
+    /* 前へ次への矢印カスタマイズ */
+    
+    .swiper-button-prev:after,
+    .swiper-rtl .swiper-button-next:after {
+        content: ''!important;
+    }
+    
+    .swiper-button-next:after,
+    .swiper-rtl .swiper-button-prev:after {
+        content: ''!important;
+    }
+    
+    .swiper-button-prev,
+    .swiper-button-next {
+        height: 50px!important;
+        width: 50px!important;
+    }
+    /* 前へ次への矢印カスタマイズ */
+    
+    .swiper-button-prev:after,
+    .swiper-button-next:after {
+        font-family: ''!important;
+        background-repeat: no-repeat;
+        background-size: contain;
+        content: "";
+        height: 50px;
+        margin: auto;
+        width: 50px;
+    }
+    /* 前への矢印カスタマイズ */
+    
+    .swiper-button-prev:after {
+        transform: rotate(180deg);
+        background-image: url(/wp-content/themes/muse_template/assets/img/icon/arrow_img.png);
+    }
+    /* 次への矢印カスタマイズ */
+    
+    .swiper-button-next:after {
+        background-image: url(/wp-content/themes/muse_template/assets/img/icon/arrow_img.png);
+    }
+    /* 画像サイズ調整 */
+    
+    .swiper-slide img {
+        height: auto;
+        width: 100%;
+    }
