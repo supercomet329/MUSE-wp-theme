@@ -49,8 +49,8 @@ if (!$dp_options) $dp_options = get_design_plus_option();
 <div class="PC-right">
 	<div class="search_main">
 		<div class="search_box">
-			<form action="#" method="get">
-				<input type="text" placeholder="キーワード検索">
+			<form action="<?php echo get_tcd_membership_memberpage_url('post_search'); ?>" method="POST">
+				<input name="search" type="text" placeholder="キーワード検索">
 				<input type="hidden" name="f" value="A" />
 			</form>
 		</div>
