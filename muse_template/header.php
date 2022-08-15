@@ -34,6 +34,22 @@ if (isset($_GET['memberpage']) && isset($_GET['request_id']) && $_GET['memberpag
     $ogp_url       = home_url() . '?memberpage=confirm_request&request_id=' . $post_id;
     $ogp_image     = get_post_meta($post_id, 'main_image', true);
 }
+
+$getParams = '?picuture_mode=normal';
+$viewMode  = '';
+if (isset($_GET['picuture_mode'])) {
+    $viewMode = $_GET['picuture_mode'];
+} else {
+    if (isset($_COOKIE['muse_picuture_mode'])) {
+        $viewMode = $_COOKIE['muse_picuture_mode'];
+    }
+}
+
+if ($viewMode === 'picture') {
+    $getParams = '?picuture_mode=normal';
+} else {
+    $getParams = '?picuture_mode=picture';
+}
 ?>
 <!doctype html>
 <html lang="ja">
@@ -74,6 +90,9 @@ if (isset($_GET['memberpage']) && isset($_GET['request_id']) && $_GET['memberpag
     <!-- cropper.css -->
     <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/assets/css/cropper.min.css">
 
+    <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Round|Material+Icons+Sharp|Material+Icons+Two+Tone" rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+
     <?php
     $json = [];
     $json['ajax_url'] = home_url('/') . "wp-admin/admin-ajax.php";
@@ -90,32 +109,16 @@ if (isset($_GET['memberpage']) && isset($_GET['request_id']) && $_GET['memberpag
 
 <body <?php body_class(); ?>>
     <div class="orver-lay"></div>
-    <header>
-        <nav class="navbar navbar-light bg-light">
-            <?php
-            $getParams = '?picuture_mode=normal';
-            $viewMode  = '';
-            if (isset($_GET['picuture_mode'])) {
-                $viewMode = $_GET['picuture_mode'];
-            } else {
-                if (isset($_COOKIE['muse_picuture_mode'])) {
-                    $viewMode = $_COOKIE['muse_picuture_mode'];
-                }
-            }
 
-            if ($viewMode === 'picture') {
-                $getParams = '?picuture_mode=normal';
-            } else {
-                $getParams = '?picuture_mode=picture';
-            }
-            ?>
+    <header class="popular_artist">
+        <nav class="navbar navbar-light bg-light">
             <div id="menu-container" class="d-block d-sm-none">
                 <div id="menu-wrapper">
                     <div id="hamburger-menu"><span></span><span></span><span></span></div>
                 </div>
             </div>
             <a href="<?php echo $url; ?>" class="d-none d-sm-block"><img src="<?php echo $profile_image; ?>" alt="profile" class="rounded-circle"></a>
-            <a href="/"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/logo.png" alt="logo"></a>
+            <a href="/"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/logo.png" alt="logo" class="logo-sp"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/logo-pc.png" alt="logo" class="logo-pc"></a>
             <div class="d-none d-sm-block">
                 <a href="/<?php echo $getParams; ?>">
                     <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/picture_blue.png" alt="change" data-toggle="modal" class="change-logo">

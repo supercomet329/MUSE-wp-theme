@@ -1,6 +1,6 @@
     header img {
-        width: 100px;
-        height: 100px;
+
+        height: 50px;
     }
     
     header .change-logo {
@@ -159,7 +159,21 @@
         height: 100px;
         border: 1px solid rgba(0, 0, 0, .125)
     }
-    
+ 
+    .profile-icon-trande {
+        width: 40px;
+        height: 40px;
+        border: 1px solid rgba(0, 0, 0, .125)
+    }
+
+    .text-area-trande {
+        font-weight: bold;
+        color: black;
+        font-size: 12px;
+        margin-left: 10px;
+        margin-top: 10px;
+    }
+
     @media only screen and (max-width: 1024px) {
         .list-area .profile-icon {
             width: 50px;
@@ -243,8 +257,8 @@
     }
     
     .tweet-area .profile-icon {
-        width: 100px;
-        height: 100px;
+        width: 50px;
+        height: 50px;
     }
     
     .item-text {
@@ -302,8 +316,8 @@
     }
     
     ul.horizontal-list li.item img {
-        width: 100px;
-        height: 100px;
+        width: 50px;
+        height: 50px;
     }
     
     .tab-area {
@@ -337,11 +351,12 @@
     }
     
     .logo-area img {
-        width: 80px;
-        height: 80px;
+        width: 40px;
+        height: 40px;
     }
     
     .logo-area {
+        margin: 10px 0;
         padding-left: 15px;
     }
     
@@ -815,7 +830,7 @@
         left: 20%;
         width: 60% !important;
         resize: none;
-        opacity: 0.8;
+		opacity: 0.8;
     }
     
     .message-create .icon-area .camera {
@@ -1114,7 +1129,6 @@
             border-bottom: solid 2px #3c7fc3;
         }
         header img {
-            width: 50px;
             height: 50px;
         }
         header .change-logo {
@@ -1330,7 +1344,6 @@
                 border-bottom: solid 2px #3c7fc3;
             }
             header img {
-                width: 50px;
                 height: 50px;
             }
             header .change-logo {
@@ -1577,7 +1590,7 @@
                 bottom: 60px;
                 left: 6.5%;
                 width: 75% !important;
-                padding: 10px;
+				padding: 10px;
             }
             .message-create .icon-area .camera {
                 position: fixed;
@@ -2016,28 +2029,24 @@
             border-radius: 300px;
             border: none;
             background-color: #1D9BF0;
-            height: 45px;
-            width: 300px;
+            height: 25px;
+            width: 95%;
             color: #ffffff;
             font-size: 16px;
         }
         /* Twitterアイコン */
-        .sns-icon {
-            height: 90% !important;
-            width: 90% !important;
-            margin-top: 2px;
-        }
-        .twitter-login-text {
-            margin-top: 5px;
-            margin-left: -5px;
+        .twitter-icon {
+            height: 24px;
+            width: 24px;
+            margin-top: -4px;
         }
         /* Googleでログインする */
         .google-btn {
             border-radius: 300px;
             border: none;
             background-color: #ffffff;
-            height: 40px;
-            width: 300px;
+            height: 25px;
+            width: 95%;
             color: #616161;
             font-size: 16px;
             border: 1px solid #616161;
@@ -2157,7 +2166,7 @@
         /* 作品依頼　入力項目タイトル */
         .request-input-title {
             margin-top: 5px;
-            margin-bottom: 10px;
+            margin-bottom: -10px;
         }
         /* 作品依頼　画像ファイル選択 */
         .request-file {
@@ -2330,28 +2339,10 @@
             /* margin-top: 5px; */
             /* padding: 10px 0; */
         }
-        .sub_post-file {
-            position: relative;
-            border: solid 2px #e7e7e7;
-            border-radius: 10px;
-            width: 100%;
-            height: 100px;
-            cursor: pointer;
-            /* margin-top: 5px; */
-            /* padding: 10px 0; */
-        }
         .post-file .cover-img {
             z-index: 0;
             width: 100%;
             height: auto;
-            object-fit: cover;
-            border: solid 2px #e7e7e7;
-            border-radius: 10px;
-        }
-        .sub_post-file .sub-cover-img {
-            z-index: 0;
-            width: 120px;
-            height: 100%;
             object-fit: cover;
             border: solid 2px #e7e7e7;
             border-radius: 10px;
@@ -2524,7 +2515,7 @@
         }
         .timeline-image .slid-img .swiper-slide img {
             display: block;
-            width: auto;
+            width: 370px;
             height: auto;
             max-width: 100%;
             max-height: 100%;
@@ -2730,51 +2721,211 @@
             height: 85px;
         }
     }
-    /* メニューもっと見るCSS */
-    
-    .menu-list label {
-        display: block;
-        margin: 0 0 4px 0;
-        padding: 5px 15px 5px 15px;
-        line-height: 1;
-        color: #fff;
-        cursor: pointer;
-    }
-    
-    .menu-list input {
-        display: none;
-    }
-    
-    .menu-list #links01 li {
-        height: 0;
-        overflow: hidden;
-        -webkit-transition: all 0.5s;
-        -moz-transition: all 0.5s;
-        -ms-transition: all 0.5s;
-        -o-transition: all 0.5s;
-        transition: all 0.5s;
-        line-height: 20px;
-        margin-left: -20px;
-    }
-    
-    .more_text::after {
-        content: "　▼";
-    }
-    
-    .more_text.active::after {
-        content: "　▲";
-    }
-    
-    #menu_bar01:checked~#links01 li {
-        height: 22px;
-        margin-left: -20px;
-        opacity: 1;
-    }
-    
-    #links01 {
-        margin-left: -20px;
-    }
-    
-    .more_menu {
-        margin-left: 10px;
-    }
+
+/* メニューもっと見るCSS */
+
+.menu-list label{
+    display: block;
+    margin: 0 0 4px 0;
+    padding : 5px 15px 5px 15px;
+    line-height: 1;
+    color :#fff;
+    cursor :pointer;
+}	
+	
+.menu-list input {
+    display: none;
+}
+	
+	
+.menu-list #links01 li {
+    height: 0;
+    overflow: hidden;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -ms-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    transition: all 0.5s;
+	line-height: 20px;
+	margin-left: -20px;
+}	
+
+.more_text::after{
+	content: "　▼";
+}	
+
+.more_text.active::after{
+	content: "　▲";
+}	
+	
+#menu_bar01:checked ~ #links01 li {
+    height: 22px;
+	margin-left: -20px;
+    opacity: 1;
+}
+
+#links01{
+	margin-left: -20px;
+}	
+	
+.more_menu{
+	margin-left: 10px;
+	}
+
+.material-icons-outlined{
+	font-size: 16px!important;
+	margin: 0px 10px 0px 0px!important;
+	display: inline-block!important;
+	vertical-align: -2px;
+}
+
+/* PC版CSS */
+
+.PC-menu{
+	padding-top: 10px;
+	display: block;
+    padding-left: 0;
+	width: 250px;	
+    max-width: 450px;
+    background: #3c7fc3;
+    z-index: 999;
+    height: calc(100vh);
+	color: #FFFFFF;
+}
+
+.PC-menu li a{
+	color: #FFFFFF;
+}
+
+footer{
+	display: none!important;
+}
+
+.pc-left{
+	float: left;
+	width: 250px;	
+}
+
+.pc-center{
+	position: absolute;
+    left: 280px;
+    right: 280px;
+
+}
+
+.PC-right{
+	float: right;
+	width: 260px;
+	margin-left: 20px;
+}
+
+.search_main{
+	width: 260px;
+	margin: 10px 0px 10px 0px;
+}
+
+.search_box {
+	display: inline-block; /* なくても大丈夫だけど、念の為 */
+	position: relative;    /* 基準値とする */
+	width: 260px;
+}
+
+.search_box::before {
+	font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: "\f002";
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    left: 25px;
+    color: #cacaca;
+    font-size: 16px;
+}
+
+.search_box input[type="text"] {
+	height: 35px;
+	width: 100%;
+	-moz-box-sizing: border-box;
+  	-webkit-box-sizing: border-box;
+  	box-sizing: border-box;
+	border-radius: 30px;
+	font-size: 12px;
+	padding: 0 0 0 60px;
+	border: 1px solid #EFEFEF;
+	margin: 0px auto 0px auto;
+	background-color: #F5F5F5;
+}
+.trande-art-area{
+	padding: 10px;
+	background-color: #F5F5F5;	
+}
+
+.trande-art-area-title{
+	font-weight: bold;
+	color:  #3c7fc3;
+	font-size: 20px;
+}
+
+.trande-art-area-in{
+	padding: 10px;
+	color:  #3c7fc3;
+	margin-bottom: 10px;
+}
+
+.trande-art-area-price{
+	font-weight: bold;
+	text-align: right;
+	color:  #3c7fc3;
+	margin: 0px;
+	font-size: 14px;
+}
+
+.comment-right{
+	text-align: right;
+}
+
+.logo-pc{
+	display: block;
+}
+
+.logo-sp{
+	display: none;	
+}
+
+
+@media screen and (max-width: 576px) {
+.pc-left{
+	display: none;
+}
+
+.pc-center{
+	float: none;
+	width: 100%;
+	margin-left: 0px;
+    left: 0px;
+    right: 0px;
+}	
+
+.PC-right{
+	display: none;
+}
+	
+	
+footer{
+	display: block!important;
+}
+
+.comment-right{
+	text-align: right;
+}
+.logo-pc{
+	display: none;	
+}
+
+.logo-sp{
+	display: block;
+}	
+	
+}
+        
