@@ -128,29 +128,48 @@ if ($viewMode === 'picture') {
         </nav>
     </header>
 
+    <div class="pc-left">
+        <ul class="PC-menu">
+            <li class="my-3"><a href="/" class="py-0 pl-4"><span class="material-icons-outlined">home</span><span>ホーム</span></a></li>
+            <li class="toggle accordion-toggle side_mar my-3 "><a href="<?php echo esc_url(get_tcd_membership_memberpage_url('ranking')) ?>" class="py-0 pl-4"><span class="material-icons-outlined">star_border</span><span>ランキング</span></a></li>
+            <li class="toggle accordion-toggle side_mar my-3"><a href="<?php echo $url; ?>" class="py-0 pl-4"><span class="material-icons-outlined">person_outline</span><span>プロフィール</span></a></li>
+            <li class="toggle accordion-toggle side_mar my-3"><a href="#" class="py-0 pl-4"><span class="material-icons-outlined">color_lens</span><span>NFT売買</span></a></li>
+            <li class="toggle accordion-toggle side_mar my-3"><a href="#" class="py-0 pl-4"><span class="material-icons-outlined">category</span><span>NFTコレクション</span></a></li>
+            <li class="toggle accordion-toggle side_mar my-3"><a href="<?php echo esc_url(get_tcd_membership_memberpage_url('notification')); ?>" class="py-0 pl-4"><span class="material-icons-outlined">notifications</span><span>通知</span></a></li>
+            <li class="toggle accordion-toggle side_mar my-3"><a href="<?php echo esc_url(get_tcd_membership_memberpage_url('list_message')); ?>" class="py-0 pl-4"><span class="material-icons-outlined">mail_outline</span><span>メッセージ</span></a></li>
+            <li class="toggle accordion-toggle side_mar my-3"><a href="<?php echo esc_attr(get_tcd_membership_memberpage_url('list_received')); ?>" class="py-0 pl-4"><span class="material-icons-outlined">list_alt</span><span>受注リクエスト</span></a></li>
+            <li class="toggle accordion-toggle side_mar my-3"><a href="/<?php echo $getParams; ?>" class="py-0 pl-4"><span class="material-icons-outlined">published_with_changes</span><span>表示変更</span></a></li>
+            <li class="toggle accordion-toggle side_mar my-3"><a href="<?php echo esc_attr(get_tcd_membership_memberpage_url('post_image')); ?>" class="py-0 pl-4"><span class="material-icons-outlined">post_add</span><span>投稿</span></a></li>
+            <li class="toggle accordion-toggle side_mar my-3"><a href="#" class="py-0 pl-4"><span class="material-icons-outlined">wallet</span><span>残高振込申請</span></a></li>
+            <li class="toggle accordion-toggle side_mar my-3"><a href="#" class="py-0 pl-4"><span class="material-icons-outlined">integration_instructions</span><span>ガイドライン</span></a></li>
+            <li class="toggle accordion-toggle side_mar my-3"><a href="#" class="py-0 pl-4"><span class="material-icons-outlined">local_atm</span><span>NFTについて</span></a></li>
+            <li class="toggle accordion-toggle side_mar my-3"><a href="#" class="py-0 pl-4"><span class="material-icons-outlined">copyright</span><span>著作権について</span></a></li>
+            <li class="toggle accordion-toggle side_mar my-3"><a href="<?php echo wp_logout_url(); ?>" class="py-0 pl-4"><span class="material-icons-outlined">logout</span><span>ログアウト</span></a></li>
+            <div class="side_down">&nbsp;</div>
+        </ul>
+    </div>
+
     <sidebar class="d-block d-sm-none">
         <ul class="menu-list accordion">
-            <li class="toggle accordion-toggle side_mar my-3"><a href="/" class="py-0 pl-4"><span>ホーム</span></a></li>
-            <li class="toggle accordion-toggle side_mar my-3"><a href="<?php echo esc_url(get_tcd_membership_memberpage_url('ranking')) ?>" class="py-0 pl-4"><span>ランキング</span></a></li>
-            <li class="toggle accordion-toggle side_mar my-3"><a href="<?php echo $url; ?>" class="py-0 pl-4"><span>プロフィール</span></a></li>
-            <li class="toggle accordion-toggle side_mar my-3"><a href="#" class="py-0 pl-4"><span>NFT売買</span></a></li>
-            <li class="toggle accordion-toggle side_mar my-3"><a href="#" class="py-0 pl-4"><span>NFTコレクション</span></a></li>
-            <!-- li class="toggle accordion-toggle side_mar my-3"><a href="#" class="py-0 pl-4"><span>ランキング</span></a></li -->
-            <li class="toggle accordion-toggle side_mar my-3"><a href="<?php echo esc_url(get_tcd_membership_memberpage_url('notification')); ?>" class="py-0 pl-4"><span>通知</span></a></li>
-            <li class="toggle accordion-toggle side_mar my-3"><a href="<?php echo esc_url(get_tcd_membership_memberpage_url('list_message')); ?>" class="py-0 pl-4"><span>メッセージ</span></a></li>
-            <li class="toggle accordion-toggle side_mar my-3"><a href="<?php echo esc_attr(get_tcd_membership_memberpage_url('list_received')); ?>" class="py-0 pl-4"><span>受注リクエスト</span></a></li>
-            <!-- li class="toggle accordion-toggle side_mar my-3"><a href="#" class="py-0 pl-4"><span>表示変更</span></a></li -->
-            <li class="toggle accordion-toggle side_mar my-3"><a href="/<?php echo $getParams; ?>" class="py-0 pl-4"><span>表示変更</span></a></li>
+            <li class="toggle accordion-toggle side_mar my-3"><a href="/" class="py-0 pl-4"><span class="material-icons-outlined">home</span><span>ホーム</span></a></li>
+            <li class="toggle accordion-toggle side_mar my-3"><a href="<?php echo esc_url(get_tcd_membership_memberpage_url('ranking')) ?>" class="py-0 pl-4"><span class="material-icons-outlined">star_border</span><span>ランキング</span></a></li>
+            <li class="toggle accordion-toggle side_mar my-3"><a href="<?php echo $url; ?>" class="py-0 pl-4"><span class="material-icons-outlined">person_outline</span><span>プロフィール</span></a></li>
+            <li class="toggle accordion-toggle side_mar my-3"><a href="#" class="py-0 pl-4"><span class="material-icons-outlined">color_lens</span><span>NFT売買</span></a></li>
+            <li class="toggle accordion-toggle side_mar my-3"><a href="#" class="py-0 pl-4"><span class="material-icons-outlined">category</span><span>NFTコレクション</span></a></li>
+            <li class="toggle accordion-toggle side_mar my-3"><a href="<?php echo esc_url(get_tcd_membership_memberpage_url('notification')); ?>" class="py-0 pl-4"><span class="material-icons-outlined">notifications</span><span>通知</span></a></li>
+            <li class="toggle accordion-toggle side_mar my-3"><a href="<?php echo esc_url(get_tcd_membership_memberpage_url('list_message')); ?>" class="py-0 pl-4"><span class="material-icons-outlined">mail_outline</span><span>メッセージ</span></a></li>
+            <li class="toggle accordion-toggle side_mar my-3"><a href="<?php echo esc_attr(get_tcd_membership_memberpage_url('list_received')); ?>" class="py-0 pl-4"><span class="material-icons-outlined">list_alt</span><span>受注リクエスト</span></a></li>
+            <li class="toggle accordion-toggle side_mar my-3"><a href="/<?php echo $getParams; ?>" class="py-0 pl-4"><span class="material-icons-outlined">published_with_changes</span><span>表示変更</span></a></li>
             <li class="toggle accordion-toggle side_mar my-3 more_menu">
-                <label for="menu_bar01"><span class="more_text">もっと見る</span></label>
+                <label for="menu_bar01"><span class="material-icons-outlined">more_horiz</span><span class="more_text">もっと見る</span></label>
                 <input type="checkbox" id="menu_bar01" />
                 <ul id="links01">
-                    <li class="toggle accordion-toggle side_mar my-3"><a href="<?php echo esc_attr(get_tcd_membership_memberpage_url('post_image')); ?>" class="py-0 pl-4"><span>投稿</span></a></li>
-                    <li class="toggle accordion-toggle side_mar my-3"><a href="#" class="py-0 pl-4"><span>残高振込申請</span></a></li>
-                    <li class="toggle accordion-toggle side_mar my-3"><a href="#" class="py-0 pl-4"><span>ガイドライン</span></a></li>
-                    <li class="toggle accordion-toggle side_mar my-3"><a href="#" class="py-0 pl-4"><span>NFTについて</span></a></li>
-                    <li class="toggle accordion-toggle side_mar my-3"><a href="#" class="py-0 pl-4"><span>著作権について</span></a></li>
-                    <li class="toggle accordion-toggle side_mar my-3"><a href="<?php echo wp_logout_url(); ?>" class="py-0 pl-4"><span>ログアウト</span></a></li>
+                    <li class="toggle accordion-toggle side_mar my-3"><a href="<?php echo esc_attr(get_tcd_membership_memberpage_url('post_image')); ?>" class="py-0 pl-4"><span class="material-icons-outlined">post_add</span><span>投稿</span></a></li>
+                    <li class="toggle accordion-toggle side_mar my-3"><a href="#" class="py-0 pl-4"><span class="material-icons-outlined">wallet</span><span>残高振込申請</span></a></li>
+                    <li class="toggle accordion-toggle side_mar my-3"><a href="#" class="py-0 pl-4"><span class="material-icons-outlined">integration_instructions</span><span>ガイドライン</span></a></li>
+                    <li class="toggle accordion-toggle side_mar my-3"><a href="#" class="py-0 pl-4"><span class="material-icons-outlined">local_atm</span><span>NFTについて</span></a></li>
+                    <li class="toggle accordion-toggle side_mar my-3"><a href="#" class="py-0 pl-4"><span class="material-icons-outlined">copyright</span><span>著作権について</span></a></li>
+                    <li class="toggle accordion-toggle side_mar my-3"><a href="<?php echo wp_logout_url(); ?>" class="py-0 pl-4"><span class="material-icons-outlined">logout</span><span>ログアウト</span></a></li>
                 </ul>
             </li>
             <div class="side_down">&nbsp;</div>
