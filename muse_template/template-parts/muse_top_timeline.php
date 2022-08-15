@@ -90,6 +90,8 @@
                         <?php }
                         /** endforeach */ ?>
                     </div>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
                 </div>
                 <div class="swiper slid-list swiperlist">
                     <div class="swiper-wrapper">
@@ -142,7 +144,40 @@
         } else {
             // リクエストの表示
         ?>
+            <div class="col-12 pt-1">
+                <ul class="tweet-area">
+                    <li class="d-flex align-items-start">
+                        <figure>
+                            <a href="<?php echo get_tcd_membership_memberpage_url('profile'); ?>&user_id=<?php echo esc_attr($oneTimeline->user_id); ?>">
+                                <img src="<?php echo esc_url($profileImage); ?>" class="rounded-circle profile-icon">
+                            </a>
+                        </figure>
+                        <div class="text-area">
+                            <a href="<?php echo get_tcd_membership_memberpage_url('profile'); ?>&user_id=<?php echo esc_attr($oneTimeline->user_id); ?>">
+                                <span><?php echo esc_attr($oneTimeline->display_name); ?></span><br>
+                            </a>
+                            <span class="post-time"><?php echo esc_attr($dateClass->format('Y/m/d H:i')); ?></span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
 
+            <div class="timeline-image">
+                <div class="slid-img swiper swipertum">
+                    <div class="swiper-wrapper d-flex align-items-center">
+                        <div class="swiper-slide">
+                            <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('confirm_request')); ?>&request_id=<?php echo esc_attr($oneTimeline->post_id); ?>">
+                                <?php echo esc_attr($oneTimeline->post_title); ?>の依頼が完了しました。
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="swiper slid-list swiperlist">
+                    <div class="swiper-wrapper">
+                    </div>
+                </div>
+            </div>
         <?php }
         /** endif **/ ?>
     <?php
