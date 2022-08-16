@@ -39,6 +39,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
 
         case 'registration':
             // 仮登録の対応
+            $response = muse_api_temporary_registration($params);
             break;
 
         case 'profile':

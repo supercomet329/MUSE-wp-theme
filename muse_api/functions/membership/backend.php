@@ -288,8 +288,13 @@ function tcd_membership_mail( $mail_type, $mailto = null, $replaces = array() ) 
 
 	switch ( $mail_type ) {
 		case 'registration' :
-			$subject = $dp_options['membership']['mail_registration_subject'];
-			$body = $dp_options['membership']['mail_registration_body'];
+			$subject = '【[blog_name]】仮登録完了';
+			$body = "[user_email]様\n\n
+※このメールは[blog_name]新規登録手続きをされた方に配信しています。\n\n
+[blog_name]仮登録が完了しました。\n\n
+以下のURLに24時間以内にアクセスし、本登録手続きを進めてください。\n
+[registration_account_url]
+			";
 			break;
 
 		case 'registration_account' :
