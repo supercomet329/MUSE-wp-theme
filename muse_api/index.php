@@ -1,6 +1,6 @@
 <?php
 global $dp_options;
-if ( ! $dp_options ) $dp_options = get_design_plus_option();
+if (!$dp_options) $dp_options = get_design_plus_option();
 
 $post_json = file_get_contents('php://input');
 $params    = json_decode($post_json, true);
@@ -149,6 +149,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
             // フォロワー一覧取得
             // アクセストークン必須
             $response = api_get_followers($params);
+            break;
 
         case 'like':
             // いいね登録/更新
@@ -158,6 +159,11 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
         case 'keep':
             // キープ登録/更新
             // アクセストークン必須
+            break;
+
+        case 'password_reset':
+            // パスワードリセット
+            $response = muse_api_reset_password($params);
             break;
 
         default:
