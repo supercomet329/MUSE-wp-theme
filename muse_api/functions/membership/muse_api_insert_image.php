@@ -126,50 +126,55 @@ function muse_api_insert_image($params)
             $selectAuction = $params['selectAuction'];
             if ($selectAuction === 'Auction') {
 
-                $auctionStartDate = $params['auctionStartDate'];
-                if ($auctionStartDate === 'specify') {
-                    // オークションの場合
-                    $auctionDateUnix = false;
-                    if (
-                        !isset($params['auctionDateY']) || empty($params['auctionDateY']) ||
-                        !isset($params['auctionDateM']) || empty($params['auctionDateM']) ||
-                        !isset($params['auctionDateD']) || empty($params['auctionDateD']) ||
-                        !isset($params['auctionDateH']) || empty($params['auctionDateH']) ||
-                        !isset($params['auctionDateMin']) || empty($params['auctionDateMin'])
-                    ) {
-                        $response[] = 'オークション開始日時を入力してください';
-                    } else {
-                        $auctionDate = $params['auctionDateY'] . '-' . str_pad($params['auctionDateM'], 2, "0", STR_PAD_LEFT)  . '-' . str_pad($params['auctionDateD'], 2, "0", STR_PAD_LEFT) . ' ' . str_pad($params['auctionDateH'], 2, "0", STR_PAD_LEFT) . ':' . str_pad($params['auctionDateMin'], 2, "0", STR_PAD_LEFT) . ':00';
-
-                        $auctionDateClass = new DateTime($auctionDate);
-                        $auctionDateUnix = $auctionDateClass->format('U');
-                        if (!validate_date($auctionDate)) {
+                if (!isset($params['auctionStartDate']) || empty($params['auctionStartDate'])) {
+                    return $params;
+                    $response[] = 'オークションのタイプの選択を御願い致します。';
+                } else {
+                    $auctionStartDate = $params['auctionStartDate'];
+                    if ($auctionStartDate === 'specify') {
+                        // オークションの場合
+                        $auctionDateUnix = false;
+                        if (
+                            !isset($params['auctionDateY']) || empty($params['auctionDateY']) ||
+                            !isset($params['auctionDateM']) || empty($params['auctionDateM']) ||
+                            !isset($params['auctionDateD']) || empty($params['auctionDateD']) ||
+                            !isset($params['auctionDateH']) || empty($params['auctionDateH']) ||
+                            !isset($params['auctionDateMin']) || empty($params['auctionDateMin'])
+                        ) {
                             $response[] = 'オークション開始日時を入力してください';
+                        } else {
+                            $auctionDate = $params['auctionDateY'] . '-' . str_pad($params['auctionDateM'], 2, "0", STR_PAD_LEFT)  . '-' . str_pad($params['auctionDateD'], 2, "0", STR_PAD_LEFT) . ' ' . str_pad($params['auctionDateH'], 2, "0", STR_PAD_LEFT) . ':' . str_pad($params['auctionDateMin'], 2, "0", STR_PAD_LEFT) . ':00';
+
+                            $auctionDateClass = new DateTime($auctionDate);
+                            $auctionDateUnix = $auctionDateClass->format('U');
+                            if (!validate_date($auctionDate)) {
+                                $response[] = 'オークション開始日時を入力してください';
+                            }
                         }
-                    }
 
-                    $auctionEndDateUnix = false;
-                    if (
-                        !isset($params['auctionEndDateY']) || empty($params['auctionEndDateY']) ||
-                        !isset($params['auctionEndDateM']) || empty($params['auctionEndDateM']) ||
-                        !isset($params['auctionEndDateD']) || empty($params['auctionEndDateD']) ||
-                        !isset($params['auctionEndDateH']) || empty($params['auctionEndDateH']) ||
-                        !isset($params['auctionEndDateMin']) || empty($params['auctionEndDateMin'])
-                    ) {
+                        $auctionEndDateUnix = false;
+                        if (
+                            !isset($params['auctionEndDateY']) || empty($params['auctionEndDateY']) ||
+                            !isset($params['auctionEndDateM']) || empty($params['auctionEndDateM']) ||
+                            !isset($params['auctionEndDateD']) || empty($params['auctionEndDateD']) ||
+                            !isset($params['auctionEndDateH']) || empty($params['auctionEndDateH']) ||
+                            !isset($params['auctionEndDateMin']) || empty($params['auctionEndDateMin'])
+                        ) {
 
-                        $response[] = 'オークション終了日時を入力してください';
-                    } else {
-                        $auctionEndDate = $params['auctionEndDateY'] . '-' . str_pad($params['auctionEndDateM'], 2, "0", STR_PAD_LEFT)  . '-' . str_pad($params['auctionEndDateD'], 2, "0", STR_PAD_LEFT) . ' ' . str_pad($params['auctionEndDateH'], 2, "0", STR_PAD_LEFT) . ':' . str_pad($params['auctionEndDateMin'], 2, "0", STR_PAD_LEFT) . ':00';
-                        $auctionEndDateClass = new DateTime($auctionEndDate);
-                        $auctionEndDateUnix = $auctionEndDateClass->format('U');
-                        if (!validate_date($auctionEndDate)) {
                             $response[] = 'オークション終了日時を入力してください';
+                        } else {
+                            $auctionEndDate = $params['auctionEndDateY'] . '-' . str_pad($params['auctionEndDateM'], 2, "0", STR_PAD_LEFT)  . '-' . str_pad($params['auctionEndDateD'], 2, "0", STR_PAD_LEFT) . ' ' . str_pad($params['auctionEndDateH'], 2, "0", STR_PAD_LEFT) . ':' . str_pad($params['auctionEndDateMin'], 2, "0", STR_PAD_LEFT) . ':00';
+                            $auctionEndDateClass = new DateTime($auctionEndDate);
+                            $auctionEndDateUnix = $auctionEndDateClass->format('U');
+                            if (!validate_date($auctionEndDate)) {
+                                $response[] = 'オークション終了日時を入力してください';
+                            }
                         }
-                    }
 
-                    if ($auctionDateUnix && $auctionEndDateUnix) {
-                        if ($auctionDateUnix > $auctionEndDateUnix) {
-                            $response[] = 'オークション日時の御確認を御願い致します。';
+                        if ($auctionDateUnix && $auctionEndDateUnix) {
+                            if ($auctionDateUnix > $auctionEndDateUnix) {
+                                $response[] = 'オークション日時の御確認を御願い致します。';
+                            }
                         }
                     }
                 }
