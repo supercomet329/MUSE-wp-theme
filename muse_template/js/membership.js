@@ -865,6 +865,8 @@ jQuery(function($) {
             html += '</div>';
             html += '</div>';
             html += '</div>';
+            // 20220816 使用しないので空メッセージを出力するようにする。
+            var html = '';
             $modalAlert = $(html).appendTo('body');
         }
 
