@@ -308,8 +308,14 @@ function tcd_membership_mail( $mail_type, $mailto = null, $replaces = array() ) 
 			break;
 
 		case 'reset_password' :
-			$subject = $dp_options['membership']['mail_reset_password_subject'];
-			$body = $dp_options['membership']['mail_reset_password_body'];
+			$subject = '【[blog_name]】パスワード再発行のご案内';
+			$mailBody = "[user_display_name]様\n\n
+[blog_name]をご利用頂き、誠にありがとうございます。\n
+以下のURLに24時間以内にアクセスし、新しいパスワードを設定してください。\n
+[reset_password_url]\n\n
+今後とも[blog_name]をよろしくお願いいたします。
+			";
+			$body = $mailBody;
 			break;
 
 		case 'withdraw' :

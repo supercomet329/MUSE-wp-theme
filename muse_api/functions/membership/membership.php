@@ -104,6 +104,7 @@ get_template_part('functions/membership/keep');
 get_template_part('functions/membership/notification');
 get_template_part('functions/membership/post_image');
 get_template_part('functions/membership/muse_api_temporary_registration');
+get_template_part('functions/membership/muse_api_reset_password');
 
 // load options
 global $dp_options;

@@ -20,6 +20,13 @@ function muse_api_temporary_registration($params)
 
         // メールアドレスからユーザーが存在しないか?チェック
         if (count($response) <= 0) {
+            if (!is_email($params['mail_address'])) {
+                $response[] = 'メールアドレスを正しく入力して下さい。';
+            }
+        }
+
+        if (count($response) <= 0) {
+
             if (email_exists($params['mail_address'])) {
                 // 登録済のメールアドレスの場合
                 $response[] = '登録済のメールアドレスです。';
@@ -42,10 +49,10 @@ function muse_api_temporary_registration($params)
             $registration_account_url = add_query_arg('token', rawurlencode($registration_token), get_tcd_membership_memberpage_url('registration_account'));
 
             // メタ保存
-            update_tcd_membership_action_meta( $action_id, 'registration_email', $params['mail_address'] );
-            update_tcd_membership_action_meta( $action_id, 'registration_password', substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 8) );
-            update_tcd_membership_action_meta( $action_id, 'registration_token', $registration_token );
-            update_tcd_membership_action_meta( $action_id, 'registration_expire', current_time( 'timestamp', true ) + DAY_IN_SECONDS );
+            update_tcd_membership_action_meta($action_id, 'registration_email', $params['mail_address']);
+            update_tcd_membership_action_meta($action_id, 'registration_password', substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 8));
+            update_tcd_membership_action_meta($action_id, 'registration_token', $registration_token);
+            update_tcd_membership_action_meta($action_id, 'registration_expire', current_time('timestamp', true) + DAY_IN_SECONDS);
 
             // メール送信
             $replaces = [
