@@ -96,6 +96,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
         case 'insert_post':
             // 画像登録
             // アクセストークン必須
+            $response = muse_api_insert_image($params);
             break;
 
         case 'list_notification':

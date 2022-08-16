@@ -1299,3 +1299,25 @@ function tcd_membership_disable_autoembed_callback($matches, $attr, $url, $rawat
 {
 	return '<a href="' . esc_attr($matches[0]) . '" target="_blank">' . esc_html($matches[0]) . '</a>';
 }
+
+/**
+ * APIの場合のURLの置き換え
+ * @return string
+ */
+function muse_modify_template_directory_uri()
+{
+    $uri = get_template_directory_uri();
+    $uri = str_replace('api/', '', $uri);
+    $uri = str_replace('/muse_api', '', $uri);
+    return $uri . '/muse_template/';
+}
+
+/**
+ * アップロード先のディレクトリ
+ *
+ * @return void
+ */
+function muse_modify_template_directory_upload_dir()
+{
+	return __DIR__ . '/../../../muse_template/upload_file/';
+}
