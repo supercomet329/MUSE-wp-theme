@@ -93,6 +93,7 @@ if (!$dp_options) $dp_options = get_design_plus_option();
 		</div>
 	</div>
 </div>
+</div>
 </body>
 <!-- Optional JavaScript -->
 <!-- Bootstrap JS -->

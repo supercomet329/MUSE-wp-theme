@@ -355,7 +355,7 @@
     }
     
     .logo-area {
-        margin: 10px 0;
+        margin: 0px;
         padding-left: 15px;
     }
     
@@ -2772,8 +2772,14 @@
         display: inline-block!important;
         vertical-align: -2px;
     }
+
     /* PC版CSS */
-    
+	.wrap{
+		width: 1200px;
+		margin: 0px auto;
+	}    
+
+
     .PC-menu {
         padding-top: 10px;
         display: block;
@@ -2797,14 +2803,17 @@
     .pc-left {
         float: left;
         width: 250px;
+		margin-left: 0px;
     }
     
     .pc-center {
-        position: absolute;
+        float: left;
         left: 280px;
         right: 280px;
+		max-width: 640px;
+		margin-left: 20px;
     }
-    
+ 
     .PC-right {
         float: right;
         width: 260px;
@@ -2887,8 +2896,32 @@
     .logo-sp {
         display: none;
     }
-    
+
+	.timeline-inarea{
+		border: 1px solid #DCDCDC;
+		padding: 5px;
+		margin: 0px 5px 20px;
+	}
+
+
+    @media screen and (max-width: 970px) {
+		.wrap{
+			width: 970px;
+			margin: 0px;
+		}   		
+		
+        .PC-right {
+            display: none;
+        }		
+}
+
+
     @media screen and (max-width: 576px) {
+		.wrap{
+			width: 100%;
+			margin: 0px;
+		}    		
+		
         .pc-left {
             display: none;
         }
@@ -2899,9 +2932,8 @@
             left: 0px;
             right: 0px;
         }
-        .PC-right {
-            display: none;
-        }
+	
+
         footer {
             display: block!important;
         }
