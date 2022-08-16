@@ -402,6 +402,9 @@ function get_tcd_membership_memberpage_url($type, $add_query_key = null, $add_qu
 		$url = add_query_arg($add_query_key, $add_query_value, $url);
 	}
 
+	// ADD 20220816 by H.Okabe
+	// URLからapiを削除する
+	$url = str_replace('api/', '', $url);
 	return $url;
 }
 
@@ -578,3 +581,4 @@ function the_tcd_membership_member_menu($user = null)
 <?php
 	endif;
 }
+
