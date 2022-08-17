@@ -830,7 +830,7 @@ function list_author_post($target_user_id = NULL, $list_type = 'photo')
 			$date = new DateTime($birthday);
 			$now = new DateTime();
 			$interval = $now->diff($date);
-			if(18 <= $interval->y) {
+			if (18 <= $interval->y) {
 				$r18_sql = '';
 			}
 		}
@@ -1306,10 +1306,10 @@ function tcd_membership_disable_autoembed_callback($matches, $attr, $url, $rawat
  */
 function muse_modify_template_directory_uri()
 {
-    $uri = get_template_directory_uri();
-    $uri = str_replace('api/', '', $uri);
-    $uri = str_replace('/muse_api', '', $uri);
-    return $uri . '/muse_template/';
+	$uri = get_template_directory_uri();
+	$uri = str_replace('api/', '', $uri);
+	$uri = str_replace('/muse_api', '', $uri);
+	return $uri . '/muse_template/';
 }
 
 /**
@@ -1320,4 +1320,145 @@ function muse_modify_template_directory_uri()
 function muse_modify_template_directory_upload_dir()
 {
 	return __DIR__ . '/../../../muse_template/upload_file/';
+}
+
+function get_post_by_post_id($post_id)
+{
+	global $wpdb;
+
+	$sql = '';
+	$sql .= 'SELECT * ';
+	$sql .= ' FROM wp_posts ';
+	$sql .= ' WHERE  ';
+	$sql .= ' ID = %d ';
+
+	$prepare = [];
+	$prepare[] = $post_id;
+
+	$result_sql = $wpdb->prepare($sql, $prepare);
+	return $wpdb->get_results($result_sql);
+}
+
+/**
+ * 投稿画像の取得
+ *
+ * @param int $post_id
+ * @return void
+ */
+function getPostDataByPostIdAndOnlyPhoto($post_id)
+{
+	global $wpdb;
+
+	$sql = '';
+	$sql .= 'SELECT ';
+	$sql .= ' wp_p.ID AS post_id ';
+	$sql .= ' ,wp_p.post_type AS post_type ';
+	$sql .= ' ,wp_main_image1.meta_value AS main_image1 ';
+	$sql .= ' ,wp_main_image2.meta_value AS main_image2 ';
+	$sql .= ' ,wp_main_image3.meta_value AS main_image3 ';
+	$sql .= ' ,wp_main_image4.meta_value AS main_image4 ';
+
+	$sql .= ' FROM wp_posts AS wp_p';
+	$sql .= ' INNER JOIN wp_postmeta AS wp_main_image1 ';
+	$sql .= ' ON wp_p.ID = wp_main_image1.post_id ';
+	$sql .= ' AND ';
+	$sql .= ' wp_main_image1.meta_key = %s ';
+
+	$sql .= ' LEFT JOIN wp_postmeta AS wp_main_image2 ';
+	$sql .= ' ON wp_p.ID = wp_main_image2.post_id ';
+	$sql .= ' AND ';
+	$sql .= ' wp_main_image2.meta_key = %s ';
+
+	$sql .= ' LEFT JOIN wp_postmeta AS wp_main_image3 ';
+	$sql .= ' ON wp_p.ID = wp_main_image3.post_id ';
+	$sql .= ' AND ';
+	$sql .= ' wp_main_image3.meta_key = %s ';
+
+	$sql .= ' LEFT JOIN wp_postmeta AS wp_main_image4 ';
+	$sql .= ' ON wp_p.ID = wp_main_image4.post_id ';
+	$sql .= ' AND ';
+	$sql .= ' wp_main_image4.meta_key = %s ';
+
+	$sql .= ' WHERE ';
+	$sql .= ' wp_p.ID = %d ';
+	$sql .= ' AND ';
+	$sql .= ' wp_p.post_status = %d ';
+	$sql .= ' GROUP BY wp_p.ID ';
+
+	$prepare = [];
+	$prepare[] = 'main_image';
+	$prepare[] = 'main_image2';
+	$prepare[] = 'main_image3';
+	$prepare[] = 'main_image4';
+	$prepare[] = $post_id;
+	$prepare[] = 'publish';
+	$result_sql = $wpdb->prepare($sql, $prepare);
+	return $wpdb->get_results($result_sql);
+}
+
+/**
+ * 投稿のコメントを取得して一覧を生成
+ *
+ * @param int $post_id
+ * @return array
+ */
+function muse_list_comment($post_id)
+{
+	$row_comment = get_list_comment($post_id);
+
+	$list_comment = [];
+	foreach ($row_comment as $one_comment) {
+
+		if ((int)$one_comment->user_id <= 0) {
+			// ユーザーIDが0の場合落とす
+			continue;
+		}
+
+		$comment = [];
+
+		// ユーザーアイコンの取得
+		$profileImageData  = get_user_meta($one_comment->user_id, 'profile_image', true);
+		$profile_image     = get_template_directory_uri() . '/assets/img/icon/non_profile_image.png';
+		if (!empty($profileImageData)) {
+			$profile_image = $profileImageData;
+		}
+		$comment['profile_icon'] = $profile_image;
+
+		$user = get_userdata($one_comment->user_id);
+		// ユーザーネームの取得
+		$comment['display_name'] = $user->data->display_name;
+
+		// コメントの取得
+		$comment['comment'] = $one_comment->comment_content;
+
+		// コメント投稿日時の取得
+		$dateClass = new DateTime($one_comment->comment_date);
+		$dateClass->setTimezone(new DateTimeZone('Asia/Tokyo'));
+		$comment['date'] = $dateClass->format('Y/m/d H:i');
+		$list_comment[] = $comment;
+	}
+
+	return $list_comment;
+}
+
+function get_list_comment($post_id)
+{
+	global $wpdb;
+
+	$sql = '';
+	$sql .= 'SELECT ';
+	$sql .= ' comment_ID AS comment_id ';
+	$sql .= ' ,comment_post_ID AS post_id ';
+	$sql .= ' ,user_id AS user_id ';
+	$sql .= ' ,comment_date AS comment_date ';
+	$sql .= ' ,comment_content AS comment_content ';
+	$sql .= 'FROM wp_comments ';
+	$sql .= ' WHERE comment_post_ID = %s ';
+	$sql .= ' ORDER BY comment_date DESC';
+	
+	$prepare = [];
+	$prepare[] = $post_id;
+
+	$result_sql = $wpdb->prepare($sql, $prepare);
+	return $wpdb->get_results($result_sql);
 }
