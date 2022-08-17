@@ -171,6 +171,10 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
             $response = muse_api_list_comment($params);
             break;
 
+        case 'insert_comment':
+            $response = muse_api_insert_comment($params);
+            break;
+
         default:
             $response = $default_error_json;
             break;

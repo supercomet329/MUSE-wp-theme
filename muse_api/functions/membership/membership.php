@@ -108,6 +108,7 @@ get_template_part('functions/membership/muse_api_reset_password');
 get_template_part('functions/membership/muse_api_insert_image');
 get_template_part('functions/membership/muse_oauth');
 get_template_part('functions/membership/muse_api_list_comment');
+get_template_part('functions/membership/muse_api_insert_comment');
 
 // load options
 global $dp_options;
