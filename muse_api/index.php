@@ -167,6 +167,10 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
             $response = muse_api_reset_password($params);
             break;
 
+        case 'list_comment':
+            $response = muse_api_list_comment($params);
+            break;
+
         default:
             $response = $default_error_json;
             break;
