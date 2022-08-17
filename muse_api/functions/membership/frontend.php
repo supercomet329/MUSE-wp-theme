@@ -1352,7 +1352,9 @@ function getPostDataByPostIdAndOnlyPhoto($post_id)
 	$sql = '';
 	$sql .= 'SELECT ';
 	$sql .= ' wp_p.ID AS post_id ';
-	$sql .= ' ,wp_p.post_type AS post_type ';
+	$sql .= ' ,wp_p.post_type    AS post_type ';
+	$sql .= ' ,wp_p.post_title   AS post_title ';
+	$sql .= ' ,wp_p.post_content AS post_content ';
 	$sql .= ' ,wp_main_image1.meta_value AS main_image1 ';
 	$sql .= ' ,wp_main_image2.meta_value AS main_image2 ';
 	$sql .= ' ,wp_main_image3.meta_value AS main_image3 ';
@@ -1392,8 +1394,34 @@ function getPostDataByPostIdAndOnlyPhoto($post_id)
 	$prepare[] = 'main_image4';
 	$prepare[] = $post_id;
 	$prepare[] = 'publish';
+
 	$result_sql = $wpdb->prepare($sql, $prepare);
 	return $wpdb->get_results($result_sql);
+}
+
+function getPostMetaByPostIdAndMetaKey($post_id, $meta_key)
+{
+	global $wpdb;
+
+	$sql = '';
+	$sql .= 'SELECT ';
+	$sql .= ' post_id ';
+	$sql .= ' ,meta_key ';
+	$sql .= ' ,meta_value ';
+	$sql .= ' FROM ';
+	$sql .= ' wp_postmeta ';
+	$sql .= ' WHERE ';
+	$sql .= ' post_id = %d ';
+	$sql .= ' AND ';
+	$sql .= ' meta_key = %s ';
+
+	$prepare = [];
+	$prepare[] = $post_id;
+	$prepare[] = $meta_key;
+
+	$result_sql = $wpdb->prepare($sql, $prepare);
+	$result     = $wpdb->get_results($result_sql);
+	return $result[0]->meta_value;
 }
 
 /**
