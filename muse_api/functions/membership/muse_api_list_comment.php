@@ -8,7 +8,6 @@
  */
 function muse_api_list_comment($params)
 {
-    global $tcd_membership_vars, $wpdb;
 
     $response = [];
     $login_flag = false;
@@ -53,6 +52,7 @@ function muse_api_list_comment($params)
         $response['post_image4']  = $result[0]->main_image4;
         $response['login_flag']   = $login_flag;
         $response['like_flag']    = $like_flag;
+        $response['like_count']   = get_likes_number( $post_id );
         $response['comment_list'] = $comment_list;
     } catch (Exception $e) {
 
