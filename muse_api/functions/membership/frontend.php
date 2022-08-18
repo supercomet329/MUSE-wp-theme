@@ -1313,6 +1313,19 @@ function muse_modify_template_directory_uri()
 }
 
 /**
+ * APIの場合のURLの置き換え
+ * @return string
+ */
+function muse_modify_profile_directory_uri($user_id, $fileName)
+{
+	$uri = get_template_directory_uri();
+	$uri = str_replace('api/', '', $uri);
+	$uri = str_replace('/muse_api', '', $uri);
+	$uri = str_replace('/themes', 'uploads/', $uri);
+	return $uri . '/user/' . $user_id . '/' . $fileName;
+}
+
+/**
  * アップロード先のディレクトリ
  *
  * @return void

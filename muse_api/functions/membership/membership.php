@@ -111,6 +111,7 @@ get_template_part('functions/membership/muse_api_list_comment');
 get_template_part('functions/membership/muse_api_insert_comment');
 get_template_part('functions/membership/muse_api_post_image');
 get_template_part('functions/membership/muse_api_input_order');
+get_template_part('functions/membership/muse_api_update_profile');
 
 // load options
 global $dp_options;

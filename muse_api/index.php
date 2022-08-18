@@ -57,7 +57,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
         case 'edit_profile':
             // プロフィール編集
             // アクセストークン必須
-            $response = api_edit_profile($params);
+            $response = muse_api_update_profile($params);
             break;
 
         case 'list_order':
@@ -70,8 +70,13 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
             // アクセストークン必須
             break;
 
-        case 'list_all_order':
-            // 全依頼表示
+        case 'list_progress':
+            // 進行中
+            // アクセストークン必須
+            break;
+
+        case 'search_order':
+            // 依頼検索
             // アクセストークン必須
             break;
 
