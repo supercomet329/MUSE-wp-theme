@@ -9,6 +9,7 @@ if (!defined('SYS_ERROR_FILE')) {
     define('SYS_ERROR_FILE', __DIR__ . '/log/' . date('Ymd') . '_error.log');
 }
 
+
 header("Content-Type: application/json; charset=utf-8");
 header('Access-Control-Allow-Origin: *');
 
@@ -76,6 +77,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
         case 'input_order':
             // 依頼新規登録
             // アクセストークン必須
+            $response = muse_api_input_order($params);
             break;
 
         case 'edit_order':
