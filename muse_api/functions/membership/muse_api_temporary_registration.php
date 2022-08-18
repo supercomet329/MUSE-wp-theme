@@ -8,7 +8,7 @@
  */
 function muse_api_temporary_registration($params)
 {
-    global $dp_options, $tcd_membership_vars, $wpdb;
+    global $wpdb;
 
     $response = [];
     try {
