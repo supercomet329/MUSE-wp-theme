@@ -191,6 +191,10 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
             $response = muse_api_post_image($params);
             break;
 
+        case 'report':
+            $response = muse_api_report($params);
+            break;
+
         default:
             $response = $default_error_json;
             break;

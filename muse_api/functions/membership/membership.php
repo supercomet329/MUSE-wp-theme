@@ -114,6 +114,7 @@ get_template_part('functions/membership/muse_api_post_image');
 get_template_part('functions/membership/muse_api_input_order');
 get_template_part('functions/membership/muse_api_update_profile');
 get_template_part('functions/membership/muse_api_list_image');
+get_template_part('functions/membership/muse_api_report');
 
 // load options
 global $dp_options;
