@@ -48,6 +48,29 @@ function muse_api_update_profile($params)
                 $header_url = upload_profile_file($header_image, $user_id);
             }
         }
+        $updateParams = [
+            'ID'           => $user_id,
+            'user_url'     => $params['web_site'],
+            'display_name' => $params['display_name'],
+        ];
+
+        $active_flag = 0;
+        if ((int)$params['active_flg'] > 0) {
+            $active_flag = 1;
+        }
+
+        $user_id = wp_update_user($updateParams);
+        update_user_meta($user_id, 'profile_image', $icon_url);
+        update_user_meta($user_id, 'header_image',  $header_url);
+        update_user_meta($user_id, 'last_name',     $params['name']);
+        update_user_meta($user_id, 'description',   $params['profile_text']);
+        update_user_meta($user_id, 'area',          $params['area']);
+        update_user_meta($user_id, 'birthday',      $params['birthday']);
+        update_user_meta($user_id, 'active',        $params['active_flg']);
+
+        $response = [
+            'result' => true,
+        ];
     } catch (Exception $e) {
 
         // エラー時の処理

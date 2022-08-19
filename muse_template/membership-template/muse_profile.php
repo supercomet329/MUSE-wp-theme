@@ -103,7 +103,9 @@ get_header();
                 <?php } else { ?>
                     <button type="button" data-user-id="<?php echo esc_attr($user_id); ?>" class="js-toggle-follow btn rounded-pill btn-outline-primary btn-sm follow-btn follow-off">フォローする</button>
                 <?php } ?>
-                <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('request')); ?>&user_id=<?php echo $user_id; ?>"><button class="px-0 mx-1 btn rounded-pill btn-outline-primary outline-btn btn-sm request-btn">　依頼　</button></a>
+                <?php if ($active_flag !== FALSE) { ?>
+                    <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('request')); ?>&user_id=<?php echo $user_id; ?>"><button class="px-0 mx-1 btn rounded-pill btn-outline-primary outline-btn btn-sm request-btn">　依頼　</button></a>
+                <?php } ?>
             <?php } ?>
         </div>
     </div>
