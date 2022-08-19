@@ -101,6 +101,7 @@ get_template_part('functions/membership/information');
 get_template_part('functions/membership/list_message');
 get_template_part('functions/membership/detail_message');
 get_template_part('functions/membership/keep');
+get_template_part('functions/membership/muse_favorite');
 get_template_part('functions/membership/notification');
 get_template_part('functions/membership/post_image');
 get_template_part('functions/membership/muse_api_temporary_registration');
@@ -112,6 +113,7 @@ get_template_part('functions/membership/muse_api_insert_comment');
 get_template_part('functions/membership/muse_api_post_image');
 get_template_part('functions/membership/muse_api_input_order');
 get_template_part('functions/membership/muse_api_update_profile');
+get_template_part('functions/membership/muse_api_list_image');
 
 // load options
 global $dp_options;

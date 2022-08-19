@@ -54,6 +54,10 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
             $response = api_get_profile_image($params);
             break;
 
+        case 'search_image':
+            $response = muse_api_list_image($params);
+            break;
+
         case 'edit_profile':
             // プロフィール編集
             // アクセストークン必須
