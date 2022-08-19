@@ -77,8 +77,8 @@ get_template_part('functions/membership/muse_get_followers');
 get_template_part('functions/membership/muse_get_tail_follow');
 get_template_part('functions/membership/muse_follow');
 get_template_part('functions/membership/muse_top_image');
-
 get_template_part('functions/membership/muse_tail_image');
+get_template_part('functions/membership/muse_edit_profile');
 
 // ADD 2022/05/10 H.Okabe
 get_template_part('functions/membership/follows');
@@ -111,6 +111,7 @@ get_template_part('functions/membership/muse_api_list_comment');
 get_template_part('functions/membership/muse_api_insert_comment');
 get_template_part('functions/membership/muse_api_post_image');
 get_template_part('functions/membership/muse_api_input_order');
+get_template_part('functions/membership/muse_api_update_profile');
 
 // load options
 global $dp_options;

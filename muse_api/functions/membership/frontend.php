@@ -1301,7 +1301,7 @@ function tcd_membership_disable_autoembed_callback($matches, $attr, $url, $rawat
 }
 
 /**
- * APIの場合のURLの置き換え
+ * APIの場合のURLの置き換え(投稿画像)
  * @return string
  */
 function muse_modify_template_directory_uri()
@@ -1310,6 +1310,19 @@ function muse_modify_template_directory_uri()
 	$uri = str_replace('api/', '', $uri);
 	$uri = str_replace('/muse_api', '', $uri);
 	return $uri . '/muse_template/';
+}
+
+/**
+ * APIの場合のURLの置き換え(プロフィール画像)
+ * @return string
+ */
+function muse_modify_profile_directory_uri($user_id, $fileName)
+{
+	$uri = get_template_directory_uri();
+	$uri = str_replace('api/', '', $uri);
+	$uri = str_replace('/muse_api', '', $uri);
+	$uri = str_replace('/themes', '/uploads', $uri);
+	return $uri . '/user/' . $user_id . '/' . $fileName;
 }
 
 /**
