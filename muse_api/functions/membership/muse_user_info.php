@@ -12,8 +12,7 @@ function api_get_profile($params)
 
     $response = [];
     try {
-
-        if (isset($params['user_id'])) {
+        if (isset($params['user_id']) && !empty($params['user_id'])) {
             $user_id = $params['user_id'];
         } else if (isset($params['access_token']) && !empty($params['access_token'])) {
             $user_id = check_login($params['access_token']);
@@ -38,12 +37,12 @@ function api_get_profile($params)
         }
 
         $authorImageData = get_user_meta($user_id, 'profile_image', true);
-        $author_iamge = 'http://localhost.nft.info/wp-content/themes/muse_template/assets/img/icon/non_profile_image.png';
+        $author_iamge = muse_modify_template_directory_uri() . 'muse_template/assets/img/icon/non_profile_image.png';
         if (!empty($authorImageData)) {
             $author_iamge = $authorImageData;
         }
         $bannerImageData = get_user_meta($user_id, 'header_image', true);
-        $banner_image = 'http://localhost.nft.info/wp-content/themes/muse_template/assets/img/add_image360-250.png';
+        $banner_image = muse_modify_template_directory_uri() . 'muse_template/assets/img/add_image360-250.png';
         if (!empty($bannerImageData)) {
             $banner_image = $bannerImageData;
         }
@@ -71,7 +70,7 @@ function api_get_profile($params)
 
         $follow = false;
         if ($my_user_id) {
-            if(is_following($user_id, $my_user_id)) {
+            if (is_following($user_id, $my_user_id)) {
                 $follow = true;
             }
         }
