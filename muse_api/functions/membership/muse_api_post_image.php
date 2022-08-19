@@ -9,6 +9,7 @@
 function muse_api_post_image($params)
 {
     $response = [];
+    $error_message = [];
     try {
         $sale_price         = 0;
         $bin_price          = 0;
