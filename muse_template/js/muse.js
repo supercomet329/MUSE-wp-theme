@@ -519,7 +519,7 @@ function selRequestSelBox() {
     var setAppDeadlineM = jQuery('#hideAppDeadlineM').val();
     var htmlAppDeadlineM = '';
     htmlAppDeadlineY += '<option value=""></option>';
-    for (var month = 1; month < 12; month++) {
+    for (var month = 1; month <= 12; month++) {
         if (month == setAppDeadlineM) {
             htmlAppDeadlineM += '<option value="' + month + '" selected>' + month + '</option>';
         } else {
@@ -555,7 +555,8 @@ function selRequestSelBox() {
     var setDesiredDateM = jQuery('#hideDesiredDateM').val();
     var htmlDesiredDateM = '';
     htmlDesiredDateM += '<option value=""></option>';
-    for (var month = 1; month < 12; month++) {
+    for (var month = 1; month <= 12; month++) {
+        console.log(month);
         if (month == setDesiredDateM) {
             htmlDesiredDateM += '<option value="' + month + '" selected>' + month + '</option>';
         } else {
@@ -735,10 +736,15 @@ function checkRequestInput() {
     }
 
     // 添付ファイルが入力されているかを確認
-    if (requestFileVal) {
-        // 添付ファイルが入力されている場合、エラーメッセージを非表示
+    var requestType = jQuery('#request_type').val();
+    if (requestType !== 'moddify') {
+        if (requestFileVal) {
+            // 添付ファイルが入力されている場合、エラーメッセージを非表示
+            flagRequestFile = true;
+            jQuery('#inputRequestErrMsgArea').addClass('d-none');
+        }
+    } else {
         flagRequestFile = true;
-        jQuery('#inputRequestErrMsgArea').addClass('d-none');
     }
 
     // 参考URLが入力されているかを確認
@@ -770,7 +776,15 @@ function checkRequestInput() {
 
 
     // 入力項目の値が正しい場合、新規登録ボタンを有効化
-    if (flagRequestTitle === true && flagWorkTitle === true && flagText === true && flagComposition === true && flagCharacter === true && flagRefUrl === true && flagBudget === true && flagAppDeadline === true && flagRequestFile === true) {
+    if (flagRequestTitle === true &&
+        flagWorkTitle === true &&
+        flagText === true &&
+        flagComposition === true &&
+        flagCharacter === true &&
+        flagRefUrl === true &&
+        flagBudget === true &&
+        flagAppDeadline === true &&
+        flagRequestFile === true) {
         disabledFlag = false;
     }
     jQuery('#requestBtn').attr('disabled', disabledFlag);
