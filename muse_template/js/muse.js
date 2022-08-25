@@ -395,7 +395,7 @@ function showTypePwConfirmMsg() {
 
 // パスワードのフォーマットが正しくない場合、メッセージを表示
 function showPwValidateMsg() {
-    jQuery('#inputPwMsg').empty().append("<p id=\"inputPwErrMsg\" class=\"pwResetErrMsg\">パスワードは半角英小文字、大文字、数字を含む9文字以上32文字以内を入力してください</p>");
+    jQuery('#inputPwMsg').empty().append("<p id=\"inputPwErrMsg\" class=\"pwResetErrMsg\">パスワードは半角英小文字、大文字、数字を含む8文字以上で入力してください</p>");
 }
 
 // パスワードに空欄がある場合、メッセージを表示
