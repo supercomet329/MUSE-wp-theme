@@ -275,7 +275,7 @@ function tcd_membership_action_confirm_request()
                     $requestFileUrl  = false;
                     $requestFileName = false;
 
-                    if (isset($_FILES['requestFile']['name'])) {
+                    if (!empty($_FILES['requestFile']['name'])) {
                         $extension = pathinfo($_FILES['requestFile']['name'], PATHINFO_EXTENSION);
                         $file_name = substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 100) . '.' . $extension;
                         $uploaded_file = __DIR__ . '/../../upload_file/' . $file_name;
@@ -286,11 +286,7 @@ function tcd_membership_action_confirm_request()
 
                             $requestFileUrl  = get_template_directory_uri() . '/upload_file/' . $file_name;
                             $requestFileName = $_FILES['requestFile']['name'];
-                        } else {
-                            $error_messages['requestFile'] = 'ファイルのアップロードに失敗しました。';
                         }
-                    } else {
-                        $error_messages['requestFile'] = 'ファイルをアップロードしてください。';
                     }
 
                     if (count($error_messages) <= 0) {
@@ -376,7 +372,6 @@ function tcd_membership_action_confirm_request()
         if (isset($approval_users[$user_id])) {
             // 依頼ユーザー or 受託ユーザーのみ表示
             $flgComment = true;
-
         }
     }
 
@@ -547,8 +542,10 @@ function update_request($requestFileUrl, $requestFileName)
     update_post_meta($request_id, 'orderQuantity',    $orderQuantity);
     update_post_meta($request_id, 'refUrl',           $refUrl);
     update_post_meta($request_id, 'budget',           $budget);
-    update_post_meta($request_id, 'requestFileName',  $requestFileName);
-    update_post_meta($request_id, 'requestFileUrl',   $requestFileUrl);
+    if (!empty($_FILES['requestFile']['name'])) {
+        update_post_meta($request_id, 'requestFileName',  $requestFileName);
+        update_post_meta($request_id, 'requestFileUrl',   $requestFileUrl);
+    }
     update_post_meta($request_id, 'appDeadlineDate',  $appDeadlineDate);
 
     if ($desiredDate !== FALSE) {
