@@ -52,61 +52,61 @@ if ($viewMode === 'picture') {
 }
 ?>
 <!doctype html>
+
+<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
+    <!-- Required meta tags -->
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta charset="utf-8">
+
+    <?php if ($ogp_title !== FALSE && !empty($ogp_title)) { ?>
+        <meta property="og:title" content="<?php echo esc_attr($ogp_title); ?>" />
+    <?php }
+    /** endif */ ?>
+
+    <?php if ($ogp_image !== FALSE && !empty($ogp_image)) { ?>
+        <meta property="og:image" content="<?php echo esc_url($ogp_image); ?>" />
+    <?php }
+    /** endif */ ?>
+
+    <?php if ($ogp_url !== FALSE && !empty($ogp_url)) { ?>
+        <meta property="og:url" content="<?php echo esc_attr($ogp_url); ?>" />
+    <?php }
+    /** endif */ ?>
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="og:site_name" content="<?php echo esc_attr(bloginfo('name')); ?>" />
+
+    <!-- Icon -->
+    <?php wp_head(); ?>
+
+    <link rel="shortcut icon" href="<?php echo get_template_directory_uri(); ?>/assets/img/icon/logo.png">
+    <link rel="apple-touch-icon" href="<?php echo get_template_directory_uri(); ?>/assets/img/icon/logo.png">
+    <!-- Main CSS -->
+    <link rel="stylesheet" type="text/css" href="<?php echo get_template_directory_uri(); ?>/assets/css/style.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/assets/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/assets/css/all.min.css">
+    <!-- cropper.css -->
+    <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/assets/css/cropper.min.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Round|Material+Icons+Sharp|Material+Icons+Two+Tone" rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+
+    <?php
+    $json = [];
+    $json['ajax_url'] = home_url('/') . "wp-admin/admin-ajax.php";
+    $json['ajax_error_message'] = '接続に失敗しました。';
+    $json['login_url'] = home_url('/') . "member/login/";
+    $json['registration_url'] = home_url('/') . "member/registration/";
+    ?>
+    <script type='text/javascript' id='tcd-membership-js-extra'>
+        /* <![CDATA[ */
+        var TCD_MEMBERSHIP = <?php echo json_encode($json); ?>;
+        /* ]]> */
+    </script>
+</head>
 <html lang="ja">
 <div class="wrap">
-
-    <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
-        <!-- Required meta tags -->
-        <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
-        <meta charset="utf-8">
-
-        <?php if ($ogp_title !== FALSE && !empty($ogp_title)) { ?>
-            <meta property="og:title" content="<?php echo esc_attr($ogp_title); ?>" />
-        <?php }
-        /** endif */ ?>
-
-        <?php if ($ogp_image !== FALSE && !empty($ogp_image)) { ?>
-            <meta property="og:image" content="<?php echo esc_url($ogp_image); ?>" />
-        <?php }
-        /** endif */ ?>
-
-        <?php if ($ogp_url !== FALSE && !empty($ogp_url)) { ?>
-            <meta property="og:url" content="<?php echo esc_attr($ogp_url); ?>" />
-        <?php }
-        /** endif */ ?>
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta property="og:site_name" content="<?php echo esc_attr(bloginfo('name')); ?>" />
-
-        <!-- Icon -->
-        <?php wp_head(); ?>
-
-        <link rel="shortcut icon" href="<?php echo get_template_directory_uri(); ?>/assets/img/icon/logo.png">
-        <link rel="apple-touch-icon" href="<?php echo get_template_directory_uri(); ?>/assets/img/icon/logo.png">
-        <!-- Main CSS -->
-        <link rel="stylesheet" type="text/css" href="<?php echo get_template_directory_uri(); ?>/assets/css/style.css">
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/assets/css/bootstrap.min.css">
-        <!-- Font Awesome -->
-        <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/assets/css/all.min.css">
-        <!-- cropper.css -->
-        <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/assets/css/cropper.min.css">
-
-        <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Round|Material+Icons+Sharp|Material+Icons+Two+Tone" rel="stylesheet">
-        <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
-
-        <?php
-        $json = [];
-        $json['ajax_url'] = home_url('/') . "wp-admin/admin-ajax.php";
-        $json['ajax_error_message'] = '接続に失敗しました。';
-        $json['login_url'] = home_url('/') . "member/login/";
-        $json['registration_url'] = home_url('/') . "member/registration/";
-        ?>
-        <script type='text/javascript' id='tcd-membership-js-extra'>
-            /* <![CDATA[ */
-            var TCD_MEMBERSHIP = <?php echo json_encode($json); ?>;
-            /* ]]> */
-        </script>
-    </head>
 
     <body <?php body_class(); ?>>
         <div class="orver-lay"></div>
@@ -120,11 +120,7 @@ if ($viewMode === 'picture') {
                 </div>
                 <a href="<?php echo $url; ?>" class="d-none d-sm-block"><img src="<?php echo $profile_image; ?>" alt="profile" class="rounded-circle"></a>
                 <a href="/"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/logo.png" alt="logo" class="logo-sp"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/logo-pc.png" alt="logo" class="logo-pc"></a>
-                <div class="d-none d-sm-block">
-                    <a href="/<?php echo $getParams; ?>">
-                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/picture_blue.png" alt="change" data-toggle="modal" class="change-logo">
-                    </a>
-                </div>
+                <div class="d-none d-sm-block"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/picture_blue.png" alt="change" data-toggle="modal" class="change-logo"></div>
                 <a href="<?php echo $url; ?>" class="d-block d-sm-none"><img src="<?php echo $profile_image; ?>" alt="profile" class="rounded-circle"></a>
             </nav>
         </header>

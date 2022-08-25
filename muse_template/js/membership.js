@@ -453,63 +453,6 @@ jQuery(function($) {
                 if (data.result == 'added') {
                     // $(el).addClass('p-icon-liked').removeClass('p-icon-like').html(data.likes_number);
                     $(el).attr('src', '/wp-content/themes/muse_template/assets/img/icon/iine_on.png');
-                } else if (data.result == 'removed') {
-                    // $(el).addClass('p-icon-like').removeClass('p-icon-liked').html(data.likes_number);
-                    $(el).attr('src', '/wp-content/themes/muse_template/assets/img/icon/iine.png');
-                } else if (data.message) {
-                    showModalAlert(data.message);
-                } else {
-                    showModalAlert(TCD_MEMBERSHIP.ajax_error_message);
-                }
-            },
-            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                $(el).removeClass('is-ajaxing');
-                showModalAlert(TCD_MEMBERSHIP.ajax_error_message);
-            }
-        });
-    };
-
-    /**
-     * いいねクリック
-     */
-    $(document).on('click', '.js-toggle-like', function() {
-        var self = this;
-        var post_id = $(this).attr('data-post-id');
-        if (!post_id) return false;
-        if ($(this).hasClass('is-ajaxing')) return false;
-
-        // 未ログインの場合はモーダルログイン表示
-        if (!$('body').hasClass('logged-in')) {
-            waitLoginVars = {
-                type: 'like',
-                post_id: post_id,
-                $elem: $(this)
-            };
-            showModalLogin();
-            return false;
-        }
-
-        ajaxToggleLike($(this), post_id)
-        return false;
-    });
-
-    /**
-     * いいねajax
-     */
-    var ajaxToggleLike = function(el, post_id) {
-        $(el).addClass('is-ajaxing');
-        $.ajax({
-            url: TCD_MEMBERSHIP.ajax_url,
-            type: 'POST',
-            data: {
-                action: 'toggle_like',
-                post_id: post_id
-            },
-            success: function(data, textStatus, XMLHttpRequest) {
-                $(el).removeClass('is-ajaxing');
-                if (data.result == 'added') {
-                    // $(el).addClass('p-icon-liked').removeClass('p-icon-like').html(data.likes_number);
-                    $(el).attr('src', '/wp-content/themes/muse_template/assets/img/icon/iine_on.png');
                     $('#count_like_' + post_id).text(data.likes_number);
                 } else if (data.result == 'removed') {
                     // $(el).addClass('p-icon-like').removeClass('p-icon-liked').html(data.likes_number);
@@ -570,9 +513,11 @@ jQuery(function($) {
                 if (data.result == 'added') {
                     // $(el).addClass('p-icon-liked').removeClass('p-icon-like').html(data.likes_number);
                     $(el).attr('src', '/wp-content/themes/muse_template/assets/img/icon/favorite_on.png');
+                    $('#count_favorite_' + post_id).text(data.keeps_number);
                 } else if (data.result == 'removed') {
                     // $(el).addClass('p-icon-like').removeClass('p-icon-liked').html(data.likes_number);
                     $(el).attr('src', '/wp-content/themes/muse_template/assets/img/icon/favorite.png');
+                    $('#count_favorite_' + post_id).text(data.keeps_number);
                 } else if (data.message) {
                     showModalAlert(data.message);
                 } else {

@@ -75,11 +75,13 @@
                     </ul>
                 </div>
 
-                <div class="timeline-image">
-                    <div class="my-2 slid-img swiper swipertum">
-                        <div class="swiper-wrapper d-flex align-items-center">
+                <div class="timeline-image timelile-pro">
+                    <div class="my-2 slid-img swiper swipertum sp-margin">
+                        <div class="swiper-wrapper d-flex align-items-center timeline-in">
                             <?php foreach ($imageArray as $photoOne) { ?>
-                                <div class="swiper-slide"><a href="<?php echo esc_url(get_tcd_membership_memberpage_url('post_comment')); ?>&post_id=<?php echo esc_attr($oneTimeline->post_id); ?>"><img class="img-fluid mx-auto" src="<?php echo esc_url($photoOne); ?>" /></a></div>
+                                <div class="swiper-slide text-right">
+                                    <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('post_comment')); ?>&post_id=<?php echo esc_attr($oneTimeline->post_id); ?>"><img class="img-fluid mx-auto" src="<?php echo esc_url($photoOne); ?>" /></a>
+                                </div>
                             <?php }
                             /** endforeach */ ?>
                         </div>
@@ -101,8 +103,8 @@
                     </div>
                 </div>
 
-                <div class="logo-area d-flex flex-row bd-highlight">
-                    <div class="p-2 bd-highlight col-8 text-nowrap">
+                <div class="logo-area d-flex bd-highlight icon-margin-top">
+                    <div class="bd-highlight text-nowrap flex-fill bottom-icon-left icon-margin-iine">
                         <?php
                         $like_image = 'iine.png';
                         if (is_liked($oneTimeline->post_id, false)) {
@@ -110,21 +112,24 @@
                         }
                         ?>
                         <img class="js-toggle-like float-left" data-post-id="<?php echo esc_attr($oneTimeline->post_id); ?>" src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/<?php echo esc_attr($like_image); ?>" alt="iine">
-                        <p class="mb-1 float-left mx-2 font-weight-bold" id="count_like_<?php echo esc_attr($oneTimeline->post_id); ?>" id="count_like_<?php echo esc_attr($oneTimeline->post_id); ?>"><?php echo esc_attr(get_likes_number($oneTimeline->post_id)); ?></p>
+                        <p class="mb-1 float-left mx-1 font-weight-bold" id="count_like_<?php echo esc_attr($oneTimeline->post_id); ?>"><?php echo esc_attr(get_likes_number($oneTimeline->post_id)); ?></p>
+                    </div>
+                    <div class="pl-4 bd-highlight text-nowrap flex-fill icon-margin-tipping">
                         <img class="float-left" src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/social_tipping_on.png" alt="social_tipping_on">
-
+                        <p class="mb-1 float-left font-weight-bold">400円<br />400ETH</p>
+                    </div>
+                    <div class="pl-4 bd-highlight text-nowrap flex-fill icon-margin-favorite">
                         <?php
                         $favorite_image = 'favorite.png';
                         if (is_favorite($oneTimeline->post_id, false)) {
                             $favorite_image = 'favorite_on.png';
                         }
                         ?>
-                        <img class="js-toggle-favorite" data-post-id="<?php echo esc_attr($oneTimeline->post_id); ?>" src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/<?php echo $favorite_image; ?>" alt="favorite_on">
+                        <img class="js-toggle-favorite float-left" data-post-id="<?php echo esc_attr($oneTimeline->post_id); ?>" src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/<?php echo $favorite_image; ?>" alt="favorite_on">
+                        <p class="mb-1 float-left mx-1 font-weight-bold" id="count_favorite_<?php echo esc_attr($oneTimeline->post_id); ?>"><?php echo esc_attr(get_favorite_number($oneTimeline->post_id)); ?></p>
                     </div>
-                    <div class="comment-right col-4">
-                        <a class="text-dark" href="<?php echo esc_url(get_tcd_membership_memberpage_url('post_comment')); ?>&post_id=<?php echo esc_attr($oneTimeline->post_id); ?>">
-                            <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/comment_up_02.png" alt="コメント">
-                        </a>
+                    <div class="pl-4 flex-fill text-right pt-1 bottom-icon-right icon-margin-comment_up">
+                        <a class="text-dark" href="<?php echo esc_url(get_tcd_membership_memberpage_url('post_comment')); ?>&post_id=<?php echo esc_attr($oneTimeline->post_id); ?>"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/comment_up_02.png" alt="コメント"></a>
                     </div>
                     <!-- <div class="p-2 bd-highlight col-5"></div>
         <div class="p-2 bd-highlight col-4 arrow_box">
@@ -139,6 +144,7 @@
         } else {
             // リクエストの表示
         ?>
+            <!--標準ブロック-->
             <div class="timeline-inarea">
 
                 <div class="col-12 pt-1">
@@ -159,10 +165,10 @@
                     </ul>
                 </div>
 
-                <div class="timeline-image">
-                    <div class="slid-img swiper swipertum">
-                        <div class="swiper-wrapper d-flex align-items-center">
-                            <div class="swiper-slide">
+                <div class="timeline-image timelile-pro">
+                    <div class="my-2 slid-img swiper swipertum sp-margin">
+                        <div class="swiper-wrapper d-flex align-items-center timeline-in">
+                            <div class="swiper-slide text-right">
                                 <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('confirm_request')); ?>&request_id=<?php echo esc_attr($oneTimeline->post_id); ?>">
                                     <?php echo esc_attr($oneTimeline->post_title); ?>の依頼が完了しました。
                                 </a>
