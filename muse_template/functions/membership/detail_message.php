@@ -73,6 +73,7 @@ function tcd_membership_action_detail_message()
         foreach ($row_message as $one_message) {
             $message_id = $one_message->id;
             $dateClass = new DateTime($one_message->sent_gmt);
+            $dateClass->setTimezone(new DateTimeZone('Asia/Tokyo'));
             $day       = $dateClass->format('Ymd 00:00:00');
 
             $message = $one_message->message;

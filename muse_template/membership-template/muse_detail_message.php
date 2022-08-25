@@ -54,6 +54,7 @@ get_header();
             <?php
             foreach ($tcd_membership_vars['list_message'] as $date => $row_message) {
                 $viewDate = new DateTime($date);
+                $viewDate->setTimezone(new DateTimeZone('Asia/Tokyo'));
             ?>
                 <div class="d-flex col-12 justify-content-center">
                     <div class="main-color font-weight-bold text-white text-center rounded-pill small w-25 mt-4">
