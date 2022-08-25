@@ -1097,17 +1097,17 @@ jQuery(function($) {
 });
 
 // フォローする、フォロー中の選択機能
-jQuery(function($) {
-    $(document).on('click', '.follow-off', function() {
-        let follow_on = jQuery('<button type="button"class="btn btn-primary rounded-pill btn-sm text-white btn-lg main-color follow-btn follow-on">フォロー中</button>');
-        $(this).replaceWith(follow_on);
-    });
+// jQuery(function($) {
+//     $(document).on('click', '.follow-off', function() {
+//         let follow_on = jQuery('<button type="button"class="btn btn-primary rounded-pill btn-sm text-white btn-lg main-color follow-btn follow-on">フォロー中</button>');
+//         $(this).replaceWith(follow_on);
+//     });
 
-    $(document).on('click', '.follow-on', function() {
-        let follow_off = jQuery('<button type="button" class="btn rounded-pill btn-outline-primary btn-sm follow-btn follow-off">フォローする</button>');
-        $(this).replaceWith(follow_off);
-    });
-});
+//     $(document).on('click', '.follow-on', function() {
+//         let follow_off = jQuery('<button type="button" class="btn rounded-pill btn-outline-primary btn-sm follow-btn follow-off">フォローする</button>');
+//         $(this).replaceWith(follow_off);
+//     });
+// });
 
 // ラジオボタンにより表示を変更
 // 使用HTML(post.html)
