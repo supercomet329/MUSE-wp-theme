@@ -1584,7 +1584,7 @@ function tcd_membership_login_form($args = array())
             $metadata = array();
 
 
-            if (isset($data[$meta_key])) {
+            if (isset($data['last_name'])) {
                 $meta_key = 'last_name';
                 $metadata[$meta_key] = isset($data[$meta_key]) ? tcd_membership_sanitize_content($data[$meta_key]) : '';
             }
