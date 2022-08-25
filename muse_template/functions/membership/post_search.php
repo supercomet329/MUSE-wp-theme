@@ -12,21 +12,21 @@ function tcd_membership_action_post_search()
     if ('POST' == $_SERVER['REQUEST_METHOD']) {
 
         $txtSearch  = $_POST['search'];
-        if(isset($_POST['r18flag'])) {
+        if (isset($_POST['r18flag'])) {
             $selR18flag = $_POST['r18flag'];
         }
+    }
 
-        $r18Flag = false;
-        if (!is_null(get_current_user_id())) {
-            $birth_day = get_user_meta(get_current_user_id(), 'birthday', true);
-            if (!empty($birth_day)) {
-                $birthDayDateClass = new DateTime($birth_day);
-                $nowDateClass      = new DateTime();
-                $interval          = $nowDateClass->diff($birthDayDateClass);
-                $old               = $interval->y;
-                if ($old >= 18) {
-                    $r18Flag = true;
-                }
+    $r18Flag = false;
+    if (!is_null(get_current_user_id())) {
+        $birth_day = get_user_meta(get_current_user_id(), 'birthday', true);
+        if (!empty($birth_day)) {
+            $birthDayDateClass = new DateTime($birth_day);
+            $nowDateClass      = new DateTime();
+            $interval          = $nowDateClass->diff($birthDayDateClass);
+            $old               = $interval->y;
+            if ($old >= 18) {
+                $r18Flag = true;
             }
         }
     }
@@ -36,6 +36,5 @@ function tcd_membership_action_post_search()
     $tcd_membership_vars['selR18flag'] = $selR18flag;
     $tcd_membership_vars['txtSearch']  = $txtSearch;
     $tcd_membership_vars['r18Flag']    = $r18Flag;
-
 }
 add_action('tcd_membership_action-post_search', 'tcd_membership_action_post_search');
