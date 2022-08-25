@@ -34,11 +34,16 @@ function tcd_membership_action_post_comment()
         if (isset($_POST['nonce']) && wp_verify_nonce($_POST['nonce'], 'tcd_membership_action-post_comment')) {
 
             // 文字列のバリデート
-            if (isset($_POST['message']) && !empty($_POST['message'])) {
+            $message  = '';
+            if (isset($_POST['message'])) {
+                $message  = preg_replace("/( |　)/", "", $_POST['message']);
+            }
+
+            if (!empty($message)) {
 
                 // 投稿者のIPアドレスを取得
                 $ip = $_SERVER['REMOTE_ADDR'];
-                if(isset($_SERVER['HTTP_X_FORWARDED_FOR']) && !empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+                if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && !empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
                     // WAF使っていた時とかの対応
                     $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
                 }
