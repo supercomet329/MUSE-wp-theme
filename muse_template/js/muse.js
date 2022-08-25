@@ -519,7 +519,7 @@ function selRequestSelBox() {
     var setAppDeadlineM = jQuery('#hideAppDeadlineM').val();
     var htmlAppDeadlineM = '';
     htmlAppDeadlineY += '<option value=""></option>';
-    for (var month = 1; month < 12; month++) {
+    for (var month = 1; month <= 12; month++) {
         if (month == setAppDeadlineM) {
             htmlAppDeadlineM += '<option value="' + month + '" selected>' + month + '</option>';
         } else {
@@ -555,7 +555,8 @@ function selRequestSelBox() {
     var setDesiredDateM = jQuery('#hideDesiredDateM').val();
     var htmlDesiredDateM = '';
     htmlDesiredDateM += '<option value=""></option>';
-    for (var month = 1; month < 12; month++) {
+    for (var month = 1; month <= 12; month++) {
+        console.log(month);
         if (month == setDesiredDateM) {
             htmlDesiredDateM += '<option value="' + month + '" selected>' + month + '</option>';
         } else {
