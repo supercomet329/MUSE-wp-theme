@@ -101,11 +101,11 @@ function tcd_membership_action_confirm_request()
     if (!empty($desiredDate)) {
         $desiredDateClass = new DateTime($desiredDate[0]);
         $desiredDateClass->setTimezone(new DateTimeZone('Asia/Tokyo'));
-        $strDesiredDate   = $appDeadlineDateClass->format('Y/m/d');
+        $strDesiredDate   = $desiredDateClass->format('Y/m/d');
 
-        $desiredDateY = $appDeadlineDateClass->format('Y');
-        $desiredDateM = $appDeadlineDateClass->format('m');
-        $desiredDateD = $appDeadlineDateClass->format('d');
+        $desiredDateY = $desiredDateClass->format('Y');
+        $desiredDateM = $desiredDateClass->format('m');
+        $desiredDateD = $desiredDateClass->format('d');
     }
     $tcd_membership_vars['desired_date'] = $strDesiredDate;
 
