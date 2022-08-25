@@ -118,10 +118,19 @@ get_header();
             </span>
         </div>
         <div class="col-7 text-center">
-            <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('follows')); ?>"><span class="follow">フォロー<br>
-                    <span><?php echo number_format($arrayCount['following']['total']); ?></span></span></a>
-            <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('followers')); ?>"><span class="follower">フォロワー<br>
-                    <span><?php echo number_format($arrayCount['follower']['total']); ?></span></span></a>
+            <?php if (get_current_user_id() == $user_id) { ?>
+                <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('follows')); ?>"><span class="follow">フォロー<br>
+                    <span><?php echo number_format($arrayCount['following']['total']); ?></span></span>
+                </a>
+                <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('followers')); ?>"><span class="follower">フォロワー<br>
+                    <span><?php echo number_format($arrayCount['follower']['total']); ?></span></span>
+                </a>
+            <?php } else { ?>
+                <span class="follow">フォロー<br>
+                <span><?php echo number_format($arrayCount['following']['total']); ?></span></span>
+                <span class="follower">フォロワー<br>
+                <span><?php echo number_format($arrayCount['follower']['total']); ?></span></span>
+            <?php } ?>
         </div>
         <!-- 自分が見た場合のみ表示 -->
         <div class="col-5"></div>
