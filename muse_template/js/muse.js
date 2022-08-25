@@ -1629,6 +1629,15 @@ jQuery(function($) {
                     thumbs: {
                         swiper: swiper,
                     },
+                    pagination: {
+                        el: ".swiper-pagination",
+                        clickable: true,
+                    },
+                    // 前後の矢印
+                    navigation: {
+                        nextEl: ".swiper-button-next",
+                        prevEl: ".swiper-button-prev",
+                    },
                 });
             }
         }

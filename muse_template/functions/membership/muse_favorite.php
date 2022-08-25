@@ -42,7 +42,7 @@ function ajax_toggle_favorite()
 
                 if ($result) {
                     $json['result'] = 'removed';
-                    $keeps_number = get_keeps_number($post_id);
+                    $keeps_number = get_favorite_number($post_id);
                     $json['keeps_number'] = $keeps_number;
                     update_post_meta($post_id, '_keeps', $keeps_number);
                 } else {
