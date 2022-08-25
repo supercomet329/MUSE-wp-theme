@@ -2771,14 +2771,13 @@
         display: inline-block!important;
         vertical-align: -2px;
     }
-
     /* PC版CSS */
-	.wrap{
-		width: 1200px;
-		margin: 0px auto;
-	}    
-
-
+    
+    .wrap {
+        width: 1200px;
+        margin: 0px auto;
+    }
+    
     .PC-menu {
         padding-top: 10px;
         display: block;
@@ -2802,17 +2801,17 @@
     .pc-left {
         float: left;
         width: 250px;
-		margin-left: 0px;
+        margin-left: 0px;
     }
     
     .pc-center {
         float: left;
         left: 280px;
         right: 280px;
-		max-width: 640px;
-		margin-left: 20px;
+        max-width: 640px;
+        margin-left: 20px;
     }
- 
+    
     .PC-right {
         float: right;
         width: 260px;
@@ -2895,32 +2894,28 @@
     .logo-sp {
         display: none;
     }
-
-	.timeline-inarea{
-		border: 1px solid #DCDCDC;
-		padding: 5px;
-		margin: 0px 5px 20px;
-	}
-
-
+    
+    .timeline-inarea {
+        border: 1px solid #DCDCDC;
+        padding: 5px;
+        margin: 0px 5px 20px;
+    }
+    
     @media screen and (max-width: 970px) {
-		.wrap{
-			width: 970px;
-			margin: 0px;
-		}   		
-		
+        .wrap {
+            width: 970px;
+            margin: 0px;
+        }
         .PC-right {
             display: none;
-        }		
-}
-
-
+        }
+    }
+    
     @media screen and (max-width: 576px) {
-		.wrap{
-			width: 100%;
-			margin: 0px;
-		}    		
-		
+        .wrap {
+            width: 100%;
+            margin: 0px;
+        }
         .pc-left {
             display: none;
         }
@@ -2931,8 +2926,6 @@
             left: 0px;
             right: 0px;
         }
-	
-
         footer {
             display: block!important;
         }
@@ -2996,137 +2989,127 @@
         height: auto;
         width: 100%;
     }
-
-
     /* 複数画像サムネイル表示CSS */
-
-	.timeline-2block{
-		float: left!important; 
-		width: 50%!important; 
-		margin-top: 0.5rem!important;
-		margin: 1px;
-	}
-
-	.timeline-2block img{
-		height: 500px!important;   
-		object-fit: cover!important;  
-	}
-
-	.timeline-3block-up{
-		float: left!important; 
-		width: 50%!important;
-		margin: 1px;
-	}
-
-	.timeline-3block-up img{
-		height: 250px!important;   
-		object-fit: cover!important;  
-	}
-
-	.timeline-3block-down{
-		width: 100%;
-		margin: 1px;
-		margin-bottom: 10px;
-	}
-
-	.timeline-3block-down img{
-		height: 250px!important;  
-		object-fit: cover!important;  
-	}
-
-	.timeline-4block{
-		float: left!important; 
-		width: 50%!important; 
-		margin: 1px;
-		margin-bottom: 10px;
-	}
-
-	.timeline-4block img{
-		height: 250px!important;  
-		object-fit: cover!important;  
-	}
-
-	.timeline-in{
-		width: 90%!important;
-		margin-left: 60px;
-	}
-
-	.bottom-icon-left{
-		margin-left: 40px;
-	}
-
-	.bottom-icon-right{
-		margin-right: 10px;
-	}
-
-	.icon-margin-iine{
-		padding: 0.5rem 0.5rem 0.5rem 2rem;
-		font-size: 14px;
-	}
-
-	.icon-margin-tipping{
-		padding: 0.5rem 0.5rem 0.5rem 0.5rem;
-		line-height: 18px;
-		font-size: 14px;
-	}
-
-	.icon-margin-favorite{
-		padding: 0.5rem 0.5rem 0.5rem 0.5rem;
-		font-size: 14px;
-	}
-
-	.icon-margin-comment_up{
-		padding: 0.5rem 0.5rem 0.5rem 0.5rem;
-	}
-
+    
+    .timeline-2block {
+        float: left!important;
+        width: 50%!important;
+        margin-top: 0.5rem!important;
+        margin: 1px;
+    }
+    
+    .timeline-2block img {
+        height: 500px!important;
+        object-fit: cover!important;
+    }
+    
+    .timeline-3block-up {
+        float: left!important;
+        width: 50%!important;
+        margin: 1px;
+    }
+    
+    .timeline-3block-up img {
+        height: 250px!important;
+        object-fit: cover!important;
+    }
+    
+    .timeline-3block-down {
+        width: 100%;
+        margin: 1px;
+        margin-bottom: 10px;
+    }
+    
+    .timeline-3block-down img {
+        height: 250px!important;
+        object-fit: cover!important;
+    }
+    
+    .timeline-4block {
+        float: left!important;
+        width: 50%!important;
+        margin: 1px;
+        margin-bottom: 10px;
+    }
+    
+    .timeline-4block img {
+        height: 250px!important;
+        object-fit: cover!important;
+    }
+    
+    .timeline-in {
+        width: 90%!important;
+        margin-left: 60px;
+    }
+    
+    .bottom-icon-left {
+        margin-left: 40px;
+    }
+    
+    .bottom-icon-right {
+        margin-right: 10px;
+    }
+    
+    .icon-margin-iine {
+        padding: 0.5rem 0.5rem 0.5rem 2rem;
+        font-size: 14px;
+    }
+    
+    .icon-margin-tipping {
+        padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+        line-height: 18px;
+        font-size: 14px;
+    }
+    
+    .icon-margin-favorite {
+        padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+        font-size: 14px;
+    }
+    
+    .icon-margin-comment_up {
+        padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+    }
+    
     @media screen and (max-width: 576px) {
-		.timelile-pro{
-			margin-top: -15px;
-		}
-		.timeline-in{
-			width: 100%!important;
-			margin-left: 0px;
-			padding: 0px;
-		}
-
-		.bottom-icon-left{
-			margin-left: 0px;
-		}
-
-		.bottom-icon-right{
-			margin-right: 0px;
-		}
-		
-		.sp-margin{
-			margin-left: 60px!important;
-		}
-		
-		.icon-margin-top{
-			margin-top: -8px;
-		}
-		
-		.icon-margin-iine{
-			padding: 0.3rem 0.5rem 0rem 0.5rem;
-		}
-
-		.icon-margin-tipping{
-			padding: 0.3rem 0.5rem 0rem 0.5rem;
-		}
-
-		.icon-margin-favorite{
-			padding: 0.3rem 0.5rem 0rem 0.5rem;
-		}
-
-		.icon-margin-comment_up{
-			padding: 0rem 0.5rem 0rem 0.5rem;
-		}		
-		
-		.timeline-inarea{
-			border: 1px solid #DCDCDC;
-			padding: 5px;
-			margin: 0px 5px 0px;
-		}
-		
-	}
-
-
+        .timelile-pro {
+            margin-top: -15px;
+        }
+        .timeline-in {
+            width: 100%!important;
+            margin-left: 0px;
+            padding: 0px;
+        }
+        .bottom-icon-left {
+            margin-left: 0px;
+        }
+        .bottom-icon-right {
+            margin-right: 0px;
+        }
+        .sp-margin {
+            margin-left: 60px!important;
+        }
+        .icon-margin-top {
+            margin-top: -8px;
+        }
+        .icon-margin-iine {
+            padding: 0.3rem 0.5rem 0rem 0.5rem;
+        }
+        .icon-margin-tipping {
+            padding: 0.3rem 0.5rem 0rem 0.5rem;
+        }
+        .icon-margin-favorite {
+            padding: 0.3rem 0.5rem 0rem 0.5rem;
+        }
+        .icon-margin-comment_up {
+            padding: 0rem 0.5rem 0rem 0.5rem;
+        }
+        .timeline-inarea {
+            border: 1px solid #DCDCDC;
+            padding: 5px;
+            margin: 0px 5px 0px;
+        }
+    }
+    
+    .sns-icon {
+        max-width: 15%!important;
+    }
