@@ -12,6 +12,18 @@ get_header();
 </div>
 
 <form action="<?php echo esc_attr(get_tcd_membership_memberpage_url('detail_message')); ?>" method="POST" enctype="multipart/form-data">
+
+    <?php if (count($tcd_membership_vars['error_messages']) > 0) { ?>
+        <div class="col-12 mb-3" id="inputRequestErrMsgArea">
+
+            <div class="inputFile" id="inputFile">
+                <?php foreach($tcd_membership_vars['error_messages'] as $error_message) { ?>
+                <p id="inputRequestErrMsg" class="alert-color font-weight-bold"><?php echo $error_message; ?></p>
+                <?php } ?>
+            </div>
+        </div>
+
+    <?php } ?>
     <div class="container message-show-area" id="message_show_area">
         <?php if (!is_null($tcd_membership_vars['target_user_id'])) { ?>
 
@@ -129,6 +141,7 @@ get_header();
                         </label>
                     </div>
                 </div>
+
             </div>
 
             <!-- 画像投稿時のモーダル -->

@@ -15,6 +15,7 @@ function tcd_membership_action_detail_message()
         exit;
     }
 
+    $error_messages = [];
     if ('POST' == $_SERVER['REQUEST_METHOD']) {
 
         if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'tcd_membership_message_request')) {
@@ -36,13 +37,25 @@ function tcd_membership_action_detail_message()
             }
         } else {
             // メッセージの場合
-            $message = $_POST['message'];
+            $message  = '';
+            if (isset($_POST['message'])) {
+                $message  = preg_replace("/( |　)/", "", $_POST['message']);
+            }
+            if (!empty($message)) {
+                $message = $_POST['message'];
+            } else {
+                $error_messages[] = 'メッセージは必須登録です。';
+            }
         }
-        tcd_membership_messages_add_message(get_current_user_id(), $target_user_id, $message);
-        $redirect = get_tcd_membership_memberpage_url('detail_message') . '&user_id=' . $target_user_id;
-        wp_safe_redirect($redirect);
-        exit;
+
+        if (count($error_messages) <= 0) {
+            tcd_membership_messages_add_message(get_current_user_id(), $target_user_id, $message);
+            $redirect = get_tcd_membership_memberpage_url('detail_message') . '&user_id=' . $target_user_id;
+            wp_safe_redirect($redirect);
+            exit;
+        }
     }
+    $tcd_membership_vars['error_messages'] = $error_messages;
 
     $list_message = [];
     $list_user    = false;
@@ -82,7 +95,7 @@ function tcd_membership_action_detail_message()
         // 送信先のユーザー情報が取得できない場合
         // フォローしているユーザーの一覧を取得
         $list_user = muse_list_user();
-        if(count($list_user) > 0) {
+        if (count($list_user) > 0) {
             $message_flag = true;
         }
     }
