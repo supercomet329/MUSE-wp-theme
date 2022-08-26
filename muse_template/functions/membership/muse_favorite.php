@@ -202,7 +202,21 @@ function is_favorite($post_id = null, $user_id = 0)
  */
 function muse_list_favorite($user_id)
 {
-    global $wpdb, $user_ids;
+    global $wpdb;
+
+    $r18Flag = false;
+    if (!is_null(get_current_user_id())) {
+        $birth_day = get_user_meta(get_current_user_id(), 'birthday', true);
+        if (!empty($birth_day)) {
+            $birthDayDateClass = new DateTime($birth_day);
+            $nowDateClass      = new DateTime();
+            $interval          = $nowDateClass->diff($birthDayDateClass);
+            $old               = $interval->y;
+            if ($old >= 18) {
+                $r18Flag = true;
+            }
+        }
+    }
 
     $sql = '';
     $sql .= 'SELECT ';
@@ -219,6 +233,15 @@ function muse_list_favorite($user_id)
     }
     $sql .= 'AND wp_postmeta.meta_key = \'main_image\' ';
     $sql .= 'AND wp_tcd_membership_actions.type = \'favorite\' ';
+    if (!$r18Flag) {
+        // R18フラグがfalseの場合はR18の商品を表示させない
+        $sql .= ' AND NOT EXISTS ( ';
+        $sql .= 'SELECT * ';
+        $sql .= 'FROM wp_postmeta ';
+        $sql .= 'WHERE meta_key = \'r18\' ';
+        $sql .= 'AND wp_posts.ID = wp_postmeta.post_id ';
+        $sql .= ' ) ';
+    }
     $sql .= ' ORDER BY wp_tcd_membership_actions.created_gmt DESC ';
 
     $result = $wpdb->get_results($wpdb->prepare($sql, 'photo', $user_id));
