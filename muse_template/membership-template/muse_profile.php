@@ -42,7 +42,7 @@ if (!empty($birthdayData)) {
 }
 
 $active_flag = false;
-$active = get_user_meta($user_id, 'active', true);
+$active = get_user_meta($user_id, 'request_box', true);
 if (!empty($active)) {
     $active_flag = $active;
 }
