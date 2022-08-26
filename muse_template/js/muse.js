@@ -657,33 +657,30 @@ function checkRequestInput() {
     var flagText = false;
     var flagComposition = false;
     var flagCharacter = false;
-    var flagRequestFile = false;
     var flagRefUrl = false;
     var flagBudget = false;
     var flagAppDeadline = true;
 
     // 依頼タイトルの値取得
     var requestTitleVal = jQuery('#requestTitle').val();
+
     // 作品タイトルの値取得
     var workTitleVal = jQuery('#workTitle').val();
+
     // 本文の値取得
     var textVal = jQuery('#text').val();
+
     // 構図の値取得
     var compositionVal = jQuery('#composition').val();
+
     // キャラクターの値取得
     var characterVal = jQuery('#character').val();
-    // 添付ファイルの値取得
-    var requestFileVal = jQuery('#requestFile').val();
+
     // 参考URLの値取得
     var refUrlVal = jQuery('#refUrl').val();
+
     // 予算の値取得
     var budgetVal = jQuery('#budget').val();
-    // 応募期限（年）の値取得
-    var appDeadlineYVal = jQuery('#appDeadlineY').val();
-    // 応募期限（月）の値取得
-    var appDeadlineMVal = jQuery('#appDeadlineM').val();
-    // 応募期限（日）の値取得
-    var appDeadlineDVal = jQuery('#appDeadlineD').val();
 
     // 依頼タイトルが入力されているかを確認
     if (requestTitleVal.length > 0) {
@@ -735,18 +732,6 @@ function checkRequestInput() {
         }
     }
 
-    // 添付ファイルが入力されているかを確認
-    var requestType = jQuery('#request_type').val();
-    if (requestType !== 'moddify') {
-        if (requestFileVal) {
-            // 添付ファイルが入力されている場合、エラーメッセージを非表示
-            flagRequestFile = true;
-            jQuery('#inputRequestErrMsgArea').addClass('d-none');
-        }
-    } else {
-        flagRequestFile = true;
-    }
-
     // 参考URLが入力されているかを確認
     jQuery('#validRefUrlErrMsg').hide();
     if (refUrlVal.length > 0) {
@@ -783,8 +768,7 @@ function checkRequestInput() {
         flagCharacter === true &&
         flagRefUrl === true &&
         flagBudget === true &&
-        flagAppDeadline === true &&
-        flagRequestFile === true) {
+        flagAppDeadline === true) {
         disabledFlag = false;
     }
     jQuery('#requestBtn').attr('disabled', disabledFlag);

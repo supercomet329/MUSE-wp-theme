@@ -58,6 +58,8 @@ if (!$dp_options) $dp_options = get_design_plus_option();
 
 	<div class="trande-art-area">
 		<span class="trande-art-area-title">トレンドアート</span>
+		<?php /**
+		 // TODO: トレンドアートの取得ルールが決まったら対応
 		<div class="trande-art-area-in">
 			<ul class="tweet-area">
 				<li class="d-flex align-items-start">
@@ -91,6 +93,7 @@ if (!$dp_options) $dp_options = get_design_plus_option();
 			<a href="post_img_comment.html"><img class="img-fluid mx-auto" src="<?php echo get_template_directory_uri(); ?>/assets/img/pixta_85053177_M.jpg" /></a>
 			<div class="trande-art-area-price">￥00,000</div>
 		</div>
+		*/ ?>
 	</div>
 </div>
 </div>

@@ -152,7 +152,7 @@ function tcd_membership_action_request()
                 $requestFileUrl  = false;
                 $requestFileName = false;
 
-                if (isset($_FILES['requestFile']['name'])) {
+                if (!empty($_FILES['requestFile']['name'])) {
                     $extension = pathinfo($_FILES['requestFile']['name'], PATHINFO_EXTENSION);
                     $file_name = substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 100) . '.' . $extension;
                     $uploaded_file = __DIR__ . '/../../upload_file/' . $file_name;
@@ -163,11 +163,7 @@ function tcd_membership_action_request()
 
                         $requestFileUrl  = get_template_directory_uri() . '/upload_file/' . $file_name;
                         $requestFileName = $_FILES['requestFile']['name'];
-                    } else {
-                        $error_messages['requestFile'] = 'ファイルのアップロードに失敗しました。';
                     }
-                } else {
-                    $error_messages['requestFile'] = 'ファイルをアップロードしてください。';
                 }
 
                 if (count($error_messages) <= 0) {
