@@ -38,20 +38,41 @@ get_header();
                 </div>
                 <p class="mb-0 mt-3 text-right"><a class="text-dark" href="<?php echo esc_url(get_tcd_membership_memberpage_url('post_comment')); ?>&post_id=<?php echo esc_attr($tcd_membership_vars['post_id']); ?>">…</a></p>
             </div>
-            <div class="logo-area col-6">
-                <?php
-                $like_image = 'iine.png';
-                if (is_liked($tcd_membership_vars['post_id'], false)) {
-                    $like_image = 'iine_on.png';
-                }
-                ?>
-                <img class="js-toggle-like float-left" data-post-id="<?php echo esc_attr($tcd_membership_vars['post_id']); ?>" src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/<?php echo esc_attr($like_image); ?>" alt="iine">
-                <p class="mb-1 float-left mx-2 font-weight-bold" id="count_like_<?php echo esc_attr($tcd_membership_vars['post_id']); ?>" id="count_like_<?php echo esc_attr($tcd_membership_vars['post_id']); ?>"><?php echo esc_attr(get_likes_number($tcd_membership_vars['post_id'])); ?></p>
-                <!-- TODO: NFT決まったら -->
-                <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/social_tipping_on.png" alt="social_tipping_on">
-            </div>
-            <div class="col-6 my-auto">
-                <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('page_report')); ?>&post_id=<?php echo esc_attr($tcd_membership_vars['post_id']); ?>" class="btn btn-primary text-white rounded-pill btn-sm text-white btn-lg main-color float-right">通報する</a>
+
+            <div class="logo-area d-flex bd-highlight icon-margin-top">
+                <div class="bd-highlight text-nowrap flex-fill bottom-icon-left icon-margin-iine">
+                    <?php
+                    $like_image = 'iine.png';
+                    if (is_liked($tcd_membership_vars['post_id'], false)) {
+                        $like_image = 'iine_on.png';
+                    }
+                    ?>
+                    <img class="js-toggle-like float-left" data-post-id="<?php echo esc_attr($tcd_membership_vars['post_id']); ?>" src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/<?php echo esc_attr($like_image); ?>" alt="iine">
+                    <p class="mb-1 float-left mx-1 font-weight-bold" id="count_like_<?php echo esc_attr($tcd_membership_vars['post_id']); ?>"><?php echo esc_attr(get_likes_number($tcd_membership_vars['post_id'])); ?></p>
+                </div>
+                <div class="pl-4 bd-highlight text-nowrap flex-fill icon-margin-tipping">
+                    <img class="float-left" src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/social_tipping_on.png" alt="social_tipping_on">
+                    <p class="mb-1 float-left font-weight-bold">400円<br />400ETH</p>
+                </div>
+                <div class="pl-4 bd-highlight text-nowrap flex-fill icon-margin-favorite">
+                    <?php
+                    $favorite_image = 'favorite.png';
+                    if (is_favorite($tcd_membership_vars['post_id'], false)) {
+                        $favorite_image = 'favorite_on.png';
+                    }
+                    ?>
+                    <img class="js-toggle-favorite float-left" data-post-id="<?php echo esc_attr($tcd_membership_vars['post_id']); ?>" src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/<?php echo $favorite_image; ?>" alt="favorite_on">
+                    <p class="mb-1 float-left mx-1 font-weight-bold" id="count_favorite_<?php echo esc_attr($tcd_membership_vars['post_id']); ?>"><?php echo esc_attr(get_favorite_number($tcd_membership_vars['post_id'])); ?></p>
+                </div>
+                <div class="pl-4 flex-fill text-right pt-1 bottom-icon-right icon-margin-comment_up">
+                    <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('page_report')); ?>&post_id=<?php echo esc_attr($tcd_membership_vars['post_id']); ?>" class="btn btn-primary text-white rounded-pill btn-sm text-white btn-lg main-color float-right">通報する</a>
+                </div>
+                <!-- <div class="p-2 bd-highlight col-5"></div>
+        <div class="p-2 bd-highlight col-4 arrow_box">
+            <a href="./post_img_normal_confirmation.html">
+                and more
+            </a>
+        </div> -->
             </div>
             <div class="col-12 item-text mb-2">
                 タイトル（必須）
