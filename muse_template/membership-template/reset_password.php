@@ -81,7 +81,7 @@ get_header();
 								<h1 class="text-center mb-4 contents-title font-weight-bold">パスワード再発行</h1>
 								<div class="emailSentMsg" id="emailSentMsg">
 									<?php if ($messageComplete) { ?>
-										<p>下記のメールアドレスに仮登録メールを送信いたしました。</p>
+										<p>下記のメールアドレスにパスワード再設定URLを送信いたしました。</p>
 									<?php } ?>
 								</div>
 
