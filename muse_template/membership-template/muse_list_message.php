@@ -31,6 +31,7 @@ get_header();
                     $profileImageData = get_user_meta($user_id, 'profile_image', true);
 
                     $dateTimeClass = new DateTime($one_message->sent_gmt);
+                    $dateTimeClass->setTimezone(new DateTimeZone('Asia/Tokyo'));
                     $display_name = $userData->display_name;
                     if (!empty($profileImageData)) {
                         $profile_image = $profileImageData;
