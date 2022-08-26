@@ -54,6 +54,9 @@
                 $imageArray[] = $oneTimeline->main_image4;
             }
 
+            $arraySliceImage = array_chunk($imageArray, 2);
+            $imageCount = count($imageArray);
+
     ?>
             <div class="timeline-inarea">
 
@@ -75,33 +78,88 @@
                     </ul>
                 </div>
 
-                <div class="timeline-image timelile-pro">
-                    <div class="my-2 slid-img swiper swipertum sp-margin">
-                        <div class="swiper-wrapper d-flex align-items-center timeline-in">
-                            <?php foreach ($imageArray as $photoOne) { ?>
+                <?php if ($imageCount <= 1) { ?>
+                    <div class="timeline-image timelile-pro">
+                        <div class="my-2 slid-img swiper swipertum sp-margin">
+                            <div class="swiper-wrapper d-flex align-items-center timeline-in">
                                 <div class="swiper-slide text-right">
-                                    <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('post_comment')); ?>&post_id=<?php echo esc_attr($oneTimeline->post_id); ?>"><img class="img-fluid mx-auto" src="<?php echo esc_url($photoOne); ?>" /></a>
+                                    <?php foreach ($imageArray as $photoOne) { ?>
+                                        <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('post_comment')); ?>&post_id=<?php echo esc_attr($oneTimeline->post_id); ?>"><img class="img-fluid mx-auto" src="<?php echo esc_url($photoOne); ?>" /></a>
+                                    <?php }
+                                    /** endforeach */ ?>
                                 </div>
-                            <?php }
-                            /** endforeach */ ?>
+                            </div>
                         </div>
-                        <div class="swiper-button-prev"></div>
-                        <div class="swiper-button-next"></div>
                     </div>
-                    <div class="swiper slid-list swiperlist">
-                        <div class="swiper-wrapper">
-                            <?php if (count($imageArray) > 1) { ?>
+                <?php } elseif ($imageCount === 2) { ?>
+                    <div class="timeline-image timelile-pro">
+                        <div class="my-2 slid-img swiper swipertum sp-margin">
+                            <div class="swiper-wrapper d-flex align-items-center timeline-in">
                                 <?php foreach ($imageArray as $photoOne) { ?>
-                                    <div class="swiper-slide">
-                                        <img src="<?php echo esc_url($photoOne); ?>" />
+                                    <div class="swiper-slide timeline-2block text-right">
+                                        <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('post_comment')); ?>&post_id=<?php echo esc_attr($oneTimeline->post_id); ?>"><img class="img-fluid mx-auto" src="<?php echo esc_url($photoOne); ?>" /></a>
+                                    </div>
+                                    <div class="swiper-slide timeline-2block text-right">
+                                        <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('post_comment')); ?>&post_id=<?php echo esc_attr($oneTimeline->post_id); ?>"><img class="img-fluid mx-auto" src="<?php echo esc_url($photoOne); ?>" /></a>
                                     </div>
                                 <?php }
                                 /** endforeach */ ?>
-                            <?php }
-                            /** endif */ ?>
+                            </div>
                         </div>
                     </div>
-                </div>
+                <?php } elseif ($imageCount === 3) { ?>
+                    <div class="timeline-image timelile-pro">
+                        <?php
+                        $loop = 0;
+                        foreach ($arraySliceImage as $arrayOneSliceImage) {
+                            $timeLineClass = 'timeline-3block-up';
+                            if ($loop > 0) {
+                                $timeLineClass = 'timeline-3block-down';
+                            }
+                        ?>
+                            <div class="timeline-image timelile-pro">
+                                <div class="slid-img swiper swipertum sp-margin">
+                                    <div class="swiper-wrapper d-flex align-items-center timeline-in">
+                                        <?php foreach ($arrayOneSliceImage as $oneSliceImage) { ?>
+                                            <div class="swiper-slide <?php echo $timeLineClass; ?> text-right">
+                                                <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('post_comment')); ?>&post_id=<?php echo esc_attr($oneTimeline->post_id); ?>"><img class="img-fluid mx-auto" src="<?php echo esc_url($oneSliceImage); ?>" /></a>
+                                            </div>
+                                        <?php }
+                                        /** endforech */ ?>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php
+                            $loop++;
+                        }
+                        /** endforeach */ ?>
+                    </div>
+                <?php } else { ?>
+                    <?php
+                    $loop = 0;
+                    foreach ($arraySliceImage as $arrayOneSliceImage) {
+                        $timeLineClass = 'timeline-3block-up';
+                        if ($loop > 0) {
+                            $timeLineClass = 'timeline-4block';
+                        }
+                    ?>
+                        <div class="timeline-image timelile-pro">
+                            <div class="slid-img swiper swipertum sp-margin">
+                                <div class="swiper-wrapper d-flex align-items-center timeline-in">
+                                    <?php foreach ($arrayOneSliceImage as $oneSliceImage) { ?>
+                                        <div class="swiper-slide <?php echo $timeLineClass; ?> text-right">
+                                            <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('post_comment')); ?>&post_id=<?php echo esc_attr($oneTimeline->post_id); ?>"><img class="img-fluid mx-auto" src="<?php echo esc_url($oneSliceImage); ?>" /></a>
+                                        </div>
+                                    <?php }
+                                    /** endforech */ ?>
+                                </div>
+                            </div>
+                        </div>
+                    <?php
+                        $loop++;
+                    }
+                    /** endforeach */ ?>
+                <?php } ?>
 
                 <div class="logo-area d-flex bd-highlight icon-margin-top">
                     <div class="bd-highlight text-nowrap flex-fill bottom-icon-left icon-margin-iine">
