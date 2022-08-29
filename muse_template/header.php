@@ -76,7 +76,9 @@ if ($viewMode === 'picture') {
     <meta property="og:site_name" content="<?php echo esc_attr(bloginfo('name')); ?>" />
 
     <!-- Icon -->
-    <?php wp_head(); ?>
+    <?php
+    wp_head();
+    ?>
 
     <link rel="shortcut icon" href="<?php echo get_template_directory_uri(); ?>/assets/img/icon/logo.png">
     <link rel="apple-touch-icon" href="<?php echo get_template_directory_uri(); ?>/assets/img/icon/logo.png">
