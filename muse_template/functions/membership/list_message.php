@@ -6,7 +6,6 @@
 function tcd_membership_action_list_message()
 {
     global $tcd_membership_vars;
-    ini_set('display_errors', "On");
 
     nocache_headers();
 
