@@ -77,7 +77,7 @@ get_template_part( 'functions/membership/list_received' );
 get_template_part( 'functions/membership/list_order' );
 // get_template_part( 'functions/membership/list_post' );
 get_template_part( 'functions/membership/confirm_post' );
-get_template_part( 'functions/membership/terms' );
+get_template_part( 'functions/membership/muse_terms' );
 get_template_part( 'functions/membership/agreement' );
 get_template_part( 'functions/membership/muse_profile' );
 get_template_part( 'functions/membership/information' );
