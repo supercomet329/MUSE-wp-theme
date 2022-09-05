@@ -5,6 +5,7 @@
  */
 function tcd_membership_action_terms()
 {
-    var_dump(__LINE__);exit;
+    global $tcd_membership_vars;
+    $tcd_membership_vars['template'] = 'muse_terms';
 }
 add_action('tcd_membership_action-terms', 'tcd_membership_action_terms');
