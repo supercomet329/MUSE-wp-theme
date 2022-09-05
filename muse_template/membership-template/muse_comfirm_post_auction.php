@@ -178,7 +178,7 @@ get_header();
                     オークション自動延長
                 </div>
                 <div class="col-12 mb-2">
-                    <input type="text" value="あり" class="border border-0" readonly>
+                    <?php echo esc_attr($tcd_membership_vars['extendAuction']); ?>
                 </div>
                 <?php if ($tcd_membership_vars['extendAuction'] === 'あり') { ?>
                     <div class="text-danger mb-3 ml-3 small">
@@ -189,6 +189,14 @@ get_header();
 
             <?php }
             /** endif */ ?>
+
+            <div class="col-12 item-text mb-2">
+                即決価格（必須）
+            </div>
+            <div class="col-12 mb-2">
+                <?php echo esc_attr($tcd_membership_vars['binPrice']); ?>
+            </div>
+
 
             <?php if ($tcd_membership_vars['viewSubmitButton'] !== FALSE) { ?>
                 <!-- NFTが決まったらオークション処理追加 -->
