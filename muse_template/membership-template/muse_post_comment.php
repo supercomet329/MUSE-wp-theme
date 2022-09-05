@@ -5,7 +5,6 @@ get_header();
 $arraySliceImage = array_chunk($tcd_membership_vars['post_image_array'], 2);
 $imageCount = count($tcd_membership_vars['post_image_array']);
 
-
 ?>
 <div class="pc-center">
     <div class="container pt-2 confirm-area">
@@ -51,6 +50,7 @@ $imageCount = count($tcd_membership_vars['post_image_array']);
                     ?>
                         <div class="timeline-image timelile-pro">
                             <div class="slid-img swiper swipertum">
+                            <div class="my-2 slid-img swiper swipertum">
                                 <div class="swiper-wrapper d-flex align-items-center timeline-in">
                                     <?php foreach ($arrayOneSliceImage as $oneSliceImage) { ?>
                                         <div class="swiper-slide <?php echo $timeLineClass; ?> text-right">
@@ -76,7 +76,7 @@ $imageCount = count($tcd_membership_vars['post_image_array']);
                     }
                 ?>
                     <div class="timeline-image timelile-pro">
-                        <div class="slid-img swiper swipertum">
+                        <div class="my-2 slid-img swiper swipertum">
                             <div class="swiper-wrapper d-flex align-items-center timeline-in">
                                 <?php foreach ($arrayOneSliceImage as $oneSliceImage) { ?>
                                     <div class="swiper-slide <?php echo $timeLineClass; ?> text-right">
