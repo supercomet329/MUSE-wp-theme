@@ -373,6 +373,13 @@ function tcd_membership_login_form($args = array())
 
             // エラー画面
             elseif (!empty($tcd_membership_vars['error_message'])) :
+
+                $error_message = 'エラーが発生しました。';
+                if('Invalid token.' === $tcd_membership_vars['error_message']) {
+                    $error_message = '使用できないトークンです。<br />改めて仮登録を御願い致します。';
+                } else if('Expired token.' === $tcd_membership_vars['error_message']){
+                    $error_message = '本登録が完了しているトークンです。';
+                }
     ?>
         <section class="vh-100 bg-image">
             <div class="mask d-flex align-items-center h-100 gradient-custom-3">
@@ -382,7 +389,7 @@ function tcd_membership_login_form($args = array())
                             <div class="card" style="border-radius: 15px;">
                                 <div class="card-body shadow">
                                     <h5 class="text-center font-weight-bold my-3">
-                                        <?php echo wpautop($tcd_membership_vars['error_message']); ?>
+                                        <?php echo wpautop($error_message); ?>
                                     </h5>
                                 </div>
                             </div>
@@ -1584,7 +1591,7 @@ function tcd_membership_login_form($args = array())
             $metadata = array();
 
 
-            if (isset($data[$meta_key])) {
+            if (isset($data['last_name'])) {
                 $meta_key = 'last_name';
                 $metadata[$meta_key] = isset($data[$meta_key]) ? tcd_membership_sanitize_content($data[$meta_key]) : '';
             }

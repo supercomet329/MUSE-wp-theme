@@ -32,16 +32,19 @@ function api_insert_message($params)
 
         if (!empty($params['image'])) {
             // 画像アップロードの場合
-            $image_parts = explode(";base64,", $params['image']);
-            $image_type_aux = explode("image/", $image_parts[0]); // ファイルの型を取り出す
-            $image_type = $image_type_aux[1]; // ファイルの型を取り出す
-            $image_base64 = base64_decode($image_parts[1]); // 画像データとして取り出す
-            $file_name = substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 100) . '.' . '.png';
-            $uploaded_file = '/home/kusanagi/nft/DocumentRoot/wp-content/themes/muse_template/functions/membership' . '/../../upload_file/' . $file_name;
+            $postImage = $params['image'];
+            $postImage = str_replace(' ', '+', $postImage);
+            $postImage = preg_replace('#^data:image/\w+;base64,#i', '', $postImage);
+            $imageData = base64_decode($postImage);
 
-            $result = file_put_contents($uploaded_file, $image_base64); // ファイルを保存
+            // 拡張子の取得
+            $extension     = finfo_buffer(finfo_open(), $imageData, FILEINFO_EXTENSION);
+            $file_name     = 'api_' . substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 100) . '.' . $extension;
+            $uploaded_file = muse_modify_template_directory_upload_dir() . $file_name;
+            $result        = file_put_contents($uploaded_file, $imageData);
+
             if ($result) {
-                $message  = 'http://localhost.nft.info/wp-content/themes/muse_template' . '/upload_file/' . $file_name;
+                $message = muse_modify_template_directory_uri() . '/upload_file/' . $file_name;
             } else {
                 $error_messages[] = 'ファイルのアップロードに失敗しました。';
             }

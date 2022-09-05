@@ -77,8 +77,8 @@ get_template_part('functions/membership/muse_get_followers');
 get_template_part('functions/membership/muse_get_tail_follow');
 get_template_part('functions/membership/muse_follow');
 get_template_part('functions/membership/muse_top_image');
-
-get_template_part('functions/membership/muse_tail_image');
+get_template_part('functions/membership/muse_edit_profile');
+get_template_part('functions/membership/muse_tile_image');
 
 // ADD 2022/05/10 H.Okabe
 get_template_part('functions/membership/follows');
@@ -101,8 +101,20 @@ get_template_part('functions/membership/information');
 get_template_part('functions/membership/list_message');
 get_template_part('functions/membership/detail_message');
 get_template_part('functions/membership/keep');
+get_template_part('functions/membership/muse_favorite');
 get_template_part('functions/membership/notification');
 get_template_part('functions/membership/post_image');
+get_template_part('functions/membership/muse_api_temporary_registration');
+get_template_part('functions/membership/muse_api_reset_password');
+get_template_part('functions/membership/muse_api_insert_image');
+get_template_part('functions/membership/muse_oauth');
+get_template_part('functions/membership/muse_api_list_comment');
+get_template_part('functions/membership/muse_api_insert_comment');
+get_template_part('functions/membership/muse_api_post_image');
+get_template_part('functions/membership/muse_api_input_order');
+get_template_part('functions/membership/muse_api_update_profile');
+get_template_part('functions/membership/muse_api_list_image');
+get_template_part('functions/membership/muse_api_report');
 
 // load options
 global $dp_options;

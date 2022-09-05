@@ -14,7 +14,6 @@ function ajax_toggle_keep()
 
 	if (!isset($_POST['post_id'])) {
 		$json['message'] = __('Invalid request.', 'tcd-w');
-		
 	} elseif (!current_user_can('read')) {
 		$json['message'] = __('Require login.', 'tcd-w');
 	} else {
@@ -142,8 +141,16 @@ function remove_keep($post_id, $user_id = 0)
 		return null;
 	}
 
+	/**
 	$target_post = get_post($post_id);
 	if (empty($target_post->post_status) || 'publish' !== $target_post->post_status) {
+		return null;
+	}
+	 */
+
+	// $target_post = get_post($post_id);
+	$target_post = get_post_by_post_id($post_id);
+	if (empty($target_post[0]->post_status) || 'publish' !== $target_post[0]->post_status) {
 		return null;
 	}
 
@@ -183,8 +190,9 @@ function is_keep($post_id = null, $user_id = 0)
 		return null;
 	}
 
-	$target_post = get_post($post_id);
-	if (empty($target_post->post_status) || 'publish' !== $target_post->post_status) {
+	// $target_post = get_post($post_id);
+	$target_post = get_post_by_post_id($post_id);
+	if (empty($target_post[0]->post_status) || 'publish' !== $target_post[0]->post_status) {
 		return null;
 	}
 

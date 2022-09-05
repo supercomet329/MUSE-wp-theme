@@ -152,7 +152,7 @@ function tcd_membership_action_request()
                 $requestFileUrl  = false;
                 $requestFileName = false;
 
-                if (isset($_FILES['requestFile']['name'])) {
+                if (!empty($_FILES['requestFile']['name'])) {
                     $extension = pathinfo($_FILES['requestFile']['name'], PATHINFO_EXTENSION);
                     $file_name = substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 100) . '.' . $extension;
                     $uploaded_file = __DIR__ . '/../../upload_file/' . $file_name;
@@ -163,11 +163,7 @@ function tcd_membership_action_request()
 
                         $requestFileUrl  = get_template_directory_uri() . '/upload_file/' . $file_name;
                         $requestFileName = $_FILES['requestFile']['name'];
-                    } else {
-                        $error_messages['requestFile'] = 'ファイルのアップロードに失敗しました。';
                     }
-                } else {
-                    $error_messages['requestFile'] = 'ファイルをアップロードしてください。';
                 }
 
                 if (count($error_messages) <= 0) {
@@ -264,13 +260,16 @@ function tcd_membership_action_request()
                         );
                     }
 
+                    // デフォルトの登録完了時の遷移先
+                    $redirectUrl = get_tcd_membership_memberpage_url('list_order') . '&status=request_complete';
                     if (isset($_POST['specify_user_id']) && !empty($_POST['specify_user_id'])) {
+                        $userId = $_POST['specify_user_id'];
                         $result = $wpdb->insert(
                             'wp_postmeta',
                             [
                                 'post_id'    => $post_id,
                                 'meta_key'   => 'specify_user_id',
-                                'meta_value' => $_POST['specify_user_id'],
+                                'meta_value' => $userId,
                             ],
                             [
                                 '%d',
@@ -278,6 +277,9 @@ function tcd_membership_action_request()
                                 '%s'
                             ]
                         );
+
+                        // ユーザー指名がある場合の遷移先(指名ユーザーのプロフィール画面)
+                        $redirectUrl = get_tcd_membership_memberpage_url('profile') . '&user_id=' . $userId;
                     }
 
                     // 指定ユーザーがいない場合Tweet
@@ -285,11 +287,10 @@ function tcd_membership_action_request()
                     // $uri = '/?memberpage=confirm_request&request_id=' . $post_id;
                     // publishTwitter($message, $uri);
 
-                    // TODO: 登録完了時に遷移させるのは依頼一覧
-                    $redirect = get_tcd_membership_memberpage_url('list_order') . '&status=request_complete';
-                    wp_redirect(remove_query_arg('settings-updated', $redirect));
+                    wp_redirect(remove_query_arg('settings-updated', $redirectUrl));
                 }
 
+                $_SESSION['success'] = '依頼の登録が完了しました。';
                 $tcd_membership_vars['error_message'] = $error_messages;
             }
         }

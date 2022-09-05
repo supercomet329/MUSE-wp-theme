@@ -173,13 +173,15 @@ function is_liked( $post_id = null, $user_id = 0 ) {
 	if ( null === $post_id ) {
 		$post_id = get_the_ID();
 	}
+
 	$post_id = (int) $post_id;
 	if ( 0 >= $post_id ) {
 		return null;
 	}
 
-	$target_post = get_post( $post_id );
-	if ( empty( $target_post->post_status ) || 'publish' !== $target_post->post_status ) {
+	// $target_post = get_post( $post_id );
+	$target_post = get_post_by_post_id( $post_id );
+	if ( empty( $target_post[0]->post_status ) || 'publish' !== $target_post[0]->post_status ) {
 		return null;
 	}
 

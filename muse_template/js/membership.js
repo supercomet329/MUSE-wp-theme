@@ -391,71 +391,14 @@ jQuery(function($) {
                 if (data.result == 'added') {
                     // $(el).addClass('p-button-following').removeClass('p-button-follow').html(data.text);
 
-                    $(el).removeClass('js-toggle-follow btn rounded-pill btn-outline-primary btn-sm follow-btn follow-off');
-                    $(el).addClass('js-toggle-follow btn btn-primary rounded-pill btn-sm text-white btn-lg main-color follow-btn follow-on');
+                    $(el).removeClass('js-toggle-follow btn rounded-pill btn-outline-primary outline-btn btn-sm');
+                    $(el).addClass('js-toggle-follow btn btn-primary rounded-pill btn-sm text-white btn-lg main-color');
                     $(el).text('フォロー中');
                 } else if (data.result == 'removed') {
                     // $(el).addClass('p-button-follow').removeClass('p-button-following').html(data.text);
-                    $(el).removeClass('js-toggle-follow btn btn-primary rounded-pill btn-sm text-white btn-lg main-color follow-btn follow-on');
-                    $(el).addClass('js-toggle-follow btn rounded-pill btn-outline-primary btn-sm follow-btn follow-off');
+                    $(el).removeClass('js-toggle-follow btn btn-primary rounded-pill btn-sm text-white btn-lg main-color');
+                    $(el).addClass('js-toggle-follow btn rounded-pill btn-outline-primary outline-btn btn-sm');
                     $(el).text('フォローする');
-                } else if (data.message) {
-                    showModalAlert(data.message);
-                } else {
-                    showModalAlert(TCD_MEMBERSHIP.ajax_error_message);
-                }
-            },
-            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                $(el).removeClass('is-ajaxing');
-                showModalAlert(TCD_MEMBERSHIP.ajax_error_message);
-            }
-        });
-    };
-
-    /**
-     * いいねクリック
-     */
-    $(document).on('click', '.js-toggle-like', function() {
-        var self = this;
-        var post_id = $(this).attr('data-post-id');
-        if (!post_id) return false;
-        if ($(this).hasClass('is-ajaxing')) return false;
-
-        // 未ログインの場合はモーダルログイン表示
-        if (!$('body').hasClass('logged-in')) {
-            waitLoginVars = {
-                type: 'like',
-                post_id: post_id,
-                $elem: $(this)
-            };
-            showModalLogin();
-            return false;
-        }
-
-        ajaxToggleLike($(this), post_id)
-        return false;
-    });
-
-    /**
-     * いいねajax
-     */
-    var ajaxToggleLike = function(el, post_id) {
-        $(el).addClass('is-ajaxing');
-        $.ajax({
-            url: TCD_MEMBERSHIP.ajax_url,
-            type: 'POST',
-            data: {
-                action: 'toggle_like',
-                post_id: post_id
-            },
-            success: function(data, textStatus, XMLHttpRequest) {
-                $(el).removeClass('is-ajaxing');
-                if (data.result == 'added') {
-                    // $(el).addClass('p-icon-liked').removeClass('p-icon-like').html(data.likes_number);
-                    $(el).attr('src', '/wp-content/themes/muse_template/assets/img/icon/iine_on.png');
-                } else if (data.result == 'removed') {
-                    // $(el).addClass('p-icon-like').removeClass('p-icon-liked').html(data.likes_number);
-                    $(el).attr('src', '/wp-content/themes/muse_template/assets/img/icon/iine.png');
                 } else if (data.message) {
                     showModalAlert(data.message);
                 } else {
@@ -570,9 +513,11 @@ jQuery(function($) {
                 if (data.result == 'added') {
                     // $(el).addClass('p-icon-liked').removeClass('p-icon-like').html(data.likes_number);
                     $(el).attr('src', '/wp-content/themes/muse_template/assets/img/icon/favorite_on.png');
+                    $('#count_favorite_' + post_id).text(data.keeps_number);
                 } else if (data.result == 'removed') {
                     // $(el).addClass('p-icon-like').removeClass('p-icon-liked').html(data.likes_number);
                     $(el).attr('src', '/wp-content/themes/muse_template/assets/img/icon/favorite.png');
+                    $('#count_favorite_' + post_id).text(data.keeps_number);
                 } else if (data.message) {
                     showModalAlert(data.message);
                 } else {
@@ -865,6 +810,8 @@ jQuery(function($) {
             html += '</div>';
             html += '</div>';
             html += '</div>';
+            // 20220816 使用しないので空メッセージを出力するようにする。
+            var html = '';
             $modalAlert = $(html).appendTo('body');
         }
 

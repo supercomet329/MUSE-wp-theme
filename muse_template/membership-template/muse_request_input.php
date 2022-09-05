@@ -117,11 +117,11 @@ get_header();
                     <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/camera_BGblue.png" class="request-file-img">
                     <p id="outputFileName"></p>
                 </label>
-                <div class="col-12 mb-3 <?php if (isset($tcd_membership_vars['error_message']['requestFile'])) { ?>d-none<?php } ?>" id="inputRequestErrMsgArea">
+                <!-- div class="col-12 mb-3 <?php if (isset($tcd_membership_vars['error_message']['requestFile'])) { ?>d-none<?php } ?>" id="inputRequestErrMsgArea">
                     <div class="inputFile" id="inputFile">
                         <p id="inputRequestErrMsg" class="alert-color font-weight-bold">添付ファイルを入力してください</p>
                     </div>
-                </div>
+                </div -->
             </div>
             <div class="col-12 mt-4">
                 <h1 class="text-left font-weight-bold request-title">参考URL（任意）</h1>
@@ -221,7 +221,7 @@ get_header();
         </div>
         <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd_membership_action_request')); ?>">
         <input type="hidden" name="specify_user_id" value="<?php echo esc_attr($tcd_membership_vars['specifyUserId']); ?>">
-        <input type="hidden" name="request_type" value="input">
+        <input type="hidden" name="request_type" id="request_type" value="input">
     </form>
 </div>
 <?php

@@ -307,7 +307,7 @@ function makeTwitterOauthLoginLink()
         $button .= '<div class="col-12 login-with-sns">';
         $button .= '<a href="' . $base_url . '?' . http_build_query($query) . '" rel="noreferrer">';
         $button .= '<button class="twitter-btn">';
-        $button .= '<img class="col-3 float-left sns-icon" src="' . get_template_directory_uri() . '/assets/img/icon/twitter_icon.png" alt="twitter">';
+        $button .= '<img class="col-3 float-left twitter-icon" src="' . get_template_directory_uri() . '/assets/img/icon/twitter_icon.png" alt="twitter">';
         $button .= '<div class="con-6 twitter-login-text">Twitterで認証を行う</div>';
         $button .= '<div class="con-3"></div>';
         $button .= '</button>';

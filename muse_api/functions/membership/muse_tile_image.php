@@ -6,7 +6,7 @@
  * @param array $params
  * @return array
  */
-function api_get_tail_image($params)
+function api_get_tile_image($params)
 {
     // 変数を初期化
     $response = [];

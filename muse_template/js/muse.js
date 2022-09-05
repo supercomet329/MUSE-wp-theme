@@ -395,7 +395,7 @@ function showTypePwConfirmMsg() {
 
 // パスワードのフォーマットが正しくない場合、メッセージを表示
 function showPwValidateMsg() {
-    jQuery('#inputPwMsg').empty().append("<p id=\"inputPwErrMsg\" class=\"pwResetErrMsg\">パスワードは半角英小文字、大文字、数字を含む9文字以上32文字以内を入力してください</p>");
+    jQuery('#inputPwMsg').empty().append("<p id=\"inputPwErrMsg\" class=\"pwResetErrMsg\">パスワードは半角英小文字、大文字、数字を含む8文字以上で入力してください</p>");
 }
 
 // パスワードに空欄がある場合、メッセージを表示
@@ -519,7 +519,7 @@ function selRequestSelBox() {
     var setAppDeadlineM = jQuery('#hideAppDeadlineM').val();
     var htmlAppDeadlineM = '';
     htmlAppDeadlineY += '<option value=""></option>';
-    for (var month = 1; month < 12; month++) {
+    for (var month = 1; month <= 12; month++) {
         if (month == setAppDeadlineM) {
             htmlAppDeadlineM += '<option value="' + month + '" selected>' + month + '</option>';
         } else {
@@ -555,7 +555,8 @@ function selRequestSelBox() {
     var setDesiredDateM = jQuery('#hideDesiredDateM').val();
     var htmlDesiredDateM = '';
     htmlDesiredDateM += '<option value=""></option>';
-    for (var month = 1; month < 12; month++) {
+    for (var month = 1; month <= 12; month++) {
+        console.log(month);
         if (month == setDesiredDateM) {
             htmlDesiredDateM += '<option value="' + month + '" selected>' + month + '</option>';
         } else {
@@ -656,33 +657,30 @@ function checkRequestInput() {
     var flagText = false;
     var flagComposition = false;
     var flagCharacter = false;
-    var flagRequestFile = false;
     var flagRefUrl = false;
     var flagBudget = false;
     var flagAppDeadline = true;
 
     // 依頼タイトルの値取得
     var requestTitleVal = jQuery('#requestTitle').val();
+
     // 作品タイトルの値取得
     var workTitleVal = jQuery('#workTitle').val();
+
     // 本文の値取得
     var textVal = jQuery('#text').val();
+
     // 構図の値取得
     var compositionVal = jQuery('#composition').val();
+
     // キャラクターの値取得
     var characterVal = jQuery('#character').val();
-    // 添付ファイルの値取得
-    var requestFileVal = jQuery('#requestFile').val();
+
     // 参考URLの値取得
     var refUrlVal = jQuery('#refUrl').val();
+
     // 予算の値取得
     var budgetVal = jQuery('#budget').val();
-    // 応募期限（年）の値取得
-    var appDeadlineYVal = jQuery('#appDeadlineY').val();
-    // 応募期限（月）の値取得
-    var appDeadlineMVal = jQuery('#appDeadlineM').val();
-    // 応募期限（日）の値取得
-    var appDeadlineDVal = jQuery('#appDeadlineD').val();
 
     // 依頼タイトルが入力されているかを確認
     if (requestTitleVal.length > 0) {
@@ -734,13 +732,6 @@ function checkRequestInput() {
         }
     }
 
-    // 添付ファイルが入力されているかを確認
-    if (requestFileVal) {
-        // 添付ファイルが入力されている場合、エラーメッセージを非表示
-        flagRequestFile = true;
-        jQuery('#inputRequestErrMsgArea').addClass('d-none');
-    }
-
     // 参考URLが入力されているかを確認
     jQuery('#validRefUrlErrMsg').hide();
     if (refUrlVal.length > 0) {
@@ -770,7 +761,14 @@ function checkRequestInput() {
 
 
     // 入力項目の値が正しい場合、新規登録ボタンを有効化
-    if (flagRequestTitle === true && flagWorkTitle === true && flagText === true && flagComposition === true && flagCharacter === true && flagRefUrl === true && flagBudget === true && flagAppDeadline === true && flagRequestFile === true) {
+    if (flagRequestTitle === true &&
+        flagWorkTitle === true &&
+        flagText === true &&
+        flagComposition === true &&
+        flagCharacter === true &&
+        flagRefUrl === true &&
+        flagBudget === true &&
+        flagAppDeadline === true) {
         disabledFlag = false;
     }
     jQuery('#requestBtn').attr('disabled', disabledFlag);
@@ -1083,17 +1081,17 @@ jQuery(function($) {
 });
 
 // フォローする、フォロー中の選択機能
-jQuery(function($) {
-    $(document).on('click', '.follow-off', function() {
-        let follow_on = jQuery('<button type="button"class="btn btn-primary rounded-pill btn-sm text-white btn-lg main-color follow-btn follow-on">フォロー中</button>');
-        $(this).replaceWith(follow_on);
-    });
+// jQuery(function($) {
+//     $(document).on('click', '.follow-off', function() {
+//         let follow_on = jQuery('<button type="button"class="btn btn-primary rounded-pill btn-sm text-white btn-lg main-color follow-btn follow-on">フォロー中</button>');
+//         $(this).replaceWith(follow_on);
+//     });
 
-    $(document).on('click', '.follow-on', function() {
-        let follow_off = jQuery('<button type="button" class="btn rounded-pill btn-outline-primary btn-sm follow-btn follow-off">フォローする</button>');
-        $(this).replaceWith(follow_off);
-    });
-});
+//     $(document).on('click', '.follow-on', function() {
+//         let follow_off = jQuery('<button type="button" class="btn rounded-pill btn-outline-primary btn-sm follow-btn follow-off">フォローする</button>');
+//         $(this).replaceWith(follow_off);
+//     });
+// });
 
 // ラジオボタンにより表示を変更
 // 使用HTML(post.html)
@@ -1629,6 +1627,15 @@ jQuery(function($) {
                     thumbs: {
                         swiper: swiper,
                     },
+                    pagination: {
+                        el: ".swiper-pagination",
+                        clickable: true,
+                    },
+                    // 前後の矢印
+                    navigation: {
+                        nextEl: ".swiper-button-next",
+                        prevEl: ".swiper-button-prev",
+                    },
                 });
             }
         }
@@ -2007,4 +2014,12 @@ jQuery(function($) {
             // });
         });
     };
+});
+
+
+// SPアコーディオンメニュー
+jQuery(function() {
+    jQuery('.more_text').click(function() {
+        $(this).toggleClass('active');
+    });
 });

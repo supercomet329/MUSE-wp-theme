@@ -1,6 +1,6 @@
 <?php
 global $dp_options;
-if ( ! $dp_options ) $dp_options = get_design_plus_option();
+if (!$dp_options) $dp_options = get_design_plus_option();
 
 $post_json = file_get_contents('php://input');
 $params    = json_decode($post_json, true);
@@ -8,6 +8,7 @@ $params    = json_decode($post_json, true);
 if (!defined('SYS_ERROR_FILE')) {
     define('SYS_ERROR_FILE', __DIR__ . '/log/' . date('Ymd') . '_error.log');
 }
+
 
 header("Content-Type: application/json; charset=utf-8");
 header('Access-Control-Allow-Origin: *');
@@ -26,10 +27,10 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
             $response = api_get_top_image($params);
             break;
 
-        case 'tail_image':
+        case 'tile_image':
             // トップページの表示
             // アクセストークンがある場合がある
-            $response = api_get_tail_image($params);
+            $response = api_get_tile_image($params);
             break;
 
         case 'login':
@@ -39,6 +40,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
 
         case 'registration':
             // 仮登録の対応
+            $response = muse_api_temporary_registration($params);
             break;
 
         case 'profile':
@@ -52,9 +54,14 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
             $response = api_get_profile_image($params);
             break;
 
+        case 'search_image':
+            $response = muse_api_list_image($params);
+            break;
+
         case 'edit_profile':
             // プロフィール編集
             // アクセストークン必須
+            $response = muse_api_update_profile($params);
             break;
 
         case 'list_order':
@@ -67,14 +74,20 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
             // アクセストークン必須
             break;
 
-        case 'list_all_order':
-            // 全依頼表示
+        case 'list_progress':
+            // 進行中
+            // アクセストークン必須
+            break;
+
+        case 'search_order':
+            // 依頼検索
             // アクセストークン必須
             break;
 
         case 'input_order':
             // 依頼新規登録
             // アクセストークン必須
+            $response = muse_api_input_order($params);
             break;
 
         case 'edit_order':
@@ -95,6 +108,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
         case 'insert_post':
             // 画像登録
             // アクセストークン必須
+            $response = muse_api_insert_image($params);
             break;
 
         case 'list_notification':
@@ -148,6 +162,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
             // フォロワー一覧取得
             // アクセストークン必須
             $response = api_get_followers($params);
+            break;
 
         case 'like':
             // いいね登録/更新
@@ -157,6 +172,27 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
         case 'keep':
             // キープ登録/更新
             // アクセストークン必須
+            break;
+
+        case 'password_reset':
+            // パスワードリセット
+            $response = muse_api_reset_password($params);
+            break;
+
+        case 'list_comment':
+            $response = muse_api_list_comment($params);
+            break;
+
+        case 'insert_comment':
+            $response = muse_api_insert_comment($params);
+            break;
+
+        case 'post_image':
+            $response = muse_api_post_image($params);
+            break;
+
+        case 'report':
+            $response = muse_api_report($params);
             break;
 
         default:

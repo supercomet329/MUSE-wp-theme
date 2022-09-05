@@ -42,7 +42,7 @@ if (!empty($birthdayData)) {
 }
 
 $active_flag = false;
-$active = get_user_meta($user_id, 'active', true);
+$active = get_user_meta($user_id, 'request_box', true);
 if (!empty($active)) {
     $active_flag = $active;
 }
@@ -69,6 +69,16 @@ get_header();
     </div>
 </div>
 
+<div class="emailSentMsg" id="emailSentMsg">
+    <?php
+    if (isset($_SESSION['success'])) {
+        $massage = $_SESSION['success'];
+        unset($_SESSION['success']);
+    ?>
+        <p><?php echo $massage; ?></p>
+    <?php } ?>
+</div>
+
 <div class="cover-area">
     <img src="<?php echo esc_attr($header_image); ?>" class="img-fluid cover-image" id="cover_image">
 </div>
@@ -93,7 +103,9 @@ get_header();
                 <?php } else { ?>
                     <button type="button" data-user-id="<?php echo esc_attr($user_id); ?>" class="js-toggle-follow btn rounded-pill btn-outline-primary btn-sm follow-btn follow-off">フォローする</button>
                 <?php } ?>
-                <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('request')); ?>&user_id=<?php echo $user_id; ?>"><button class="px-0 mx-1 btn rounded-pill btn-outline-primary outline-btn btn-sm request-btn">　依頼　</button></a>
+                <?php if ($active_flag !== FALSE) { ?>
+                    <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('request')); ?>&user_id=<?php echo $user_id; ?>"><button class="px-0 mx-1 btn rounded-pill btn-outline-primary outline-btn btn-sm request-btn">　依頼　</button></a>
+                <?php } ?>
             <?php } ?>
         </div>
     </div>
@@ -106,10 +118,19 @@ get_header();
             </span>
         </div>
         <div class="col-7 text-center">
-            <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('follows')); ?>"><span class="follow">フォロー<br>
-                    <span><?php echo number_format($arrayCount['following']['total']); ?></span></span></a>
-            <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('followers')); ?>"><span class="follower">フォロワー<br>
-                    <span><?php echo number_format($arrayCount['follower']['total']); ?></span></span></a>
+            <?php if (get_current_user_id() == $user_id) { ?>
+                <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('follows')); ?>"><span class="follow">フォロー<br>
+                    <span><?php echo number_format($arrayCount['following']['total']); ?></span></span>
+                </a>
+                <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('followers')); ?>"><span class="follower">フォロワー<br>
+                    <span><?php echo number_format($arrayCount['follower']['total']); ?></span></span>
+                </a>
+            <?php } else { ?>
+                <span class="follow">フォロー<br>
+                <span><?php echo number_format($arrayCount['following']['total']); ?></span></span>
+                <span class="follower">フォロワー<br>
+                <span><?php echo number_format($arrayCount['follower']['total']); ?></span></span>
+            <?php } ?>
         </div>
         <!-- 自分が見た場合のみ表示 -->
         <div class="col-5"></div>
