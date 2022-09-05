@@ -80,7 +80,7 @@
 
                 <?php if ($imageCount <= 1) { ?>
                     <div class="timeline-image timelile-pro">
-                        <div class="my-2 slid-img swiper swipertum sp-margin">
+                        <div class="my-2 slid-img swiper swipertum">
                             <div class="swiper-wrapper d-flex align-items-center timeline-in">
                                 <div class="swiper-slide text-right">
                                     <?php foreach ($imageArray as $photoOne) { ?>
@@ -93,7 +93,7 @@
                     </div>
                 <?php } elseif ($imageCount === 2) { ?>
                     <div class="timeline-image timelile-pro">
-                        <div class="my-2 slid-img swiper swipertum sp-margin">
+                        <div class="my-2 slid-img swiper swipertum">
                             <div class="swiper-wrapper d-flex align-items-center timeline-in">
                                 <?php foreach ($imageArray as $photoOne) { ?>
                                     <div class="swiper-slide timeline-2block text-right">
@@ -115,7 +115,7 @@
                             }
                         ?>
                             <div class="timeline-image timelile-pro">
-                                <div class="slid-img swiper swipertum sp-margin">
+                                <div class="slid-img swiper swipertum">
                                     <div class="swiper-wrapper d-flex align-items-center timeline-in">
                                         <?php foreach ($arrayOneSliceImage as $oneSliceImage) { ?>
                                             <div class="swiper-slide <?php echo $timeLineClass; ?> text-right">
@@ -141,7 +141,7 @@
                         }
                     ?>
                         <div class="timeline-image timelile-pro">
-                            <div class="slid-img swiper swipertum sp-margin">
+                            <div class="slid-img swiper swipertum">
                                 <div class="swiper-wrapper d-flex align-items-center timeline-in">
                                     <?php foreach ($arrayOneSliceImage as $oneSliceImage) { ?>
                                         <div class="swiper-slide <?php echo $timeLineClass; ?> text-right">
@@ -221,7 +221,7 @@
                 </div>
 
                 <div class="timeline-image timelile-pro">
-                    <div class="my-2 slid-img swiper swipertum sp-margin">
+                    <div class="my-2 slid-img swiper swipertum">
                         <div class="swiper-wrapper d-flex align-items-center timeline-in">
                             <div class="swiper-slide text-right">
                                 <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('confirm_request')); ?>&request_id=<?php echo esc_attr($oneTimeline->post_id); ?>">
