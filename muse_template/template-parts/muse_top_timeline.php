@@ -99,9 +99,6 @@
                                     <div class="swiper-slide timeline-2block text-right">
                                         <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('post_comment')); ?>&post_id=<?php echo esc_attr($oneTimeline->post_id); ?>"><img class="img-fluid mx-auto" src="<?php echo esc_url($photoOne); ?>" /></a>
                                     </div>
-                                    <div class="swiper-slide timeline-2block text-right">
-                                        <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('post_comment')); ?>&post_id=<?php echo esc_attr($oneTimeline->post_id); ?>"><img class="img-fluid mx-auto" src="<?php echo esc_url($photoOne); ?>" /></a>
-                                    </div>
                                 <?php }
                                 /** endforeach */ ?>
                             </div>
