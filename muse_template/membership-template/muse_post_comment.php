@@ -142,9 +142,15 @@ $imageCount = count($tcd_membership_vars['post_image_array']);
                         <li class="nav-item coment-tab-area">
                             <a href="#tab-area1" class="nav-link active" data-toggle="tab">コメント</a>
                         </li>
-                        <li class="nav-item coment-tab-area">
-                            <a href="#tab-area2" class="nav-link" data-toggle="tab">NFT</a>
-                        </li>
+                        <?php
+                        if ($tcd_membership_vars['stringSaleType'] !== false) {
+                            // NFT販売 or オークションの場合に表示
+                        ?>
+                            <li class="nav-item coment-tab-area">
+                                <a href="#tab-area2" class="nav-link" data-toggle="tab">NFT</a>
+                            </li>
+                        <?php }
+                        /** endif */ ?>
                     </ul>
 
                     <div class="tab-content">
@@ -175,7 +181,7 @@ $imageCount = count($tcd_membership_vars['post_image_array']);
                             <?php if ($tcd_membership_vars['flg_submit_flag'] === TRUE) { ?>
                                 <div class="col-12 my-3">
                                     <form class="mx-1" method="POST" action="<?php echo esc_attr(get_tcd_membership_memberpage_url('post_comment')); ?>">
-                                        <textarea class="form-control" rows="6" placeholder="コメント"></textarea>
+                                        <textarea name="message" class="form-control" rows="6" placeholder="コメント"></textarea>
                                         <div class="my-3 text-right">
                                             <button type="submit" class="btn btn-primary text-white" id="msg-btn">送信</button>
                                         </div>
@@ -187,48 +193,79 @@ $imageCount = count($tcd_membership_vars['post_image_array']);
                             /** endif */ ?>
                         </div>
 
-                        <div id="tab-area2" class="tab-pane">
-                            <form action="POST">
-                                <div class="container pt-2 confirm-area">
-                                    <div class="col-12 item-text mb-2">
-                                        タイトル（必須）
-                                    </div>
-                                    <div class="col-12 mb-4">
-                                        <?php echo esc_attr($tcd_membership_vars['post_title']); ?>
-                                    </div>
-                                    <div class="col-12 item-text mb-2">
-                                        詳細（任意）
-                                    </div>
-                                    <div class="col-12 mb-4">
-                                        <?php echo nl2br($tcd_membership_vars['post_content']); ?>
-                                    </div>
-                                    <div class="col-12 mb-2 item-text">
-                                        販売形式（必須）
-                                    </div>
-                                    <div class="col-12 mb-4">
-                                        <div class="mb-2">
-                                            NFT販売
-                                        </div>
-                                    </div>
-                                    <div class="col-12 item-text mb-2">
-                                        販売価格（必須）
-                                    </div>
-                                    <div class="col-12 mb-4">
-                                        <div class="mb-2">
-                                            <?php echo esc_attr($tcd_membership_vars['imagePrice']); ?>
-                                        </div>
-                                    </div>
+                        <?php
+                        if ($tcd_membership_vars['stringSaleType'] !== false) {
+                            // NFT販売 or オークションの場合に表示
+                        ?>
 
-                                    <?php if ($tcd_membership_vars['viewSubmitButton'] !== FALSE) { ?>
-                                        <?php /** NFTが確定したら対応 */ ?>
-                                        <div class="col-12 my-3 text-center">
-                                            <button type="submit" class="btn btn-primary save-btn text-white" id="save_btn">画像購入</button>
+                            <div id="tab-area2" class="tab-pane">
+                                <form action="POST">
+                                    <div class="container pt-2 confirm-area">
+                                        <div class="col-12 item-text mb-2">
+                                            タイトル（必須）
                                         </div>
-                                    <?php }
-                                    /** endif */ ?>
-                                </div>
-                            </form>
-                        </div>
+                                        <div class="col-12 mb-4">
+                                            <?php echo esc_attr($tcd_membership_vars['post_title']); ?>
+                                        </div>
+                                        <div class="col-12 item-text mb-2">
+                                            詳細（任意）
+                                        </div>
+                                        <div class="col-12 mb-4">
+                                            <?php echo nl2br($tcd_membership_vars['post_content']); ?>
+                                        </div>
+                                        <div class="col-12 mb-2 item-text">
+                                            販売形式（必須）
+                                        </div>
+                                        <div class="col-12 mb-4">
+                                            <div class="mb-2">
+                                                <?php echo esc_attr($tcd_membership_vars['stringSaleType']); ?>
+                                            </div>
+                                        </div>
+
+                                        <?php
+                                        if (!empty($tcd_membership_vars['imagePrice'])) {
+                                            // 販売価格が空ではない場合に表示
+                                        ?>
+                                            <div class="col-12 item-text mb-2">
+                                                販売価格（必須）
+                                            </div>
+                                            <div class="col-12 mb-4">
+                                                <div class="mb-2">
+                                                    <?php echo esc_attr($tcd_membership_vars['imagePrice']); ?>
+                                                </div>
+                                            </div>
+                                        <?php }
+                                        /** endif */ ?>
+
+                                        <?php
+                                        if (!empty($tcd_membership_vars['binPrice'])) {
+                                            // 即決価格が空ではない場合に表示
+                                        ?>
+
+                                            <div class="col-12 item-text mb-2">
+                                                即決価格価格（必須）
+                                            </div>
+                                            <div class="col-12 mb-4">
+                                                <div class="mb-2">
+                                                    <?php echo esc_attr($tcd_membership_vars['binPrice']); ?>
+                                                </div>
+                                            </div>
+                                        <?php }
+                                        /** endif */ ?>
+
+
+                                        <?php if ($tcd_membership_vars['viewSubmitButton'] !== FALSE) { ?>
+                                            <?php /** NFTが確定したら対応 */ ?>
+                                            <div class="col-12 my-3 text-center">
+                                                <button type="submit" class="btn btn-primary save-btn text-white" id="save_btn">画像購入</button>
+                                            </div>
+                                        <?php }
+                                        /** endif */ ?>
+                                    </div>
+                                </form>
+                            </div>
+                        <?php }
+                        /** endif */ ?>
 
                     </div>
                 </div>

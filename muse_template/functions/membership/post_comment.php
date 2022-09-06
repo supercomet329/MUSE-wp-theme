@@ -153,10 +153,19 @@ function tcd_membership_action_post_comment()
     $array_comment = muse_list_comment($post_id);
     $tcd_membership_vars['comment']  = $array_comment;
 
+    $stringSaleType = false;
+    if ($saleType === 'sale') {
+        $stringSaleType = 'NFT販売';
+        if ($selectAuction === 'Auction') {
+            $stringSaleType = 'オークション販売';
+        }
+    }
+
     // テンプレートの設定
     $tcd_membership_vars['template']       = 'muse_post_comment';
     $tcd_membership_vars['error_message']  = $error_message;
 
+    $tcd_membership_vars['stringSaleType']   = $stringSaleType;
     $tcd_membership_vars['post_title']       = $rowPostData->post_title;
     $tcd_membership_vars['post_content']     = $rowPostData->post_content;
     $tcd_membership_vars['imagePrice']       = $imagePrice;
