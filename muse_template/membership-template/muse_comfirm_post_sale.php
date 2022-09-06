@@ -15,9 +15,7 @@ get_header();
 <div class="pc-center">
     <form action="POST">
         <div class="container pt-2 confirm-area">
-            <div class="col-12 item-text mb-2">
-                投稿画像（必須）
-            </div>
+
             <div class="post-inarea">
                 <?php if ($imageCount <= 1) { ?>
                     <div class="timeline-image timelile-pro">

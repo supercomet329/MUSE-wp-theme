@@ -17,8 +17,62 @@ function tcd_membership_action_post_comment()
     $post_id = $_REQUEST['post_id'];
     $tcd_membership_vars['post_id'] = $post_id;
 
+    $rowPostData = get_post($post_id);
+
+    $saleType = get_post_meta($rowPostData->ID, 'saleType', true);
+    $imagePrice       = 0;
+    $auctionDate      = false;
+    $auctionStartDate = false;
+    $auctionEndDate   = false;
+    $binPrice         = false;
+    $auctionString    = '指定しない';
+    $extendAuction    = 'なし';
+
+    if ($saleType === 'sale') {
+        // 販売の場合のテンプレート
+        $template = 'muse_comfirm_post_sale';
+        $imagePrice = get_post_meta($rowPostData->ID, 'imagePrice', true);
+
+        $selectAuction = get_post_meta($rowPostData->ID, 'selectAuction', true);
+        if ($selectAuction === 'Auction') {
+            // オークションの場合のテンプレート
+            $template = 'muse_comfirm_post_auction';
+
+            $auctionSelDate = get_post_meta($rowPostData->ID, 'auctionStartDate', true);
+            if ($auctionSelDate === 'specify') {
+                $auctionString  = '開始時間指定';
+                $binPrice          = get_post_meta($rowPostData->ID, 'binPrice', true);
+
+                $rowAuctionDate    = get_post_meta($rowPostData->ID, 'auctionDate', true);
+                if (!empty($rowAuctionDate)) {
+                    $auctionDateClass = new DateTime($rowAuctionDate);
+                    $auctionDateClass->setTimezone(new DateTimeZone('Asia/Tokyo'));
+                    $auctionStartDate = $auctionDateClass->format('Y/m/d H:i:s');
+                }
+
+                $rowAuctionEndDate = get_post_meta($rowPostData->ID, 'auctionEndDate', true);
+                if (!empty($rowAuctionEndDate)) {
+                    $auctionEndDateClass = new DateTime($rowAuctionEndDate);
+                    $auctionEndDateClass->setTimezone(new DateTimeZone('Asia/Tokyo'));
+                    $auctionEndDate = $auctionEndDateClass->format('Y/m/d H:i:s');
+                }
+
+                $strExtendAuction = get_post_meta($rowPostData->ID, 'extendAuction', true);
+                if ($strExtendAuction === 'enableAutoExtend') {
+                    $extendAuction  = 'あり';
+                }
+            }
+        }
+    }
+
     // ユーザー存在チェック
     $user_id = get_current_user_id();
+
+    $viewSubmitButton = false;
+    $user = wp_get_current_user();
+    if ($user->ID > 0) {
+        $viewSubmitButton = true;
+    }
 
     // 投稿ボタンの表示 / 非表示
     $flg_submit_flag = false;
@@ -102,6 +156,17 @@ function tcd_membership_action_post_comment()
     // テンプレートの設定
     $tcd_membership_vars['template']       = 'muse_post_comment';
     $tcd_membership_vars['error_message']  = $error_message;
+
+    $tcd_membership_vars['post_title']       = $rowPostData->post_title;
+    $tcd_membership_vars['post_content']     = $rowPostData->post_content;
+    $tcd_membership_vars['imagePrice']       = $imagePrice;
+    $tcd_membership_vars['auctionString']    = $auctionString;
+    $tcd_membership_vars['binPrice']         = $binPrice;
+    $tcd_membership_vars['auctionDate']      = $auctionDate;
+    $tcd_membership_vars['auctionStartDate'] = $auctionStartDate;
+    $tcd_membership_vars['auctionEndDate']   = $auctionEndDate;
+    $tcd_membership_vars['extendAuction']    = $extendAuction;
+    $tcd_membership_vars['viewSubmitButton'] = $viewSubmitButton;
 }
 add_action('tcd_membership_action-post_comment', 'tcd_membership_action_post_comment');
 
