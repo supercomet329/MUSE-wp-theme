@@ -13,7 +13,7 @@ jQuery(function($) {
         slideMenu();
 
         if (jQuery("#hamburger-menu").hasClass("open")) {
-            $(".orver-lay").fadeIn();
+            jQuery(".orver-lay").fadeIn();
             jQuery('body').css({
                 'position': 'fixed',
                 'width': '100%',
@@ -21,7 +21,7 @@ jQuery(function($) {
             });
 
         } else {
-            $(".orver-lay").fadeOut();
+            jQuery(".orver-lay").fadeOut();
             jQuery('body').css({
                 'position': 'relative',
                 'width': 'auto',
@@ -33,7 +33,7 @@ jQuery(function($) {
     jQuery(".orver-lay").click(function(event) {
         var active = jQuery("#hamburger-menu").hasClass("open");
         if (active == true) {
-            $(".orver-lay").fadeOut();
+            jQuery(".orver-lay").fadeOut();
             event.stopPropagation();
             jQuery("#hamburger-menu").toggleClass("open");
             jQuery(".menu-list").toggleClass("active");
@@ -51,15 +51,15 @@ jQuery(function($) {
 // 入力項目のフォーカスが外れた際に処理を実行
 jQuery(function($) {
     // メールアドレスのフォーカスが外れた際にcheckInput実行
-    jQuery('#email').on('blur', function() {
+    jQuery('#email').on('blur', function($) {
         checkInput();
     });
     // 会員規約がクリックされた際にcheckInput実行
-    jQuery('#terms').on('click', function() {
+    jQuery('#terms').on('click', function($) {
         checkInput();
     });
     // 仮登録ボタンを押された際に、メール送信済みメッセージを表示
-    jQuery('#register-btn').on('click', function() {
+    jQuery('#register-btn').on('click', function($) {
         showEmailSentMsg();
     });
 });
@@ -94,7 +94,7 @@ function checkInput() {
 // 入力項目のフォーカスが外れた際に処理を実行
 jQuery(function($) {
     // メールアドレスのフォーカスが外れた際にcheckPwResetInput実行
-    jQuery('#pwResetEmail').on('blur', function() {
+    jQuery('#pwResetEmail').on('blur', function($) {
         checkPwResetInput();
     });
 });
@@ -142,11 +142,11 @@ function showTypeEmailMsg() {
 // 入力項目のフォーカスが外れた際に処理を実行
 jQuery(function($) {
     // メールアドレスのフォーカスが外れた際にcheckLoginInput実行
-    jQuery('#loginEmail').on('blur', function() {
+    jQuery('#loginEmail').on('blur', function($) {
         checkLoginInput();
     });
     // パスワードのフォーカスが外れた際にcheckLoginInput実行
-    jQuery('#loginPassword').on('blur', function() {
+    jQuery('#loginPassword').on('blur', function($) {
         checkLoginInput();
     });
 });
@@ -203,7 +203,7 @@ function validateImageSize(file, fileInput) {
 function replaceImage(file, image) {
     let fr = new FileReader();
     fr.readAsDataURL(file);
-    fr.onload = function() {
+    fr.onload = function($) {
         image.setAttribute('src', fr.result);
     }
 }
@@ -219,19 +219,19 @@ function showEmailSentMsg() {
 // 入力項目のフォーカスが外れた際に処理を実行
 jQuery(function($) {
     // ユーザーネームのフォーカスが外れた際にcheckRegisterInput実行
-    jQuery('#username').on('blur', function() {
+    jQuery('#username').on('blur', function($) {
         checkRegisterInput();
     });
     // 名前のフォーカスが外れた際にcheckRegisterInput実行
-    jQuery('#name').on('blur', function() {
+    jQuery('#name').on('blur', function($) {
         checkRegisterInput();
     });
     // パスワードのフォーカスが外れた際にcheckRegisterInput実行
-    jQuery('#password').on('blur', function() {
+    jQuery('#password').on('blur', function($) {
         checkRegisterInput();
     });
     // パスワードを再入力のフォーカスが外れた際にcheckRegisterInput実行
-    jQuery('#password_confirmation').on('blur', function() {
+    jQuery('#password_confirmation').on('blur', function($) {
         checkRegisterInput();
     });
 });
@@ -315,12 +315,12 @@ function checkRegisterInput() {
 // 入力項目のフォーカスが外れた際に処理を実行
 jQuery(function($) {
     // パスワードのフォーカスが外れた際にcheckSetPwInput実行
-    jQuery('#newPw').on('blur', function() {
+    jQuery('#newPw').on('blur', function($) {
         checkSetPwInput();
         showTypePwMsg();
     });
     // 新しいパスワードを再入力のフォーカスが外れた際にcheckSetPwInput実行
-    jQuery('#newPwConfirm').on('blur', function() {
+    jQuery('#newPwConfirm').on('blur', function($) {
         checkSetPwInput();
         showTypePwConfirmMsg();
     });
@@ -395,7 +395,7 @@ function showTypePwConfirmMsg() {
 
 // パスワードのフォーマットが正しくない場合、メッセージを表示
 function showPwValidateMsg() {
-    jQuery('#inputPwMsg').empty().append("<p id=\"inputPwErrMsg\" class=\"pwResetErrMsg\">パスワードは半角英小文字、大文字、数字を含む8文字以上で入力してください</p>");
+    jQuery('#inputPwMsg').empty().append("<p id=\"inputPwErrMsg\" class=\"pwResetErrMsg\">パスワードは半角英小文字、大文字、数字を含む9文字以上32文字以内を入力してください</p>");
 }
 
 // パスワードに空欄がある場合、メッセージを表示
@@ -414,14 +414,14 @@ jQuery(function($) {
         container = jQuery('.modal-container');
 
     //開くボタンをクリックしたらモーダルを表示する
-    open.on('click', function() {
+    open.on('click', function($) {
         container.addClass('active');
         return false;
     });
 
     //モーダルの外側をクリックしたらモーダルを閉じる
-    $(document).on('click', function(e) {
-        if (!$(e.target).closest('.modal-body').length) {
+    jQuery(document).on('click', function(e) {
+        if (!jQuery(e.target).closest('.modal-body').length) {
             container.removeClass('active');
         }
     });
@@ -430,52 +430,49 @@ jQuery(function($) {
 // タブの選択機能（post_search.html,request_searched_list.html）
 jQuery(function($) {
 
-    jQuery('#front_search_box').on('blur', function() {
+    jQuery('#front_search_box').on('blur', function($) {
         var search_txt = jQuery('#front_search_box').val();
         jQuery('#modal_search_box').val(search_txt);
     });
 
-    jQuery('#desc').click(function() {
-        selectTab($(this));
+    jQuery('#desc').click(function($) {
+        selectTab(jQuery(this));
     });
 
-    jQuery('#asc').click(function() {
-        selectTab($(this));
+    jQuery('#asc').click(function($) {
+        selectTab(jQuery(this));
     });
 
-    jQuery('#low').click(function() {
-        selectTab($(this));
+    jQuery('#low').click(function($) {
+        selectTab(jQuery(this));
     });
 
-    jQuery('#high').click(function() {
-        selectTab($(this));
+    jQuery('#high').click(function($) {
+        selectTab(jQuery(this));
     });
 
 });
 
 // キープ済み、キープの選択機能（request_searched_list.html,request_received_list_html）
 jQuery(function($) {
-    $(document).on('click', '.keep_off', function() {
+    jQuery(document).on('click', '.keep_off', function($) {
         let keep_on = jQuery('<div class="rounded-pill text-center mb-1 px-1 keep_on"><img src="assets/img/icon/keep_on.png" alt="keep-on" class="keep-on"></div>');
-        $(this).replaceWith(keep_on);
+        jQuery(this).replaceWith(keep_on);
     });
 
-    $(document).on('click', '.keep_on', function() {
+    jQuery(document).on('click', '.keep_on', function($) {
         let keep_off = jQuery('<div class="border rounded-pill text-center mb-1 px-1 keep_off"><img src="assets/img/icon/keep_off.png" alt="keep-off" class="keep-off"></div>');
-        $(this).replaceWith(keep_off);
+        jQuery(this).replaceWith(keep_off);
     });
 });
 
 /**
  * 作品依頼（通常依頼）提案ページ
- * request.html
  */
 // ファイルが選択された際、ファイル名を表示
-jQuery('#requestFile').on('change', function() {
-
-    var $ = jQuery.noConflict();
+jQuery('#requestFile').on('change', function($) {
     // 添付されたファイルを取得
-    var selectedFile = $(this).prop('files')[0];
+    var selectedFile = jQuery(this).prop('files')[0];
     // ファイルが存在している場合
     if (selectedFile) {
         // 選択されたファイルが10文字以上ある場合、10文字以下を「...」で省略
@@ -494,95 +491,12 @@ jQuery('#requestFile').on('change', function() {
     }
     // 必須項目のチェック
     checkRequestInput();
-
 });
-
-/**
- * セレクトボックスの生成
- */
-function selRequestSelBox() {
-
-    var nowYear = new Date().getFullYear();
-    var setAppDeadlineY = jQuery('#hideAppDeadlineY').val();
-    var htmlAppDeadlineY = '';
-
-    htmlAppDeadlineY += '<option value=""></option>';
-    for (var year = nowYear; year < nowYear + 3; year++) {
-        if (year == setAppDeadlineY) {
-            htmlAppDeadlineY += '<option value="' + year + '" selected>' + year + '</option>';
-        } else {
-            htmlAppDeadlineY += '<option value="' + year + '">' + year + '</option>';
-        }
-    }
-    jQuery('#appDeadlineY').html(htmlAppDeadlineY);
-
-    var setAppDeadlineM = jQuery('#hideAppDeadlineM').val();
-    var htmlAppDeadlineM = '';
-    htmlAppDeadlineY += '<option value=""></option>';
-    for (var month = 1; month <= 12; month++) {
-        if (month == setAppDeadlineM) {
-            htmlAppDeadlineM += '<option value="' + month + '" selected>' + month + '</option>';
-        } else {
-            htmlAppDeadlineM += '<option value="' + month + '">' + month + '</option>';
-        }
-    }
-    jQuery('#appDeadlineM').html(htmlAppDeadlineM);
-
-    var setAppDeadlineD = jQuery('#hideAppDeadlineD').val();
-    var htmlAppDeadlineD = '';
-    htmlAppDeadlineD += '<option value="" selected></option>';
-    for (var day = 1; day <= 31; day++) {
-        if (day == setAppDeadlineD) {
-            htmlAppDeadlineD += '<option value="' + day + '" selected>' + day + '</option>';
-        } else {
-            htmlAppDeadlineD += '<option value="' + day + '">' + day + '</option>';
-        }
-    }
-    jQuery('#appDeadlineD').html(htmlAppDeadlineD);
-
-    var setDesiredDateY = jQuery('#hideDesiredDateY').val();
-    var htmlDesiredDateY = '';
-    htmlDesiredDateY += '<option value=""></option>';
-    for (var year = nowYear; year < nowYear + 3; year++) {
-        if (year == setDesiredDateY) {
-            htmlDesiredDateY += '<option value="' + year + '" selected>' + year + '</option>';
-        } else {
-            htmlDesiredDateY += '<option value="' + year + '">' + year + '</option>';
-        }
-    }
-    jQuery('#desiredDateY').html(htmlDesiredDateY);
-
-    var setDesiredDateM = jQuery('#hideDesiredDateM').val();
-    var htmlDesiredDateM = '';
-    htmlDesiredDateM += '<option value=""></option>';
-    for (var month = 1; month <= 12; month++) {
-        console.log(month);
-        if (month == setDesiredDateM) {
-            htmlDesiredDateM += '<option value="' + month + '" selected>' + month + '</option>';
-        } else {
-            htmlDesiredDateM += '<option value="' + month + '">' + month + '</option>';
-        }
-    }
-    jQuery('#desiredDateM').html(htmlDesiredDateM);
-
-    var setDesiredDateD = jQuery('#hideDesiredDateD').val();
-    var htmlDesiredDateD = '';
-    htmlDesiredDateD += '<option value=""></option>';
-    for (var day = 1; day <= 31; day++) {
-        if (day == setDesiredDateD) {
-            htmlDesiredDateD += '<option value="' + day + '" selected>' + day + '</option>';
-        } else {
-            htmlDesiredDateD += '<option value="' + day + '">' + day + '</option>';
-        }
-    }
-    jQuery('#desiredDateD').html(htmlDesiredDateD);
-}
-
 /**
  * 作品依頼（通常依頼）提案ページ
  */
 // ファイル選択ボタンがクリックされた際、バリデーション文言を表示
-jQuery('#requestFile').on('click', function() {
+jQuery('#requestFile').on('click', function($) {
     // ファイルが存在しない場合、バリデーション文言を表示
     if (this.files.length === 0) {
         jQuery('#inputRequestErrMsgArea').removeClass('d-none');
@@ -594,56 +508,55 @@ jQuery('#requestFile').on('click', function() {
 // 入力項目のフォーカスが外れた際に処理を実行
 jQuery(function($) {
     // 依頼タイトルのフォーカスが外れた際にcheckRequestInput実行
-    jQuery('#requestTitle').on('blur', function() {
+    jQuery('#requestTitle').on('blur', function($) {
         checkRequestInput();
         typeRequestTitleMsg();
     });
     // 作品タイトルのフォーカスが外れた際にcheckRequestInput実行
-    jQuery('#workTitle').on('blur', function() {
+    jQuery('#workTitle').on('blur', function($) {
         checkRequestInput();
         typeWorkTitleMsg();
     });
     // 本文のフォーカスが外れた際にcheckRequestInput実行
-    jQuery('#text').on('blur', function() {
+    jQuery('#text').on('blur', function($) {
         checkRequestInput();
         typeTextMsg();
     });
     // 構図のフォーカスが外れた際にcheckRequestInput実行
-    jQuery('#composition').on('blur', function() {
+    jQuery('#composition').on('blur', function($) {
         checkRequestInput();
         typeCompositionMsg();
     });
     // キャラクターのフォーカスが外れた際にcheckRequestInput実行
-    jQuery('#character').on('blur', function() {
+    jQuery('#character').on('blur', function($) {
         checkRequestInput();
         typeCharacterMsg();
     });
     // 参考URLのフォーカスが外れた際にcheckRequestInput実行
-    jQuery('#refUrl').on('blur', function() {
+    jQuery('#refUrl').on('blur', function($) {
         checkRequestInput();
         typeRefUrlMsg();
     });
     // 予算のフォーカスが外れた際にcheckRequestInput実行
-    jQuery('#budget').on('blur', function() {
+    jQuery('#budget').on('blur', function($) {
         checkRequestInput();
         typeBudgetMsg();
     });
     // 応募期限（年）のフォーカスが外れた際にcheckRequestInput実行
-    jQuery('#appDeadlineY').on('blur', function() {
+    jQuery('#appDeadlineY').on('blur', function($) {
         checkRequestInput();
         typeAppDeadlineMsg();
     });
     // 応募期限（月）のフォーカスが外れた際にcheckRequestInput実行
-    jQuery('#appDeadlineM').on('blur', function() {
+    jQuery('#appDeadlineM').on('blur', function($) {
         checkRequestInput();
         typeAppDeadlineMsg();
     });
     // 応募期限（日）のフォーカスが外れた際にcheckRequestInput実行
-    jQuery('#appDeadlineD').on('blur', function() {
+    jQuery('#appDeadlineD').on('blur', function($) {
         checkRequestInput();
         typeAppDeadlineMsg();
     });
-    selRequestSelBox();
 });
 
 // 入力項目を確認し、依頼投稿確認ボタン有効化/無効化切り替え
@@ -657,30 +570,33 @@ function checkRequestInput() {
     var flagText = false;
     var flagComposition = false;
     var flagCharacter = false;
+    var flagRequestFile = false;
     var flagRefUrl = false;
     var flagBudget = false;
-    var flagAppDeadline = true;
+    var flagAppDeadline = false;
 
     // 依頼タイトルの値取得
     var requestTitleVal = jQuery('#requestTitle').val();
-
     // 作品タイトルの値取得
     var workTitleVal = jQuery('#workTitle').val();
-
     // 本文の値取得
     var textVal = jQuery('#text').val();
-
     // 構図の値取得
     var compositionVal = jQuery('#composition').val();
-
     // キャラクターの値取得
     var characterVal = jQuery('#character').val();
-
+    // 添付ファイルの値取得
+    var requestFileVal = jQuery('#requestFile').val();
     // 参考URLの値取得
     var refUrlVal = jQuery('#refUrl').val();
-
     // 予算の値取得
     var budgetVal = jQuery('#budget').val();
+    // 応募期限（年）の値取得
+    var appDeadlineYVal = jQuery('#appDeadlineY').val();
+    // 応募期限（月）の値取得
+    var appDeadlineMVal = jQuery('#appDeadlineM').val();
+    // 応募期限（日）の値取得
+    var appDeadlineDVal = jQuery('#appDeadlineD').val();
 
     // 依頼タイトルが入力されているかを確認
     if (requestTitleVal.length > 0) {
@@ -732,6 +648,13 @@ function checkRequestInput() {
         }
     }
 
+    // 添付ファイルが入力されているかを確認
+    if (requestFileVal) {
+        // 添付ファイルが入力されている場合、エラーメッセージを非表示
+        flagRequestFile = true;
+        jQuery('#inputRequestErrMsgArea').addClass('d-none');
+    }
+
     // 参考URLが入力されているかを確認
     jQuery('#validRefUrlErrMsg').hide();
     if (refUrlVal.length > 0) {
@@ -759,16 +682,46 @@ function checkRequestInput() {
         }
     }
 
+    // 応募期限（年）が入力されている場合
+    if (appDeadlineYVal.length > 0) {
+        // 年のフォーマットを確認
+        yearValidated = validateYear(appDeadlineYVal);
+        if (yearValidated === true) {
+            // 年のフォーマットが正しい場合、エラーメッセージを非表示
+            jQuery('#dateFormatYErrMsg').hide();
+            // 応募期限（月）が入力されている場合
+            if (appDeadlineMVal.length > 0) {
+                // 月のフォーマットを確認
+                monthValidated = validateMonth(appDeadlineMVal);
+                if (monthValidated === true) {
+                    // 月のフォーマットが正しい場合、エラーメッセージを非表示
+                    jQuery('#dateFormatMErrMsg').hide();
+                    // 応募期限（日）が入力されている場合
+                    if (appDeadlineDVal.length > 0) {
+                        // 日のフォーマットを確認
+                        dayValidated = validateDay(appDeadlineDVal);
+                        if (dayValidated === true) {
+                            // 日のフォーマットが正しい場合、エラーメッセージを非表示
+                            jQuery('#dateFormatDErrMsg').hide();
+                            // 応募期限フラグをtrueに設定
+                            flagAppDeadline = true;
+                            // 年月日が設定されている場合、エラーメッセージを非表示
+                            jQuery('#inputAppDeadlineMsg').hide();
+                        } else {
+                            dateFormatDInvalidMsg();
+                        }
+                    }
+                } else {
+                    dateFormatMInvalidMsg();
+                }
+            }
+        } else {
+            dateFormatYInvalidMsg();
+        }
+    }
 
     // 入力項目の値が正しい場合、新規登録ボタンを有効化
-    if (flagRequestTitle === true &&
-        flagWorkTitle === true &&
-        flagText === true &&
-        flagComposition === true &&
-        flagCharacter === true &&
-        flagRefUrl === true &&
-        flagBudget === true &&
-        flagAppDeadline === true) {
+    if (flagRequestTitle === true && flagWorkTitle === true && flagText === true && flagComposition === true && flagCharacter === true && flagRefUrl === true && flagBudget === true && flagAppDeadline === true && flagRequestFile === true) {
         disabledFlag = false;
     }
     jQuery('#requestBtn').attr('disabled', disabledFlag);
@@ -870,15 +823,15 @@ function selectTab(target) {
 }
 // 画像変更（profile_edit.html）
 jQuery(function($) {
-    jQuery('#cover_img_file_input').change(function() {
+    jQuery('#cover_img_file_input').change(function($) {
         let file = this.files[0];
         let fileInput = jQuery('#cover_img_file_input').get(0);
         let image = jQuery('#cover_image').get(0);
-        validateImageSize(file, fileInput);
+        validateImageSize(file, fileInput)
         replaceImage(file, image);
     });
 
-    // jQuery('#profile_img_file_input').change(function() {
+    // jQuery('#profile_img_file_input').change(function($) {
     //   let file = this.files[0];
     //   let fileInput = jQuery('#profile_img_file_input').get(0);
     //   let image = jQuery('#profile_image').get(0);
@@ -890,19 +843,19 @@ jQuery(function($) {
 // 名前・ユーザーネーム入力確認（profile_edit.html）
 jQuery(function($) {
     // 名前のフォーカスが外れた際にcheck_ProfileInput実行
-    jQuery('#name_box').on('blur', function() {
+    jQuery('#name_box').on('blur', function($) {
         check_ProfileInput();
     });
     // ユーザーネームのフォーカスが外れた際にcheck_ProfileInput実行
-    jQuery('#user_name_box').on('blur', function() {
+    jQuery('#user_name_box').on('blur', function($) {
         check_ProfileInput();
     });
     // 生年月日のフォーカスが外れた際にcheck_ProfileInput実行
-    jQuery('#calendar_box').on('blur', function() {
+    jQuery('#calendar_box').on('blur', function($) {
         check_ProfileInput();
     });
     // webサイトのフォーカスが外れた際にcheck_ProfileInput実行
-    jQuery('#url_box').on('blur', function() {
+    jQuery('#url_box').on('blur', function($) {
         check_ProfileInput();
     });
 
@@ -1022,7 +975,7 @@ function showUrlMsg() {
 }
 
 jQuery(function($) {
-    jQuery('#chat_button').on('click', function() {
+    jQuery('#chat_button').on('click', function($) {
         let inputText = document.getElementById('chat_input');
         let appendArea = document.getElementById('message_show_area');
         outputMessage(inputText, appendArea);
@@ -1035,8 +988,8 @@ function outputMessage(text, area) {
     let time = new Date();
     let hour = ('00' + time.getHours()).slice(-2);
     let min = ('00' + time.getMinutes()).slice(-2);
-    let message = $(`<div class="col-12 pb-5 mb-5 pr-0" style="z-index: -1;"><div class="balloon_r"><div class="faceicon"><img src="assets/img/pixta_64747350_M.jpg" class="rounded-circle" alt=""><div class="ml-xl-4 ml-1">${hour + ":" + min }</div></div><div class="says"><p>${text.value}</p></div></div></div>`);
-    $(area).append(message);
+    let message = jQuery(`<div class="col-12 pb-5 mb-5 pr-0" style="z-index: -1;"><div class="balloon_r"><div class="faceicon"><img src="assets/img/pixta_64747350_M.jpg" class="rounded-circle" alt=""><div class="ml-xl-4 ml-1">${hour + ":" + min }</div></div><div class="says"><p>${text.value}</p></div></div></div>`);
+    jQuery(area).append(message);
 }
 
 // 画像を画面に出力
@@ -1045,24 +998,24 @@ function outputImage(imgSrc, area) {
     let time = new Date();
     let hour = ('00' + time.getHours()).slice(-2);
     let min = ('00' + time.getMinutes()).slice(-2);
-    let image = $(`<div class="col-12 pb-5 mb-5 pr-0" style="z-index: -1;" ><div class="balloon_r"><div class="faceicon"><img src="assets/img/pixta_64747350_M.jpg" class="rounded-circle" alt=""><div class="ml-xl-4 ml-1">${hour + ":" + min }</div></div><img src="${imgSrc}" class="post-image result"></div></div>`);
-    $(area).append(image);
+    let image = jQuery(`<div class="col-12 pb-5 mb-5 pr-0" style="z-index: -1;" ><div class="balloon_r"><div class="faceicon"><img src="assets/img/pixta_64747350_M.jpg" class="rounded-circle" alt=""><div class="ml-xl-4 ml-1">${hour + ":" + min }</div></div><img src="${imgSrc}" class="post-image result"></div></div>`);
+    jQuery(area).append(image);
 }
 
 // メッセージ詳細画面（message_show.html）
 jQuery(function($) {
-    jQuery('#chat_button').on('click', function() {
+    jQuery('#chat_button').on('click', function($) {
         let inputText = document.getElementById('chat_input');
         let appendArea = document.getElementById('message_show_area');
         outputMessage(inputText, appendArea);
         inputText.value = '';
     });
 
-    jQuery('#messages_file_input').change(function() {
+    jQuery('#messages_file_input').change(function($) {
         let file = this.files[0];
         let fr = new FileReader();
         fr.readAsDataURL(file);
-        fr.onload = function() {
+        fr.onload = function($) {
             jQuery('.bigimg').children().attr('src', fr.result).css({
                 'width': '40vh',
                 'height': '30vh',
@@ -1072,7 +1025,7 @@ jQuery(function($) {
             return false;
         }
     });
-    jQuery('#post_image_btn').on('click', function() {
+    jQuery('#post_image_btn').on('click', function($) {
         let imgResult = jQuery('.bigimg').children().attr('src')
         let appendArea = document.getElementById('message_show_area');
         outputImage(imgResult, appendArea)
@@ -1081,262 +1034,212 @@ jQuery(function($) {
 });
 
 // フォローする、フォロー中の選択機能
-// jQuery(function($) {
-//     $(document).on('click', '.follow-off', function() {
-//         let follow_on = jQuery('<button type="button"class="btn btn-primary rounded-pill btn-sm text-white btn-lg main-color follow-btn follow-on">フォロー中</button>');
-//         $(this).replaceWith(follow_on);
-//     });
-
-//     $(document).on('click', '.follow-on', function() {
-//         let follow_off = jQuery('<button type="button" class="btn rounded-pill btn-outline-primary btn-sm follow-btn follow-off">フォローする</button>');
-//         $(this).replaceWith(follow_off);
-//     });
-// });
-
-// ラジオボタンにより表示を変更
-// 使用HTML(post.html)
 jQuery(function($) {
-    setAuctionSelBox();
-    $('input[name="saleType"]:radio').on('click', function() {
-        // フォームの切り替え
-        viewPostForm();
-        chkPostButton();
+    jQuery(document).on('click', '.follow-off', function($) {
+        let follow_on = jQuery('<button type="button"class="btn btn-primary rounded-pill btn-sm text-white btn-lg main-color follow-btn follow-on">フォロー中</button>');
+        jQuery(this).replaceWith(follow_on);
     });
 
-    $('input[name="selectAuction"]:radio').on('click', function() {
-        viewPostForm();
-        chkPostButton();
-    });
-
-    $('input[name="auctionStartDate"]:radio').on('click', function() {
-        viewPostForm();
-        chkPostButton();
-    });
-
-    jQuery('#postTitle').on('blur', function() {
-        chkPostButton();
-    });
-
-    jQuery('#postDetail').on('blur', function() {
-        chkPostButton();
-    });
-
-    jQuery('#imagePrice').on('blur', function() {
-        chkPostButton();
-    });
-
-    jQuery('#binPrice').on('blur', function() {
-        chkPostButton();
-    });
-
-    jQuery('#auctionDateY').on('blur', function() {
-        chkPostButton();
-    });
-
-    jQuery('#auctionDateM').on('blur', function() {
-        chkPostButton();
-    });
-
-    jQuery('#auctionDateD').on('blur', function() {
-        chkPostButton();
-    });
-
-    jQuery('#auctionDateH').on('blur', function() {
-        chkPostButton();
-    });
-
-    jQuery('#auctionDateMin').on('blur', function() {
-        chkPostButton();
-    });
-
-    jQuery('#auctionEndDateY').on('blur', function() {
-        chkPostButton();
-    });
-
-    jQuery('#auctionEndDateM').on('blur', function() {
-        chkPostButton();
-    });
-
-    jQuery('#auctionEndDateD').on('blur', function() {
-        chkPostButton();
-    });
-
-    jQuery('#auctionEndDateH').on('blur', function() {
-        chkPostButton();
-    });
-
-    jQuery('#auctionEndDateMin').on('blur', function() {
-        chkPostButton();
-    });
-
-    jQuery('#postDetail').on('blur', function() {
-        chkPostButton();
-    });
-
-    $('input[name="disableAutoExtend"]:radio').on('click', function() {
-        chkPostButton();
+    jQuery(document).on('click', '.follow-on', function($) {
+        let follow_off = jQuery('<button type="button" class="btn rounded-pill btn-outline-primary btn-sm follow-btn follow-off">フォローする</button>');
+        jQuery(this).replaceWith(follow_off);
     });
 });
 
-function chkPostButton() {
-
-    var disabledFlag = true;
-    jQuery('#errPostImage').html('');
-    jQuery('#errPostTitle').html('');
-    jQuery('#errBinPrice').html('');
-    jQuery('#errAppDeadline').html('');
-    jQuery('#errAuctionEnd').html('');
-
-    var errorFlag = false;
-    var fileSize = jQuery('[name="postFile"]').val();
-    if (fileSize == 0) {
-        errorFlag = true;
-        jQuery('#errPostImage').html('画像は必須選択です。');
-    }
-
-    var postTitle = jQuery('#postTitle').val();
-    if (postTitle === '') {
-        errorFlag = true;
-        jQuery('#errPostTitle').html('タイトルは必須入力です。');
-    }
-
-    // バリデート種類の設定
-    var radioSaleType = jQuery('input:radio[name="saleType"]:checked').val();
-    var radioSelectAuction = jQuery('input:radio[name="selectAuction"]:checked').val();
-    var radioAuctionStartDate = jQuery('input:radio[name="auctionStartDate"]:checked').val();
-
-    // バリデート
-    var typeValidate = false;
-    if (radioSaleType === 'sale') {
-        // NFT販売の場合
-        typeValidate = validateSaleForm();
-        if (radioSelectAuction === 'Auction') {
-            // オークションありの場合
-            typeValidate = validateAuction();
-            if (radioAuctionStartDate === 'specify') {
-                // オークション => 時間指定ありの場合
-                typeValidate = validateAuctionStartDate();
-            }
+jQuery(function($) {
+    // 販売形式のラジオボタン変更で、表示するフォーム切り替え
+    jQuery('[name="saleType"]:radio').change(function($) {
+        // 通常販売にチェックがついている場合
+        if (jQuery('#sale').prop('checked')) {
+            jQuery('.saleTypeSection').hide();
+            jQuery('.saleSection').show();
+            jQuery('.termsSection').show();
+            // オークションにチェックがついている場合
+            // } else if (jQuery('#auction').prop('checked')) {
+            //     jQuery('.saleTypeSection').hide();
+            //     jQuery('.auctionSection').show();
+            //     jQuery('.termsSection').show();
+            // 販売しないにチェックがついている場合
+        } else {
+            jQuery('.saleTypeSection').hide();
+            jQuery('.termsSection').hide();
+            jQuery('.notForSaleSection').show();
         }
-    }
+    });
+});
 
-    if (errorFlag === false && typeValidate === false) {
-        disabledFlag = false;
-    }
+jQuery(function($) {
+    // オークション開催有無のラジオボタン変更で、表示するフォーム切り替え
+    jQuery('[name="selectAuction"]:radio').change(function($) {
+        // オークション開催ありにチェックがついている場合
+        if (jQuery('#auction').prop('checked')) {
+            jQuery('.notholdauctionSection').hide();
+            jQuery('.holdauctionSection').show();
+        } else {
+            jQuery('.holdauctionSection').hide();
+            jQuery('.notholdauctionSection').show();
+        }
+    });
+});
 
-    jQuery('#sidePostBtn').attr('disabled', disabledFlag);
-    jQuery('#postBtn').attr('disabled', disabledFlag);
-}
+// 入力項目のフォーカスが外れた際に処理を実行(post.html）
+jQuery(function($) {
+    // タイトルのフォーカスが外れた際にcheck_ProfileInput実行
+    jQuery('#postTitle').on('blur', function($) {
+        checkSaleType();
+        inputPostTitle();
+    });
+    // 販売価格のフォーカスが外れた際にcheck_ProfileInput実行
+    jQuery('#imagePrice').on('blur', function($) {
+        checkSaleType();
+        inputImagePrice();
+    });
+    // 即決価格のフォーカスが外れた際にcheck_ProfileInput実行
+    jQuery('#binPrice').on('blur', function($) {
+        checkSaleType();
+        inputBinPrice();
+    });
+    // オークション開始日時(年)のフォーカスが外れた際にcheck_ProfileInput実行
+    jQuery('#auctionDateY').on('blur', function($) {
+        checkSaleType();
+        typeAuctionStartDateMsg();
+    });
+    // オークション開始日時(月)のフォーカスが外れた際にcheck_ProfileInput実行
+    jQuery('#auctionDateM').on('blur', function($) {
+        checkSaleType();
+        typeAuctionStartDateMsg();
+    });
+    // オークション開始日時(日)のフォーカスが外れた際にcheck_ProfileInput実行
+    jQuery('#auctionDateD').on('blur', function($) {
+        checkSaleType();
+        typeAuctionStartDateMsg();
+    });
+    // オークション開始日時(時)のフォーカスが外れた際にcheck_ProfileInput実行
+    jQuery('#auctionDateH').on('blur', function($) {
+        checkSaleType();
+        typeAuctionStartDateMsg();
+    });
+    // オークション開始日時(分)のフォーカスが外れた際にcheck_ProfileInput実行
+    jQuery('#auctionDateMin').on('blur', function($) {
+        checkSaleType();
+        typeAuctionStartDateMsg();
+    });
+    // オークション終了日時(年)のフォーカスが外れた際にcheck_ProfileInput実行
+    jQuery('#auctionEndDateY').on('blur', function($) {
+        checkSaleType();
+        typeAuctionEndDateMsg();
+    });
+    // オークション終了日時(月)のフォーカスが外れた際にcheck_ProfileInput実行
+    jQuery('#auctionEndDateM').on('blur', function($) {
+        checkSaleType();
+        typeAuctionEndDateMsg();
+    });
+    // オークション終了日時(日)のフォーカスが外れた際にcheck_ProfileInput実行
+    jQuery('#auctionEndDateD').on('blur', function($) {
+        checkSaleType();
+        typeAuctionEndDateMsg();
+    });
+    // オークション終了日時(時)のフォーカスが外れた際にcheck_ProfileInput実行
+    jQuery('#auctionEndDateH').on('blur', function($) {
+        checkSaleType();
+        typeAuctionEndDateMsg();
+    });
+    // オークション終了日時(分)のフォーカスが外れた際にcheck_ProfileInput実行
+    jQuery('#auctionEndDateMin').on('blur', function($) {
+        checkSaleType();
+        typeAuctionEndDateMsg();
+    });
+    // 利用規約にチェックされた際にcheck_ProfileInput実行
+    jQuery('#postTermsCheck').on('click', function($) {
+        checkSaleType();
+    });
+    // 通常販売クリック時に
+    jQuery('#sale').on('click', function($) {
+        checkSaleType();
+    });
+    // オークションクリック時に
+    // jQuery('#auction').on('click', function($) {
+    //     checkSaleType();
+    // });
+    // 販売しないクリック時に
+    jQuery('#notForSale').on('click', function($) {
+        checkSaleType();
+    });
+    // 画像選択時
+    jQuery('#postFile').change(function($) {
+        checkSaleType();
+    });
+    jQuery('#postFile2').change(function($) {
+        checkSaleType();
+    });
+    jQuery('#postFile3').change(function($) {
+        checkSaleType();
+    });
+    // 開始時間指定クリック時
+    jQuery('#specify').on('click', function($) {
+        checkSaleType();
+    });
+    // オークション開始日時、指定しないクリック時
+    jQuery('#notSpecified').on('click', function($) {
+        checkSaleType();
+    });
 
-// オークションの場合のバリデート
-// 使用HTML(post.html)
-function validateAuction() {
-    var errorFlag = false;
+    jQuery('#postFile_2').on('change', function(e) {
 
-    var binPrice = jQuery('#binPrice').val();
-    if (binPrice === '') {
-        errorFlag = true;
+        var file = e.target.files[0];
+        var reader = new FileReader();
 
-        jQuery('#errBinPrice').html('即決価格は必須入力です。');
-    }
-    return errorFlag;
-}
-
-// オークション開始時間指定ありの場合のバリデート
-// 使用HTML(post.html)
-function validateAuctionStartDate() {
-    var errorFlag = false;
-
-    var binPrice = jQuery('#binPrice').val();
-    if (binPrice === '') {
-        errorFlag = true;
-
-        jQuery('#errBinPrice').html('即決価格は必須入力です。');
-    }
-
-    var auctionDateY = jQuery('#auctionDateY').val();
-    var auctionDateM = jQuery('#auctionDateM').val();
-    var auctionDateD = jQuery('#auctionDateD').val();
-    var auctionDateH = jQuery('#auctionDateH').val();
-    var auctionDateMin = jQuery('#auctionDateMin').val();
-
-    var errorAuctionDate = false;
-    if (auctionDateY === '' || auctionDateM === '' || auctionDateD === '' || auctionDateH === '' || auctionDateMin === '') {
-        errorFlag = true;
-        errorAuctionDate = true;
-        jQuery('#errAppDeadline').html('オークション開始日時は必須入力です。');
-    }
-
-    var auctionEndDateY = jQuery('#auctionEndDateY').val();
-    var auctionEndDateM = jQuery('#auctionEndDateM').val();
-    var auctionEndDateD = jQuery('#auctionEndDateD').val();
-    var auctionEndDateH = jQuery('#auctionEndDateH').val();
-    var auctionEndDateMin = jQuery('#auctionEndDateMin').val();
-
-    var errorAuctionEndDate = false;
-    if (auctionEndDateY === '' || auctionEndDateM === '' || auctionEndDateD === '' || auctionEndDateH === '' || auctionEndDateMin === '') {
-        errorFlag = true;
-        errorAuctionEndDate = true;
-        jQuery('#errAuctionEnd').html('オークション終了日時は必須入力です。');
-    }
-
-    if (errorAuctionEndDate === false && errorAuctionDate === false) {
-        var now = new Date();
-        var appDeadline = new Date(auctionDateY, auctionDateM, auctionDateD, auctionDateH, auctionDateMin);
-        var auctionEndDate = new Date(auctionEndDateY, auctionEndDateM, auctionEndDateD, auctionEndDateH, auctionEndDateMin);
-
-        if (now.getTime() > appDeadline.getTime()) {
-            errorFlag = true;
-            jQuery('#errAppDeadline').html('オークション開始日時の御確認を御願い致します。');
+        if (file.type.indexOf("image") < 0) {
+            return false;
         }
 
-        if (appDeadline.getTime() > auctionEndDate.getTime()) {
-            errorFlag = true;
-            jQuery('#errAuctionEnd').html('オークション終了日時を正しく入力して下さい。');
+        console.log(reader.result);
+    });
+
+    jQuery('#postFile_2').on('change', function($) {
+        var file = jQuery(this).prop('files')[0];
+        if (!file.type.match('image.*')) {
+            return;
         }
-    }
-    return errorFlag;
-}
+        var fileReader = new FileReader();
+        fileReader.onloadend = function($) {
+            jQuery('#cover_img2').removeClass('d-none');
+            jQuery("#cover_img2").attr("src", fileReader.result);
 
-// NFT販売の場合のバリデート
-function validateSaleForm() {
-    var errorFlag = false;
-    var imagePrice = jQuery('#imagePrice').val();
-    if (imagePrice === '') {
-        jQuery('#errImagePrice').html('販売価格は必須入力です。');
-        errorFlag = true;
-    }
-
-    return errorFlag;
-}
-
-// フォームの表示の切り替え
-// 使用HTML(post.html)
-function viewPostForm() {
-
-    jQuery('#saleForm').hide();
-    jQuery('#nftSaleForm').hide();
-    jQuery('#auctionTimeForm').hide();
-    jQuery('#auctionSaleForm').hide();
-
-    var saleType = jQuery('input:radio[name="saleType"]:checked').val();
-    if (saleType === 'sale') {
-        jQuery('#saleForm').show();
-        jQuery('#nftSaleForm').show();
-
-        var selectAuction = jQuery('input:radio[name="selectAuction"]:checked').val();
-        if (selectAuction === 'Auction') {
-            jQuery('#auctionSaleForm').show();
-            jQuery('#nftSaleForm').hide();
-
-            var auctionStartDate = jQuery('input:radio[name="auctionStartDate"]:checked').val();
-            console.log(auctionStartDate);
-            if (auctionStartDate === 'specify') {
-                jQuery('#auctionTimeForm').show();
-            }
         }
-    }
-}
+        fileReader.readAsDataURL(file);
+    });
+
+    jQuery('#postFile_3').on('change', function($) {
+        var file = jQuery(this).prop('files')[0];
+        if (!file.type.match('image.*')) {
+            return;
+        }
+        var fileReader = new FileReader();
+        fileReader.onloadend = function($) {
+            jQuery('#cover_img3').removeClass('d-none');
+            jQuery("#cover_img3").attr("src", fileReader.result);
+
+        }
+        fileReader.readAsDataURL(file);
+    });
+
+    jQuery('#postFile_4').on('change', function($) {
+        var file = jQuery(this).prop('files')[0];
+        if (!file.type.match('image.*')) {
+            return;
+        }
+        var fileReader = new FileReader();
+        fileReader.onloadend = function($) {
+            jQuery('#cover_img4').removeClass('d-none');
+            jQuery("#cover_img4").attr("src", fileReader.result);
+
+        }
+        fileReader.readAsDataURL(file);
+    });
+
+    setAuctionSelBox();
+});
 
 // 使用HTML(post.html)
 function setAuctionSelBox() {
@@ -1412,7 +1315,7 @@ function setAuctionSelBox() {
 
     var setAuctionDateH = jQuery('#setAuctionDateH').val();
     var htmlAuctionDateH = '';
-    for (var hour = 0; hour <= 24; hour++) {
+    for (var hour = 1; hour <= 24; hour++) {
         if (hour == setAuctionDateH) {
             htmlAuctionDateH += '<option value="' + hour + '" selected>' + hour + '</option>';
         } else {
@@ -1423,7 +1326,7 @@ function setAuctionSelBox() {
 
     var setAuctionEndDateH = jQuery('#setAuctionEndDateH').val();
     var htmlAuctionEndDateH = '';
-    for (var hour = 0; hour <= 24; hour++) {
+    for (var hour = 1; hour <= 24; hour++) {
         if (hour == setAuctionEndDateH) {
             htmlAuctionEndDateH += '<option value="' + hour + '" selected>' + hour + '</option>';
         } else {
@@ -1434,7 +1337,7 @@ function setAuctionSelBox() {
 
     var setAuctionDateMin = jQuery('#setAuctionDateMin').val();
     var htmlAuctionDateMin = '';
-    for (var min = 0; min <= 59; min++) {
+    for (var min = 1; min <= 59; min++) {
         if (min == setAuctionDateMin) {
             htmlAuctionDateMin += '<option value="' + min + '" selected>' + min + '</option>';
         } else {
@@ -1445,7 +1348,7 @@ function setAuctionSelBox() {
 
     var setAuctionEndDateMin = jQuery('#setAuctionEndDateMin').val();
     var htmlAuctionEndDateMin = '';
-    for (var min = 0; min <= 59; min++) {
+    for (var min = 1; min <= 59; min++) {
         if (min == setAuctionEndDateMin) {
             htmlAuctionEndDateMin += '<option value="' + min + '" selected>' + min + '</option>';
         } else {
@@ -1453,6 +1356,282 @@ function setAuctionSelBox() {
         }
     }
     jQuery('#auctionEndDateMin').html(htmlAuctionEndDateMin);
+
+
+}
+
+// 通常販売時
+function checkSaleInput() {
+    // 新規登録ボタン有効化フラグ
+    var disabledFlag = true;
+
+    // 入力項目フラグ定義
+    var flagPostFile = false;
+    var flagPostTitle = false;
+    var flagImagePrice = false;
+    var flagBinPrice = false;
+    var flagPostTerms = false;
+
+    // 画像ファイル名取得
+    var postFileVal = jQuery('#postFile').val();
+    var postFile2Val = jQuery('#postFile2').val();
+    var postFile3Val = jQuery('#postFile3').val();
+    // タイトルの値取得
+    var postTitleVal = jQuery('#postTitle').val();
+    // 販売価格の値取得
+    var imagePriceVal = jQuery('#imagePrice').val();
+    // 即決価格の値取得
+    var binPriceVal = jQuery('#binPrice').val();
+
+    // タイトルが入力されているかを確認
+    if (postTitleVal.length > 0) {
+        jQuery('#inputPostTitleMsg').hide();
+        // タイトルに空白文字が含まれていないかを確認
+        if (!postTitleVal.match(/[\x20\u3000]/)) {
+            flagPostTitle = true;
+        }
+    }
+
+    // 販売価格が入力されているかを確認
+    if (imagePriceVal.length > 0) {
+        jQuery('#inputImagePriceMsg').hide();
+        // 販売価格に空白文字が含まれていないかを確認
+        if (!imagePriceVal.match(/[\x20\u3000]/)) {
+            flagImagePrice = true;
+        }
+    }
+    // 即決価格が入力されているかを確認
+    if (binPriceVal.length > 0) {
+        jQuery('#inputBinPriceMsg').hide();
+        // 即決価格に空白文字が含まれていないかを確認
+        if (!binPriceVal.match(/[\x20\u3000]/)) {
+            flagBinPrice = true;
+        }
+    }
+
+    var postTermsCheck = document.getElementById('postTermsCheck');
+
+    if (flagPostFile === true && flagPostTitle === true && flagImagePrice === true && flagBinPrice === true && postTermsCheck.checked === true) {
+        disabledFlag = false;
+    }
+    jQuery('#postBtn').attr('disabled', disabledFlag);
+}
+
+// オークション選択時
+function checkAuctionInput() {
+    // 新規登録ボタン有効化フラグ
+    var disabledFlag = true;
+
+    // 入力項目フラグ定義
+    var flagPostFile = false;
+    var flagPostTitle = false;
+    var flagAuctionStartDate = false;
+    var flagAuctionEndDate = false;
+
+    // 画像ファイル名取得
+    var postFileVal = jQuery('#postFile').val();
+    var postFile2Val = jQuery('#postFile2').val();
+    var postFile3Val = jQuery('#postFile3').val();
+    // タイトルの値取得
+    var postTitleVal = jQuery('#postTitle').val();
+    // オークション開始日時(年)の値取得
+    var auctionDateYVal = jQuery('#auctionDateY').val();
+    // オークション開始日時(月)の値取得
+    var auctionDateMVal = jQuery('#auctionDateM').val();
+    // オークション開始日時(日)の値取得
+    var auctionDateDVal = jQuery('#auctionDateD').val();
+    // オークション開始日時(時)の値取得
+    var auctionDateHVal = jQuery('#auctionDateH').val();
+    // オークション開始日時(分)の値取得
+    var auctionDateMinVal = jQuery('#auctionDateMin').val();
+    // オークション終了日時(年)の値取得
+    var auctionEndDateYVal = jQuery('#auctionEndDateY').val();
+    // オークション終了日時(月)の値取得
+    var auctionEndDateMVal = jQuery('#auctionEndDateM').val();
+    // オークション終了日時(日)の値取得
+    var auctionEndDateDVal = jQuery('#auctionEndDateD').val();
+    // オークション終了日時(時)の値取得
+    var auctionEndDateHVal = jQuery('#auctionEndDateH').val();
+    // オークション終了日時(分)の値取得
+    var auctionEndDateMinVal = jQuery('#auctionEndDateMin').val();
+
+
+    // タイトルが入力されているかを確認
+    if (postTitleVal.length > 0) {
+        // タイトルに空白文字が含まれていないかを確認
+        if (!postTitleVal.match(/[\x20\u3000]/)) {
+            flagPostTitle = true;
+        }
+    }
+
+    // オークション開始日時が指定されている場合
+    if (jQuery('#specify').prop('checked')) {
+        // オークション開始日時（年）が入力されている場合
+        if (auctionDateYVal.length > 0) {
+            // 年のフォーマットを確認
+            yearValidated = validateYear(auctionDateYVal);
+            if (yearValidated === true) {
+                // 年のフォーマットが正しい場合、エラーメッセージを非表示
+                jQuery('#dateFormatYErrMsg').hide();
+                // オークション開始日時（月）が入力されている場合
+                if (auctionDateMVal.length > 0) {
+                    // 月のフォーマットを確認
+                    monthValidated = validateMonth(auctionDateMVal);
+                    if (monthValidated === true) {
+                        // 月のフォーマットが正しい場合、エラーメッセージを非表示
+                        jQuery('#dateFormatMErrMsg').hide();
+                        // オークション開始日時（日）が入力されている場合
+                        if (auctionDateDVal.length > 0) {
+                            // 日のフォーマットを確認
+                            dayValidated = validateDay(auctionDateDVal);
+                            if (dayValidated === true) {
+                                // 日のフォーマットが正しい場合、エラーメッセージを非表示
+                                jQuery('#dateFormatDErrMsg').hide();
+                                // オークション開始日時（時）が入力されている場合
+                                if (auctionDateHVal.length > 0) {
+                                    // 日のフォーマットを確認
+                                    hrsValidated = validateHrs(auctionDateHVal);
+                                    if (hrsValidated === true) {
+                                        // 時のフォーマットが正しい場合、エラーメッセージを非表示
+                                        jQuery('#dateFormatHErrMsg').hide();
+                                        // オークション開始日時（分）が入力されている場合
+                                        if (auctionDateMinVal.length > 0) {
+                                            // 分のフォーマットを確認
+                                            minValidated = validateMin(auctionDateMinVal);
+                                            if (minValidated === true) {
+                                                // 分のフォーマットが正しい場合、エラーメッセージを非表示
+                                                jQuery('#dateFormatMinErrMsg').hide();
+                                                // オークション開始日時フラグをtrueに設定
+                                                flagAuctionStartDate = true;
+                                                // 年月日が設定されている場合、エラーメッセージを非表示
+                                                jQuery('#inputAppDeadlineMsg').hide();
+                                            } else {
+                                                dateFormatMinInvalidMsg();
+                                            }
+                                        }
+                                    } else {
+                                        dateFormatHInvalidMsg();
+                                    }
+                                }
+                            } else {
+                                dateFormatDInvalidMsg();
+                            }
+                        }
+                    } else {
+                        dateFormatMInvalidMsg();
+                    }
+                }
+            } else {
+                dateFormatYInvalidMsg();
+            }
+        }
+
+        // オークション終了日時（年）が入力されている場合
+        if (auctionEndDateYVal.length > 0) {
+            // 年のフォーマットを確認
+            yearValidated = validateYear(auctionEndDateYVal);
+            if (yearValidated === true) {
+                // 年のフォーマットが正しい場合、エラーメッセージを非表示
+                jQuery('#auctionEndYErrMsg').hide();
+                // オークション終了日時（月）が入力されている場合
+                if (auctionEndDateMVal.length > 0) {
+                    // 月のフォーマットを確認
+                    monthValidated = validateMonth(auctionEndDateMVal);
+                    if (monthValidated === true) {
+                        // 月のフォーマットが正しい場合、エラーメッセージを非表示
+                        jQuery('#auctionEndMErrMsg').hide();
+                        // オークション開始日時（日）が入力されている場合
+                        if (auctionEndDateDVal.length > 0) {
+                            // 日のフォーマットを確認
+                            dayValidated = validateDay(auctionEndDateDVal);
+                            if (dayValidated === true) {
+                                // 日のフォーマットが正しい場合、エラーメッセージを非表示
+                                jQuery('#auctionEndDErrMsg').hide();
+                                // オークション開始日時（時）が入力されている場合
+                                if (auctionDateHVal.length > 0) {
+                                    // 時のフォーマットを確認
+                                    hrsValidated = validateHrs(auctionEndDateHVal);
+                                    if (hrsValidated === true) {
+                                        // 時のフォーマットが正しい場合、エラーメッセージを非表示
+                                        jQuery('#auctionEndHErrMsg').hide();
+                                        // オークション開始日時（分）が入力されている場合
+                                        if (auctionEndDateMinVal.length > 0) {
+                                            // 分のフォーマットを確認
+                                            minValidated = validateMin(auctionEndDateMinVal);
+                                            if (minValidated === true) {
+                                                // 分のフォーマットが正しい場合、エラーメッセージを非表示
+                                                jQuery('#auctionEndMinErrMsg').hide();
+                                                // オークション開始日時フラグをtrueに設定
+                                                flagAuctionEndDate = true;
+                                                // 年月日が設定されている場合、エラーメッセージを非表示
+                                                jQuery('#auctionEndErrMsg').hide();
+                                            } else {
+                                                auctionEndMinInvalidMsg();
+                                            }
+                                        }
+                                    } else {
+                                        auctionEndHInvalidMsg();
+                                    }
+                                }
+                            } else {
+                                auctionEndDInvalidMsg();
+                            }
+                        }
+                    } else {
+                        auctionEndMInvalidMsg();
+                    }
+                }
+            } else {
+                auctionEndYInvalidMsg();
+            }
+        }
+        // オークション開始日時が指定されていない場合
+    } else {
+        flagAuctionStartDate = true;
+        flagAuctionEndDate = true;
+    }
+
+    var postTermsCheck = document.getElementById('postTermsCheck');
+
+    if (flagPostTitle === true && flagAuctionStartDate === true && flagAuctionEndDate === true && postTermsCheck.checked === true) {
+        disabledFlag = false;
+    }
+    jQuery('#postBtn').attr('disabled', disabledFlag);
+}
+
+// 販売しない時選択時
+function checkNotForSaleInput() {
+    // 画像投稿確認ボタン有効化フラグ
+    var disabledFlag = true;
+
+    // 入力項目フラグ定義
+    var flagPostFile = false;
+    var flagPostTitle = false;
+
+    // 画像ファイル名取得
+    var postFileVal = jQuery('#postFile').val();
+    var postFile2Val = jQuery('#postFile2').val();
+    var postFile3Val = jQuery('#postFile3').val();
+    // タイトルの値取得
+    var postTitleVal = jQuery('#postTitle').val();
+
+
+    // タイトルが入力されているかを確認
+    if (postTitleVal.length > 0) {
+        jQuery('#inputPostTitleMsg').hide();
+        // タイトルに空白文字が含まれていないかを確認
+        if (!postTitleVal.match(/[\x20\u3000]/)) {
+            flagPostTitle = true;
+        }
+    } else {
+        inputPostTitle();
+    }
+
+    // 必須の入力項目が入力されている場合、ボタン有効化フラグをfalseに設定
+    if (flagPostFile === true && flagPostTitle === true) {
+        disabledFlag = false;
+    }
+    jQuery('#postBtn').attr('disabled', disabledFlag);
 }
 
 // 販売形式確認
@@ -1566,7 +1745,7 @@ function auctionEndMinInvalidMsg() {
 }
 
 jQuery(function($) {
-    jQuery('#terms_service').click(function() {
+    jQuery('#terms_service').click(function($) {
         let termsChecked = jQuery('#terms_service').get(0).checked;
         if (termsChecked === true) {
             jQuery('#save_btn').attr('disabled', false);
@@ -1581,19 +1760,19 @@ jQuery(function($) {
  */
 jQuery(function($) {
     // 投稿画像を表示
-    // jQuery('#postFile').change(function() {
+    // jQuery('#postFile').change(function($) {
     //     let file = this.files[0];
     //     if (file) {
     //         let fr = new FileReader();
     //         fr.readAsDataURL(file);
-    //         fr.onload = function() {
+    //         fr.onload = function($) {
     //             jQuery('#cover_img').attr('src', fr.result);
     //             jQuery('#cover_img').removeClass('d-none')
     //         }
     //     }
     // });
     // オークション開始日時指定の表示切替
-    jQuery('[name="auctionStartDate"]:radio').change(function() {
+    jQuery('[name="auctionStartDate"]:radio').change(function($) {
         if (jQuery('#specify').prop('checked')) {
             jQuery('#auction_datetime').removeClass('d-none');
         } else {
@@ -1627,15 +1806,6 @@ jQuery(function($) {
                     thumbs: {
                         swiper: swiper,
                     },
-                    pagination: {
-                        el: ".swiper-pagination",
-                        clickable: true,
-                    },
-                    // 前後の矢印
-                    navigation: {
-                        nextEl: ".swiper-button-next",
-                        prevEl: ".swiper-button-prev",
-                    },
                 });
             }
         }
@@ -1664,31 +1834,31 @@ jQuery(function($) {
 });
 
 // tableの列にリンク設定（ranking.html）
-// $( function($) {
-//     jQuery('tbody tr[data-href]').addClass('clickable').click( function() {
-//         window.location = $(this).attr('data-href');
-//     }).find('a').hover( function() {
-//         $(this).parents('tr').unbind('click');
-//     }, function() {
-//         $(this).parents('tr').click( function() {
-//             window.location = $(this).attr('data-href');
+// jQuery( function($) {
+//     jQuery('tbody tr[data-href]').addClass('clickable').click( function($) {
+//         window.location = jQuery(this).attr('data-href');
+//     }).find('a').hover( function($) {
+//         jQuery(this).parents('tr').unbind('click');
+//     }, function($) {
+//         jQuery(this).parents('tr').click( function($) {
+//             window.location = jQuery(this).attr('data-href');
 //         });
 //     });
 // });
 
 // ランキングページ詳細開閉（ranking.html）
 jQuery(function($) {
-    jQuery('.sp-btn').click(function() {
-        var parent = $(this).closest("tr").attr('class').split(" ")[0];
+    jQuery('.sp-btn').click(function($) {
+        var parent = jQuery(this).closest("tr").attr('class').split(" ")[0];
         var detail_rank = ".detail-" + parent
-        if ($(this).hasClass('more')) {
-            $(detail_rank).removeClass('not-show');
-            $(this).removeClass('more');
-            $(this).addClass('less');
+        if (jQuery(this).hasClass('more')) {
+            jQuery(detail_rank).removeClass('not-show');
+            jQuery(this).removeClass('more');
+            jQuery(this).addClass('less');
         } else {
-            $(detail_rank).addClass('not-show');
-            $(this).removeClass('less');
-            $(this).addClass('more');
+            jQuery(detail_rank).addClass('not-show');
+            jQuery(this).removeClass('less');
+            jQuery(this).addClass('more');
         }
     });
 })
@@ -1696,11 +1866,11 @@ jQuery(function($) {
 // 通報内容確認（report.html）
 jQuery(function($) {
     // タイトルのフォーカスが外れた際にcheck_ProfileInput実行
-    jQuery('#report-reason').on('blur', function() {
+    jQuery('#report-reason').on('blur', function($) {
         check_ReportInput();
     });
 
-    jQuery('#sel_report').on('change', function() {
+    jQuery('#sel_report').on('change', function($) {
         check_ReportInput();
     });
 });
@@ -1762,7 +1932,9 @@ jQuery(function($) {
     // ページ内に該当のクラス名のカウント
     var cropper_profile = document.querySelectorAll('#profile_img_file_input');
     if (cropper_profile.length > 0) {
-        $(document).ready(function() {
+        jQuery(document).ready(function($) {
+            // エンドポイントを定義
+            const endpoint = "http://localhost:3000/api";
 
             // 拡大表示で使用する変数定義
             let $zoom = jQuery('#zoom');
@@ -1774,7 +1946,7 @@ jQuery(function($) {
             let cropper;
 
             // ファイル選択後のイベント
-            jQuery("body").on("change", "#profile_img_file_input", function(e) {
+            jQuery("body").on("change", ".image", function(e) {
                 let files = e.target.files;
                 let done = function(url) {
                     image.src = url;
@@ -1784,6 +1956,7 @@ jQuery(function($) {
                 // FileReader、選択ファイル、生成URLを初期化
                 let reader;
                 let file;
+                let url;
 
                 // ファイルが選択された場合
                 if (files && files.length > 0) {
@@ -1812,13 +1985,13 @@ jQuery(function($) {
                     zoomable: true,
                     // preview: '.preview',
                 });
-            }).on('hidden.bs.modal', function() {
+            }).on('hidden.bs.modal', function($) {
                 cropper.destroy();
                 cropper = null;
             });
             console.log(cropper);
             // 保存ボタンを押下時のイベント
-            jQuery("#crop").click(function() {
+            jQuery("#crop").click(function($) {
                 canvas = cropper.getCroppedCanvas({
                     width: cropper['cropBoxData']['width'],
                     height: cropper['cropBoxData']['height'],
@@ -1828,28 +2001,27 @@ jQuery(function($) {
                     url = URL.createObjectURL(blob);
                     let reader = new FileReader();
                     reader.readAsDataURL(blob);
-                    reader.onloadend = function() {
+                    reader.onloadend = function($) {
                         let base64data = reader.result;
                         const base64EncodedFile = base64data.replace(/data:.*\/.*;base64,/, '');
-                        $('#profile_image').attr('src', base64data);
+                        jQuery('#profile_image').attr('src', base64data);
                         $modal.modal('hide');
                         $zoom.val(0);
                         $zoom.data('oldVal', 0);
                         console.log(cropper);
-                        $('#upload-image-x').val(cropper['cropBoxData']['left']);
-                        $('#upload-image-y').val(cropper['cropBoxData']['top']);
-                        $('#upload-image-w').val(cropper['cropBoxData']['width']);
-                        $('#upload-image-h').val(cropper['cropBoxData']['height']);
-                        $('#icon-file').val(base64data);
+                        jQuery('#upload-image-x').val(cropper['cropBoxData']['left']);
+                        jQuery('#upload-image-y').val(cropper['cropBoxData']['top']);
+                        jQuery('#upload-image-w').val(cropper['cropBoxData']['width']);
+                        jQuery('#upload-image-h').val(cropper['cropBoxData']['height']);
                     }
                 });
             })
 
             // <!-- NOTE:拡大バー一旦処理外す。 -->
             // 画像拡大用のスクロールバーを変更した時のイベント
-            jQuery('#zoom').on('input', function() {
+            jQuery('#zoom').on('input', function($) {
                 let oldVal = $zoom.data('oldVal');
-                let volume = $(this).val();
+                let volume = jQuery(this).val();
                 let result = volume - oldVal;
                 cropper.zoom(result);
                 console.log(result);
@@ -1860,45 +2032,14 @@ jQuery(function($) {
 });
 
 jQuery(function($) {
-
-    // 投稿画像2の画像を表示
-    $('#postFile_2').on('change', function(e) {
-        var reader = new FileReader();
-        reader.onload = function(e) {
-            $("#cover_img2").removeClass('d-none')
-            let base64data = reader.result;
-            $("#cover_img2").attr('src', base64data);
-        }
-        reader.readAsDataURL(e.target.files[0]);
-    });
-
-    // 投稿画像3の画像を表示
-    $('#postFile_3').on('change', function(e) {
-        var reader = new FileReader();
-        reader.onload = function(e) {
-            $("#cover_img3").removeClass('d-none')
-            let base64data = reader.result;
-            $("#cover_img3").attr('src', base64data);
-        }
-        reader.readAsDataURL(e.target.files[0]);
-    });
-
-    // 投稿画像4の画像を表示
-    $('#postFile_4').on('change', function(e) {
-        var reader = new FileReader();
-        reader.onload = function(e) {
-            $("#cover_img4").removeClass('d-none')
-            let base64data = reader.result;
-            $("#cover_img4").attr('src', base64data);
-        }
-        reader.readAsDataURL(e.target.files[0]);
-    });
-
     // ページ内に該当のクラス名のカウント
     var cropper_post = document.querySelectorAll('#post_file');
     if (cropper_post.length > 0) {
 
-        $(document).ready(function() {
+        jQuery(document).ready(function($) {
+            // エンドポイントを定義
+            const endpoint = "http://localhost:3000/api";
+
             // 拡大表示で使用する変数定義
             let $zoom = jQuery('#zoom');
             $zoom.data('oldVal', $zoom.val());
@@ -1915,7 +2056,6 @@ jQuery(function($) {
                     $modal.modal('show');
                 };
                 console.log(image);
-                console.log(files);
                 // FileReader、選択ファイル、生成URLを初期化
                 let reader;
                 let file;
@@ -1923,82 +2063,73 @@ jQuery(function($) {
 
                 // ファイルが選択された場合
                 if (files && files.length > 0) {
-                    console.log(2);
+                    console.log(2)
                     file = files[0];
                     if (URL) {
-                        console.log(1);
                         done(URL.createObjectURL(file));
                     } else if (FileReader) {
-                        console.log(1);
                         reader = new FileReader();
                         reader.onload = function(e) {
                             done(reader.result);
                         };
                         reader.readAsDataURL(file);
                     }
-
                 }
             });
 
             // cropper.jsでトリミング可能な画像を表示
             $modal.on('shown.bs.modal', function(event) {
                 cropper_post = new Cropper(image, {
-                    // 縦 4: 横 3の対応
-                    aspectRatio: 3 / 4,
-                    // 正方形時の対応
-                    // aspectRatio: 4 / 4,
+                    aspectRatio: 9 / 16,
                     initialAspectRatio: 1,
-                    autoCropArea: 0.8,
+                    autoCropArea: 1,
                     cropBoxResizable: false,
                     dragMode: 'move',
                     viewMode: 3,
                     zoomable: false,
                     // preview: '.preview',
                 });
-            }).on('hidden.bs.modal', function() {
+            }).on('hidden.bs.modal', function($) {
                 cropper_post.destroy();
                 cropper_post = null;
             });
 
             // 保存ボタンを押下時のイベント
-            jQuery("#crop").click(function() {
+            jQuery("#crop").click(function($) {
                 // cover_imgの数カウント
 
                 var img_id = "#cover_img1";
-
-                var cover_img = img_id
-                var upload_image_x = "#upload-image-x";
-                var upload_image_y = "#upload-image-y";
-                var upload_image_w = "#upload-image-w";
-                var upload_image_h = "#upload-image-h";
-                var campus_image_h = "#campus-image-h";
-                var campus_image_w = "#campus-image-w";
+                var img_src = jQuery(img_id).attr('src');
+                if (img_src === "") {
+                    var cover_img = img_id
+                    var upload_image_x = "#upload-image-x";
+                    var upload_image_y = "#upload-image-y";
+                    var upload_image_w = "#upload-image-w";
+                    var upload_image_h = "#upload-image-h";
+                }
                 jQuery('#post_file').css('height', 'auto');
 
                 canvas = cropper_post.getCroppedCanvas({
                     width: cropper_post['cropBoxData']['width'],
                     height: cropper_post['cropBoxData']['height'],
                 });
-
-                $(cover_img).removeClass('d-none');
+                jQuery(cover_img).removeClass('d-none')
                 canvas.toBlob(function(blob) {
                     url = URL.createObjectURL(blob);
                     let reader = new FileReader();
                     reader.readAsDataURL(blob);
-                    reader.onloadend = function() {
+                    reader.onloadend = function($) {
                         let base64data = reader.result;
-                        console.log(base64data);
-                        $(cover_img).attr('src', base64data);
+                        const base64EncodedFile = base64data.replace(/data:.*\/.*;base64,/, '');
+                        jQuery(cover_img).attr('src', base64data);
                         $modal.modal('hide');
                         $zoom.val(0);
                         $zoom.data('oldVal', 0);
                         console.log(cropper_post);
-                        $(upload_image_x).val(cropper_post['cropBoxData']['left']);
-                        $(upload_image_y).val(cropper_post['cropBoxData']['top']);
-                        $(upload_image_w).val(cropper_post['cropBoxData']['width']);
-                        $(upload_image_h).val(cropper_post['cropBoxData']['height']);
-                        $(campus_image_h).val(cropper_post['containerData']['height']);
-                        $(campus_image_w).val(cropper_post['containerData']['width']);
+                        jQuery(upload_image_x).val(cropper_post['cropBoxData']['left']);
+                        jQuery(upload_image_y).val(cropper_post['cropBoxData']['top']);
+                        jQuery(upload_image_w).val(cropper_post['cropBoxData']['width']);
+                        jQuery(upload_image_h).val(cropper_post['cropBoxData']['height']);
                     }
                 });
             })
@@ -2007,7 +2138,7 @@ jQuery(function($) {
             // 画像拡大用のスクロールバーを変更した時のイベント
             // jQuery('#zoom').on('input', function () {
             // let oldVal = $zoom.data('oldVal');
-            // let volume = $(this).val();
+            // let volume = jQuery(this).val();
             // let result = volume - oldVal;
             // cropper.zoom(result);
             // $zoom.data('oldVal', volume);
@@ -2016,10 +2147,9 @@ jQuery(function($) {
     };
 });
 
-
 // SPアコーディオンメニュー
-jQuery(function() {
-    jQuery('.more_text').click(function() {
-        $(this).toggleClass('active');
+jQuery(function($) {
+    jQuery('.more_text').click(function($) {
+        jQuery(this).toggleClass('active');
     });
 });
