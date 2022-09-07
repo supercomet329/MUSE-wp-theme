@@ -1,6 +1,6 @@
 <?php
 // Add 2022/05/10 by H.Okabe
-require_once(ABSPATH . 'wp-admin/includes/image.php');
+// require_once(ABSPATH . 'wp-admin/includes/image.php');
 /**
  * 作品依頼発注一覧ページ
  */
@@ -482,7 +482,6 @@ function tcd_membership_action_post_image()
 
     // テンプレート指定
     $tcd_membership_vars['setDataParams'] = $setDataParams;
-    // var_dump($setDataParams);exit;
     $tcd_membership_vars['template']  = 'muse_post_image';
     $tcd_membership_vars['chk_sele_type'] = $chkSaleType;
     $tcd_membership_vars['extend_auction'] = $extendAuction;
