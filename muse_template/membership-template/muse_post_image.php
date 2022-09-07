@@ -33,11 +33,25 @@ get_header();
                             <textarea class="FlexTextarea__textarea" name="postDetail" id="postDetail" placeholder="詳細を入力"><?php echo $tcd_membership_vars['setDataParams']['postDetail']; ?></textarea>
                         </div>
 
-                        <div class="clear">&nbsp;</div>
+
+                        <span id="image_html"></span>
 
                         <!--追加ボタン-->
-                        <div class="img-plus clearfix"><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/post-plus.png" /></a></div>
-
+                        <div class="clear">&nbsp;</div>
+                        <div id="add_image" class="img-plus clearfix">
+                            <!-- a href="#">
+                                <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/post-plus.png" />
+                            </a -->
+                            <span id="btn_upload_file" title="ファイルを選択">
+                                <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/post-plus.png" />
+                            </span>
+                            <input type="hidden" id="image_0" name="image_0" value=''>
+                            <input type="hidden" id="image_1" name="image_1" value=''>
+                            <input type="hidden" id="image_2" name="image_2" value=''>
+                            <input type="hidden" id="image_3" name="image_3" value=''>
+                            <input type="hidden" id="image_4" name="image_4" value=''>
+                            <input type="file" id="files" />
+                        </div>
                     </div>
                 </div>
 

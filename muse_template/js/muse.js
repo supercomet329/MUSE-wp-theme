@@ -2153,3 +2153,92 @@ jQuery(function($) {
         jQuery(this).toggleClass('active');
     });
 });
+
+// 画像投稿ページ 画像登録のJS
+jQuery(function() {
+
+    jQuery("body").on("change", "#files", function(e) {
+        var file = e.target.files[0];
+        var reader = new FileReader();
+
+        reader.onload = (function(file) {
+            return function(e) {
+                console.log(e.target.result);
+                add_file = e.target.result;
+                viewHtml(add_file);
+            };
+        })(file);
+        reader.readAsDataURL(file);
+    });
+
+    jQuery("#filename, #btn_upload_file").on("click", function(e) {
+
+        jQuery('#files').trigger('click');
+    });
+});
+
+function viewHtml(add_file) {
+
+    var count = 0;
+    var arrayImage = [];
+    var image_html = '';
+
+    var image_0 = jQuery('#image_0').val();
+    if (image_0 !== '') {
+        arrayImage[count] = image_0;
+        count += 1;
+    }
+
+    var image_1 = jQuery('#image_1').val();
+    if (image_1 !== '') {
+        arrayImage[count] = image_1;
+        count += 1;
+    }
+
+    var image_2 = jQuery('#image_2').val();
+    if (image_2 !== '') {
+        arrayImage[count] = image_2;
+        count += 1;
+    }
+
+    var image_3 = jQuery('#image_3').val();
+    if (image_3 !== '') {
+        arrayImage[count] = image_3;
+        count += 1;
+    }
+
+    if (arrayImage.length >= 4) {
+        alert('投稿画像が多いです。');
+        return false;
+    }
+
+    console.log(add_file);
+    if (add_file !== '') {
+        arrayImage[count] = add_file;
+    }
+
+    console.log(arrayImage.length);
+    if (arrayImage.length === 1) {
+        image_html += '<div class="form-imgarea-area2-1">';
+        image_html += '<div class="form-imgarea-area2-1-1">';
+        image_html += '<div class="form-imgarea-area2-img1-1"><img src="' + add_file + '"></div>';
+        image_html += '<div id="delete_post_image" data-count ="1" class="form-imgarea-area2-img2-1"><a href="#"><img src="/wp-content/themes/muse_template/assets/img/icon/post-x.png"></a></div>';
+        image_html += '</div>';
+        image_html += '</div>';
+        jQuery('#image_0').val(add_file);
+    } else {
+        jQuery.each(arrayImage, function(index, value) {
+            console.log(index + ':' + value);
+            image_html += '<div class="form-imgarea-area2">';
+            image_html += '<div class="form-imgarea-area2-img1"><img src="' + value + '"></div>';
+            image_html += '<div  id="delete_post_image" data-count ="' + index + '" class="form-imgarea-area2-img2"><a href="#"><img src="/wp-content/themes/muse_template/assets/img/icon/post-x.png"></a></div>';
+            image_html += '</div>';
+            jQuery('#image_' + index).val(value);
+        })
+    }
+
+    jQuery('#add_image').css('clearfix', '');
+    console.log(arrayImage);
+    jQuery('#image_html').html(image_html);
+
+}
