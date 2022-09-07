@@ -155,6 +155,12 @@ function tcd_membership_action_post_image()
         if ($saleType === 'sale') {
 
             $selectAuction = $_POST['selectAuction'];
+
+            $postTermsCheck = (int)$_POST['postTermsCheck'];
+            if($postTermsCheck === 1) {
+                $error_messages['postTermsCheck'] = '利用規約に同意して下さい。';
+            }
+
             if ($selectAuction === 'Auction') {
 
                 $auctionStartDate = $_POST['auctionStartDate'];
