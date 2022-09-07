@@ -6,7 +6,7 @@ get_header();
 ?>
 
 <div class="pc-center">
-    <form action="POST">
+    <form method="POST">
         <div class="container pt-2 confirm-area">
 
 
@@ -368,13 +368,16 @@ get_header();
                             </label>
                         </div>
                     </div>
-                    <div class="col-12 text-center mt-3 mb-5">
-                        <button type="submit" class="btn btn-primary text-white submit-btn" id="postBtn" disabled>画像投稿確認</button>
-                    </div>
-
                 </div>
+
+                <div class="col-12 text-center mt-3 mb-5">
+                    <button type="submit" class="btn btn-primary text-white submit-btn" id="postBtn">画像投稿確認</button>
+                </div>
+
             </div>
         </div>
+        <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd-membership-post_image')); ?>">
+
     </form>
     <!-- モーダル -->
     <div class="modal fade image-post-modal" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">

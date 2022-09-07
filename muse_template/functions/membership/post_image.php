@@ -16,6 +16,12 @@ function tcd_membership_action_post_image()
         exit;
     }
 
+    $extension_array = array(
+        'gif' => 'image/gif',
+        'jpg' => 'image/jpeg',
+        'png' => 'image/png'
+    );
+
     $setDataParams = [];
     $setDataParams['postTitle']        = '';
     $setDataParams['postDetail']       = '';
@@ -45,6 +51,7 @@ function tcd_membership_action_post_image()
 
     $error_messages = [];
     if ('POST' == $_SERVER['REQUEST_METHOD']) {
+
         // var_dump($_POST);exit;
         $tcd_membership_vars['post_data'] = $_POST;
 
@@ -69,85 +76,83 @@ function tcd_membership_action_post_image()
         }
 
         // バリデート
-        // 投稿画像
         $requestFileUrl  = false;
-        $requestFileName = false;
-        if (isset($_FILES['postFile']['name']) && !empty($_FILES['postFile']['name'])) {
+        if (isset($_POST['image_0']) || !empty($_POST['image_0'])) {
+            $finfo = finfo_open(FILEINFO_MIME_TYPE);
 
-            $sizeFlag = checkImageSize($_FILES['postFile']['tmp_name']);
-            if ($sizeFlag === TRUE) {
-                $extension = getExtension($_FILES['postFile']['tmp_name']);
-
-                $file_name = substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 100) . '.' . $extension;
-                $uploaded_file = __DIR__ . '/../../upload_file/' . $file_name;
-                $result = move_uploaded_file($_FILES['postFile']['tmp_name'], $uploaded_file);
-                if ($result) {
-                    $requestFileUrl  = get_template_directory_uri() . '/upload_file/' . $file_name;
-                    $requestFileName = $_FILES['postFile']['name'];
-                } else {
-                    $error_messages['postFile'] = 'ファイルのアップロードに失敗しました。';
-                }
-
-                $resizeFileName = 'resize_' . $file_name;
-                $resize_uploaded_file = __DIR__ . '/../../upload_file/' . $resizeFileName;
-                $requestResizeFileUrl  = get_template_directory_uri() . '/upload_file/' . $resizeFileName;
-                cropImage($uploaded_file, $resize_uploaded_file);
-            } else {
-                $error_messages['postFile'] = 'ファイルの大きさが小さいです。';
-            }
-
-            /**
-            $file_data = $_POST['file_data'];
+            $file_data = $_POST['image_0'];
             $file_data = str_replace(' ', '+', $file_data);
             $file_data = preg_replace('#^data:image/\w+;base64,#i', '', $file_data);
             $file_data = base64_decode($file_data);
+            $mime_type = finfo_buffer($finfo, $file_data);
+            $extension = array_search($mime_type, $extension_array, true);
+            finfo_close($finfo);
+
+            $file_name = substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 100) . '.' . $extension;
+
+            $resize_uploaded_file = __DIR__ . '/../../upload_file/' . $file_name;
+            $requestFileUrl  = get_template_directory_uri() . '/upload_file/' . $file_name;
             file_put_contents($resize_uploaded_file, $file_data);
-             */
         } else {
-            $error_messages['postFile'] = 'ファイルをアップロードしてください。';
+            $error_messages['postFile'] = 'アップロードする画像ファイルが御座いません';
         }
 
         $requestFileUrl2  = false;
-        if (isset($_FILES['postFile2']['name']) && !empty($_FILES['postFile2']['name'])) {
-            $extension = getExtension($_FILES['postFile2']['tmp_name']);
+        if (isset($_POST['image_1']) || !empty($_POST['image_1'])) {
+            $finfo = finfo_open(FILEINFO_MIME_TYPE);
+
+            $file_data = $_POST['image_1'];
+            $file_data = str_replace(' ', '+', $file_data);
+            $file_data = preg_replace('#^data:image/\w+;base64,#i', '', $file_data);
+            $file_data = base64_decode($file_data);
+            $mime_type = finfo_buffer($finfo, $file_data);
+            $extension = array_search($mime_type, $extension_array, true);
+            finfo_close($finfo);
+
             $file_name = substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 100) . '.' . $extension;
-            $uploaded_file = __DIR__ . '/../../upload_file/' . $file_name;
-            $result = move_uploaded_file($_FILES['postFile2']['tmp_name'], $uploaded_file);
-            if ($result) {
-                $requestFileUrl2  = get_template_directory_uri() . '/upload_file/' . $file_name;
-            } else {
-                $error_messages['postFile'] = 'ファイルのアップロードに失敗しました。';
-            }
-        }
+
+            $resize_uploaded_file = __DIR__ . '/../../upload_file/' . $file_name;
+            $requestFileUrl2  = get_template_directory_uri() . '/upload_file/' . $file_name;
+            file_put_contents($resize_uploaded_file, $file_data);
+        } 
 
         $requestFileUrl3  = false;
-        if (isset($_FILES['postFile3']['name']) && !empty($_FILES['postFile3']['name'])) {
+        if (isset($_POST['image_2']) || !empty($_POST['image_2'])) {
+            $finfo = finfo_open(FILEINFO_MIME_TYPE);
 
-            $extension = getExtension($_FILES['postFile3']['tmp_name']);
+            $file_data = $_POST['image_2'];
+            $file_data = str_replace(' ', '+', $file_data);
+            $file_data = preg_replace('#^data:image/\w+;base64,#i', '', $file_data);
+            $file_data = base64_decode($file_data);
+            $mime_type = finfo_buffer($finfo, $file_data);
+            $extension = array_search($mime_type, $extension_array, true);
+            finfo_close($finfo);
+
             $file_name = substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 100) . '.' . $extension;
-            $uploaded_file = __DIR__ . '/../../upload_file/' . $file_name;
-            $result = move_uploaded_file($_FILES['postFile3']['tmp_name'], $uploaded_file);
-            if ($result) {
-                $requestFileUrl3  = get_template_directory_uri() . '/upload_file/' . $file_name;
-            } else {
-                $error_messages['postFile'] = 'ファイルのアップロードに失敗しました。';
-            }
+
+            $resize_uploaded_file = __DIR__ . '/../../upload_file/' . $file_name;
+            $requestFileUrl3  = get_template_directory_uri() . '/upload_file/' . $file_name;
+            file_put_contents($resize_uploaded_file, $file_data);
         }
 
         $requestFileUrl4  = false;
-        if (isset($_FILES['postFile4']['name']) && !empty($_FILES['postFile4']['name'])) {
+        if (isset($_POST['image_3']) || !empty($_POST['image_3'])) {
+            $finfo = finfo_open(FILEINFO_MIME_TYPE);
 
-            $extension = getExtension($_FILES['postFile4']['tmp_name']);
+            $file_data = $_POST['image_3'];
+            $file_data = str_replace(' ', '+', $file_data);
+            $file_data = preg_replace('#^data:image/\w+;base64,#i', '', $file_data);
+            $file_data = base64_decode($file_data);
+            $mime_type = finfo_buffer($finfo, $file_data);
+            $extension = array_search($mime_type, $extension_array, true);
+            finfo_close($finfo);
+
             $file_name = substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 100) . '.' . $extension;
-            $uploaded_file = __DIR__ . '/../../upload_file/' . $file_name;
-            $result = move_uploaded_file($_FILES['postFile4']['tmp_name'], $uploaded_file);
-            if ($result) {
-                $requestFileUrl4  = get_template_directory_uri() . '/upload_file/' . $file_name;
-            } else {
-                $error_messages['postFile'] = 'ファイルのアップロードに失敗しました。';
-            }
-        }
 
+            $resize_uploaded_file = __DIR__ . '/../../upload_file/' . $file_name;
+            $requestFileUrl4  = get_template_directory_uri() . '/upload_file/' . $file_name;
+            file_put_contents($resize_uploaded_file, $file_data);
+        } 
         // バリデート
 
         // saleTypeがNFT販売の場合
@@ -157,7 +162,7 @@ function tcd_membership_action_post_image()
             $selectAuction = $_POST['selectAuction'];
 
             $postTermsCheck = (int)$_POST['postTermsCheck'];
-            if($postTermsCheck === 1) {
+            if ($postTermsCheck === 1) {
                 $error_messages['postTermsCheck'] = '利用規約に同意して下さい。';
             }
 
@@ -236,34 +241,6 @@ function tcd_membership_action_post_image()
                     'post_id'    => $post_id,
                     'meta_key'   => 'main_image',
                     'meta_value' => $requestFileUrl,
-                ],
-                [
-                    '%d',
-                    '%s',
-                    '%s'
-                ]
-            );
-
-            $result = $wpdb->insert(
-                'wp_postmeta',
-                [
-                    'post_id'    => $post_id,
-                    'meta_key'   => 'resize_image',
-                    'meta_value' => $requestResizeFileUrl,
-                ],
-                [
-                    '%d',
-                    '%s',
-                    '%s'
-                ]
-            );
-
-            $result = $wpdb->insert(
-                'wp_postmeta',
-                [
-                    'post_id'    => $post_id,
-                    'meta_key'   => 'image_name',
-                    'meta_value' => $requestFileName,
                 ],
                 [
                     '%d',
