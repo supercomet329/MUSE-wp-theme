@@ -901,7 +901,7 @@ function check_ProfileInput() {
         if (!user_nameVal.match(/^\s+?$/ || /^　+?$/)) {
             user_name_flg = true;
         } else {
-            showNameMsg();
+            showUserNameMsg();
         }
     } else {
         showUserNameMsg();
