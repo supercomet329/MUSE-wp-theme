@@ -59,7 +59,7 @@ $list_like = $chunk_list_like;
 $listFavorite = muse_list_favorite($user_id);
 $chunk_list_favorite = array_chunk($listFavorite, 3);
 $list_favorite = $chunk_list_favorite;
-get_header();
+get_template_part( 'template-parts/header_non_pc_menu' );
 ?>
 <div class="container pt-2">
     <div class="row mb-2">
@@ -312,4 +312,4 @@ get_header();
     };
 </script>
 <?php
-get_footer();
+get_template_part( 'template-parts/footer_non_pc_menu' );
