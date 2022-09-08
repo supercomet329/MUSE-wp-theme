@@ -70,6 +70,7 @@ header .change-logo {
 
 .error_message {
     color: red;
+    font-weight: bold;
 }
 
 .menu-list {

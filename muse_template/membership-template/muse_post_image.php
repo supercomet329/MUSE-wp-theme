@@ -14,16 +14,18 @@ get_header();
                 <div class="col-12">
                     <label for="saleType" class="label-text post-input-title mt-4">タイトル（必須）</label>
                 </div>
+
                 <div class="col-12">
                     <input class="form-control post-input" type="text" name="postTitle" id="postTitle" value="<?php echo $tcd_membership_vars['setDataParams']['postTitle']; ?>" id="postTitle" placeholder="タイトルを入力">
                 </div>
+
                 <div class="col-12">
-                    <div class="inputPostTitle" id="inputPostTitle"></div>
+                    <div class="error_message" id="validatePostTitle"></div>
                 </div>
+
                 <div class="col-12">
                     <label for="saleType" class="label-text post-input-title mt-4">投稿内容（任意）</label>
                 </div>
-
 
                 <div class="col-12">
                     <div class="form-imgarea-area1">
@@ -32,7 +34,6 @@ get_header();
                             <div class="FlexTextarea__dummy" aria-hidden="true"></div>
                             <textarea class="FlexTextarea__textarea" name="postDetail" id="postDetail" placeholder="詳細を入力"><?php echo $tcd_membership_vars['setDataParams']['postDetail']; ?></textarea>
                         </div>
-
 
                         <span id="image_html"></span>
 
@@ -53,6 +54,13 @@ get_header();
                             <input type="file" id="files" />
                         </div>
                     </div>
+                </div>
+                <div class="col-12">
+                    <div class="error_message" id="validatePostImage"></div>
+                </div>
+
+                <div class="col-12">
+                    <div class="error_message" id="validatePostDetail"></div>
                 </div>
 
                 <script>
@@ -163,6 +171,11 @@ get_header();
 
                                 </div>
                             </div>
+
+                            <div class="col-12">
+                                <div class="error_message" id="validateAuctionDate"></div>
+                            </div>
+
                             <div class="col-12">
                                 <div class="inputAppDeadline" id="inputAppDeadline"></div>
                             </div>
@@ -204,6 +217,11 @@ get_header();
                                 </div>
                                 <div class="col-4">
                                 </div>
+
+                                <div class="col-12">
+                                    <div class="error_message" id="validateAuctionEnd"></div>
+                                </div>
+
                                 <div class="col-12">
                                     <div class="inputAuctionEnd" id="inputAuctionEnd"></div>
                                 </div>
@@ -232,9 +250,11 @@ get_header();
                                     円
                                 </div>
                             </div>
+
                             <div class="col-12">
-                                <div class="inputImagePrice" id="inputImagePrice"></div>
+                                <div class="error_message" id="validateImagePrice"></div>
                             </div>
+
                             <div class="col-12">
                                 <p class="commission-title">手数料差し引き残額</p>
                                 <p class="commission-price">0円</p>
@@ -248,8 +268,9 @@ get_header();
                                     円
                                 </div>
                             </div>
+
                             <div class="col-12">
-                                <div class="inputBinPrice" id="inputBinPrice"></div>
+                                <div class="error_message" id="validateBinPrice"></div>
                             </div>
                         </div>
                     </div>
@@ -371,7 +392,7 @@ get_header();
                 </div>
 
                 <div class="col-12 text-center mt-3 mb-5">
-                    <button type="submit" class="btn btn-primary text-white submit-btn" id="postBtn">画像投稿確認</button>
+                    <button type="submit" class="btn btn-primary text-white submit-btn" id="postBtn" disabled>画像投稿</button>
                 </div>
 
             </div>
