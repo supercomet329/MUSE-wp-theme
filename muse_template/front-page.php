@@ -1,9 +1,8 @@
 <?php
 $dp_options = get_design_plus_option();
 
-get_header();
+
 ?>
-<main class="l-main">
 <?php
 // get_template_part( 'template-parts/index-slider' );
 $viewMode = 'normal';
@@ -16,9 +15,14 @@ if(isset($_GET['picuture_mode'])) {
 }
 
 if($viewMode === 'picture') {
+	get_template_part( 'template-parts/header_non_pc_menu' );
 	get_template_part( 'template-parts/muse_top_picture' );
+	get_template_part( 'template-parts/footer_non_pc_menu' );
 } else {
+	get_header();
+	echo '<main class="l-main">';
 	get_template_part( 'template-parts/muse_top_timeline' );
+	get_footer();
 }
 
 /**
@@ -381,4 +385,4 @@ endif;
 </main>
 <?php  */ ?>
 <?php
-get_footer();
+
