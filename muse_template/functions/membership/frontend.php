@@ -1342,7 +1342,7 @@ function getPostImageByPostTypeAndPostStatusWhere($txtSearch = '', $selR18 = fal
             ,wp_posts.ID                   AS post_id
             ,wp_posts.post_date            AS post_date
             ,main_image_table.meta_value   AS main_image
-            ,resize_image_table.meta_value AS resize_image
+            ,main_image_table.meta_value   AS main_image
             ,main_image_table2.meta_value  AS main_image2
             ,main_image_table3.meta_value  AS main_image3
             ,main_image_table4.meta_value  AS main_image4
@@ -1352,18 +1352,13 @@ function getPostImageByPostTypeAndPostStatusWhere($txtSearch = '', $selR18 = fal
             wp_users AS wp_users
         ON
             wp_users.ID = wp_posts.post_author
+
         INNER JOIN
             wp_postmeta AS main_image_table
         ON
             main_image_table.post_id = wp_posts.ID
         AND
             main_image_table.meta_key = \'main_image\'
-        INNER JOIN
-            wp_postmeta AS resize_image_table
-        ON
-            resize_image_table.post_id = wp_posts.ID
-        AND
-            resize_image_table.meta_key = \'resize_image\'
         LEFT JOIN
             wp_usermeta AS wp_usermeta
         ON
@@ -1438,7 +1433,8 @@ function getPostImageByPostTypeAndPostStatusWhere($txtSearch = '', $selR18 = fal
             ORDER BY wp_posts.post_date DESC
     ';
 
-    $result = $wpdb->get_results($wpdb->prepare($sql, $post_type, $post_status));
+    $result_sql = $wpdb->prepare($sql, $post_type, $post_status);
+    $result = $wpdb->get_results($result_sql);
     return $result;
 }
 

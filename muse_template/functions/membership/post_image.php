@@ -2,7 +2,7 @@
 // Add 2022/05/10 by H.Okabe
 // require_once(ABSPATH . 'wp-admin/includes/image.php');
 /**
- * 作品依頼発注一覧ページ
+ * 画像投稿ページ
  */
 function tcd_membership_action_post_image()
 {
@@ -90,9 +90,9 @@ function tcd_membership_action_post_image()
 
             $file_name = substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 100) . '.' . $extension;
 
-            $resize_uploaded_file = __DIR__ . '/../../upload_file/' . $file_name;
+            $uploaded_file = __DIR__ . '/../../upload_file/' . $file_name;
             $requestFileUrl  = get_template_directory_uri() . '/upload_file/' . $file_name;
-            file_put_contents($resize_uploaded_file, $file_data);
+            file_put_contents($uploaded_file, $file_data);
         } else {
             $error_messages['postFile'] = 'アップロードする画像ファイルが御座いません';
         }
@@ -111,9 +111,9 @@ function tcd_membership_action_post_image()
 
             $file_name = substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 100) . '.' . $extension;
 
-            $resize_uploaded_file = __DIR__ . '/../../upload_file/' . $file_name;
+            $uploaded_file = __DIR__ . '/../../upload_file/' . $file_name;
             $requestFileUrl2  = get_template_directory_uri() . '/upload_file/' . $file_name;
-            file_put_contents($resize_uploaded_file, $file_data);
+            file_put_contents($uploaded_file, $file_data);
         } 
 
         $requestFileUrl3  = false;
@@ -130,9 +130,9 @@ function tcd_membership_action_post_image()
 
             $file_name = substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 100) . '.' . $extension;
 
-            $resize_uploaded_file = __DIR__ . '/../../upload_file/' . $file_name;
+            $uploaded_file = __DIR__ . '/../../upload_file/' . $file_name;
             $requestFileUrl3  = get_template_directory_uri() . '/upload_file/' . $file_name;
-            file_put_contents($resize_uploaded_file, $file_data);
+            file_put_contents($uploaded_file, $file_data);
         }
 
         $requestFileUrl4  = false;
@@ -149,9 +149,9 @@ function tcd_membership_action_post_image()
 
             $file_name = substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 100) . '.' . $extension;
 
-            $resize_uploaded_file = __DIR__ . '/../../upload_file/' . $file_name;
+            $uploaded_file = __DIR__ . '/../../upload_file/' . $file_name;
             $requestFileUrl4  = get_template_directory_uri() . '/upload_file/' . $file_name;
-            file_put_contents($resize_uploaded_file, $file_data);
+            file_put_contents($uploaded_file, $file_data);
         } 
         // バリデート
 
