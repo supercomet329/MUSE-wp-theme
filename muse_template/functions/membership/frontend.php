@@ -1192,7 +1192,7 @@ function listTopTimeLine()
             ,wp.post_title                 AS post_title
             ,wp.post_date                  AS post_date
             ,wp.post_type                  AS post_type
-            ,resize_image_table.meta_value AS resize_image
+            ,main_image_table.meta_value   AS main_image
             ,main_image_table2.meta_value  AS main_image2
             ,main_image_table3.meta_value  AS main_image3
             ,main_image_table4.meta_value  AS main_image4
@@ -1204,11 +1204,11 @@ function listTopTimeLine()
             wu.ID = wp.post_author
 
         INNER JOIN
-            wp_postmeta AS resize_image_table
+            wp_postmeta AS main_image_table
         ON
-            resize_image_table.post_id = wp.ID
+            main_image_table.post_id = wp.ID
         AND
-            resize_image_table.meta_key = \'resize_image\'
+            main_image_table.meta_key = \'main_image\'
 
         LEFT JOIN
             wp_usermeta AS wumeta
