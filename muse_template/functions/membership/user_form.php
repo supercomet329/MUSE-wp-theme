@@ -65,55 +65,53 @@ function tcd_membership_login_form($args = array())
         endif;
     endif;
 ?>
-    <div class="pt-sm-5 mt-sm-5">
-        <div class="container pt-5">
-            <form action="<?php echo esc_attr(get_tcd_membership_memberpage_url('login')); ?>" method="post">
-                <?php if (!empty($errorMessage)) { ?>
-                    <?php /** 2022/05/28 TODO: エラーメッセージの表示 */ ?>
-                    <div class="p-membership-form__error"><?php echo wpautop($errorMessage); ?></div>
-                <?php }
-                /** endif */ ?>
+    <div class="row mb-2">
+        <div class="col-12">
+            <a href="javascript:history.back();">← 戻る</a>
+        </div>
+    </div>
+    <form action="<?php echo esc_attr(get_tcd_membership_memberpage_url('login')); ?>" method="post">
+        <?php if (!empty($errorMessage)) { ?>
+            <?php /** 2022/05/28 TODO: エラーメッセージの表示 */ ?>
 
-                <div class="row">
-                    <div class="col-12">
-                        <h1 class="text-center mb-4 contents-title font-weight-bold">ログイン</h1>
-                        <div class="emailSentMsg" id="emailSentMsg">
-                            <?php if (!empty($successMessage)) : ?>
-                                <p><?php echo $successMessage; ?></p>
-                            <?php endif; ?>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <label for="email" class="label-text">メールアドレス</label>
-                    </div>
-                    <div class="col-12 pt-2 pb-2">
-                        <input class="form-control email-form" type="email" name="log" id="loginEmail" placeholder="aaaa@muse.co.jp" value="<?php echo esc_attr(isset($_REQUEST['log']) ? $_REQUEST['log'] : $args['value_username']); ?>" required>
-                    </div>
-                    <div class="col-12">
-                        <label for="loginPassword" class="label-text">パスワード</label>
-                    </div>
-                    <div class="col-12 pt-2 pb-2">
-                        <input class="form-control email-form" type="password" name="pwd" value="" id="loginPassword" placeholder="Musepass1" required>
-                    </div>
-                    <div class="col-12 reset-password" style="text-align: center;">
-                        <a href="<?php echo esc_attr(get_tcd_membership_memberpage_url('reset_password')); ?>" class="reset-password-link" style="font-size: 12px;">&gt;&gt;パスワードを忘れた場合はこちら</a>
-                    </div>
-                    <div class="col-12 text-center pt-2">
-                        <button type="submit" class="btn btn-primary text-white submit-btn" id="login-btn" disabled>ログイン</button>
-                    </div>
-                    <div class="col-12 text-center pt-3">
-                        <input class="form-check-input" type="checkbox" value="forever" id="remember" name="rememberme">
-                        <label class="form-check-label terms-check pb-2" for="remember">
-                            <p class="remember">ログイン情報を記憶する</p>
-                        </label>
-                    </div>
-                </div>
-            </form>
+            <div class="error_message"><?php echo wpautop($errorMessage); ?></div>
+        <?php }
+        /** endif */ ?>
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-center mb-4 contents-title font-weight-bold">ログイン</h1>
+            </div>
+            <div class="col-12">
+                <label for="email" class="label-text">メールアドレス</label>
+            </div>
+            <div class="col-12 pt-2 pb-2">
+                <input name="log" class="form-control email-form" type="email" id="loginEmail" placeholder="aaaa@muse.co.jp" value="<?php echo esc_attr(isset($_REQUEST['log']) ? $_REQUEST['log'] : $args['value_username']); ?>" required>
+            </div>
+            <div class="col-12">
+                <label for="loginPassword" class="label-text">パスワード</label>
+            </div>
+            <div class="col-12 pt-2 pb-2">
+                <input class="form-control email-form" type="password" name="pwd" id="loginPassword" placeholder="Musepass1" required>
+            </div>
+            <div class="col-12 reset-password text-center">
+                <a href="<?php echo esc_attr(get_tcd_membership_memberpage_url('reset_password')); ?>" class="reset-password-link">&gt;&gt;パスワードを忘れた場合はこちら</a>
+            </div>
+            <div class="col-12 text-center pt-2">
+                <button type="submit" class="btn btn-primary text-white submit-btn" id="login-btn" disabled>ログイン</button>
+            </div>
+            <div class="col-12 text-center pt-3">
+                <input class="form-check-input" type="checkbox" value="1" id="remember" name="rememberme">
+                <label class="form-check-label terms-check pb-2" for="remember">
+                    <p class="remember">ログイン情報を記憶する</p>
+                </label>
+            </div>
+        </div>
+    </form>
 
 
-            <!-- hr class="hr-line" -->
-            <!-- TODO: Twitterログイン実装 -->
-            <!-- div class="row">
+    <!-- hr class="hr-line" -->
+    <!-- TODO: Twitterログイン実装 -->
+    <!-- div class="row">
                 <div class="col-12">
                     <h1 class="text-center mt-3 mb-3 contents-title font-weight-bold">SNSログイン</h1>
                 </div>
@@ -127,7 +125,7 @@ function tcd_membership_login_form($args = array())
                         </button>
                     </a>
                 </div -->
-                <!-- div class="col-12 login-with-sns mt-3">
+    <!-- div class="col-12 login-with-sns mt-3">
                     <a href="https://google.com" target="_blank" rel="noreferrer">
                         <button class="google-btn">
                             <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/g-logo.png" alt="google" class="google-icon">
@@ -135,24 +133,24 @@ function tcd_membership_login_form($args = array())
                         </button>
                     </a>
                 </div -->
-            </div -->
-            <hr class="hr-line mt-3">
-            <div class="row">
-                <div class="col-12">
-                    <h1 class="text-center mt-3 mb-3 contents-title font-weight-bold">新規会員登録</h1>
-                </div>
-                <div class="col-12 register-notes">
-                    <p class="register-notes-text" style="text-align: center;">
-                        会員ではない方は会員登録してください
-                    </p>
-                </div>
-                <div class="col-12 text-center pt-1">
-                    <a class="btn btn-primary text-white submit-btn" href="<?php echo esc_attr(get_tcd_membership_memberpage_url('registration')); ?>">
-                        新規会員登録はこちら
-                    </a>
-                </div>
-            </div>
+    </div -->
+    <hr class="hr-line mt-3">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="text-center mt-3 mb-3 contents-title font-weight-bold">新規会員登録</h1>
         </div>
+        <div class="col-12 register-notes">
+            <p class="register-notes-text" style="text-align: center;">
+                会員ではない方は会員登録してください
+            </p>
+        </div>
+        <div class="col-12 text-center pt-1">
+            <a class="btn btn-primary text-white submit-btn" href="<?php echo esc_attr(get_tcd_membership_memberpage_url('registration')); ?>">
+                新規会員登録はこちら
+            </a>
+        </div>
+    </div>
+    </div>
     </div> <?php
 
             if (!$args['echo']) :
@@ -375,9 +373,9 @@ function tcd_membership_login_form($args = array())
             elseif (!empty($tcd_membership_vars['error_message'])) :
 
                 $error_message = 'エラーが発生しました。';
-                if('Invalid token.' === $tcd_membership_vars['error_message']) {
+                if ('Invalid token.' === $tcd_membership_vars['error_message']) {
                     $error_message = '使用できないトークンです。<br />改めて仮登録を御願い致します。';
-                } else if('Expired token.' === $tcd_membership_vars['error_message']){
+                } else if ('Expired token.' === $tcd_membership_vars['error_message']) {
                     $error_message = '本登録が完了しているトークンです。';
                 }
     ?>
@@ -544,7 +542,7 @@ function tcd_membership_login_form($args = array())
             // 受注の最低金額の取得
             $minimum_order_price = 0;
             $getMinimumOrderPrice = get_user_meta(get_current_user_id(), 'minimum_order_price', true);
-            if(!empty($getMinimumOrderPrice)) {
+            if (!empty($getMinimumOrderPrice)) {
                 $minimum_order_price = $getMinimumOrderPrice;
             }
 
@@ -662,8 +660,10 @@ function tcd_membership_login_form($args = array())
         <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd-membership-edit_profile')); ?>">
         <input type="hidden" id="icon-file" name="icon_file" value="0" />
     </form>
-    <?php // echo makeTwitterOauthLoginLink(); ?>
-    <?php // echo makeGoogleOauthLoginLink(); ?>
+    <?php // echo makeTwitterOauthLoginLink(); 
+    ?>
+    <?php // echo makeGoogleOauthLoginLink(); 
+    ?>
 
     <!-- モーダル -->
     <div class="modal fade profile-edit-modal" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
