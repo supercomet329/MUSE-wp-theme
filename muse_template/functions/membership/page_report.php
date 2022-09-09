@@ -23,7 +23,7 @@ function tcd_membership_action_page_report()
     if (isset($_REQUEST['post_id'])) {
         // 投稿画像のURL取得
         $post_id = $_REQUEST['post_id'];
-        $post_image = get_post_meta($post_id, 'resize_image', true);
+        $post_image = get_post_meta($post_id, 'main_image', true);
         if (empty($post_image)) {
             wp_safe_redirect('/');
             exit();

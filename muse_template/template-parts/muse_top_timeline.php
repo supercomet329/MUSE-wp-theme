@@ -43,7 +43,7 @@
         if ($oneTimeline->post_type === 'photo') {
             // 投稿画像の表示
             $imageArray = [];
-            $imageArray[] = $oneTimeline->resize_image;
+            $imageArray[] = $oneTimeline->main_image;
             if (!is_null($oneTimeline->main_image2)) {
                 $imageArray[] = $oneTimeline->main_image2;
             }
