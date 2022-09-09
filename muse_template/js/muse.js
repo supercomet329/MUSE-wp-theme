@@ -1594,30 +1594,30 @@ function validatePostImage() {
 
     // 共通
     // タイトルの必須入力
-    var flagPostTitle = true;
+    var flagPostTitle = false;
     var postTitle = jQuery('#postTitle').val();
     var postTitle = postTitle.replace(/\s+/g, "");
     if (postTitle === "") {
         // 文字列が空ではない場合
-        flagPostTitle = false;
+        flagPostTitle = true;
         jQuery('#validatePostTitle').html('タイトルは必須入力です。');
     }
 
     // 投稿内容の必須入力
-    var flagPostDetail = true;
+    var flagPostDetail = false;
     var postDetail = jQuery('#postDetail').val();
     var postDetail = postDetail.replace(/\s+/g, "");
     if (postDetail === "") {
         // 文字列が空ではない場合
-        flagPostDetail = false;
+        flagPostDetail = true;
         jQuery('#validatePostDetail').html('投稿内容は必須入力です。');
     }
 
     // 投稿画像の確認
-    var flagPostImage = true;
+    var flagPostImage = false;
     var image_0 = jQuery('#image_0').val();
     if (image_0 === '') {
-        flagPostImage = false;
+        flagPostImage = true;
         jQuery('#validatePostImage').html('投稿画像は最低1つは投稿して下さい');
     }
 
@@ -1648,22 +1648,22 @@ function validateTypeNft() {
     // 共通
 
     // 販売価格の必須入力
-    var flagImagePrice = true;
+    var flagImagePrice = false;
     var imagePrice = jQuery('#imagePrice').val();
     var imagePrice = imagePrice.replace(/\s+/g, "");
     if (imagePrice === "") {
         // 文字列が空の場合
-        flagImagePrice = false;
+        flagImagePrice = true;
         jQuery('#validateImagePrice').html('販売価格は必須入力です。');
     }
 
     // 即決価格の必須入力
-    var flagBinPrice = true;
+    var flagBinPrice = false;
     var binPrice = jQuery('#binPrice').val();
     var binPrice = binPrice.replace(/\s+/g, "");
     if (binPrice === "") {
         // 文字列が空の場合
-        flagBinPrice = false;
+        flagBinPrice = true;
         jQuery('#validateBinPrice').html('即決価格は必須入力です。');
     }
 
