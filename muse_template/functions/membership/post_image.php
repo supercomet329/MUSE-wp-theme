@@ -77,7 +77,7 @@ function tcd_membership_action_post_image()
 
         // バリデート
         $requestFileUrl  = false;
-        if (isset($_POST['image_0']) || !empty($_POST['image_0'])) {
+        if (isset($_POST['image_0']) && !empty($_POST['image_0'])) {
             $finfo = finfo_open(FILEINFO_MIME_TYPE);
 
             $file_data = $_POST['image_0'];
@@ -98,7 +98,7 @@ function tcd_membership_action_post_image()
         }
 
         $requestFileUrl2  = false;
-        if (isset($_POST['image_1']) || !empty($_POST['image_1'])) {
+        if (isset($_POST['image_1']) && !empty($_POST['image_1'])) {
             $finfo = finfo_open(FILEINFO_MIME_TYPE);
 
             $file_data = $_POST['image_1'];
@@ -117,7 +117,7 @@ function tcd_membership_action_post_image()
         } 
 
         $requestFileUrl3  = false;
-        if (isset($_POST['image_2']) || !empty($_POST['image_2'])) {
+        if (isset($_POST['image_2']) && !empty($_POST['image_2'])) {
             $finfo = finfo_open(FILEINFO_MIME_TYPE);
 
             $file_data = $_POST['image_2'];
@@ -136,7 +136,7 @@ function tcd_membership_action_post_image()
         }
 
         $requestFileUrl4  = false;
-        if (isset($_POST['image_3']) || !empty($_POST['image_3'])) {
+        if (isset($_POST['image_3']) && !empty($_POST['image_3'])) {
             $finfo = finfo_open(FILEINFO_MIME_TYPE);
 
             $file_data = $_POST['image_3'];
@@ -265,7 +265,7 @@ function tcd_membership_action_post_image()
                 );
             }
 
-            if ($requestFileUrl3) {
+			if ($requestFileUrl3) {
                 $result = $wpdb->insert(
                     'wp_postmeta',
                     [
