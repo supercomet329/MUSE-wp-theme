@@ -1752,7 +1752,7 @@ function viewHtml(add_file) {
     }
 
     if (arrayImage.length >= 4) {
-        alert('投稿画像が多いです。');
+        jQuery('#validatePostImage').html('投稿画像は4つまでです。');
         return false;
     }
 
