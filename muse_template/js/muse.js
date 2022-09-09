@@ -1451,6 +1451,11 @@ jQuery(function() {
         var reader = new FileReader();
 
         reader.onload = (function(file) {
+            if (file.type.indexOf("image") < 0) {
+                jQuery('#validatePostImage').html('画像ファイルを指定して下さい。');
+                return false;
+            }
+
             return function(e) {
                 console.log(e.target.result);
                 add_file = e.target.result;
@@ -1943,6 +1948,10 @@ function drag_and_drop_file(event) {
     console.log(event);
 
     jQuery.each(arrayImage, function(index, file) {
+        if (file.type.indexOf("image") < 0) {
+            jQuery('#validatePostImage').html('画像ファイルを指定して下さい。');
+            return false;
+        }
         var reader = new FileReader();
         reader.onload = (function(file) {
             return function(e) {
