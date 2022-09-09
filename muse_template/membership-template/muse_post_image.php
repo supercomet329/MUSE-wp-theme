@@ -27,7 +27,7 @@ get_header();
                     <label for="saleType" class="label-text post-input-title mt-4">投稿内容（任意）</label>
                 </div>
 
-                <div class="col-12">
+                <div id="image_drag_and_drop" class="col-12">
                     <div class="form-imgarea-area1">
 
                         <div class="FlexTextarea">

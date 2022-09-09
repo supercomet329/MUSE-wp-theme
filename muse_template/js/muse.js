@@ -1573,6 +1573,15 @@ jQuery(function() {
         validatePostImage();
     });
 
+    // ドラッグオーバー時の処理
+    jQuery("body").on("dragover drop", function(e) {
+        e.preventDefault();
+    });
+
+    jQuery("#image_drag_and_drop").on("drop", function(e) {
+        drag_and_drop_file(e);
+    });
+
     // オークション表示の場合の日付の初期表示の取得
     setAuctionSelBox();
 });
@@ -1923,5 +1932,27 @@ function setAuctionSelBox() {
         }
     }
     jQuery('#auctionEndDateMin').html(htmlAuctionEndDateMin);
+}
+
+/**
+ * ドラッグアンドドロップ
+ *
+ */
+function drag_and_drop_file(event) {
+    var arrayImage = event.originalEvent.dataTransfer.files;
+    console.log(event);
+
+    jQuery.each(arrayImage, function(index, file) {
+        var reader = new FileReader();
+        reader.onload = (function(file) {
+            return function(e) {
+                console.log(e.target.result);
+                add_file = e.target.result;
+                viewHtml(add_file);
+            };
+        })(file);
+        reader.readAsDataURL(file);
+    });
+
 }
 // ▲ post.htmlでのJS
