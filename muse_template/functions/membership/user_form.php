@@ -561,7 +561,7 @@ function tcd_membership_login_form($args = array())
         <div class="cover-area">
             <img src="<?php echo esc_url($header_image); ?>" class="img-fluid cover-image" id="cover_image">
             <label>
-                <input type="file" name="header_image" id="cover_img_file_input" accept="image/png, image/jpeg" class="image">
+                <input type="file" name="header_image" id="cover_img_file_input" accept="image/png, image/jpeg">
                 <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/camera_BGblue.png" class="camera-image rounded-circle" id="camera_image" alt="camera-image">
             </label>
         </div>

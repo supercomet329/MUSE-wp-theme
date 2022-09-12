@@ -1219,10 +1219,11 @@ function check_ReportInput() {
 jQuery(function($) {
     // ページ内に該当のクラス名のカウント
     var cropper_profile = document.querySelectorAll('#profile_img_file_input');
+
     if (cropper_profile.length > 0) {
         jQuery(document).ready(function($) {
             // エンドポイントを定義
-            const endpoint = "http://localhost:3000/api";
+            // const endpoint = "http://localhost:3000/api";
 
             // 拡大表示で使用する変数定義
             let $zoom = jQuery('#zoom');
@@ -1244,7 +1245,7 @@ jQuery(function($) {
                 // FileReader、選択ファイル、生成URLを初期化
                 let reader;
                 let file;
-                let url;
+                // let url;
 
                 // ファイルが選択された場合
                 if (files && files.length > 0) {
@@ -1293,6 +1294,7 @@ jQuery(function($) {
                         let base64data = reader.result;
                         const base64EncodedFile = base64data.replace(/data:.*\/.*;base64,/, '');
                         jQuery('#profile_image').attr('src', base64data);
+                        jQuery('#icon-file').val(base64data);
                         $modal.modal('hide');
                         $zoom.val(0);
                         $zoom.data('oldVal', 0);
