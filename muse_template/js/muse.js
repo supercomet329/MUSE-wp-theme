@@ -1293,6 +1293,7 @@ jQuery(function($) {
                         let base64data = reader.result;
                         const base64EncodedFile = base64data.replace(/data:.*\/.*;base64,/, '');
                         jQuery('#profile_image').attr('src', base64data);
+                        jQuery('#icon-file').val(base64data);
                         $modal.modal('hide');
                         $zoom.val(0);
                         $zoom.data('oldVal', 0);
