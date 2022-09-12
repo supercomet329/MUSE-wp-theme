@@ -1451,6 +1451,11 @@ jQuery(function() {
         var reader = new FileReader();
 
         reader.onload = (function(file) {
+            if (file.type.indexOf("image") < 0) {
+                jQuery('#validatePostImage').html('画像ファイルを指定して下さい。');
+                return false;
+            }
+
             return function(e) {
                 console.log(e.target.result);
                 add_file = e.target.result;
@@ -1466,9 +1471,11 @@ jQuery(function() {
 
     jQuery("body").on("click", "#delete_post_image", function() {
 
-        var index = jQuery(this).data('count');
-        console.log(index);
-        jQuery('#image_' + index).val('');
+        var count = jQuery(this).data('count');
+        console.log(count);
+        var target_id = '#image_' + count;
+        console.log(target_id);
+        jQuery(target_id).val('');
         viewHtml('');
     });
 
@@ -1571,6 +1578,15 @@ jQuery(function() {
     // 利用規約のチェックが変更されたときに実行
     jQuery("body").on('click', '#postTermsCheck', function($) {
         validatePostImage();
+    });
+
+    // ドラッグオーバー時の処理
+    jQuery("body").on("dragover drop", function(e) {
+        e.preventDefault();
+    });
+
+    jQuery("#image_drag_and_drop").on("drop", function(e) {
+        drag_and_drop_file(e);
     });
 
     // オークション表示の場合の日付の初期表示の取得
@@ -1762,28 +1778,44 @@ function viewHtml(add_file) {
         arrayImage[count] = add_file;
     }
 
+    // 画像表示の初期化
+    var image_0 = jQuery('#image_0').val('');
+    var image_0 = jQuery('#image_1').val('');
+    var image_0 = jQuery('#image_2').val('');
+    var image_0 = jQuery('#image_3').val('');
+
     console.log(arrayImage.length);
     console.log(arrayImage);
+    var loop = 0;
     if (arrayImage.length === 1) {
         // 画像登録が初回の場合
         jQuery.each(arrayImage, function(index, value) {
-            image_html += '<div class="form-imgarea-area2-1">';
-            image_html += '<div class="form-imgarea-area2-1-1">';
-            image_html += '<div class="form-imgarea-area2-img1-1"><img src="' + value + '"></div>';
-            image_html += '<div class="form-imgarea-area2-img2-1"><img id="delete_post_image" data-count ="' + index + '" src="/wp-content/themes/muse_template/assets/img/icon/post-x.png"></div>';
-            image_html += '</div>';
-            image_html += '</div>';
-            jQuery('#image_' + index).val(value);
+            console.log(index + '=' + value);
+            if (value !== '') {
+                image_html += '<div class="form-imgarea-area2-1">';
+                image_html += '<div class="form-imgarea-area2-1-1">';
+                image_html += '<div class="form-imgarea-area2-img1-1"><img src="' + value + '"></div>';
+                image_html += '<div class="form-imgarea-area2-img2-1"><img id="delete_post_image" data-count ="' + loop + '" src="/wp-content/themes/muse_template/assets/img/icon/post-x.png"></div>';
+                image_html += '</div>';
+                image_html += '</div>';
+                var target_id = '#image_' + loop;
+                jQuery(target_id).val(value);
+                loop++;
+            }
         });
     } else {
         // 画像登録が2つ以上の場合
         jQuery.each(arrayImage, function(index, value) {
-            console.log(index + ':' + value);
-            image_html += '<div class="form-imgarea-area2">';
-            image_html += '<div class="form-imgarea-area2-img1"><img src="' + value + '"></div>';
-            image_html += '<div class="form-imgarea-area2-img2"><img id="delete_post_image" data-count ="' + index + '" src="/wp-content/themes/muse_template/assets/img/icon/post-x.png"></div>';
-            image_html += '</div>';
-            jQuery('#image_' + index).val(value);
+            console.log(index + '=' + value);
+            if (value !== '') {
+                image_html += '<div class="form-imgarea-area2">';
+                image_html += '<div class="form-imgarea-area2-img1"><img src="' + value + '"></div>';
+                image_html += '<div class="form-imgarea-area2-img2"><img id="delete_post_image" data-count ="' + loop + '" src="/wp-content/themes/muse_template/assets/img/icon/post-x.png"></div>';
+                image_html += '</div>';
+                var target_id = '#image_' + loop;
+                jQuery(target_id).val(value);
+                loop++;
+            }
         })
     }
 
@@ -1923,5 +1955,31 @@ function setAuctionSelBox() {
         }
     }
     jQuery('#auctionEndDateMin').html(htmlAuctionEndDateMin);
+}
+
+/**
+ * ドラッグアンドドロップ
+ *
+ */
+function drag_and_drop_file(event) {
+    var arrayImage = event.originalEvent.dataTransfer.files;
+    console.log(event);
+
+    jQuery.each(arrayImage, function(index, file) {
+        if (file.type.indexOf("image") < 0) {
+            jQuery('#validatePostImage').html('画像ファイルを指定して下さい。');
+            return false;
+        }
+        var reader = new FileReader();
+        reader.onload = (function(file) {
+            return function(e) {
+                console.log(e.target.result);
+                add_file = e.target.result;
+                viewHtml(add_file);
+            };
+        })(file);
+        reader.readAsDataURL(file);
+    });
+
 }
 // ▲ post.htmlでのJS
