@@ -1393,7 +1393,8 @@ function tcd_membership_login_form($args = array())
                 } elseif (false !== strpos($data['display_name'], ' ')) {
                     $error_messages[] = sprintf(__('Spaces are not allowed in the %s.', 'tcd-w'), $args['label_display_name']);
                 } elseif (false !== strpos($data['display_name'], '@')) {
-                    $error_messages[] = sprintf(__('"@" is not allowed in the %s.', 'tcd-w'), $args['label_display_name']);
+                    // 20220913 @の登録を許可する
+                    // $error_messages[] = sprintf(__('"@" is not allowed in the %s.', 'tcd-w'), $args['label_display_name']);
                 } elseif (tcd_membership_check_forbidden_words($data['display_name'])) {
                     $error_messages[] = sprintf(__('%s has forbidden words.', 'tcd-w'), $args['label_display_name']);
                 } elseif (1 > mb_strlen($data['display_name']) || 50 < mb_strlen($data['display_name'])) {
