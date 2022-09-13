@@ -1785,6 +1785,7 @@ function validateRequest() {
 
     var flagRefUrl = false;
     if (refUrl !== '') {
+        // 参考URLが空ではない場合 => URLの書式チェック
         var chkUrl = refUrl.match(/^(https?|ftp)(:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)$/);
         if (chkUrl === null) {
             jQuery('#validRefUrlErrMsg').html('参考URLの形式が間違っています。');
@@ -1801,6 +1802,7 @@ function validateRequest() {
     if (budget === '') {
         jQuery('#inputBudget').html('予算を入力してください。');
     } else {
+        // 予算の入力値チェック
         var chkBudget = int_pattern.test(budget);
         if (chkBudget === false) {
             jQuery('#inputBudget').html('予算の御確認を御願い致します。');
@@ -1809,7 +1811,7 @@ function validateRequest() {
         }
     }
 
-    // 現在日時の取得
+    // 比較のため現在日時の取得
     var nowDate = new Date();
 
     // 応募期限の必須チェック
@@ -1827,6 +1829,7 @@ function validateRequest() {
     } else {
         appDeadline = new Date(appDeadlineY, appDeadlineM, appDeadlineD);
         if (nowDate.getTime() > appDeadline.getTime()) {
+            // 応募期限が過去日の場合
             jQuery('#inputAppDeadline').html('応募期限の日付を御確認下さい。');
         } else {
             flagAppDeadline = false;
@@ -1846,6 +1849,13 @@ function validateRequest() {
         desiredDateD !== '') {
         desiredDate = new Date(desiredDateY, desiredDateM, desiredDateD);
         if (nowDate.getTime() > desiredDate.getTime()) {
+            // 納品希望日が過去日の場合
+            jQuery('#inputDesiredDate').html('納品希望日の日付を御確認下さい。');
+            flagAppDeadline = true;
+        }
+
+        if (desiredDate.getTime() < appDeadline.getTime()) {
+            // 納品希望日が応募期限日より過去の場合
             jQuery('#inputDesiredDate').html('納品希望日の日付を御確認下さい。');
             flagAppDeadline = true;
         }
