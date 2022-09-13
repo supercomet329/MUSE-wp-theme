@@ -1712,6 +1712,11 @@ jQuery(function() {
     });
 
     setSelectDate();
+    var request_id = jQuery('#request_id').val();
+    if (request_id !== undefined) {
+        // 依頼の更新の時の対応
+        jQuery("#requestBtn").prop("disabled", false);
+    }
 });
 
 /**

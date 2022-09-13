@@ -278,7 +278,7 @@ get_header();
         </div>
         <input type="hidden" name="specify_user_id" value="<?php echo esc_attr($tcd_membership_vars['specifyUserId']); ?>">
         <input type="hidden" name="request_type" id="request_type" value="moddify">
-        <input type="hidden" name="request_id" value='<?php echo esc_attr($tcd_membership_vars['request_id']); ?>' />
+        <input type="hidden" id="request_id" name="request_id" value='<?php echo esc_attr($tcd_membership_vars['request_id']); ?>' />
         <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd-membership-confirm_message-' . $tcd_membership_vars['request_id'])); ?>">
     </form>
 </div>
