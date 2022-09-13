@@ -1703,6 +1703,14 @@ jQuery(function() {
         validateRequest();
     });
 
+    // ファイルの選択された時
+    jQuery("body").on("change", "#requestFile", function(e) {
+        var file_name = jQuery('#requestFile').prop('files')[0].name;
+        console.log(file_name);
+        jQuery('#outputFileName').html(file_name);
+        validateRequest();
+    });
+
     setSelectDate();
 });
 
