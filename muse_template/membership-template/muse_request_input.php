@@ -123,8 +123,12 @@ get_header();
                 <label class="request-file">
                     <input type="file" name="requestFile" id="requestFile">
                     <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/camera_BGblue.png" class="request-file-img">
-                    <p id="outputFileName"></p>
                 </label>
+
+                <div class="col-12 mb-3">
+                    <p id="outputFileName">
+                    </p>
+                </div>
                 <!-- div class="col-12 mb-3 <?php if (isset($tcd_membership_vars['error_message']['requestFile'])) { ?>d-none<?php } ?>" id="inputRequestErrMsgArea">
                     <div class="inputFile" id="inputFile">
                         <p id="inputRequestErrMsg" class="alert-color font-weight-bold">添付ファイルを入力してください</p>
