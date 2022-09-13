@@ -287,7 +287,7 @@ function tcd_membership_login_form($args = array())
     ?>
         <div class="pt-sm-5 mt-sm-5">
             <div class="container pt-5">
-                <form class="validateRegisterForm p-membership-form p-membership-form--registration_account" action="<?php echo esc_attr(get_tcd_membership_memberpage_url('registration_account')); ?>" method="post">
+                <form class="validateRegisterForm p-membership-form p-membership-form--registration_account" action="<?php echo esc_attr(get_tcd_membership_memberpage_url('registration_account')); ?>" method="post" autocomplete="off">
                     <div class="row">
                         <div class="col-12">
                             <h1 class="text-center mt-1 mb-4 contents-title font-weight-bold">会員登録</h1>
@@ -1393,7 +1393,8 @@ function tcd_membership_login_form($args = array())
                 } elseif (false !== strpos($data['display_name'], ' ')) {
                     $error_messages[] = sprintf(__('Spaces are not allowed in the %s.', 'tcd-w'), $args['label_display_name']);
                 } elseif (false !== strpos($data['display_name'], '@')) {
-                    $error_messages[] = sprintf(__('"@" is not allowed in the %s.', 'tcd-w'), $args['label_display_name']);
+                    // 20220913 @の登録を許可する
+                    // $error_messages[] = sprintf(__('"@" is not allowed in the %s.', 'tcd-w'), $args['label_display_name']);
                 } elseif (tcd_membership_check_forbidden_words($data['display_name'])) {
                     $error_messages[] = sprintf(__('%s has forbidden words.', 'tcd-w'), $args['label_display_name']);
                 } elseif (1 > mb_strlen($data['display_name']) || 50 < mb_strlen($data['display_name'])) {
