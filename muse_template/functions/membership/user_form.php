@@ -287,7 +287,7 @@ function tcd_membership_login_form($args = array())
     ?>
         <div class="pt-sm-5 mt-sm-5">
             <div class="container pt-5">
-                <form class="validateRegisterForm p-membership-form p-membership-form--registration_account" action="<?php echo esc_attr(get_tcd_membership_memberpage_url('registration_account')); ?>" method="post">
+                <form class="validateRegisterForm p-membership-form p-membership-form--registration_account" action="<?php echo esc_attr(get_tcd_membership_memberpage_url('registration_account')); ?>" method="post" autocomplete="off">
                     <div class="row">
                         <div class="col-12">
                             <h1 class="text-center mt-1 mb-4 contents-title font-weight-bold">会員登録</h1>
