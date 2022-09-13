@@ -19,11 +19,12 @@ get_header();
             </div>
             <div class="col-12">
                 <div class="inputRequestTitle" id="inputRequestTitle">
-                    <?php if (isset($tcd_membership_vars['error_message']['requestTitle'])) { ?>
-                        <p id="inputRequestErrMsg" class="inputRequestErrMsg">依頼タイトルを入力してください</p>
-
-                    <?php }
-                    /** endif */ ?>
+                    <p id="inputRequestErrMsg" class="inputRequestErrMsg">
+                        <?php if (isset($tcd_membership_vars['error_message']['requestTitle'])) { ?>
+                            依頼タイトルを入力してください
+                        <?php }
+                        /** endif */ ?>
+                    </p>
                 </div>
             </div>
             <div class="col-12">
@@ -54,11 +55,12 @@ get_header();
 
             <div class="col-12">
                 <div class="inputWorkTitle" id="inputWorkTitle">
-                    <?php if (isset($tcd_membership_vars['error_message']['workTitle'])) { ?>
-                        <p id="inputWorkErrMsg" class="inputRequestErrMsg mt-1">作品タイトルを入力してください</p>
-                    <?php }
-                    /** endif */ ?>
-
+                    <p id="inputWorkErrMsg" class="inputRequestErrMsg mt-1">
+                        <?php if (isset($tcd_membership_vars['error_message']['workTitle'])) { ?>
+                            作品タイトルを入力してください
+                        <?php }
+                        /** endif */ ?>
+                    </p>
                 </div>
             </div>
 
@@ -70,11 +72,13 @@ get_header();
             </div>
             <div class="col-12">
                 <div class="inputText" id="inputText">
-                    <?php if (isset($tcd_membership_vars['error_message']['content'])) { ?>
-                        <p id="inputTextErrMsg" class="inputRequestErrMsg mt-1">本文を入力してください</p>
+                    <p id="inputTextErrMsg" class="inputRequestErrMsg mt-1">
+                        <?php if (isset($tcd_membership_vars['error_message']['content'])) { ?>
+                            本文を入力してください
 
-                    <?php }
-                    /** endif */ ?>
+                        <?php }
+                        /** endif */ ?>
+                    </p>
                 </div>
             </div>
             <div class="col-12 mt-4">
@@ -85,11 +89,13 @@ get_header();
             </div>
             <div class="col-12">
                 <div class="inputComposition" id="inputComposition">
-                    <?php if (isset($tcd_membership_vars['error_message']['composition'])) { ?>
-                        <p id="inputCompositionErrMsg" class="inputRequestErrMsg mt-1">構図を入力してください</p>
+                    <p id="inputCompositionErrMsg" class="inputRequestErrMsg mt-1">
+                        <?php if (isset($tcd_membership_vars['error_message']['composition'])) { ?>
+                            構図を入力してください
 
-                    <?php }
-                    /** endif */ ?>
+                        <?php }
+                        /** endif */ ?>
+                    </p>
                 </div>
             </div>
 
@@ -101,10 +107,12 @@ get_header();
             </div>
             <div class="col-12 mb-3">
                 <div class="inputCharacter" id="inputCharacter">
-                    <?php if (isset($tcd_membership_vars['error_message']['character'])) { ?>
-                        <p id="inputCharacterErrMsg" class="inputRequestErrMsg mt-1">キャラクターを入力してください</p>
-                    <?php }
-                    /** endif */ ?>
+                    <p id="inputCharacterErrMsg" class="inputRequestErrMsg mt-1">
+                        <?php if (isset($tcd_membership_vars['error_message']['character'])) { ?>
+                            キャラクターを入力してください
+                        <?php }
+                        /** endif */ ?>
+                    </p>
                 </div>
             </div>
             <div class="col-12 mt-4">
@@ -115,8 +123,12 @@ get_header();
                 <label class="request-file">
                     <input type="file" name="requestFile" id="requestFile">
                     <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/camera_BGblue.png" class="request-file-img">
-                    <p id="outputFileName"></p>
                 </label>
+
+                <div class="col-12 mb-3">
+                    <p id="outputFileName">
+                    </p>
+                </div>
                 <!-- div class="col-12 mb-3 <?php if (isset($tcd_membership_vars['error_message']['requestFile'])) { ?>d-none<?php } ?>" id="inputRequestErrMsgArea">
                     <div class="inputFile" id="inputFile">
                         <p id="inputRequestErrMsg" class="alert-color font-weight-bold">添付ファイルを入力してください</p>
@@ -132,10 +144,12 @@ get_header();
             </div>
             <div class="col-12 mb-4">
                 <div class="validRefUrl" id="validRefUrl">
-                    <?php if (isset($tcd_membership_vars['error_message']['refUrl'])) { ?>
-                        <p id="validRefUrlErrMsg" class="inputRequestErrMsg mt-1">参考URLの形式が間違っています</p>
-                    <?php }
-                    /** endif */ ?>
+                    <p id="validRefUrlErrMsg" class="inputRequestErrMsg mt-1">
+                        <?php if (isset($tcd_membership_vars['error_message']['refUrl'])) { ?>
+                            参考URLの形式が間違っています
+                        <?php }
+                        /** endif */ ?>
+                    </p>
                 </div>
             </div>
             <div class="col-12 mt-2">
@@ -148,8 +162,12 @@ get_header();
                     円～
                 </div>
             </div>
+
             <div class="col-12 mb-4">
-                <div class="inputBudget" id="inputBudget"></div>
+                <div class="validRefUrl" id="validRefUrl">
+                    <p id="inputBudget" class="inputRequestErrMsg mt-1">
+                    </p>
+                </div>
             </div>
             <div class="col-12 mt-2">
                 <h1 class="text-left font-weight-bold request-title">応募期限（必須）</h1>
@@ -175,9 +193,14 @@ get_header();
                     <input type="hidden" id="hideAppDeadlineD" value="<?php echo esc_attr($tcd_membership_vars['appDeadlineD']); ?>" />
                 </div>
             </div>
+
             <div class="col-12 mb-4">
-                <div class="inputAppDeadline" id="inputAppDeadline"></div>
+                <div class="validRefUrl" id="validRefUrl">
+                    <p id="inputAppDeadline" class="inputRequestErrMsg mt-1">
+                    </p>
+                </div>
             </div>
+
             <div class="col-12 mt-2">
                 <h1 class="text-left font-weight-bold request-title">納品希望日（任意）</h1>
             </div>
@@ -202,17 +225,29 @@ get_header();
                     <input type="hidden" id="hideDesiredDateD" value="<?php echo esc_attr($tcd_membership_vars['desiredDateD']); ?>" />
                 </div>
             </div>
-            <div class="col-12">
-                <div class="inputDesiredDate" id="inputDesiredDate"></div>
+
+            <div class="col-12 mb-4">
+                <div class="validRefUrl" id="validRefUrl">
+                    <p id="inputDesiredDate" class="inputRequestErrMsg mt-1">
+                    </p>
+                </div>
             </div>
+
             <div class="col-12 mt-2">
                 <h1 class="text-left font-weight-bold request-title">受付依頼数</h1>
             </div>
             <hr class="request-hr mb-2">
             <div class="col-12 pb-4 row">
                 <div class="col-4">
-                    <input type="number" class="deadline-input" name="orderQuantity" id="orderQuantity"  value="<?php echo esc_attr(isset($_REQUEST['orderQuantity']) ? $_REQUEST['orderQuantity'] : 1); ?>">
+                    <input type="number" class="deadline-input" name="orderQuantity" id="orderQuantity" value="<?php echo esc_attr(isset($_REQUEST['orderQuantity']) ? $_REQUEST['orderQuantity'] : 1); ?>">
                     <p class="deadline-date">件</p>
+                </div>
+            </div>
+
+            <div class="col-12 mb-4">
+                <div class="validRefUrl" id="validRefUrl">
+                    <p id="inputOrderQuantity" class="inputRequestErrMsg mt-1">
+                    </p>
                 </div>
             </div>
             <div class="col-12 text-center mt-3 mb-5">

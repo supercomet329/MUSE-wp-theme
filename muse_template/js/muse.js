@@ -453,366 +453,6 @@ jQuery(function($) {
 
 });
 
-// キープ済み、キープの選択機能（request_searched_list.html,request_received_list_html）
-jQuery(function($) {
-    jQuery(document).on('click', '.keep_off', function($) {
-        let keep_on = jQuery('<div class="rounded-pill text-center mb-1 px-1 keep_on"><img src="assets/img/icon/keep_on.png" alt="keep-on" class="keep-on"></div>');
-        jQuery(this).replaceWith(keep_on);
-    });
-
-    jQuery(document).on('click', '.keep_on', function($) {
-        let keep_off = jQuery('<div class="border rounded-pill text-center mb-1 px-1 keep_off"><img src="assets/img/icon/keep_off.png" alt="keep-off" class="keep-off"></div>');
-        jQuery(this).replaceWith(keep_off);
-    });
-});
-
-/**
- * 作品依頼（通常依頼）提案ページ
- */
-// ファイルが選択された際、ファイル名を表示
-jQuery('#requestFile').on('change', function($) {
-    // 添付されたファイルを取得
-    var selectedFile = jQuery(this).prop('files')[0];
-    // ファイルが存在している場合
-    if (selectedFile) {
-        // 選択されたファイルが10文字以上ある場合、10文字以下を「...」で省略
-        var selectedFileName = selectedFile.name.length > 10 ? (selectedFile.name).slice(0, 10) + "..." : selectedFile.name;
-        // ファイル名を表示
-        jQuery('#outputFileName').text(selectedFileName);
-        // バリデーション文言を非表示
-        jQuery('#inputRequestErrMsgArea').addClass('d-none');
-    } else {
-        // 添付ファイルを空に変更
-        this.value = '';
-        // ファイル名を空に変更
-        jQuery('#outputFileName').text('');
-        // バリデーション文言を表示
-        jQuery('#inputRequestErrMsgArea').removeClass('d-none');
-    }
-    // 必須項目のチェック
-    checkRequestInput();
-});
-/**
- * 作品依頼（通常依頼）提案ページ
- */
-// ファイル選択ボタンがクリックされた際、バリデーション文言を表示
-jQuery('#requestFile').on('click', function($) {
-    // ファイルが存在しない場合、バリデーション文言を表示
-    if (this.files.length === 0) {
-        jQuery('#inputRequestErrMsgArea').removeClass('d-none');
-    };
-    // 必須項目のチェック
-    checkRequestInput();
-});
-
-// 入力項目のフォーカスが外れた際に処理を実行
-jQuery(function($) {
-    // 依頼タイトルのフォーカスが外れた際にcheckRequestInput実行
-    jQuery('#requestTitle').on('blur', function($) {
-        checkRequestInput();
-        typeRequestTitleMsg();
-    });
-    // 作品タイトルのフォーカスが外れた際にcheckRequestInput実行
-    jQuery('#workTitle').on('blur', function($) {
-        checkRequestInput();
-        typeWorkTitleMsg();
-    });
-    // 本文のフォーカスが外れた際にcheckRequestInput実行
-    jQuery('#text').on('blur', function($) {
-        checkRequestInput();
-        typeTextMsg();
-    });
-    // 構図のフォーカスが外れた際にcheckRequestInput実行
-    jQuery('#composition').on('blur', function($) {
-        checkRequestInput();
-        typeCompositionMsg();
-    });
-    // キャラクターのフォーカスが外れた際にcheckRequestInput実行
-    jQuery('#character').on('blur', function($) {
-        checkRequestInput();
-        typeCharacterMsg();
-    });
-    // 参考URLのフォーカスが外れた際にcheckRequestInput実行
-    jQuery('#refUrl').on('blur', function($) {
-        checkRequestInput();
-        typeRefUrlMsg();
-    });
-    // 予算のフォーカスが外れた際にcheckRequestInput実行
-    jQuery('#budget').on('blur', function($) {
-        checkRequestInput();
-        typeBudgetMsg();
-    });
-    // 応募期限（年）のフォーカスが外れた際にcheckRequestInput実行
-    jQuery('#appDeadlineY').on('blur', function($) {
-        checkRequestInput();
-        typeAppDeadlineMsg();
-    });
-    // 応募期限（月）のフォーカスが外れた際にcheckRequestInput実行
-    jQuery('#appDeadlineM').on('blur', function($) {
-        checkRequestInput();
-        typeAppDeadlineMsg();
-    });
-    // 応募期限（日）のフォーカスが外れた際にcheckRequestInput実行
-    jQuery('#appDeadlineD').on('blur', function($) {
-        checkRequestInput();
-        typeAppDeadlineMsg();
-    });
-});
-
-// 入力項目を確認し、依頼投稿確認ボタン有効化/無効化切り替え
-function checkRequestInput() {
-    // 新規登録ボタン有効化フラグ
-    var disabledFlag = true;
-
-    // 入力項目フラグ定義
-    var flagRequestTitle = false;
-    var flagWorkTitle = false;
-    var flagText = false;
-    var flagComposition = false;
-    var flagCharacter = false;
-    var flagRequestFile = false;
-    var flagRefUrl = false;
-    var flagBudget = false;
-    var flagAppDeadline = false;
-
-    // 依頼タイトルの値取得
-    var requestTitleVal = jQuery('#requestTitle').val();
-    // 作品タイトルの値取得
-    var workTitleVal = jQuery('#workTitle').val();
-    // 本文の値取得
-    var textVal = jQuery('#text').val();
-    // 構図の値取得
-    var compositionVal = jQuery('#composition').val();
-    // キャラクターの値取得
-    var characterVal = jQuery('#character').val();
-    // 添付ファイルの値取得
-    var requestFileVal = jQuery('#requestFile').val();
-    // 参考URLの値取得
-    var refUrlVal = jQuery('#refUrl').val();
-    // 予算の値取得
-    var budgetVal = jQuery('#budget').val();
-    // 応募期限（年）の値取得
-    var appDeadlineYVal = jQuery('#appDeadlineY').val();
-    // 応募期限（月）の値取得
-    var appDeadlineMVal = jQuery('#appDeadlineM').val();
-    // 応募期限（日）の値取得
-    var appDeadlineDVal = jQuery('#appDeadlineD').val();
-
-    // 依頼タイトルが入力されているかを確認
-    if (requestTitleVal.length > 0) {
-        // 依頼タイトルが入力されている場合、エラーメッセージを非表示
-        jQuery('#inputRequestErrMsg').hide();
-        // 依頼タイトルに空白文字が含まれていないかを確認
-        if (!requestTitleVal.match(/[\x20\u3000]/)) {
-            flagRequestTitle = true;
-        }
-    }
-
-    // 作品タイトルが入力されているかを確認
-    if (workTitleVal.length > 0) {
-        // 作品タイトルが入力されている場合、エラーメッセージを非表示
-        jQuery('#inputWorkErrMsg').hide();
-        // 作品タイトルに空白文字が含まれていないかを確認
-        if (!workTitleVal.match(/[\x20\u3000]/)) {
-            flagWorkTitle = true;
-        }
-    }
-
-    // 本文が入力されているかを確認
-    if (textVal.length > 0) {
-        // 本文が入力されている場合、エラーメッセージを非表示
-        jQuery('#inputTextErrMsg').hide();
-        // 本文に空白文字が含まれていないかを確認
-        if (!textVal.match(/[\x20\u3000]/)) {
-            flagText = true;
-        }
-    }
-
-    // 構図が入力されているかを確認
-    if (compositionVal.length > 0) {
-        // 構図が入力されている場合、エラーメッセージを非表示
-        jQuery('#inputCompositionErrMsg').hide();
-        // 構図に空白文字が含まれていないかを確認
-        if (!compositionVal.match(/[\x20\u3000]/)) {
-            flagComposition = true;
-        }
-    }
-
-    // キャラクターが入力されているかを確認
-    if (characterVal.length > 0) {
-        // キャラクターが入力されている場合、エラーメッセージを非表示
-        jQuery('#inputCharacterErrMsg').hide();
-        // キャラクターに空白文字が含まれていないかを確認
-        if (!characterVal.match(/[\x20\u3000]/)) {
-            flagCharacter = true;
-        }
-    }
-
-    // 添付ファイルが入力されているかを確認
-    if (requestFileVal) {
-        // 添付ファイルが入力されている場合、エラーメッセージを非表示
-        flagRequestFile = true;
-        jQuery('#inputRequestErrMsgArea').addClass('d-none');
-    }
-
-    // 参考URLが入力されているかを確認
-    jQuery('#validRefUrlErrMsg').hide();
-    if (refUrlVal.length > 0) {
-        // 参考URLに空白文字が含まれていないかを確認
-        if (!refUrlVal.match(/[\x20\u3000]/)) {
-            // 参考URLの形式を確認
-            flagRefUrl = validateUrl(refUrlVal);
-            if (flagRefUrl === true) {
-                // 参考URLが入力されている場合、エラーメッセージを非表示
-                jQuery('#validRefUrlErrMsg').hide();
-            }
-        }
-    } else {
-        // 参考URLに何も入力されていない場合、URLのフラグはtrue
-        flagRefUrl = true;
-    }
-
-    // 予算が入力されているかを確認
-    if (budgetVal.length > 0) {
-        // 予算が入力されている場合、エラーメッセージを非表示
-        jQuery('#inputBudgetErrMsg').hide();
-        // 予算に空白文字が含まれていないかを確認
-        if (!budgetVal.match(/[\x20\u3000]/)) {
-            flagBudget = true;
-        }
-    }
-
-    // 応募期限（年）が入力されている場合
-    if (appDeadlineYVal.length > 0) {
-        // 年のフォーマットを確認
-        yearValidated = validateYear(appDeadlineYVal);
-        if (yearValidated === true) {
-            // 年のフォーマットが正しい場合、エラーメッセージを非表示
-            jQuery('#dateFormatYErrMsg').hide();
-            // 応募期限（月）が入力されている場合
-            if (appDeadlineMVal.length > 0) {
-                // 月のフォーマットを確認
-                monthValidated = validateMonth(appDeadlineMVal);
-                if (monthValidated === true) {
-                    // 月のフォーマットが正しい場合、エラーメッセージを非表示
-                    jQuery('#dateFormatMErrMsg').hide();
-                    // 応募期限（日）が入力されている場合
-                    if (appDeadlineDVal.length > 0) {
-                        // 日のフォーマットを確認
-                        dayValidated = validateDay(appDeadlineDVal);
-                        if (dayValidated === true) {
-                            // 日のフォーマットが正しい場合、エラーメッセージを非表示
-                            jQuery('#dateFormatDErrMsg').hide();
-                            // 応募期限フラグをtrueに設定
-                            flagAppDeadline = true;
-                            // 年月日が設定されている場合、エラーメッセージを非表示
-                            jQuery('#inputAppDeadlineMsg').hide();
-                        } else {
-                            dateFormatDInvalidMsg();
-                        }
-                    }
-                } else {
-                    dateFormatMInvalidMsg();
-                }
-            }
-        } else {
-            dateFormatYInvalidMsg();
-        }
-    }
-
-    // 入力項目の値が正しい場合、新規登録ボタンを有効化
-    if (flagRequestTitle === true && flagWorkTitle === true && flagText === true && flagComposition === true && flagCharacter === true && flagRefUrl === true && flagBudget === true && flagAppDeadline === true && flagRequestFile === true) {
-        disabledFlag = false;
-    }
-    jQuery('#requestBtn').attr('disabled', disabledFlag);
-}
-
-// 依頼タイトルが入力されていない場合、メッセージを表示
-function typeRequestTitleMsg() {
-    // 依頼タイトルの値取得
-    var requestTitleLength = jQuery('#requestTitle').val().length;
-    if (requestTitleLength <= 0) {
-        jQuery('#inputRequestTitle').empty().append("<p id=\"inputRequestErrMsg\" class=\"inputRequestErrMsg\">依頼タイトルを入力してください</p>");
-    }
-}
-// 作品タイトルが入力されていない場合、メッセージを表示
-function typeWorkTitleMsg() {
-    // 作品タイトルの値取得
-    var workTitleLength = jQuery('#workTitle').val().length;
-    if (workTitleLength <= 0) {
-        jQuery('#inputWorkTitle').empty().append("<p id=\"inputWorkErrMsg\" class=\"inputRequestErrMsg mt-1\">作品タイトルを入力してください</p>");
-    }
-}
-// 本文が入力されていない場合、メッセージを表示
-function typeTextMsg() {
-    // 本文の値取得
-    var textLength = jQuery('#text').val().length;
-    if (textLength <= 0) {
-        jQuery('#inputText').empty().append("<p id=\"inputTextErrMsg\" class=\"inputRequestErrMsg mt-1\">本文タイトルを入力してください</p>");
-    }
-}
-// 構図が入力されていない場合、メッセージを表示
-function typeCompositionMsg() {
-    // 構図の値取得
-    var compositionLength = jQuery('#composition').val().length;
-    if (compositionLength <= 0) {
-        jQuery('#inputComposition').empty().append("<p id=\"inputCompositionErrMsg\" class=\"inputRequestErrMsg mt-1\">構図を入力してください</p>");
-    }
-}
-// キャラクターが入力されていない場合、メッセージを表示
-function typeCharacterMsg() {
-    // キャラクターの値取得
-    var characterLength = jQuery('#character').val().length;
-    if (characterLength <= 0) {
-        jQuery('#inputCharacter').empty().append("<p id=\"inputCharacterErrMsg\" class=\"inputRequestErrMsg mt-1\">キャラクターを入力してください</p>");
-    }
-}
-// 参考URLの形式が正しくない場合、メッセージを表示
-function typeRefUrlMsg() {
-    // 参考URLの値を取得
-    var refUrlVal = jQuery('#refUrl').val();
-    // 参考URLの形式を確認
-    refUrlValid = validateUrl(refUrlVal);
-    if (refUrlVal.length > 0) {
-        if (refUrlValid === false) {
-            jQuery('#validRefUrl').empty().append("<p id=\"validRefUrlErrMsg\" class=\"inputRequestErrMsg mt-1\">参考URLの形式が間違っています</p>");
-        }
-    }
-}
-// 予算が入力されていない場合、メッセージを表示
-function typeBudgetMsg() {
-    // 予算の値取得
-    var budgetLength = jQuery('#budget').val().length;
-    if (budgetLength <= 0) {
-        jQuery('#inputBudget').empty().append("<p id=\"inputBudgetErrMsg\" class=\"inputRequestErrMsg mt-1\">予算を入力してください</p>");
-    }
-}
-// 応募期限が入力されていない場合、メッセージを表示
-function typeAppDeadlineMsg() {
-    // 応募期限（年）の値取得
-    var appDeadlineYLength = jQuery('#appDeadlineY').val().length;
-    // 応募期限（月）の値取得
-    var appDeadlineMLength = jQuery('#appDeadlineM').val().length;
-    // 応募期限（日）の値取得
-    var appDeadlineDLength = jQuery('#appDeadlineD').val().length;
-    // 応募期限の年月日がそれぞれ入力されていない場合、エラーメッセージを表示
-    if (appDeadlineYLength <= 0 || appDeadlineMLength <= 0 || appDeadlineDLength <= 0) {
-        jQuery('#inputAppDeadline').empty().append("<p id=\"inputAppDeadlineMsg\" class=\"inputRequestErrMsg mt-1\">応募期限を年月日それぞれ入力してください</p>");
-    }
-}
-// 応募期限（年）のフォーマットが正しくない場合、メッセージを表示
-function dateFormatYInvalidMsg() {
-    jQuery('#inputAppDeadline').empty().append("<p id=\"dateFormatYErrMsg\" class=\"inputRequestErrMsg mt-1\">年のフォーマットが正しくありません</p>");
-}
-// 応募期限（月）のフォーマットが正しくない場合、メッセージを表示
-function dateFormatMInvalidMsg() {
-    jQuery('#inputAppDeadline').empty().append("<p id=\"dateFormatMErrMsg\" class=\"inputRequestErrMsg mt-1\">月のフォーマットが正しくありません</p>");
-}
-// 応募期限（日）のフォーマットが正しくない場合、メッセージを表示
-function dateFormatDInvalidMsg() {
-    jQuery('#inputAppDeadline').empty().append("<p id=\"dateFormatDErrMsg\" class=\"inputRequestErrMsg mt-1\">日付のフォーマットが正しくありません</p>");
-}
-
 // タブの選択表示
 function selectTab(target) {
     let sortTabs = jQuery('#sort_tab > button').siblings();
@@ -1511,7 +1151,6 @@ jQuery(function() {
         validatePostImage();
     });
 
-
     // 販売価格のフォーカスが外れた時に実行
     jQuery("body").on('blur', '#imagePrice', function($) {
         validatePostImage();
@@ -1985,3 +1624,346 @@ function drag_and_drop_file(event) {
 
 }
 // ▲ post.htmlでのJS
+
+// ▼ 依頼投稿のJS
+jQuery(function() {
+
+    // 依頼タイトルのフォーカスが外れた場合
+    jQuery("body").on('blur', '#requestTitle', function($) {
+        validateRequest();
+    });
+
+    // 作品タイトルのフォーカスが外れた場合
+    jQuery("body").on('blur', '#workTitle', function($) {
+        validateRequest();
+    });
+
+    // 本文のフォーカスが外れた場合
+    jQuery("body").on('blur', '#text', function($) {
+        validateRequest();
+    });
+
+    // 構図のフォーカスが外れた場合
+    jQuery("body").on('blur', '#composition', function($) {
+        validateRequest();
+    });
+
+    // キャラクターのフォーカスが外れた場合
+    jQuery("body").on('blur', '#character', function($) {
+        validateRequest();
+    });
+
+    // 添付ファイルの画像が選択された場合
+    jQuery("body").on("change", "#requestFile", function(e) {
+        validateRequest();
+    });
+
+    // 参考URLのフォーカスが外れた場合
+    jQuery("body").on("blur", "#refUrl", function(e) {
+        validateRequest();
+    });
+
+    // 予算のフォーカスが外れた場合
+    jQuery("body").on("blur", "#budget", function(e) {
+        validateRequest();
+    });
+
+    // 応募期限(年)のフォーカスが外れた場合
+    jQuery("body").on("change", "#appDeadlineY", function(e) {
+        validateRequest();
+    });
+
+    // 応募期限(月)のフォーカスが外れた場合
+    jQuery("body").on("change", "#appDeadlineM", function(e) {
+        validateRequest();
+    });
+
+    // 応募期限(日)のフォーカスが外れた場合
+    jQuery("body").on("change", "#appDeadlineD", function(e) {
+        validateRequest();
+    });
+
+    // 納品希望日(年)のフォーカスが外れた場合
+    jQuery("body").on("change", "#desiredDateY", function(e) {
+        validateRequest();
+    });
+
+    // 納品希望日(月)のフォーカスが外れた場合
+    jQuery("body").on("change", "#desiredDateM", function(e) {
+        validateRequest();
+    });
+
+    // 納品希望日(日)のフォーカスが外れた場合
+    jQuery("body").on("change", "#desiredDateD", function(e) {
+        validateRequest();
+    });
+
+    // 受付依頼数のフォーカスが外れた場合
+    jQuery("body").on("blur", "#orderQuantity", function(e) {
+        validateRequest();
+    });
+
+    // ファイルの選択された時
+    jQuery("body").on("change", "#requestFile", function(e) {
+        var file_name = jQuery('#requestFile').prop('files')[0].name;
+        console.log(file_name);
+        jQuery('#outputFileName').html(file_name);
+        validateRequest();
+    });
+
+    setSelectDate();
+    var request_id = jQuery('#request_id').val();
+    if (request_id !== undefined) {
+        // 依頼の更新の時の対応
+        jQuery("#requestBtn").prop("disabled", false);
+    }
+});
+
+/**
+ * 依頼登録ページのバリデート
+ */
+function validateRequest() {
+
+    // 依頼タイトルの必須チェック
+    jQuery('#inputRequestErrMsg').html('');
+    var request_title = jQuery('#requestTitle').val();
+
+    var flagRequest = true;
+    if (request_title === '') {
+        jQuery('#inputRequestErrMsg').html('依頼タイトルを入力してください。');
+    } else {
+        flagRequest = false;
+    }
+
+    // 作品タイトルの必須チェック
+    jQuery('#inputWorkErrMsg').html('');
+    var work_title = jQuery('#workTitle').val();
+
+    var flagWorkTitle = true;
+    if (work_title === '') {
+        jQuery('#inputWorkErrMsg').html('作品タイトルを入力してください。');
+    } else {
+        flagWorkTitle = false;
+    }
+
+    // 本文の必須チェック
+    jQuery('#inputTextErrMsg').html('');
+    var text = jQuery('#text').val();
+
+    var flgText = true;
+    if (text === '') {
+        jQuery('#inputTextErrMsg').html('本文を入力してください。');
+    } else {
+        flgText = false;
+    }
+
+    // 構図の必須チェック
+    jQuery('#inputCompositionErrMsg').html('');
+    var composition = jQuery('#composition').val();
+
+    var flgComposition = true;
+    if (composition === '') {
+        jQuery('#inputCompositionErrMsg').html('構図を入力してください。');
+    } else {
+        flgComposition = false;
+    }
+
+    // キャラクターの必須チェック
+    jQuery('#inputCharacterErrMsg').html('');
+    var character = jQuery('#character').val();
+
+    var flagCharacter = true;
+    if (character === '') {
+        jQuery('#inputCharacterErrMsg').html('キャラクターを入力してください。');
+    } else {
+        flagCharacter = false;
+    }
+
+    // 参考URLの形式チェック
+    jQuery('#validRefUrlErrMsg').html('');
+    var refUrl = jQuery('#refUrl').val();
+
+    var flagRefUrl = false;
+    if (refUrl !== '') {
+        // 参考URLが空ではない場合 => URLの書式チェック
+        var chkUrl = refUrl.match(/^(https?|ftp)(:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)$/);
+        if (chkUrl === null) {
+            jQuery('#validRefUrlErrMsg').html('参考URLの形式が間違っています。');
+            flagRefUrl = true;
+        }
+    }
+
+    // 予算の必須チェック
+    jQuery('#inputBudget').html('');
+    var budget = jQuery('#budget').val();
+
+    var flagBudget = true;
+    var int_pattern = /^\d*$/;
+    if (budget === '') {
+        jQuery('#inputBudget').html('予算を入力してください。');
+    } else {
+        // 予算の入力値チェック
+        var chkBudget = int_pattern.test(budget);
+        if (chkBudget === false) {
+            jQuery('#inputBudget').html('予算の御確認を御願い致します。');
+        } else {
+            flagBudget = false;
+        }
+    }
+
+    // 比較のため現在日時の取得
+    var nowDate = new Date();
+
+    // 応募期限の必須チェック
+    jQuery('#inputAppDeadline').html('');
+    var appDeadlineY = jQuery('#appDeadlineY').val();
+    var appDeadlineM = jQuery('#appDeadlineM').val();
+    var appDeadlineD = jQuery('#appDeadlineD').val();
+
+    var appDeadline;
+    var flagAppDeadline = true;
+    if (appDeadlineY === '' ||
+        appDeadlineM === '' ||
+        appDeadlineD === '') {
+        jQuery('#inputAppDeadline').html('応募期限は必須入力です。');
+    } else {
+        appDeadline = new Date(appDeadlineY, appDeadlineM, appDeadlineD);
+        if (nowDate.getTime() > appDeadline.getTime()) {
+            // 応募期限が過去日の場合
+            jQuery('#inputAppDeadline').html('応募期限の日付を御確認下さい。');
+        } else {
+            flagAppDeadline = false;
+        }
+    }
+
+    // 納品希望日の書式チェック
+    jQuery('#inputDesiredDate').html('');
+    var desiredDateY = jQuery('#desiredDateY').val();
+    var desiredDateM = jQuery('#desiredDateM').val();
+    var desiredDateD = jQuery('#desiredDateD').val();
+    var desiredDate;
+
+    var flagDesiredDate = false;
+    if (desiredDateY !== '' ||
+        desiredDateM !== '' ||
+        desiredDateD !== '') {
+        desiredDate = new Date(desiredDateY, desiredDateM, desiredDateD);
+        if (nowDate.getTime() > desiredDate.getTime()) {
+            // 納品希望日が過去日の場合
+            jQuery('#inputDesiredDate').html('納品希望日の日付を御確認下さい。');
+            flagAppDeadline = true;
+        }
+
+        if (desiredDate.getTime() < appDeadline.getTime()) {
+            // 納品希望日が応募期限日より過去の場合
+            jQuery('#inputDesiredDate').html('納品希望日の日付を御確認下さい。');
+            flagAppDeadline = true;
+        }
+    }
+
+    // 受付依頼数の数値チェック
+    jQuery('#inputOrderQuantity').html('');
+    var orderQuantity = jQuery('#orderQuantity').val();
+
+    var flagOrderQuantity = true;
+    var int_pattern = /^\d*$/;
+    if (orderQuantity !== '') {
+        var chkOrderQuantity = int_pattern.test(orderQuantity);
+        if (chkOrderQuantity === false) {
+            jQuery('#inputOrderQuantity').html('受付依頼数を正しく入力して下さい。');
+        } else {
+            flagOrderQuantity = false;
+        }
+    }
+
+    var flgDisabled = true;
+    if (flagOrderQuantity === false &&
+        flagDesiredDate === false &&
+        flagAppDeadline === false &&
+        flagRequest === false &&
+        flagWorkTitle === false &&
+        flgText === false &&
+        flgComposition === false &&
+        flagCharacter === false &&
+        flagRefUrl === false &&
+        flagBudget === false
+    ) {
+        flgDisabled = false;
+    }
+
+    jQuery("#requestBtn").prop("disabled", flgDisabled);
+}
+
+function setSelectDate() {
+
+    var nowYear = new Date().getFullYear();
+    var hideAppDeadlineY = jQuery('#hideAppDeadlineY').val();
+    var htmlAppDeadlineY = '';
+    for (var year = nowYear; year < nowYear + 3; year++) {
+        if (year == hideAppDeadlineY) {
+            htmlAppDeadlineY += '<option value="' + year + '" selected>' + year + '</option>';
+        } else {
+            htmlAppDeadlineY += '<option value="' + year + '">' + year + '</option>';
+        }
+    }
+    jQuery('#appDeadlineY').html(htmlAppDeadlineY);
+
+    var hideDesiredDateY = jQuery('#hideDesiredDateY').val();
+    var htmlDesiredDateY = '';
+    htmlDesiredDateY += '<option value=""></option>';
+    for (var year = nowYear; year < nowYear + 3; year++) {
+        if (year == hideDesiredDateY) {
+            htmlDesiredDateY += '<option value="' + year + '" selected>' + year + '</option>';
+        } else {
+            htmlDesiredDateY += '<option value="' + year + '">' + year + '</option>';
+        }
+    }
+    jQuery('#desiredDateY').html(htmlDesiredDateY);
+
+    var hideAppDeadlineM = jQuery('#hideAppDeadlineM').val();
+    var htmlAppDeadlineM = '';
+    for (var month = 1; month <= 12; month++) {
+        if (month == hideAppDeadlineM) {
+            htmlAppDeadlineM += '<option value="' + month + '" selected>' + month + '</option>';
+        } else {
+            htmlAppDeadlineM += '<option value="' + month + '">' + month + '</option>';
+        }
+    }
+    jQuery('#appDeadlineM').html(htmlAppDeadlineM);
+
+    var hideDesiredDateM = jQuery('#hideDesiredDateM').val();
+    var htmlDesiredDateM = '';
+    htmlDesiredDateM += '<option value=""></option>';
+    for (var month = 1; month <= 12; month++) {
+        if (month == hideDesiredDateM) {
+            htmlDesiredDateM += '<option value="' + month + '" selected>' + month + '</option>';
+        } else {
+            htmlDesiredDateM += '<option value="' + month + '">' + month + '</option>';
+        }
+    }
+    jQuery('#desiredDateM').html(htmlDesiredDateM);
+
+    var hideAppDeadlineD = jQuery('#hideAppDeadlineD').val();
+    var htmlAppDeadlineD = '';
+    for (var day = 1; day <= 31; day++) {
+        if (day == hideAppDeadlineD) {
+            htmlAppDeadlineD += '<option value="' + day + '" selected>' + day + '</option>';
+        } else {
+            htmlAppDeadlineD += '<option value="' + day + '">' + day + '</option>';
+        }
+    }
+    jQuery('#appDeadlineD').html(htmlAppDeadlineD);
+
+    var hideDesiredDateD = jQuery('#hideDesiredDateD').val();
+    var htmlDesiredDateD = '';
+    htmlDesiredDateD += '<option value=""></option>';
+    for (var day = 1; day <= 31; day++) {
+        if (day == hideDesiredDateD) {
+            htmlDesiredDateD += '<option value="' + day + '" selected>' + day + '</option>';
+        } else {
+            htmlDesiredDateD += '<option value="' + day + '">' + day + '</option>';
+        }
+    }
+    jQuery('#desiredDateD').html(htmlDesiredDateD);
+}
+// ▲ request.htmlでのJS

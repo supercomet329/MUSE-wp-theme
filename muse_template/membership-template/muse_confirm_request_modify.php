@@ -31,13 +31,15 @@ get_header();
             </div>
             <div class="col-12">
                 <div class="inputRequestTitle" id="inputRequestTitle">
-                    <?php if (isset($tcd_membership_vars['error_message']['requestTitle'])) { ?>
-                        <p id="inputRequestErrMsg" class="inputRequestErrMsg">依頼タイトルを入力してください</p>
-
-                    <?php }
-                    /** endif */ ?>
+                    <p id="inputRequestErrMsg" class="inputRequestErrMsg">
+                        <?php if (isset($tcd_membership_vars['error_message']['requestTitle'])) { ?>
+                            依頼タイトルを入力してください
+                        <?php }
+                        /** endif */ ?>
+                    </p>
                 </div>
             </div>
+
             <div class="col-12">
                 <div class="requestTitleMsg" id="requestTitleMsg"></div>
             </div>
@@ -66,11 +68,12 @@ get_header();
 
             <div class="col-12">
                 <div class="inputWorkTitle" id="inputWorkTitle">
-                    <?php if (isset($tcd_membership_vars['error_message']['workTitle'])) { ?>
-                        <p id="inputWorkErrMsg" class="inputRequestErrMsg mt-1">作品タイトルを入力してください</p>
-                    <?php }
-                    /** endif */ ?>
-
+                    <p id="inputWorkErrMsg" class="inputRequestErrMsg mt-1">
+                        <?php if (isset($tcd_membership_vars['error_message']['workTitle'])) { ?>
+                            作品タイトルを入力してください
+                        <?php }
+                        /** endif */ ?>
+                    </p>
                 </div>
             </div>
 
@@ -82,11 +85,13 @@ get_header();
             </div>
             <div class="col-12">
                 <div class="inputText" id="inputText">
-                    <?php if (isset($tcd_membership_vars['error_message']['content'])) { ?>
-                        <p id="inputTextErrMsg" class="inputRequestErrMsg mt-1">本文を入力してください</p>
+                    <p id="inputTextErrMsg" class="inputRequestErrMsg mt-1">
+                        <?php if (isset($tcd_membership_vars['error_message']['content'])) { ?>
+                            本文を入力してください
 
-                    <?php }
-                    /** endif */ ?>
+                        <?php }
+                        /** endif */ ?>
+                    </p>
                 </div>
             </div>
             <div class="col-12 mt-4">
@@ -97,11 +102,13 @@ get_header();
             </div>
             <div class="col-12">
                 <div class="inputComposition" id="inputComposition">
-                    <?php if (isset($tcd_membership_vars['error_message']['composition'])) { ?>
-                        <p id="inputCompositionErrMsg" class="inputRequestErrMsg mt-1">構図を入力してください</p>
+                    <p id="inputCompositionErrMsg" class="inputRequestErrMsg mt-1">
+                        <?php if (isset($tcd_membership_vars['error_message']['composition'])) { ?>
+                            構図を入力してください
 
-                    <?php }
-                    /** endif */ ?>
+                        <?php }
+                        /** endif */ ?>
+                    </p>
                 </div>
             </div>
 
@@ -113,10 +120,12 @@ get_header();
             </div>
             <div class="col-12 mb-3">
                 <div class="inputCharacter" id="inputCharacter">
-                    <?php if (isset($tcd_membership_vars['error_message']['character'])) { ?>
-                        <p id="inputCharacterErrMsg" class="inputRequestErrMsg mt-1">キャラクターを入力してください</p>
-                    <?php }
-                    /** endif */ ?>
+                    <p id="inputCharacterErrMsg" class="inputRequestErrMsg mt-1">
+                        <?php if (isset($tcd_membership_vars['error_message']['character'])) { ?>
+                            キャラクターを入力してください
+                        <?php }
+                        /** endif */ ?>
+                    </p>
                 </div>
             </div>
             <div class="col-12 mt-4">
@@ -127,12 +136,17 @@ get_header();
                 <label class="request-file">
                     <input type="file" name="requestFile" id="requestFile">
                     <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/camera_BGblue.png" class="request-file-img">
-                    <p id="outputFileName"></p>
                 </label>
+
                 <div class="col-12 mb-3">
-                    <a target="_blank" href="<?php echo esc_url($tcd_membership_vars['requestFileUrl']); ?>">
-                        <?php echo esc_attr($tcd_membership_vars['requestFileName']); ?>
-                    </a>
+                    <p id="outputFileName">
+                        <?php if (!empty($tcd_membership_vars['requestFileUrl'])) { ?>
+                            <a target="_blank" href="<?php echo esc_url($tcd_membership_vars['requestFileUrl']); ?>">
+                                <?php echo esc_attr($tcd_membership_vars['requestFileName']); ?>
+                            </a>
+                        <?php }
+                        /** endif */ ?>
+                    </p>
                 </div>
                 <?php /**
                 <div class="col-12 mb-3 <?php if (isset($tcd_membership_vars['error_message']['requestFile'])) { ?>d-none<?php } ?>" id="inputRequestErrMsgArea">
@@ -151,10 +165,12 @@ get_header();
             </div>
             <div class="col-12 mb-4">
                 <div class="validRefUrl" id="validRefUrl">
-                    <?php if (isset($tcd_membership_vars['error_message']['refUrl'])) { ?>
-                        <p id="validRefUrlErrMsg" class="inputRequestErrMsg mt-1">参考URLの形式が間違っています</p>
-                    <?php }
-                    /** endif */ ?>
+                    <p id="validRefUrlErrMsg" class="inputRequestErrMsg mt-1">
+                        <?php if (isset($tcd_membership_vars['error_message']['refUrl'])) { ?>
+                            参考URLの形式が間違っています
+                        <?php }
+                        /** endif */ ?>
+                    </p>
                 </div>
             </div>
             <div class="col-12 mt-2">
@@ -168,8 +184,12 @@ get_header();
                 </div>
             </div>
             <div class="col-12 mb-4">
-                <div class="inputBudget" id="inputBudget"></div>
+                <div class="validRefUrl" id="validRefUrl">
+                    <p id="inputBudget" class="inputRequestErrMsg mt-1">
+                    </p>
+                </div>
             </div>
+
             <div class="col-12 mt-2">
                 <h1 class="text-left font-weight-bold request-title">応募期限（必須）</h1>
             </div>
@@ -194,9 +214,14 @@ get_header();
                     <input type="hidden" id="hideAppDeadlineD" value="<?php echo esc_attr($tcd_membership_vars['appDeadlineD']); ?>" />
                 </div>
             </div>
+
             <div class="col-12 mb-4">
-                <div class="inputAppDeadline" id="inputAppDeadline"></div>
+                <div class="validRefUrl" id="validRefUrl">
+                    <p id="inputAppDeadline" class="inputRequestErrMsg mt-1">
+                    </p>
+                </div>
             </div>
+
             <div class="col-12 mt-2">
                 <h1 class="text-left font-weight-bold request-title">納品希望日（任意）</h1>
             </div>
@@ -221,9 +246,14 @@ get_header();
                     <input type="hidden" id="hideDesiredDateD" value="<?php echo esc_attr($tcd_membership_vars['desiredDateD']); ?>" />
                 </div>
             </div>
-            <div class="col-12">
-                <div class="inputDesiredDate" id="inputDesiredDate"></div>
+
+            <div class="col-12 mb-4">
+                <div class="validRefUrl" id="validRefUrl">
+                    <p id="inputDesiredDate" class="inputRequestErrMsg mt-1">
+                    </p>
+                </div>
             </div>
+
             <div class="col-12 mt-2">
                 <h1 class="text-left font-weight-bold request-title">受付依頼数</h1>
             </div>
@@ -234,13 +264,21 @@ get_header();
                     <p class="deadline-date">件</p>
                 </div>
             </div>
+
+            <div class="col-12 mb-4">
+                <div class="validRefUrl" id="validRefUrl">
+                    <p id="inputOrderQuantity" class="inputRequestErrMsg mt-1">
+                    </p>
+                </div>
+            </div>
+
             <div class="col-12 text-center mt-3 mb-5">
                 <button type="submit" class="btn btn-primary text-white submit-btn" id="requestBtn" disabled>依頼更新</button>
             </div>
         </div>
         <input type="hidden" name="specify_user_id" value="<?php echo esc_attr($tcd_membership_vars['specifyUserId']); ?>">
         <input type="hidden" name="request_type" id="request_type" value="moddify">
-        <input type="hidden" name="request_id" value='<?php echo esc_attr($tcd_membership_vars['request_id']); ?>' />
+        <input type="hidden" id="request_id" name="request_id" value='<?php echo esc_attr($tcd_membership_vars['request_id']); ?>' />
         <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd-membership-confirm_message-' . $tcd_membership_vars['request_id'])); ?>">
     </form>
 </div>
