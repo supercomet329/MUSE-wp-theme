@@ -587,7 +587,7 @@ function tcd_membership_login_form($args = array())
                 <div class="col-12 text-center title my-2" id="CalendarMsg"></div>
                 <div class="col-12 text-center title my-2" id="UrlMsg"></div>
                 <div class="col-6 text-left title py-2 mt-0 border-bottom-dashed">
-                    名前
+                    アカウントネーム
                 </div>
                 <input type="text" name="last_name" value="<?php echo esc_attr($last_name); ?>" id="name_box" name="name_box" class="col-6 border-bottom-dashed">
                 <div class="col-6 text-left title border-bottom-dashed mt-0 py-2">

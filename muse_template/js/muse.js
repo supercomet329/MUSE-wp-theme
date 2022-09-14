@@ -539,12 +539,16 @@ function check_ProfileInput() {
     // ユーザーネームが入力されているかを確認
     if (user_nameVal.length > 0) {
         if (!user_nameVal.match(/^\s+?$/ || /^　+?$/)) {
-            user_name_flg = true;
+            if (!user_nameVal.match(/[^A-Za-z0-9s_-]+/)) {
+                user_name_flg = true;
+            } else {
+                showUserNameMsg('ユーザーネームに使用できない文字が入っております。');
+            }
         } else {
-            showUserNameMsg();
+            showUserNameMsg('ユーザーネームを入力してください');
         }
     } else {
-        showUserNameMsg();
+        showUserNameMsg('ユーザーネームを入力してください');
     }
 
     // 生年月日が入力されているかを確認
@@ -594,10 +598,10 @@ function showNameMsg() {
 
 }
 
-function showUserNameMsg() {
+function showUserNameMsg(str) {
     // ユーザーネーム空欄のメッセージ
     jQuery('#UserNameMsg').show();
-    jQuery('#UserNameMsg').empty().append("<p id=\"inputUserNameErrMsg\" class=\"UserNameErrMsg mb-0\">ユーザーネームを入力してください</p>");
+    jQuery('#UserNameMsg').empty().append("<p id=\"inputUserNameErrMsg\" class=\"UserNameErrMsg mb-0\">" + str + "</p>");
 
 }
 
@@ -628,7 +632,10 @@ function outputMessage(text, area) {
     let time = new Date();
     let hour = ('00' + time.getHours()).slice(-2);
     let min = ('00' + time.getMinutes()).slice(-2);
-    let message = jQuery(`<div class="col-12 pb-5 mb-5 pr-0" style="z-index: -1;"><div class="balloon_r"><div class="faceicon"><img src="assets/img/pixta_64747350_M.jpg" class="rounded-circle" alt=""><div class="ml-xl-4 ml-1">${hour + ":" + min }</div></div><div class="says"><p>${text.value}</p></div></div></div>`);
+    let message = jQuery(` < div class = "col-12 pb-5 mb-5 pr-0"
+            style = "z-index: -1;" > < div class = "balloon_r" > < div class = "faceicon" > < img src = "assets/img/pixta_64747350_M.jpg"
+            class = "rounded-circle"
+            alt = "" > < div class = "ml-xl-4 ml-1" > $ { hour + ":" + min } < /div></div > < div class = "says" > < p > $ { text.value } < /p></div > < /div></div > `);
     jQuery(area).append(message);
 }
 
@@ -638,7 +645,11 @@ function outputImage(imgSrc, area) {
     let time = new Date();
     let hour = ('00' + time.getHours()).slice(-2);
     let min = ('00' + time.getMinutes()).slice(-2);
-    let image = jQuery(`<div class="col-12 pb-5 mb-5 pr-0" style="z-index: -1;" ><div class="balloon_r"><div class="faceicon"><img src="assets/img/pixta_64747350_M.jpg" class="rounded-circle" alt=""><div class="ml-xl-4 ml-1">${hour + ":" + min }</div></div><img src="${imgSrc}" class="post-image result"></div></div>`);
+    let image = jQuery(` < div class = "col-12 pb-5 mb-5 pr-0"
+            style = "z-index: -1;" > < div class = "balloon_r" > < div class = "faceicon" > < img src = "assets/img/pixta_64747350_M.jpg"
+            class = "rounded-circle"
+            alt = "" > < div class = "ml-xl-4 ml-1" > $ { hour + ":" + min } < /div></div > < img src = "${imgSrc}"
+            class = "post-image result" > < /div></div > `);
     jQuery(area).append(image);
 }
 
