@@ -594,7 +594,7 @@ function check_ProfileInput() {
 function showNameMsg() {
     // 名前空欄のメッセージ
     jQuery('#NameMsg').show();
-    jQuery('#NameMsg').empty().append("<p id=\"inputNameErrMsg\" class=\"NameErrMsg mb-0\">名前を入力してください</p>");
+    jQuery('#NameMsg').empty().append("<p id=\"inputNameErrMsg\" class=\"NameErrMsg mb-0\">アカウントネームを入力してください</p>");
 
 }
 
