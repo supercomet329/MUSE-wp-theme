@@ -288,10 +288,22 @@ function tcd_membership_login_form($args = array())
         <div class="pt-sm-5 mt-sm-5">
             <div class="container pt-5">
                 <form class="validateRegisterForm p-membership-form p-membership-form--registration_account" action="<?php echo esc_attr(get_tcd_membership_memberpage_url('registration_account')); ?>" method="post" autocomplete="off">
-                    <div class="row">
+                    <div class="profile-edit-area">
                         <div class="col-12">
                             <h1 class="text-center mt-1 mb-4 contents-title font-weight-bold">会員登録</h1>
                         </div>
+                        <div class="col-12 text-center title my-2">
+                            <?php
+                            if (isset($_SESSION['error_user_name'])) {
+                                $massage = $_SESSION['error_user_name'];
+                                unset($_SESSION['error_user_name']);
+                            ?>
+                                <p><?php echo $massage; ?></p>
+                            <?php } ?>
+                        </div>
+                    </div>
+                    <div class="row">
+
 
                         <?php
                         render_tcd_membership_user_form_fields(
@@ -975,7 +987,7 @@ function tcd_membership_login_form($args = array())
             endif;
 
             $user_name = strstr($args['email_readonly'], '@', true);
-            if(isset($_POST['display_name'])) {
+            if (isset($_POST['display_name'])) {
                 $user_name = $_POST['display_name'];
             }
             ob_start();

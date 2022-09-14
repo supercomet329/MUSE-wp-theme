@@ -626,6 +626,12 @@ function tcd_membership_action_registration_account()
             $error_messages = get_tcd_membership_user_form_fields_error_messages('registration_account', $formdata);
         }
 
+        $chkExists = exists_user_name($_POST['display_name']);
+        if ($chkExists !== false) {
+            $error_messages['user_name'] = 'error';
+            $_SESSION['error_user_name'] = 'すでに使用されているユーザーネームです。';
+        }
+
         // エラーがなければユーザー追加
         if (!$error_messages) {
             $user_id = wp_insert_user(array(

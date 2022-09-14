@@ -1535,8 +1535,12 @@ function exists_user_name($user_name)
     global $wpdb;
 
     $user_id = get_current_user_id();
-    $sql = 'SELECT COUNT(*) AS count FROM wp_users WHERE display_name = %s AND ID != %d';
+    $sql = 'SELECT COUNT(*) AS count FROM wp_users WHERE display_name = %s';
+    if($user_id > 0) {
+        $sql .= 'AND ID != %d';
+    }
     $result_sql = $wpdb->prepare($sql, $user_name, $user_id);
+
     $result = $wpdb->get_results($result_sql);
     
     $return = true;
