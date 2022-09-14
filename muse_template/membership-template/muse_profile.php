@@ -59,7 +59,7 @@ $list_like = $chunk_list_like;
 $listFavorite = muse_list_favorite($user_id);
 $chunk_list_favorite = array_chunk($listFavorite, 3);
 $list_favorite = $chunk_list_favorite;
-get_template_part( 'template-parts/header_non_pc_menu' );
+get_template_part('template-parts/header_non_pc_menu');
 ?>
 <div class="container pt-2">
     <div class="row mb-2">
@@ -80,11 +80,23 @@ get_template_part( 'template-parts/header_non_pc_menu' );
 </div>
 
 <div class="cover-area">
-    <img src="<?php echo esc_attr($header_image); ?>" class="img-fluid cover-image" id="cover_image">
+    <?php if (get_current_user_id() == $user_id) { ?>
+        <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('edit_profile')); ?>">
+            <img src="<?php echo esc_attr($header_image); ?>" class="img-fluid cover-image" id="cover_image">
+        </a>
+    <?php } else { ?>
+        <img src="<?php echo esc_attr($header_image); ?>" class="img-fluid cover-image" id="cover_image">
+    <?php } ?>
 </div>
 <div class="container profile-area">
     <div class="row icon">
-        <img src="<?php echo esc_attr($profile_image); ?>" class="ml-1 rounded-circle profile_icon" id="profile_icon">
+        <?php if (get_current_user_id() == $user_id) { ?>
+            <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('edit_profile')); ?>">
+                <img src="<?php echo esc_attr($profile_image); ?>" class="ml-1 rounded-circle profile_icon" id="profile_icon">
+            </a>
+        <?php } else { ?>
+            <img src="<?php echo esc_attr($profile_image); ?>" class="ml-1 rounded-circle profile_icon" id="profile_icon">
+        <?php } ?>
     </div>
     <div class="row mt-2">
         <div class="col-12 text-right profile-btn">
@@ -120,16 +132,16 @@ get_template_part( 'template-parts/header_non_pc_menu' );
         <div class="col-7 text-center">
             <?php if (get_current_user_id() == $user_id) { ?>
                 <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('follows')); ?>"><span class="follow">フォロー<br>
-                    <span><?php echo number_format($arrayCount['following']['total']); ?></span></span>
+                        <span><?php echo number_format($arrayCount['following']['total']); ?></span></span>
                 </a>
                 <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('followers')); ?>"><span class="follower">フォロワー<br>
-                    <span><?php echo number_format($arrayCount['follower']['total']); ?></span></span>
+                        <span><?php echo number_format($arrayCount['follower']['total']); ?></span></span>
                 </a>
             <?php } else { ?>
                 <span class="follow">フォロー<br>
-                <span><?php echo number_format($arrayCount['following']['total']); ?></span></span>
+                    <span><?php echo number_format($arrayCount['following']['total']); ?></span></span>
                 <span class="follower">フォロワー<br>
-                <span><?php echo number_format($arrayCount['follower']['total']); ?></span></span>
+                    <span><?php echo number_format($arrayCount['follower']['total']); ?></span></span>
             <?php } ?>
         </div>
         <!-- 自分が見た場合のみ表示 -->
@@ -312,4 +324,4 @@ get_template_part( 'template-parts/header_non_pc_menu' );
     };
 </script>
 <?php
-get_template_part( 'template-parts/footer_non_pc_menu' );
+get_template_part('template-parts/footer_non_pc_menu');
