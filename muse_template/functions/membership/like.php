@@ -31,8 +31,8 @@ function ajax_toggle_like() {
 			$json['message'] = sprintf( __( 'Disable like in %s.', 'tcd-w' ), $dp_options['blog_label'] ? $dp_options['blog_label']: __( 'Blog', 'tcd-w' ) );
 		} elseif ( $dp_options['photo_slug'] === $target_post->post_type && ! $dp_options['membership']['use_like_photo'] ) {
 			$json['message'] = sprintf( __( 'Disable like in %s.', 'tcd-w' ), $dp_options['photo_label'] ? $dp_options['photo_label']: __( 'Photo', 'tcd-w' ) );
-		} elseif ( $target_post->post_author == $user_id ) {
-			$json['message'] = __( 'You can not "LIKE" own post.', 'tcd-w' );
+		// } elseif ( $target_post->post_author == $user_id ) {
+			// $json['message'] = __( 'You can not "LIKE" own post.', 'tcd-w' );
 		} else {
 
 			// いいね済みの場合、いいね削除
