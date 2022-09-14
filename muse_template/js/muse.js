@@ -1262,13 +1262,13 @@ function validatePostImage() {
 
     // 投稿内容の必須入力
     var flagPostDetail = false;
-    var postDetail = jQuery('#postDetail').val();
-    var postDetail = postDetail.replace(/\s+/g, "");
-    if (postDetail === "") {
-        // 文字列が空ではない場合
-        flagPostDetail = true;
-        jQuery('#validatePostDetail').html('投稿内容は必須入力です。');
-    }
+    // var postDetail = jQuery('#postDetail').val();
+    // var postDetail = postDetail.replace(/\s+/g, "");
+    // if (postDetail === "") {
+    //     // 文字列が空ではない場合
+    //     flagPostDetail = true;
+    //     jQuery('#validatePostDetail').html('投稿内容は必須入力です。');
+    // }
 
     // 投稿画像の確認
     var flagPostImage = false;
