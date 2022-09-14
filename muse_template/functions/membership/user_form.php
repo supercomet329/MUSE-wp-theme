@@ -466,6 +466,7 @@ function tcd_membership_login_form($args = array())
         {
             global $dp_options, $tcd_membership_vars;
 
+
             $default_args = array(
                 'echo' => true,
                 'form_id' => 'js-edit-profile-form'
@@ -490,6 +491,10 @@ function tcd_membership_login_form($args = array())
             $lastNameData = get_user_meta(get_current_user_id(), 'last_name', true);
             if (!empty($lastNameData)) {
                 $last_name = $lastNameData;
+            }
+
+            if (isset($_POST['last_name'])) {
+                $last_name = $_POST['last_name'];
             }
 
             $description = '';
@@ -546,9 +551,15 @@ function tcd_membership_login_form($args = array())
                 $minimum_order_price = $getMinimumOrderPrice;
             }
 
+            $display_name = $user->data->display_name;
+            if (isset($_POST['display_name'])) {
+                $display_name = $_POST['display_name'];
+            }
+
             if (!$args['echo']) :
                 ob_start();
             endif;
+
     ?>
     <div class="container">
         <div class="row mb-2">
@@ -586,6 +597,15 @@ function tcd_membership_login_form($args = array())
                 <div class="col-12 text-center title my-2" id="UserNameMsg"></div>
                 <div class="col-12 text-center title my-2" id="CalendarMsg"></div>
                 <div class="col-12 text-center title my-2" id="UrlMsg"></div>
+                <div class="col-12 text-center title my-2">
+                    <?php
+                    if (isset($_SESSION['error_user_name'])) {
+                        $massage = $_SESSION['error_user_name'];
+                        unset($_SESSION['error_user_name']);
+                    ?>
+                        <p><?php echo $massage; ?></p>
+                    <?php } ?>
+                </div>
                 <div class="col-6 text-left title py-2 mt-0 border-bottom-dashed">
                     アカウントネーム
                 </div>
@@ -593,7 +613,7 @@ function tcd_membership_login_form($args = array())
                 <div class="col-6 text-left title border-bottom-dashed mt-0 py-2">
                     ユーザーネーム
                 </div>
-                <input type="text" name="display_name" value="<?php echo esc_attr($user->data->display_name); ?>" id="user_name_box" name="user_name_box" class="col-6 border-bottom-dashed">
+                <input type="text" name="display_name" value="<?php echo esc_attr($display_name); ?>" id="user_name_box" name="user_name_box" class="col-6 border-bottom-dashed">
                 <div class="col-6 text-left title border-bottom-dashed d-flex align-items-center py-2 mt-0">
                     プロフィール
                 </div>

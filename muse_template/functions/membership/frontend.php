@@ -1526,3 +1526,23 @@ function tcd_membership_disable_autoembed_callback($matches, $attr, $url, $rawat
 {
     return '<a href="' . esc_attr($matches[0]) . '" target="_blank">' . esc_html($matches[0]) . '</a>';
 }
+
+/**
+ * 自分以外に同じユーザーネーム(wp_users.display_name)の件数の取得
+ */
+function exists_user_name($user_name)
+{
+    global $wpdb;
+
+    $user_id = get_current_user_id();
+    $sql = 'SELECT COUNT(*) AS count FROM wp_users WHERE display_name = %s AND ID != %d';
+    $result_sql = $wpdb->prepare($sql, $user_name, $user_id);
+    $result = $wpdb->get_results($result_sql);
+    
+    $return = true;
+    if($result[0]->count <= 0) {
+        $return = false;
+    }
+
+    return $return;
+}
