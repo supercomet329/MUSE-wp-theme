@@ -259,7 +259,7 @@ function checkRegisterInput() {
     // ユーザーネームが入力されているかを確認
     if (usernameVal.length > 0) {
         // ユーザーネームに空白文字が含まれていないかを確認
-        if (!usernameVal.match(/[\x20\u3000]/)) {
+        if (!usernameVal.match(/[\x20\u3000]/) && !usernameVal.match(/[^A-Za-z0-9s_-]+/)) {
             usernameFlag = true;
         }
     }
