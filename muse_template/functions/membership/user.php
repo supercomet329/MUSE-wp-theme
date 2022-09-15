@@ -626,6 +626,12 @@ function tcd_membership_action_registration_account()
             $error_messages = get_tcd_membership_user_form_fields_error_messages('registration_account', $formdata);
         }
 
+        $chkExists = exists_user_name($_POST['display_name']);
+        if ($chkExists !== false) {
+            $error_messages['user_name'] = 'error';
+            $_SESSION['error_user_name'] = 'すでに使用されているユーザーネームです。';
+        }
+
         // エラーがなければユーザー追加
         if (!$error_messages) {
             $user_id = wp_insert_user(array(
@@ -707,7 +713,7 @@ add_action('tcd_membership_action-registration_account', 'tcd_membership_action_
  */
 function tcd_membership_action_edit_account()
 {
-  
+
     global $dp_options, $tcd_membership_vars, $wpdb, $gender_options, $receive_options, $notify_options;
 
     nocache_headers();
@@ -870,6 +876,13 @@ function tcd_membership_action_edit_profile()
             }
 
             $error_messages = get_tcd_membership_user_form_fields_error_messages('edit_profile', $formdata, $user);
+        }
+
+        // 自分以外のディスプレイ名が同じ名称がないか?確認
+        $chkExists = exists_user_name($_POST['display_name']);
+        if ($chkExists !== false) {
+            $error_messages['user_name'] = 'error';
+            $_SESSION['error_user_name'] = 'すでに使用されているユーザーネームです。';
         }
 
         // エラーがなければ更新

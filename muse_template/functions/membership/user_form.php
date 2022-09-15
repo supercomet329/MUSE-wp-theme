@@ -288,10 +288,22 @@ function tcd_membership_login_form($args = array())
         <div class="pt-sm-5 mt-sm-5">
             <div class="container pt-5">
                 <form class="validateRegisterForm p-membership-form p-membership-form--registration_account" action="<?php echo esc_attr(get_tcd_membership_memberpage_url('registration_account')); ?>" method="post" autocomplete="off">
-                    <div class="row">
+                    <div class="profile-edit-area">
                         <div class="col-12">
                             <h1 class="text-center mt-1 mb-4 contents-title font-weight-bold">会員登録</h1>
                         </div>
+                        <div class="col-12 text-center title my-2">
+                            <?php
+                            if (isset($_SESSION['error_user_name'])) {
+                                $massage = $_SESSION['error_user_name'];
+                                unset($_SESSION['error_user_name']);
+                            ?>
+                                <p><?php echo $massage; ?></p>
+                            <?php } ?>
+                        </div>
+                    </div>
+                    <div class="row">
+
 
                         <?php
                         render_tcd_membership_user_form_fields(
@@ -466,6 +478,7 @@ function tcd_membership_login_form($args = array())
         {
             global $dp_options, $tcd_membership_vars;
 
+
             $default_args = array(
                 'echo' => true,
                 'form_id' => 'js-edit-profile-form'
@@ -490,6 +503,10 @@ function tcd_membership_login_form($args = array())
             $lastNameData = get_user_meta(get_current_user_id(), 'last_name', true);
             if (!empty($lastNameData)) {
                 $last_name = $lastNameData;
+            }
+
+            if (isset($_POST['last_name'])) {
+                $last_name = $_POST['last_name'];
             }
 
             $description = '';
@@ -546,9 +563,15 @@ function tcd_membership_login_form($args = array())
                 $minimum_order_price = $getMinimumOrderPrice;
             }
 
+            $display_name = $user->data->display_name;
+            if (isset($_POST['display_name'])) {
+                $display_name = $_POST['display_name'];
+            }
+
             if (!$args['echo']) :
                 ob_start();
             endif;
+
     ?>
     <div class="container">
         <div class="row mb-2">
@@ -586,14 +609,23 @@ function tcd_membership_login_form($args = array())
                 <div class="col-12 text-center title my-2" id="UserNameMsg"></div>
                 <div class="col-12 text-center title my-2" id="CalendarMsg"></div>
                 <div class="col-12 text-center title my-2" id="UrlMsg"></div>
+                <div class="col-12 text-center title my-2">
+                    <?php
+                    if (isset($_SESSION['error_user_name'])) {
+                        $massage = $_SESSION['error_user_name'];
+                        unset($_SESSION['error_user_name']);
+                    ?>
+                        <p><?php echo $massage; ?></p>
+                    <?php } ?>
+                </div>
                 <div class="col-6 text-left title py-2 mt-0 border-bottom-dashed">
-                    名前
+                    アカウントネーム
                 </div>
                 <input type="text" name="last_name" value="<?php echo esc_attr($last_name); ?>" id="name_box" name="name_box" class="col-6 border-bottom-dashed">
                 <div class="col-6 text-left title border-bottom-dashed mt-0 py-2">
                     ユーザーネーム
                 </div>
-                <input type="text" name="display_name" value="<?php echo esc_attr($user->data->display_name); ?>" id="user_name_box" name="user_name_box" class="col-6 border-bottom-dashed">
+                <input type="text" name="display_name" value="<?php echo esc_attr($display_name); ?>" id="user_name_box" name="user_name_box" class="col-6 border-bottom-dashed">
                 <div class="col-6 text-left title border-bottom-dashed d-flex align-items-center py-2 mt-0">
                     プロフィール
                 </div>
@@ -954,15 +986,103 @@ function tcd_membership_login_form($args = array())
                 $user = wp_get_current_user();
             endif;
 
+            $user_name = strstr($args['email_readonly'], '@', true);
+            if (isset($_POST['display_name'])) {
+                $user_name = $_POST['display_name'];
+            }
             ob_start();
+    ?>
+    <?php
+            if ($args['show_fullname']) :
+                if ('type1' === $dp_options['membership']['fullname_type']) :
+    ?>
+            <div class="col-12 pt-4">
+                <label for="name" class="label-text">アカウントネーム</label>
+            </div>
+            <div class="col-12 pb-2">
+                <input class="form-control register-form" type="text" name="last_name" id="name" placeholder="account_name" value="<?php echo esc_attr(isset($_REQUEST['last_name']) ? $_REQUEST['last_name'] : $user->last_name); ?>" required>
+                <input class="form-control register-form" type="hidden" name="first_name" id="name" placeholder="namae" value="aaa" required>
+            </div>
+            <?php /**
+			<tr>
+				<th><label for="last_name"><?php
+											echo esc_html($args['label_fullname']);
+											if ($args['required_fullname']) :
+												echo $args['required_html'];
+											endif;
+											?></label></th>
+				<td class="p-membership-form__table-fullname">
+					<div class="p-membership-form__table-fullname-2col">
+						<input type="text" class="last_name" name="last_name" value="<?php echo esc_attr(isset($_REQUEST['last_name']) ? $_REQUEST['last_name'] : $user->last_name); ?>" placeholder="<?php echo esc_attr($args['label_last_name']); ?>" <?php if ($args['required_fullname']) echo ' required'; ?>>
+						<input type="text" class="first_name" name="first_name" value="<?php echo esc_attr(isset($_REQUEST['first_name']) ? $_REQUEST['first_name'] : $user->first_name); ?>" placeholder="<?php echo esc_attr($args['label_first_name']); ?>" <?php if ($args['required_fullname']) echo ' required'; ?>>
+					</div>
+					<?php
+					// 確認用ダミー要素
+					if (!empty($args['use_confirm'])) :
+					?>
+						<input type="hidden" class="fullname-hidden" value="" data-confirm-label="<?php echo esc_attr($args['label_fullname']); ?>">
+					<?php
+					endif;
+					?>
+				</td>
+			</tr>
+                     */ ?>
+        <?php
+                else :
+        ?>
+            <tr>
+                <th><label for="first_name"><?php
+                                            echo esc_html($args['label_fullname']);
+                                            if ($args['required_fullname']) :
+                                                echo $args['required_html'];
+                                            endif;
+                                            ?></label></th>
+                <td class="p-membership-form__table-fullname">
+                    <div class="p-membership-form__table-fullname-2col">
+                        <input type="text" class="first_name" name="first_name" value="<?php echo esc_attr(isset($_REQUEST['first_name']) ? $_REQUEST['first_name'] : $user->first_name); ?>" placeholder="<?php echo esc_attr($args['label_first_name']); ?>" <?php if ($args['required_fullname']) echo ' required'; ?>>
+                        <input type="text" class="last_name" name="last_name" value="<?php echo esc_attr(isset($_REQUEST['last_name']) ? $_REQUEST['last_name'] : $user->last_name); ?>" placeholder="<?php echo esc_attr($args['label_last_name']); ?>" <?php if ($args['required_fullname']) echo ' required'; ?>>
+                    </div>
+                    <?php
+                    // 確認用ダミー要素
+                    if (!empty($args['use_confirm'])) :
+                    ?>
+                        <input type="hidden" class="fullname-hidden" value="" data-confirm-label="<?php echo esc_attr($args['label_fullname']); ?>">
+                    <?php
+                    endif;
+                    ?>
+                </td>
+            </tr>
+        <?php
+                endif;
+            endif;
 
+            if (!empty($args['show_gender'])) {
+        ?>
+        <div class="row">
+            <div class="col-12 pb-3">
+                <label for="gender">
+                    <?php
+                    echo esc_html($args['label_gender']);
+                    if ($args['required_gender']) :
+                        echo $args['required_html'];
+                    endif;
+                    ?>
+                </label>
+                <?php echo get_tcd_user_profile_input_radio('gender', $gender_options, isset($_REQUEST['gender']) ? $_REQUEST['gender'] : $user->gender, 'man'); ?>
+            </div>
+        </div>
+
+    <?php
+            }
+    ?>
+    <?php
             if ($args['show_display_name']) {
     ?>
         <div class="col-12">
             <label for="username" class="label-text">ユーザーネーム</label>
         </div>
         <div class="col-12 pb-2">
-            <input class="form-control register-form" type="text" name="display_name" id="username" placeholder="username" value="<?php echo esc_attr(isset($_REQUEST['display_name']) ? $_REQUEST['display_name'] : $user->display_name); ?>" required>
+            <input class="form-control register-form" type="text" name="display_name" id="username" placeholder="username" value="<?php echo esc_attr($user_name); ?>" required>
         </div>
     <?php
             }
@@ -1045,88 +1165,6 @@ function tcd_membership_login_form($args = array())
     ?>
 
     <?php
-            if ($args['show_fullname']) :
-                if ('type1' === $dp_options['membership']['fullname_type']) :
-    ?>
-            <div class="col-12 pt-4">
-                <label for="name" class="label-text">名前</label>
-            </div>
-            <div class="col-12 pb-2">
-                <input class="form-control register-form" type="text" name="last_name" id="name" placeholder="namae" value="<?php echo esc_attr(isset($_REQUEST['last_name']) ? $_REQUEST['last_name'] : $user->last_name); ?>" required>
-                <input class="form-control register-form" type="hidden" name="first_name" id="name" placeholder="namae" value="aaa" required>
-            </div>
-            <?php /**
-			<tr>
-				<th><label for="last_name"><?php
-											echo esc_html($args['label_fullname']);
-											if ($args['required_fullname']) :
-												echo $args['required_html'];
-											endif;
-											?></label></th>
-				<td class="p-membership-form__table-fullname">
-					<div class="p-membership-form__table-fullname-2col">
-						<input type="text" class="last_name" name="last_name" value="<?php echo esc_attr(isset($_REQUEST['last_name']) ? $_REQUEST['last_name'] : $user->last_name); ?>" placeholder="<?php echo esc_attr($args['label_last_name']); ?>" <?php if ($args['required_fullname']) echo ' required'; ?>>
-						<input type="text" class="first_name" name="first_name" value="<?php echo esc_attr(isset($_REQUEST['first_name']) ? $_REQUEST['first_name'] : $user->first_name); ?>" placeholder="<?php echo esc_attr($args['label_first_name']); ?>" <?php if ($args['required_fullname']) echo ' required'; ?>>
-					</div>
-					<?php
-					// 確認用ダミー要素
-					if (!empty($args['use_confirm'])) :
-					?>
-						<input type="hidden" class="fullname-hidden" value="" data-confirm-label="<?php echo esc_attr($args['label_fullname']); ?>">
-					<?php
-					endif;
-					?>
-				</td>
-			</tr>
-                     */ ?>
-        <?php
-                else :
-        ?>
-            <tr>
-                <th><label for="first_name"><?php
-                                            echo esc_html($args['label_fullname']);
-                                            if ($args['required_fullname']) :
-                                                echo $args['required_html'];
-                                            endif;
-                                            ?></label></th>
-                <td class="p-membership-form__table-fullname">
-                    <div class="p-membership-form__table-fullname-2col">
-                        <input type="text" class="first_name" name="first_name" value="<?php echo esc_attr(isset($_REQUEST['first_name']) ? $_REQUEST['first_name'] : $user->first_name); ?>" placeholder="<?php echo esc_attr($args['label_first_name']); ?>" <?php if ($args['required_fullname']) echo ' required'; ?>>
-                        <input type="text" class="last_name" name="last_name" value="<?php echo esc_attr(isset($_REQUEST['last_name']) ? $_REQUEST['last_name'] : $user->last_name); ?>" placeholder="<?php echo esc_attr($args['label_last_name']); ?>" <?php if ($args['required_fullname']) echo ' required'; ?>>
-                    </div>
-                    <?php
-                    // 確認用ダミー要素
-                    if (!empty($args['use_confirm'])) :
-                    ?>
-                        <input type="hidden" class="fullname-hidden" value="" data-confirm-label="<?php echo esc_attr($args['label_fullname']); ?>">
-                    <?php
-                    endif;
-                    ?>
-                </td>
-            </tr>
-        <?php
-                endif;
-            endif;
-
-            if (!empty($args['show_gender'])) {
-        ?>
-        <div class="row">
-            <div class="col-12 pb-3">
-                <label for="gender">
-                    <?php
-                    echo esc_html($args['label_gender']);
-                    if ($args['required_gender']) :
-                        echo $args['required_html'];
-                    endif;
-                    ?>
-                </label>
-                <?php echo get_tcd_user_profile_input_radio('gender', $gender_options, isset($_REQUEST['gender']) ? $_REQUEST['gender'] : $user->gender, 'man'); ?>
-            </div>
-        </div>
-
-    <?php
-            }
-
             if (!empty($args['show_area'])) {
     ?>
         <div class="row">
