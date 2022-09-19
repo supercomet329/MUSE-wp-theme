@@ -130,7 +130,7 @@ get_header();
                 <?php if ($tcd_membership_vars['message_flag']) { ?>
                     <div class="row text-center message-create">
                         <div class="col-9">
-                            <textarea name="" rows="3" id="chat_input" class="border border-0"></textarea>
+                            <textarea name="message" rows="3" id="chat_input" class="border border-0"></textarea>
                         </div>
                         <div class="col-2 icon-area">
                             <div>
