@@ -102,6 +102,7 @@ get_header();
 
                 <!-- 販売形式フォーム-->
                 <div class="saleSection saleTypeSection mb-4">
+
                     <div class="col-12 mt-2">
                         <label for="selectAuction" class="label-text post-input-title mt-4">オークション開催（必須）</label>
                     </div>
@@ -113,8 +114,24 @@ get_header();
                             <label><input type="radio" name="selectAuction" value="notAuction" id="notAuction" <?php echo ($tcd_membership_vars['setDataParams']['selectAuction'] !== 'Auction') ? 'checked' : ''; ?>>なし</label>
                         </div>
                     </div>
+
                     <!-- オークションあり形式フォーム -->
-                    <div class="holdauctionSection selectAuctionsection">
+                    <div class="holdauctionSection">
+
+                        <div class="col-12">
+                            <label for="binPrice" class="label-text post-input-title mt-4">即決価格（必須）</label>
+                        </div>
+                        <div class="col-11">
+                            <input class="form-control post-input image-price-input" type="number" name="binPrice" id="binPrice" value="<?php echo $tcd_membership_vars['setDataParams']['binPrice']; ?>" placeholder="金額を入力">
+                            <div class="image-price-jpy">
+                                円
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="error_message" id="validateBinPrice"></div>
+                        </div>
+
                         <div class="col-12">
                             <label for="auctionStartDate" class="label-text post-input-title mt-4">オークション開始日時（必須）</label>
                         </div>
@@ -239,39 +256,26 @@ get_header();
                                 <p class="auction-notes">※終了5分前に入札されると、5分延長されます。</p>
                             </div>
                         </div>
-                        <!-- オークションなし形式フォーム -->
-                        <div class="notholdauctionSection selectAuctionsection">
-                            <div class="col-12">
-                                <label for="imagePrice" class="label-text post-input-title mt-4">販売価格（必須）</label>
+                    </div>
+                    <!-- オークションなし形式フォーム -->
+                    <div class="notholdauctionSection">
+                        <div class="col-12">
+                            <label for="imagePrice" class="label-text post-input-title mt-4">販売価格（必須）</label>
+                        </div>
+                        <div class="col-11">
+                            <input class="form-control post-input image-price-input" type="number" name="imagePrice" id="imagePrice" value="<?php echo $tcd_membership_vars['setDataParams']['imagePrice']; ?>" placeholder="金額を入力">
+                            <div class="image-price-jpy">
+                                円
                             </div>
-                            <div class="col-11">
-                                <input class="form-control post-input image-price-input" type="number" name="imagePrice" id="imagePrice" value="<?php echo $tcd_membership_vars['setDataParams']['imagePrice']; ?>" placeholder="金額を入力">
-                                <div class="image-price-jpy">
-                                    円
-                                </div>
-                            </div>
+                        </div>
 
-                            <div class="col-12">
-                                <div class="error_message" id="validateImagePrice"></div>
-                            </div>
+                        <div class="col-12">
+                            <div class="error_message" id="validateImagePrice"></div>
+                        </div>
 
-                            <div class="col-12">
-                                <p class="commission-title">手数料差し引き残額</p>
-                                <p class="commission-price">0円</p>
-                            </div>
-                            <div class="col-12">
-                                <label for="binPrice" class="label-text post-input-title mt-4">即決価格（必須）</label>
-                            </div>
-                            <div class="col-11">
-                                <input class="form-control post-input image-price-input" type="number" name="binPrice" id="binPrice" value="<?php echo $tcd_membership_vars['setDataParams']['binPrice']; ?>" placeholder="金額を入力">
-                                <div class="image-price-jpy">
-                                    円
-                                </div>
-                            </div>
-
-                            <div class="col-12">
-                                <div class="error_message" id="validateBinPrice"></div>
-                            </div>
+                        <div class="col-12">
+                            <p class="commission-title">手数料差し引き残額</p>
+                            <p class="commission-price">0円</p>
                         </div>
                     </div>
 

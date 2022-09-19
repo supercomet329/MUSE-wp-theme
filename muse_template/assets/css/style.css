@@ -3184,6 +3184,14 @@ footer {
     display: none;
 }
 
+.holdauctionSection {
+    display: none;
+}
+
+.notholdauctionSection {
+    display: none;
+}
+
 .post-radio input {
     margin-right: 10px;
     accent-color: #000000;

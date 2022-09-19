@@ -684,42 +684,6 @@ jQuery(function($) {
     });
 });
 
-jQuery(function($) {
-    // 販売形式のラジオボタン変更で、表示するフォーム切り替え
-    jQuery('[name="saleType"]:radio').change(function($) {
-        // 通常販売にチェックがついている場合
-        if (jQuery('#sale').prop('checked')) {
-            jQuery('.saleTypeSection').hide();
-            jQuery('.saleSection').show();
-            jQuery('.termsSection').show();
-            // オークションにチェックがついている場合
-            // } else if (jQuery('#auction').prop('checked')) {
-            //     jQuery('.saleTypeSection').hide();
-            //     jQuery('.auctionSection').show();
-            //     jQuery('.termsSection').show();
-            // 販売しないにチェックがついている場合
-        } else {
-            jQuery('.saleTypeSection').hide();
-            jQuery('.termsSection').hide();
-            jQuery('.notForSaleSection').show();
-        }
-    });
-});
-
-jQuery(function($) {
-    // オークション開催有無のラジオボタン変更で、表示するフォーム切り替え
-    jQuery('[name="selectAuction"]:radio').change(function($) {
-        // オークション開催ありにチェックがついている場合
-        if (jQuery('#auction').prop('checked')) {
-            jQuery('.notholdauctionSection').hide();
-            jQuery('.holdauctionSection').show();
-        } else {
-            jQuery('.holdauctionSection').hide();
-            jQuery('.notholdauctionSection').show();
-        }
-    });
-});
-
 /**
  * タイムラインページ(timeline.html)
  * スライダー処理
@@ -1099,6 +1063,21 @@ jQuery(function($) {
 // 画像投稿ページ 画像登録のJS
 jQuery(function() {
 
+    // 販売形式のチェックが変わった場合
+    jQuery("body").on('click', '[name="saleType"]:radio', function($) {
+        viewPostImageParams();
+    });
+
+    // オークションの開催のチェックが変わった場合
+    jQuery("body").on('click', '[name="selectAuction"]:radio', function($) {
+        viewPostImageParams();
+    });
+
+    // オークション開始日時のチェックが変わった場合
+    jQuery("body").on('click', '[name="auctionStartDate"]:radio', function($) {
+        viewPostImageParams();
+    });
+
     jQuery("body").on("change", "#files", function(e) {
         var file = e.target.files[0];
         var reader = new FileReader();
@@ -1241,9 +1220,47 @@ jQuery(function() {
         drag_and_drop_file(e);
     });
 
+
     // オークション表示の場合の日付の初期表示の取得
     setAuctionSelBox();
 });
+
+function viewPostImageParams() {
+
+    jQuery('.saleTypeSection').hide();
+    jQuery('.saleSection').hide();
+    jQuery('.termsSection').hide();
+    jQuery('.notForSaleSection').hide();
+    jQuery('.notholdauctionSection').hide();
+    jQuery('#auction_datetime').addClass('d-none');
+
+
+    var saleType = jQuery('input:radio[name="saleType"]:checked').val();
+    console.log(saleType);
+    if (saleType === "sale") {
+        jQuery('.saleSection').show();
+
+        var selectAuction = jQuery('input:radio[name="selectAuction"]:checked').val();
+        console.log(selectAuction);
+        if (selectAuction === 'Auction') {
+            jQuery('.notholdauctionSection').hide();
+            jQuery('.holdauctionSection').show();
+
+            var auctionStartDate = jQuery('input:radio[name="auctionStartDate"]:checked').val();
+            console.log(auctionStartDate);
+            if (auctionStartDate === 'specify') {
+                jQuery('#auction_datetime').removeClass('d-none');
+            }
+        } else {
+            jQuery('.holdauctionSection').hide();
+            jQuery('.notholdauctionSection').show();
+        }
+
+    } else {
+        jQuery('.notForSaleSection').show();
+    }
+
+}
 
 // 登録内容のバリデート
 function validatePostImage() {
@@ -1325,14 +1342,17 @@ function validateTypeNft() {
         jQuery('#validateImagePrice').html('販売価格は必須入力です。');
     }
 
-    // 即決価格の必須入力
+    var chkAuction = jQuery("#auction:checked").val();
     var flagBinPrice = false;
-    var binPrice = jQuery('#binPrice').val();
-    var binPrice = binPrice.replace(/\s+/g, "");
-    if (binPrice === "") {
-        // 文字列が空の場合
-        flagBinPrice = true;
-        jQuery('#validateBinPrice').html('即決価格は必須入力です。');
+    if (chkAuction === 'Auction') {
+        // 即決価格の必須入力
+        var binPrice = jQuery('#binPrice').val();
+        var binPrice = binPrice.replace(/\s+/g, "");
+        if (binPrice === "") {
+            // 文字列が空の場合
+            flagBinPrice = true;
+            jQuery('#validateBinPrice').html('即決価格は必須入力です。');
+        }
     }
 
     // 利用規約
@@ -1475,20 +1495,6 @@ function viewHtml(add_file) {
     jQuery('#image_html').html(image_html);
     validatePostImage();
 }
-
-/**
- * オークション開始日時の表示切替
- */
-jQuery(function($) {
-    // オークション開始日時指定の表示切替
-    jQuery('[name="auctionStartDate"]:radio').change(function($) {
-        if (jQuery('#specify').prop('checked')) {
-            jQuery('#auction_datetime').removeClass('d-none');
-        } else {
-            jQuery('#auction_datetime').addClass('d-none');
-        }
-    });
-});
 
 /**
  * オークションの開始日時の終了日時の初期化
