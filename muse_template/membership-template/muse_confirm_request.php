@@ -96,12 +96,14 @@ get_header();
                             <div class="col-12 mt-1 ">
                                 <?php echo nl2br($tcd_membership_vars['character']); ?>
                             </div>
+                            <?php if ($tcd_membership_vars['specifyUserId'] === false) { ?>
                             <div class="col-12 mt-4 item-text border-bottom-solid">
                                 受付依頼数
                             </div>
                             <div class="col-12 mt-1">
                                 <?php echo nl2br($tcd_membership_vars['orderQuantity']); ?>件
                             </div>
+                            <?php } /** endif */ ?>
                         <?php } ?>
 
                         <?php if ($tcd_membership_vars['flgReceived'] === TRUE) { ?>
