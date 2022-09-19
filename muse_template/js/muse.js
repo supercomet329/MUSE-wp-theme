@@ -1815,12 +1815,14 @@ function validateRequest() {
     } else {
         // 予算の入力値チェック
         var chkBudget = int_pattern.test(budget);
-        if (chkBudget === false) {
+        var minimum_order_price = jQuery('#minimum_order_price').val();
+        if (chkBudget === false || budget <= minimum_order_price) {
             jQuery('#inputBudget').html('予算の御確認を御願い致します。');
         } else {
             flagBudget = false;
         }
     }
+
 
     // 比較のため現在日時の取得
     var nowDate = new Date();

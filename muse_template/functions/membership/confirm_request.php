@@ -110,16 +110,20 @@ function tcd_membership_action_confirm_request()
     $tcd_membership_vars['desired_date'] = $strDesiredDate;
 
     $specifyUser = false;
+    $minimumOrderPrice = 0;
     $approval_users = [];
     $specifyUserData  = get_post_meta($request_id, 'specify_user_id');
     if (!empty($specifyUserData)) {
         $approval_users[(int)$author_id]          = true;
         $approval_users[(int)$specifyUserData[0]] = true;
         $specifyUser = $specifyUserData[0];
+        $minimumOrderPrice = (int)get_user_meta($specifyUserData[0], 'minimum_order_price', true);
     }
     $tcd_membership_vars['specifyUser'] = $specifyUser;
+    $tcd_membership_vars['minimumOrderPrice'] = $minimumOrderPrice;
     $receivedResult = getMyWpTcdMembershipActionsByTypeAndPostIdAndUserId($typeReceived, $request_id);
     $completeResult = getMyWpTcdMembershipActionsByTypeAndPostIdAndUserId($typeComplete, $request_id);
+    
 
     // POSTされた場合
     $error_messages = [];
@@ -532,8 +536,6 @@ function update_request($requestFileUrl, $requestFileName)
         'post_content' => $content,
         'post_name'    => $workTitle,
     ];
-
-    $specify_user_id = get_post_meta($request_id, 'specify_user_id', true);
 
     // データベースにある投稿を更新する
     wp_update_post($my_post);

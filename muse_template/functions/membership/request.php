@@ -27,12 +27,14 @@ function tcd_membership_action_request()
 
     $specifyUser = false;
     $user_id     = false;
+    $minimumOrderPrice = 0;
     if (isset($_REQUEST['user_id'])) {
 
         // 指定ユーザーがいる場合
         $specifyUser = true;
         $user_id = $_REQUEST['user_id'];
         $user    = get_userdata($user_id);
+        $minimumOrderPrice = (int)get_user_meta($user_id, 'minimum_order_price', true);
 
         if ($user === FALSE) {
             // 指定ユーザーが存在しない場合 => プロフィールページに遷移
@@ -42,6 +44,7 @@ function tcd_membership_action_request()
     }
     $tcd_membership_vars['specifyUser']   = $specifyUser;
     $tcd_membership_vars['specifyUserId'] = $user_id;
+    $tcd_membership_vars['minimumOrderPrice'] = $minimumOrderPrice;
 
     $error_messages = [];
     if (isset($_GET['status'])) {
