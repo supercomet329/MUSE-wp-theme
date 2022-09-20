@@ -268,6 +268,7 @@ get_header();
         <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd_membership_action_request')); ?>">
         <input type="hidden" name="specify_user_id" value="<?php echo esc_attr($tcd_membership_vars['specifyUserId']); ?>">
         <input type="hidden" name="request_type" id="request_type" value="input">
+        <input type="hidden" id="minimum_order_price" value="<?php echo esc_attr($tcd_membership_vars['minimumOrderPrice']); ?>">
     </form>
 </div>
 <?php
