@@ -262,7 +262,7 @@ get_header();
                 </div>
             </div>
             <div class="col-12 text-center mt-3 mb-5">
-                <button type="submit" class="btn btn-primary text-white submit-btn" id="requestBtn" disabled>依頼投稿確認</button>
+                <button type="submit" class="btn btn-primary text-white submit-btn" id="requestBtn" disabled>確認</button>
             </div>
         </div>
         <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd_membership_action_request')); ?>">
