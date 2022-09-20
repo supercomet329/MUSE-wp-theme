@@ -618,26 +618,6 @@ function showUrlMsg() {
     jQuery('#UrlMsg').empty().append("<p id=\"inputUrlErrMsg\" class=\"UrlErrMsg mb-0\">URLを確認してください</p>");
 }
 
-jQuery(function($) {
-    jQuery('#chat_button').on('click', function($) {
-        let inputText = document.getElementById('chat_input');
-        let appendArea = document.getElementById('message_show_area');
-        outputMessage(inputText, appendArea);
-    });
-});
-
-// メッセージを画面に出力
-function outputMessage(text, area) {
-    if (!text.value) return false;
-    let time = new Date();
-    let hour = ('00' + time.getHours()).slice(-2);
-    let min = ('00' + time.getMinutes()).slice(-2);
-    let message = jQuery(` < div class = "col-12 pb-5 mb-5 pr-0"
-            style = "z-index: -1;" > < div class = "balloon_r" > < div class = "faceicon" > < img src = "assets/img/pixta_64747350_M.jpg"
-            class = "rounded-circle"
-            alt = "" > < div class = "ml-xl-4 ml-1" > $ { hour + ":" + min } < /div></div > < div class = "says" > < p > $ { text.value } < /p></div > < /div></div > `);
-    jQuery(area).append(message);
-}
 
 // 画像を画面に出力
 function outputImage(imgSrc, area) {
