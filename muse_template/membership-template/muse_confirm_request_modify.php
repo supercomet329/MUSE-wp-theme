@@ -254,16 +254,28 @@ get_header();
                 </div>
             </div>
 
-            <div class="col-12 mt-2">
-                <h1 class="text-left font-weight-bold request-title">受付依頼数</h1>
-            </div>
-            <hr class="request-hr mb-2">
-            <div class="col-12 pb-4 row">
-                <div class="col-4">
-                    <input type="number" class="deadline-input" name="orderQuantity" id="orderQuantity" value="<?php echo esc_attr($tcd_membership_vars['orderQuantity']); ?>">
-                    <p class="deadline-date">件</p>
+            <?php
+            if ($tcd_membership_vars['specifyUserId'] === false) {
+                // ユーザー指定がない場合 => 受付依頼数の入力欄の追加
+            ?>
+                <div class="col-12 mt-2">
+                    <h1 class="text-left font-weight-bold request-title">受付依頼数</h1>
                 </div>
-            </div>
+                <hr class="request-hr mb-2">
+                <div class="col-12 pb-4 row">
+                    <div class="col-4">
+                        <input type="number" class="deadline-input" name="orderQuantity" id="orderQuantity" value="<?php echo esc_attr($tcd_membership_vars['orderQuantity']); ?>">
+                        <p class="deadline-date">件</p>
+                    </div>
+                </div>
+            <?php
+            } else {
+                // ユーザー指定がない場合 => 受付依頼数の入力欄を固定にする
+            ?>
+                <input type="hidden" name="orderQuantity" id="orderQuantity" value="1">
+            <?php }
+            /** endif */ ?>
+
 
             <div class="col-12 mb-4">
                 <div class="validRefUrl" id="validRefUrl">

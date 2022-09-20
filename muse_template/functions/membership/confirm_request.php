@@ -81,6 +81,12 @@ function tcd_membership_action_confirm_request()
     $budget          = get_post_meta($request_id, 'budget');
     $budget          = $budget[0];
 
+    $specifyUserId = false;
+    $arraySpecifyUserId = get_post_meta($request_id, 'specify_user_id');
+    if(isset($arraySpecifyUserId[0])) {
+        $specifyUserId = (int)$arraySpecifyUserId[0];
+    }
+
     // 応募期限の取得
     $appDeadlineDate      = get_post_meta($request_id, 'appDeadlineDate');
     $appDeadlineDateClass = new DateTime($appDeadlineDate[0]);
@@ -320,6 +326,7 @@ function tcd_membership_action_confirm_request()
     $tcd_membership_vars['title']           = $title;
     $tcd_membership_vars['workTitle']       = $workTitle;
     $tcd_membership_vars['content']         = $content;
+    $tcd_membership_vars['specifyUserId']   = $specifyUserId;
 
     $tcd_membership_vars['appDeadlineY'] = $appDeadlineY;
     $tcd_membership_vars['appDeadlineM'] = $appDeadlineM;
