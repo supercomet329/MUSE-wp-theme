@@ -9,20 +9,17 @@ get_header();
 <div class="pc-center">
     <form action="POST">
         <div class="container pt-2 confirm-area">
-            <div class="col-12 item-text mb-2">
-                投稿画像（必須）
-            </div>
+
             <div class="post-inarea">
                 <?php if ($imageCount <= 1) { ?>
-                    <div class="timeline-image timelile-pro">
-                        <div class="my-2 slid-img swiper swipertum">
-                            <div class="swiper-wrapper d-flex align-items-center post-in">
-                                <div class="swiper-slide text-right">
-                                    <?php foreach ($tcd_membership_vars['imageArray'] as $photoOne) { ?>
-                                        <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('post_comment')); ?>&post_id=<?php echo esc_attr($oneTimeline->post_id); ?>"><img class="img-fluid mx-auto" src="<?php echo esc_url($photoOne); ?>" /></a>
-                                    <?php }
-                                    /** endforeach */ ?>
-                                </div>
+                    <div class="my-2 slid-img swiper swipertum sp-margin">
+                        <div class="swiper-wrapper d-flex align-items-center timeline-in">
+                            <div class="swiper-slide text-right ">
+                                <?php foreach ($tcd_membership_vars['imageArray'] as $photoOne) { ?>
+                                    <a id="js-open" href="#" data-image="<?php echo esc_url($photoOne); ?>"><img class="img-fluid mx-auto" src="<?php echo esc_url($photoOne); ?>" /></a>
+                                <?php }
+                                /** endforeach */ ?>
+
                             </div>
                         </div>
                     </div>
@@ -39,6 +36,21 @@ get_header();
                             </div>
                         </div>
                     </div>
+
+                    <div class="timeline-image timelile-pro">
+                        <div class="my-2 slid-img swiper swipertum sp-margin">
+                            <div class="swiper-wrapper d-flex align-items-center timeline-in">
+
+                                <?php foreach ($tcd_membership_vars['imageArray'] as $photoOne) { ?>
+                                    <div class="swiper-slide timeline-2block text-right">
+                                        <a id="js-open" href="#" data-image="<?php echo esc_url($photoOne); ?>"><img class="img-fluid mx-auto" src="<?php echo esc_url($photoOne); ?>" /></a>
+                                    </div>
+                                <?php }
+                                /** endforeach */ ?>
+
+                            </div>
+                        </div>
+                    </div>
                 <?php } elseif ($imageCount === 3) { ?>
                     <div class="timeline-image timelile-pro">
                         <?php
@@ -49,16 +61,41 @@ get_header();
                                 $timeLineClass = 'timeline-3block-down';
                             }
                         ?>
-                            <div class="timeline-image timelile-pro">
-                                <div class="slid-img swiper swipertum">
-                                    <div class="swiper-wrapper d-flex align-items-center post-in">
-                                        <?php foreach ($arrayOneSliceImage as $oneSliceImage) { ?>
-                                            <div class="swiper-slide <?php echo $timeLineClass; ?> text-right">
-                                                <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('post_comment')); ?>&post_id=<?php echo esc_attr($oneTimeline->post_id); ?>"><img class="img-fluid mx-auto" src="<?php echo esc_url($oneSliceImage); ?>" /></a>
-                                            </div>
-                                        <?php }
-                                        /** endforech */ ?>
+
+                            <div class="swiper-wrapper d-flex align-items-center timeline-in">
+                                <?php foreach ($arrayOneSliceImage as $oneSliceImage) { ?>
+                                    <div class="swiper-slide <?php echo $timeLineClass; ?> text-right">
+                                        <a id="js-open" href="#" data-image="<?php echo esc_url($oneSliceImage); ?>"><img class="img-fluid mx-auto" src="<?php echo esc_url($oneSliceImage); ?>" /></a>
                                     </div>
+                                <?php }
+                                /** endforech */ ?>
+                            </div>
+
+                        <?php
+                            $loop++;
+                        }
+                        /** endforeach */ ?>
+                    </div>
+                <?php } else { ?>
+                    <div class="timeline-image timelile-pro">
+                        <?php
+                        $loop = 0;
+                        foreach ($arraySliceImage as $arrayOneSliceImage) {
+                            $timeLineClass = 'timeline-3block-up';
+                            if ($loop > 0) {
+                                $timeLineClass = 'timeline-4block';
+                            }
+                        ?>
+
+                            <div class="slid-img swiper swipertum sp-margin">
+                                <div class="swiper-wrapper d-flex align-items-center timeline-in">
+                                    <?php foreach ($arrayOneSliceImage as $oneSliceImage) { ?>
+                                        <div class="swiper-slide <?php echo $timeLineClass; ?> text-right">
+                                            <a id="js-open" href="#" data-image="<?php echo esc_url($oneSliceImage); ?>"><img class="img-fluid mx-auto" src="<?php echo esc_url($oneSliceImage); ?>" /></a>
+                                        </div>
+                                    <?php }
+                                    /** endforech */ ?>
+
                                 </div>
                             </div>
                         <?php
@@ -66,31 +103,6 @@ get_header();
                         }
                         /** endforeach */ ?>
                     </div>
-                <?php } else { ?>
-                    <?php
-                    $loop = 0;
-                    foreach ($arraySliceImage as $arrayOneSliceImage) {
-                        $timeLineClass = 'timeline-3block-up';
-                        if ($loop > 0) {
-                            $timeLineClass = 'timeline-4block';
-                        }
-                    ?>
-                        <div class="timeline-image timelile-pro">
-                            <div class="slid-img swiper swipertum">
-                                <div class="swiper-wrapper d-flex align-items-center timeline-in">
-                                    <?php foreach ($arrayOneSliceImage as $oneSliceImage) { ?>
-                                        <div class="swiper-slide <?php echo $timeLineClass; ?> text-right">
-                                            <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('post_comment')); ?>&post_id=<?php echo esc_attr($oneTimeline->post_id); ?>"><img class="img-fluid mx-auto" src="<?php echo esc_url($oneSliceImage); ?>" /></a>
-                                        </div>
-                                    <?php }
-                                    /** endforech */ ?>
-                                </div>
-                            </div>
-                        </div>
-                    <?php
-                        $loop++;
-                    }
-                    /** endforeach */ ?>
                 <?php } ?>
 
                 <div class="logo-area d-flex bd-highlight icon-margin-top">
@@ -207,5 +219,19 @@ get_header();
             /** endif */ ?>
         </div>
     </form>
+    <div class="modal fade" id="testModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-center">
+            <div class="modal-content">
+                <div class="modal-header">
+                </div>
+                <div class="mt-2 mb-2 mx-auto">
+                    <img class="modal_image" id="pickup_image" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <?php
     get_footer();

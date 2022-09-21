@@ -157,7 +157,7 @@
                             <div class="swiper-wrapper d-flex align-items-center timeline-in">
                                 <?php foreach ($imageArray as $photoOne) { ?>
                                     <div class="swiper-slide timeline-2block text-right">
-                                        <a href="#" data-image="<?php echo esc_url($photoOne); ?>"><img class="img-fluid mx-auto" src="<?php echo esc_url($photoOne); ?>" /></a>
+                                        <a href="<?php echo get_tcd_membership_memberpage_url('confirm_post'); ?>&post_id=<?php echo esc_attr($oneTimeline->post_id); ?>" ><img class="img-fluid mx-auto" src="<?php echo esc_url($photoOne); ?>" /></a>
                                     </div>
                                 <?php }
                                 /** endforeach */ ?>
@@ -237,7 +237,7 @@
                                 <div class="swiper-wrapper d-flex align-items-center timeline-in">
                                     <?php foreach ($arrayOneSliceImage as $oneSliceImage) { ?>
                                         <div class="swiper-slide <?php echo $timeLineClass; ?> text-right">
-                                            <a href="<?php echo get_tcd_membership_memberpage_url('confirm_post'); ?>&&post_id=<?php echo esc_attr($oneTimeline->post_id); ?>" data-image="<?php echo esc_url($oneSliceImage); ?>"><img class="img-fluid mx-auto" src="<?php echo esc_url($oneSliceImage); ?>" /></a>
+                                            <a href="<?php echo get_tcd_membership_memberpage_url('confirm_post'); ?>&post_id=<?php echo esc_attr($oneTimeline->post_id); ?>" data-image="<?php echo esc_url($oneSliceImage); ?>"><img class="img-fluid mx-auto" src="<?php echo esc_url($oneSliceImage); ?>" /></a>
                                         </div>
                                     <?php }
                                     /** endforech */ ?>

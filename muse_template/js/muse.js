@@ -1229,6 +1229,7 @@ function viewPostImageParams() {
     console.log(saleType);
     if (saleType === "sale") {
         jQuery('.saleSection').show();
+        jQuery('.saleTypeSection').show();
 
         var selectAuction = jQuery('input:radio[name="selectAuction"]:checked').val();
         console.log(selectAuction);
@@ -1321,18 +1322,20 @@ function validateTypeNft() {
     var flagAuction = false;
 
     // 共通
+    var chkAuction = jQuery("#auction:checked").val();
 
     // 販売価格の必須入力
     var flagImagePrice = false;
     var imagePrice = jQuery('#imagePrice').val();
-    var imagePrice = imagePrice.replace(/\s+/g, "");
-    if (imagePrice === "") {
-        // 文字列が空の場合
-        flagImagePrice = true;
-        jQuery('#validateImagePrice').html('販売価格は必須入力です。');
+    if (chkAuction !== 'Auction') {
+        var imagePrice = imagePrice.replace(/\s+/g, "");
+        if (imagePrice === "") {
+            // 文字列が空の場合
+            flagImagePrice = true;
+            jQuery('#validateImagePrice').html('販売価格は必須入力です。');
+        }
     }
 
-    var chkAuction = jQuery("#auction:checked").val();
     var flagBinPrice = false;
     if (chkAuction === 'Auction') {
         // 即決価格の必須入力
