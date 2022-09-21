@@ -15,9 +15,11 @@ if(isset($_GET['picuture_mode'])) {
 }
 
 if($viewMode === 'picture') {
-	get_template_part( 'template-parts/header_non_pc_menu' );
+	// get_template_part( 'template-parts/header_non_pc_menu' );
+	get_header();
 	get_template_part( 'template-parts/muse_top_picture' );
-	get_template_part( 'template-parts/footer_non_pc_menu' );
+	// get_template_part( 'template-parts/footer_non_pc_menu' );
+	get_footer();
 } else {
 	get_header();
 	echo '<main class="l-main">';
