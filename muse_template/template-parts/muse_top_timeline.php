@@ -27,7 +27,11 @@
     <?php }
     /** endif */ ?>
     <div class="container">
-        <div class="post-icon"><a href="<?php echo esc_url(get_tcd_membership_memberpage_url('post_image')); ?>"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/image_post.png" alt=""></a></div>
+        <div class="post-icon">
+            <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('post_image')); ?>">
+                <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/image_post.png" alt="">
+            </a>
+        </div>
     </div>
 
     <?php
@@ -157,7 +161,7 @@
                             <div class="swiper-wrapper d-flex align-items-center timeline-in">
                                 <?php foreach ($imageArray as $photoOne) { ?>
                                     <div class="swiper-slide timeline-2block text-right">
-                                        <a href="<?php echo get_tcd_membership_memberpage_url('confirm_post'); ?>&post_id=<?php echo esc_attr($oneTimeline->post_id); ?>" ><img class="img-fluid mx-auto" src="<?php echo esc_url($photoOne); ?>" /></a>
+                                        <a href="<?php echo get_tcd_membership_memberpage_url('confirm_post'); ?>&post_id=<?php echo esc_attr($oneTimeline->post_id); ?>"><img class="img-fluid mx-auto" src="<?php echo esc_url($photoOne); ?>" /></a>
                                     </div>
                                 <?php }
                                 /** endforeach */ ?>
