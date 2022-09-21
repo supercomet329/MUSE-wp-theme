@@ -45,6 +45,16 @@ jQuery(function($) {
             });
         }
     });
+
+
+    // 画像クリック時にモーダルで画像表示
+    jQuery("body").on("click", "[id=js-open]", function(e) {
+
+        var image = jQuery(this).data('image');
+        console.log(image);
+        jQuery('#pickup_image').attr('src', image);
+        jQuery("#testModal").modal('show');
+    });
 });
 
 // 通常新規登録ページ(sign_up.html)
