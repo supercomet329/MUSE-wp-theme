@@ -375,19 +375,6 @@
         /** endif */ ?>
     <?php }
     /** endforeach */ ?>
-    <div class="modal fade" id="testModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-center">
-            <div class="modal-content">
-                <div class="modal-header">
-                </div>
-                <div class="mt-2 mb-2 mx-auto">
-                    <img class="modal_image" id="pickup_image" />
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
-                </div>
-            </div>
-        </div>
-    </div>
+
     <!-- Swiper JS -->
     <script src="<?php echo get_template_directory_uri(); ?>/assets/js/swiper-bundle.min.js"></script>
