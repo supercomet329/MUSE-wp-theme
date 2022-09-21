@@ -28,9 +28,11 @@
     /** endif */ ?>
     <div class="container">
         <div class="post-icon">
-            <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('post_image')); ?>">
-                <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/image_post.png" alt="">
-            </a>
+            <?php if (get_current_user_id() > 0) { ?>
+                <a href="<?php echo esc_url(get_tcd_membership_memberpage_url('post_image')); ?>">
+                    <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/image_post.png" alt="">
+                </a>
+            <?php } ?>
         </div>
     </div>
 
