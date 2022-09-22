@@ -392,9 +392,6 @@ function tcd_membership_action_modify_request()
     $tcd_membership_vars['requestFileUrl']  = get_post_meta($request_id, 'requestFileUrl');
 
     $strDesiredDate = '';
-    $desiredDateY   = '';
-    $desiredDateM   = '';
-    $desiredDateD   = '';
     if (!empty($desiredDate)) {
         $desiredDateClass = new DateTime($desiredDate[0]);
         $desiredDateClass->setTimezone(new DateTimeZone('Asia/Tokyo'));
