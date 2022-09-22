@@ -7,7 +7,7 @@ if (isset($tcd_membership_vars['reset_password'])) {
 	$email = $tcd_membership_vars['reset_password']['email'];
 	$messageComplete = '下記のメールアドレスにメールを送信致しました。';
 }
-get_header();
+get_template_part( 'template-parts/header_non_pc_menu' );
 ?>
 <main class="l-main has-bg--pc">
 	<?php
@@ -116,4 +116,4 @@ get_header();
 	?>
 </main>
 <?php
-get_footer();
+get_template_part( 'template-parts/footer_non_pc_menu' );
