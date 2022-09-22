@@ -94,7 +94,7 @@ get_header();
     </div>
 
     <!-- 検索モーダル -->
-    <form class="search-post mb-2" method="POST" action="<?php echo esc_url(get_tcd_membership_memberpage_url('list_order')); ?>">
+    <form class="search-post mb-2" method="POST" action="<?php echo esc_url(get_tcd_membership_memberpage_url('list_received')); ?>">
         <div class="modal-container">
             <div class="modal-body">
                 <div class="modal-content text-left p-3">
