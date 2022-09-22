@@ -560,7 +560,7 @@ function tcd_membership_login_form($args = array())
             $minimum_order_price = 0;
             $getMinimumOrderPrice = get_user_meta(get_current_user_id(), 'minimum_order_price', true);
             if (!empty($getMinimumOrderPrice)) {
-                $minimum_order_price = $getMinimumOrderPrice;
+                $minimum_order_price = (int)$getMinimumOrderPrice;
             }
 
             $display_name = $user->data->display_name;
@@ -573,164 +573,138 @@ function tcd_membership_login_form($args = array())
             endif;
 
     ?>
-    <div class="container">
-        <div class="row mb-2">
-            <div class="col-12">
-                <a href="javascript:history.back();">← 戻る</a>
+    <div class="pc-center">
+
+        <form action="<?php echo esc_attr(get_tcd_membership_memberpage_url('edit_profile')); ?>" enctype="multipart/form-data" method="post">
+            <div class="cover-area">
+                <img src="<?php echo esc_url($header_image); ?>" class="img-fluid cover-image" id="cover_image">
+                <label>
+                    <input name="header_image" type="file" id="cover_img_file_input" accept="image/png, image/jpeg">
+                    <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/camera_BGblue.png" class="camera-image rounded-circle" id="camera_image" alt="camera-image">
+                </label>
             </div>
-        </div>
-    </div>
-    <form action="<?php echo esc_attr(get_tcd_membership_memberpage_url('edit_profile')); ?>" enctype="multipart/form-data" method="post">
-        <div class="cover-area">
-            <img src="<?php echo esc_url($header_image); ?>" class="img-fluid cover-image" id="cover_image">
-            <label>
-                <input type="file" name="header_image" id="cover_img_file_input" accept="image/png, image/jpeg">
-                <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/camera_BGblue.png" class="camera-image rounded-circle" id="camera_image" alt="camera-image">
-            </label>
-        </div>
-        <div class="emailSentMsg" id="emailSentMsg">
-            <?php
-            if (isset($_SESSION['success_twitter_message'])) {
-                $massage = $_SESSION['success_twitter_message'];
-                unset($_SESSION['success_twitter_message']);
-            ?>
-                <p><?php echo $massage; ?></p>
-            <?php } ?>
-        </div>
-        <div class="container">
-            <div class="row profile-edit-area">
-                <div class="col-12 text-center pt-3">
-                    <label>
-                        <input type="file" name="profile_image" id="profile_img_file_input" accept="image/png, image/jpeg" class="image">
-                        <img src="<?php echo esc_url($profile_image); ?>" class="profile-image rounded-circle" id="profile_image">
-                    </label>
-                </div>
-                <div class="col-12 text-center title my-2" id="NameMsg"></div>
-                <div class="col-12 text-center title my-2" id="UserNameMsg"></div>
-                <div class="col-12 text-center title my-2" id="CalendarMsg"></div>
-                <div class="col-12 text-center title my-2" id="UrlMsg"></div>
-                <div class="col-12 text-center title my-2">
-                    <?php
-                    if (isset($_SESSION['error_user_name'])) {
-                        $massage = $_SESSION['error_user_name'];
-                        unset($_SESSION['error_user_name']);
-                    ?>
-                        <p><?php echo $massage; ?></p>
-                    <?php } ?>
-                </div>
-                <div class="col-6 text-left title py-2 mt-0 border-bottom-dashed">
-                    アカウントネーム
-                </div>
-                <input type="text" name="last_name" value="<?php echo esc_attr($last_name); ?>" id="name_box" name="name_box" class="col-6 border-bottom-dashed">
-                <div class="col-6 text-left title border-bottom-dashed mt-0 py-2">
-                    ユーザーネーム
-                </div>
-                <input type="text" name="display_name" value="<?php echo esc_attr($display_name); ?>" id="user_name_box" name="user_name_box" class="col-6 border-bottom-dashed">
-                <div class="col-6 text-left title border-bottom-dashed d-flex align-items-center py-2 mt-0">
-                    プロフィール
-                </div>
-                <textarea name="description" type="text" class="col-6 border-bottom-dashed py-1" cols="50" rows="3"><?php echo esc_attr($description); ?></textarea>
-                <div class="col-6 text-left title py-2 mt-0 border-bottom-dashed">
-                    生年月日
-                </div>
-                <input type="date" name="birthday" value="<?php echo esc_attr($birthday); ?>" class="col-6 border-bottom-dashed" id="calendar_box">
-                <div class="col-6 text-left title py-2 mt-0 border-bottom-dashed">
-                    所在地
-                </div>
-                <input name="area" type="text" value="<?php echo esc_attr($area); ?>​" class="col-6 border-bottom-dashed">
-
-                <div class="col-6 text-left title py-2 mt-0 border-bottom-dashed my-auto">
-                    webサイト
-                </div>
-                <input type="text" name="website_url" value="<?php echo esc_attr($user->data->user_url); ?>" id="url_box" name="url_box" class="col-6 border-bottom-dashed text-primary">
-
-                <div class="col-6 text-left title py-2 mt-0 border-bottom-dashed my-auto">
-                    最低受注金額
-                </div>
-                <input type="text" name="minimum_order_price" value="<?php echo esc_attr($minimum_order_price); ?>" id="minimum_order_price" class="col-6 border-bottom-dashed text-primary">
-
-                <div class="col-6 text-left title border-bottom-dashed mt-0 py-2">
-                    依頼
-                </div>
-                <select id="request_box" name="request_box" class="col-6 border-top-0 border-right-0 border-left-0 border-bottom-dashed">
-                    <option value="1" <?php echo ($inReception > 0) ? 'selected' : ''; ?>>受付中</option>
-                    <option value="0" <?php echo ($inReception <= 0) ? 'selected' : ''; ?>>受け付けない</option>
-                </select>
-
-                <?php if ($twitterAlignmentFlg > 0) { ?>
-                    <div class="col-6 text-left title border-bottom-dashed mt-0 py-2">
-                        Twitter自動連携
-                    </div>
-                    <div class="col-6 text-left border-bottom-dashed mt-0 py-2 d-flex">
-                        <select id="request_box" name="twitter_alignment" class="col-10 border-top-0 border-right-0 border-left-0 border-bottom-dashed">
-                            <option value="1" <?php echo ($twitterAlignment > 0) ? 'selected' : ''; ?>>連携する</option>
-                            <option value="0" <?php echo ($twitterAlignment <= 0) ? 'selected' : ''; ?>>連携しない</option>
-                        </select>
-                    </div>
+            <div class="emailSentMsg" id="emailSentMsg">
+                <?php
+                if (isset($_SESSION['success_twitter_message'])) {
+                    $massage = $_SESSION['success_twitter_message'];
+                    unset($_SESSION['success_twitter_message']);
+                ?>
+                    <p><?php echo $massage; ?></p>
                 <?php } ?>
-
-                <div class="col-6 text-left title border-bottom-dashed mt-0 py-2">
-                    本人確認
-                </div>
-                <div class="col-6 text-left border-bottom-dashed mt-0 py-2 d-flex">
-                    <?php echo esc_attr($strIdentification); ?>
-                </div>
-
-                <div class="col-6 text-left title border-bottom-dashed mt-0 py-2">
-                    口座
-                </div>
-                <div class="col-6 text-left border-bottom-dashed mt-0 py-2 d-flex">
-                    <?php echo esc_attr($strAccountNumber); ?>
-                </div>
-
-                <div class="col-12 text-center my-4">
-                    <button type="submit" class="btn btn-lg btn-danger save-btn" id="save-btn">　保存　</button>
-                </div>
-
             </div>
-        </div>
-        <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd-membership-edit_profile')); ?>">
-        <input type="hidden" id="icon-file" name="icon_file" value="0" />
-    </form>
-    <?php // echo makeTwitterOauthLoginLink(); 
-    ?>
-    <?php // echo makeGoogleOauthLoginLink(); 
-    ?>
+            <div class="container">
+                <div class="row profile-edit-area">
+                    <div class="col-12 text-center pt-3">
+                        <label>
+                            <input type="file" name="profile_image" id="profile_img_file_input" accept="image/png, image/jpeg" class="image">
+                            <img src="<?php echo esc_url($profile_image); ?>" class="profile-image rounded-circle" id="profile_image">
+                        </label>
+                    </div>
+                    <div class="col-12 text-center title my-2" id="NameMsg"></div>
+                    <div class="col-12 text-center title my-2" id="UserNameMsg"></div>
+                    <div class="col-12 text-center title my-2" id="CalendarMsg"></div>
+                    <div class="col-12 text-center title my-2" id="UrlMsg"></div>
+                    <div class="col-12 text-center title my-2">
+                        <?php
+                        if (isset($_SESSION['error_user_name'])) {
+                            $massage = $_SESSION['error_user_name'];
+                            unset($_SESSION['error_user_name']);
+                        ?>
+                            <p><?php echo $massage; ?></p>
+                        <?php } ?>
+                    </div>
+                    <div class="col-4 text-left title py-2 mt-0 border-bottom-dashed">
+                        アカウントネーム
+                    </div>
+                    <input type="text" name="last_name" value="<?php echo esc_attr($last_name); ?>" id="name_box" name="name_box" class="col-6 border-bottom-dashed">
+                    <div class="col-4 text-left title border-bottom-dashed mt-0 py-2">
+                        ユーザーネーム
+                    </div>
+                    <input type="text" name="display_name" value="<?php echo esc_attr($display_name); ?>" id="user_name_box" class="col-6 border-bottom-dashed">
+                    <div class="col-4 text-left title border-bottom-dashed d-flex align-items-center py-2 ">
+                        プロフィール
+                    </div>
+                    <div class="col-8 border-bottom-dashed d-flex py-1">
+                        <textarea name="description" type="text" class="py-1 pro-com mt-1 mb-1" cols="70" rows="3"><?php echo esc_attr($description); ?></textarea>
+                    </div>
+                    <div class="col-4 text-left title py-2 mt-0 border-bottom-dashed">
+                        生年月日
+                    </div>
+                    <input type="date" name="birthday" value="<?php echo esc_attr($birthday); ?>" class="col-8 border-bottom-dashed" id="calendar_box">
+                    <div class="col-4 text-left title py-2 mt-0 border-bottom-dashed">
+                        所在地
+                    </div>
+                    <input name="area" type="text" value="<?php echo esc_attr($area); ?>​​" class="col-8 border-bottom-dashed">
+                    <div class="col-4 text-left title py-2 mt-0 border-bottom-dashed my-auto">
+                        webサイト
+                    </div>
+                    <input type="text" name="website_url" value="<?php echo esc_attr($user->data->user_url); ?>" id="url_box" class="col-8 border-bottom-dashed text-primary">
+                    <div class="col-4 text-left title border-bottom-dashed mt-0 py-2">
+                        最低受注金額
+                    </div>
+                    <input type="text" name="minimum_order_price" value="<?php echo esc_attr($minimum_order_price); ?>" id="minimum_order_price" class="col-8 border-bottom-dashed">
+                    <div class="col-4 text-left title border-bottom-dashed mt-0 py-2">
+                        依頼
+                    </div>
+                    <select id="request_box" name="request_box" class="col-8 border-top-0 border-right-0 border-left-0 border-bottom-dashed">
+                        <option value="1" <?php echo ($inReception > 0) ? 'selected' : ''; ?>>受付中</option>
+                        <option value="0" <?php echo ($inReception <= 0) ? 'selected' : ''; ?>>受け付けない</option>
+                    </select>
+                    <div class="col-4 text-left title border-bottom-dashed mt-0 py-2">
+                        本人確認
+                    </div>
+                    <div class="col-8 text-left border-bottom-dashed mt-0 py-2 d-flex">
+                        <?php echo esc_attr($strIdentification); ?>
+                    </div>
+                    <div class="col-4 text-left title border-bottom-dashed mt-0 py-2">
+                        口座
+                    </div>
+                    <div class="col-8 text-left border-bottom-dashed mt-0 py-2 d-flex">
+                        <?php echo esc_attr($strAccountNumber); ?>
+                    </div>
 
-    <!-- モーダル -->
-    <div class="modal fade profile-edit-modal" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
+                    <div class="col-12 text-center my-4">
+                        <button type="submit" class="btn btn-lg btn-danger save-btn" id="save-btn">　保存　</button>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <div class="img-container">
-                        <div class="row">
-                            <div class="col-md-8">
-                                <img id="image" id="preview" src="https://avatars0.githubusercontent.com/u/3456749">
-                            </div>
+            </div>
+            <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce('tcd-membership-edit_profile')); ?>">
+            <input type="hidden" id="icon-file" name="icon_file" value="0" />
+        </form>
 
-                            <div class="mt-3 col-md-8">
-                                <input type="range" value="0" id="zoom" min="0" max="3" step="0.1" class="w-100">
+        <!-- モーダル -->
+        <div class="modal fade profile-edit-modal" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="img-container">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <img id="image" id="preview" src="https://avatars0.githubusercontent.com/u/3456749">
+                                </div>
+
+                                <div class="mt-3 col-md-8">
+                                    <input type="range" value="0" id="zoom" min="0" max="3" step="0.1" class="w-100">
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="scrollbar"></div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
-                    <button type="button" class="btn btn-primary" id="crop">保存</button>
+                    <div class="scrollbar"></div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
+                        <button type="button" class="btn btn-primary" id="crop">保存</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- cropper.js -->
-    <script src="<?php echo get_template_directory_uri(); ?>/assets/js/cropper.min.js"></script>
+        <script src="<?php echo get_template_directory_uri(); ?>/assets/js/cropper.min.js"></script>
 
-    <?php
+        <?php
             if (!$args['echo']) :
                 return ob_get_clean();
             endif;
@@ -991,19 +965,19 @@ function tcd_membership_login_form($args = array())
                 $user_name = $_POST['display_name'];
             }
             ob_start();
-    ?>
-    <?php
+        ?>
+        <?php
             if ($args['show_fullname']) :
                 if ('type1' === $dp_options['membership']['fullname_type']) :
-    ?>
-            <div class="col-12 pt-4">
-                <label for="name" class="label-text">アカウントネーム</label>
-            </div>
-            <div class="col-12 pb-2">
-                <input class="form-control register-form" type="text" name="last_name" id="name" placeholder="account_name" value="<?php echo esc_attr(isset($_REQUEST['last_name']) ? $_REQUEST['last_name'] : $user->last_name); ?>" required>
-                <input class="form-control register-form" type="hidden" name="first_name" id="name" placeholder="namae" value="aaa" required>
-            </div>
-            <?php /**
+        ?>
+                <div class="col-12 pt-4">
+                    <label for="name" class="label-text">アカウントネーム</label>
+                </div>
+                <div class="col-12 pb-2">
+                    <input class="form-control register-form" type="text" name="last_name" id="name" placeholder="account_name" value="<?php echo esc_attr(isset($_REQUEST['last_name']) ? $_REQUEST['last_name'] : $user->last_name); ?>" required>
+                    <input class="form-control register-form" type="hidden" name="first_name" id="name" placeholder="namae" value="aaa" required>
+                </div>
+                <?php /**
 			<tr>
 				<th><label for="last_name"><?php
 											echo esc_html($args['label_fullname']);
@@ -1027,373 +1001,373 @@ function tcd_membership_login_form($args = array())
 				</td>
 			</tr>
                      */ ?>
-        <?php
+            <?php
                 else :
-        ?>
-            <tr>
-                <th><label for="first_name"><?php
-                                            echo esc_html($args['label_fullname']);
-                                            if ($args['required_fullname']) :
-                                                echo $args['required_html'];
-                                            endif;
-                                            ?></label></th>
-                <td class="p-membership-form__table-fullname">
-                    <div class="p-membership-form__table-fullname-2col">
-                        <input type="text" class="first_name" name="first_name" value="<?php echo esc_attr(isset($_REQUEST['first_name']) ? $_REQUEST['first_name'] : $user->first_name); ?>" placeholder="<?php echo esc_attr($args['label_first_name']); ?>" <?php if ($args['required_fullname']) echo ' required'; ?>>
-                        <input type="text" class="last_name" name="last_name" value="<?php echo esc_attr(isset($_REQUEST['last_name']) ? $_REQUEST['last_name'] : $user->last_name); ?>" placeholder="<?php echo esc_attr($args['label_last_name']); ?>" <?php if ($args['required_fullname']) echo ' required'; ?>>
-                    </div>
-                    <?php
-                    // 確認用ダミー要素
-                    if (!empty($args['use_confirm'])) :
-                    ?>
-                        <input type="hidden" class="fullname-hidden" value="" data-confirm-label="<?php echo esc_attr($args['label_fullname']); ?>">
-                    <?php
-                    endif;
-                    ?>
-                </td>
-            </tr>
-        <?php
+            ?>
+                <tr>
+                    <th><label for="first_name"><?php
+                                                echo esc_html($args['label_fullname']);
+                                                if ($args['required_fullname']) :
+                                                    echo $args['required_html'];
+                                                endif;
+                                                ?></label></th>
+                    <td class="p-membership-form__table-fullname">
+                        <div class="p-membership-form__table-fullname-2col">
+                            <input type="text" class="first_name" name="first_name" value="<?php echo esc_attr(isset($_REQUEST['first_name']) ? $_REQUEST['first_name'] : $user->first_name); ?>" placeholder="<?php echo esc_attr($args['label_first_name']); ?>" <?php if ($args['required_fullname']) echo ' required'; ?>>
+                            <input type="text" class="last_name" name="last_name" value="<?php echo esc_attr(isset($_REQUEST['last_name']) ? $_REQUEST['last_name'] : $user->last_name); ?>" placeholder="<?php echo esc_attr($args['label_last_name']); ?>" <?php if ($args['required_fullname']) echo ' required'; ?>>
+                        </div>
+                        <?php
+                        // 確認用ダミー要素
+                        if (!empty($args['use_confirm'])) :
+                        ?>
+                            <input type="hidden" class="fullname-hidden" value="" data-confirm-label="<?php echo esc_attr($args['label_fullname']); ?>">
+                        <?php
+                        endif;
+                        ?>
+                    </td>
+                </tr>
+            <?php
                 endif;
             endif;
 
             if (!empty($args['show_gender'])) {
-        ?>
-        <div class="row">
-            <div class="col-12 pb-3">
-                <label for="gender">
-                    <?php
-                    echo esc_html($args['label_gender']);
-                    if ($args['required_gender']) :
-                        echo $args['required_html'];
-                    endif;
-                    ?>
-                </label>
-                <?php echo get_tcd_user_profile_input_radio('gender', $gender_options, isset($_REQUEST['gender']) ? $_REQUEST['gender'] : $user->gender, 'man'); ?>
+            ?>
+            <div class="row">
+                <div class="col-12 pb-3">
+                    <label for="gender">
+                        <?php
+                        echo esc_html($args['label_gender']);
+                        if ($args['required_gender']) :
+                            echo $args['required_html'];
+                        endif;
+                        ?>
+                    </label>
+                    <?php echo get_tcd_user_profile_input_radio('gender', $gender_options, isset($_REQUEST['gender']) ? $_REQUEST['gender'] : $user->gender, 'man'); ?>
+                </div>
             </div>
-        </div>
 
-    <?php
+        <?php
             }
-    ?>
-    <?php
+        ?>
+        <?php
             if ($args['show_display_name']) {
-    ?>
-        <div class="col-12">
-            <label for="username" class="label-text">ユーザーネーム</label>
-        </div>
-        <div class="col-12 pb-2">
-            <input class="form-control register-form" type="text" name="display_name" id="username" placeholder="username" value="<?php echo esc_attr($user_name); ?>" required>
-        </div>
-    <?php
+        ?>
+            <div class="col-12">
+                <label for="username" class="label-text">ユーザーネーム</label>
+            </div>
+            <div class="col-12 pb-2">
+                <input class="form-control register-form" type="text" name="display_name" id="username" placeholder="username" value="<?php echo esc_attr($user_name); ?>" required>
+            </div>
+        <?php
             }
-    ?>
-    <?php
+        ?>
+        <?php
             if ($args['show_description']) :
-    ?>
+        ?>
 
-        <h6 class="text-left font-weight-bold mt-3">
-            <?php
+            <h6 class="text-left font-weight-bold mt-3">
+                <?php
                 echo esc_html($args['label_description']);
                 if ($args['required_description']) :
                     echo $args['required_html'];
                 endif;
-            ?>
-        </h6>
-        <div class="row">
-            <div class="col-12 pb-3">
-                <textarea class="form-control form-control-lg" name="description" id="" cols="30" rows="3"><?php echo esc_textarea(isset($_REQUEST['description']) ? $_REQUEST['description'] : $user->description); ?></textarea>
-            </div>
-        </div>
-    <?php
-            endif;
-    ?>
-
-
-    <?php
-            if ($args['show_website']) :
-    ?>
-
-        <h6 class="text-left font-weight-bold mt-3">
-            <label for="user_url">
-                <?php
-                echo esc_html($args['label_website']);
-                if ($args['required_website']) :
-                    echo $args['required_html'];
-                endif;
                 ?>
-            </label>
-        </h6>
-        <div class="row">
-            <div class="col-12 pb-3">
-                <input type="url" name="website_url" class="form-control form-control-lg" value="<?php echo esc_attr(isset($_REQUEST['website_url']) ? $_REQUEST['website_url'] : $user->user_url); ?>" />
+            </h6>
+            <div class="row">
+                <div class="col-12 pb-3">
+                    <textarea class="form-control form-control-lg" name="description" id="" cols="30" rows="3"><?php echo esc_textarea(isset($_REQUEST['description']) ? $_REQUEST['description'] : $user->description); ?></textarea>
+                </div>
             </div>
-        </div>
-    <?php
+        <?php
             endif;
-    ?>
+        ?>
 
-    <?php
-            if ($args['show_email_readonly'] && isset($args['email_readonly'])) :
-    ?>
-        <input class="readonly-email form-control form-control-lg" type="hidden" value="<?php echo esc_attr($args['email_readonly']); ?>" readonly<?php if ($args['use_confirm']) echo ' data-confirm-label="' . esc_attr($args['label_email']) . '"'; ?>>
-    <?php
-            elseif ($args['show_email']) :
-    ?>
-        <h6 class="text-left font-weight-bold mt-3"><label for="email"><?php echo esc_html($args['label_email']) . $args['required_html']; ?></label></h6>
-        <div class="row">
-            <div class="col-12 pb-3">
-                <input type="email" id="email" name="email" class="form-control form-control-lg" value="<?php echo esc_attr(isset($_REQUEST['email']) ? $_REQUEST['email'] : $user->user_email); ?>" />
-            </div>
-        </div>
-    <?php
-            endif;
-    ?>
 
-    <?php
-            if ($args['show_telphone']) :
-    ?>
+        <?php
+            if ($args['show_website']) :
+        ?>
 
-        <h6 class="text-left font-weight-bold mt-3">電話番号</h6>
-        <div class="row">
-            <div class="col-12 pb-3">
-                <input type="tel" name="telphone" id="" class="form-control form-control-lg" value="<?php echo esc_attr(isset($_REQUEST['telphone']) ? $_REQUEST['telphone'] : $user->telphone); ?>" />
-            </div>
-        </div>
-
-    <?php
-            endif;
-    ?>
-
-    <?php
-            if (!empty($args['show_area'])) {
-    ?>
-        <div class="row">
-            <div class="col-12 pb-3">
-                <label for="area">
+            <h6 class="text-left font-weight-bold mt-3">
+                <label for="user_url">
                     <?php
-                    echo esc_html($args['label_area']);
-                    if ($args['required_area']) :
+                    echo esc_html($args['label_website']);
+                    if ($args['required_website']) :
                         echo $args['required_html'];
                     endif;
                     ?>
                 </label>
-                <?php echo get_tcd_user_profile_input_area(isset($_REQUEST['area']) ? $_REQUEST['area'] : $user->area, $args['required_area'], $args['use_confirm'] ? $args['label_area'] : null); ?>
+            </h6>
+            <div class="row">
+                <div class="col-12 pb-3">
+                    <input type="url" name="website_url" class="form-control form-control-lg" value="<?php echo esc_attr(isset($_REQUEST['website_url']) ? $_REQUEST['website_url'] : $user->user_url); ?>" />
+                </div>
             </div>
-        </div>
-    <?php
+        <?php
+            endif;
+        ?>
+
+        <?php
+            if ($args['show_email_readonly'] && isset($args['email_readonly'])) :
+        ?>
+            <input class="readonly-email form-control form-control-lg" type="hidden" value="<?php echo esc_attr($args['email_readonly']); ?>" readonly<?php if ($args['use_confirm']) echo ' data-confirm-label="' . esc_attr($args['label_email']) . '"'; ?>>
+        <?php
+            elseif ($args['show_email']) :
+        ?>
+            <h6 class="text-left font-weight-bold mt-3"><label for="email"><?php echo esc_html($args['label_email']) . $args['required_html']; ?></label></h6>
+            <div class="row">
+                <div class="col-12 pb-3">
+                    <input type="email" id="email" name="email" class="form-control form-control-lg" value="<?php echo esc_attr(isset($_REQUEST['email']) ? $_REQUEST['email'] : $user->user_email); ?>" />
+                </div>
+            </div>
+        <?php
+            endif;
+        ?>
+
+        <?php
+            if ($args['show_telphone']) :
+        ?>
+
+            <h6 class="text-left font-weight-bold mt-3">電話番号</h6>
+            <div class="row">
+                <div class="col-12 pb-3">
+                    <input type="tel" name="telphone" id="" class="form-control form-control-lg" value="<?php echo esc_attr(isset($_REQUEST['telphone']) ? $_REQUEST['telphone'] : $user->telphone); ?>" />
+                </div>
+            </div>
+
+        <?php
+            endif;
+        ?>
+
+        <?php
+            if (!empty($args['show_area'])) {
+        ?>
+            <div class="row">
+                <div class="col-12 pb-3">
+                    <label for="area">
+                        <?php
+                        echo esc_html($args['label_area']);
+                        if ($args['required_area']) :
+                            echo $args['required_html'];
+                        endif;
+                        ?>
+                    </label>
+                    <?php echo get_tcd_user_profile_input_area(isset($_REQUEST['area']) ? $_REQUEST['area'] : $user->area, $args['required_area'], $args['use_confirm'] ? $args['label_area'] : null); ?>
+                </div>
+            </div>
+        <?php
             }
 
             if ($args['show_birthday']) {
-    ?>
-        <div class="row">
-            <div class="col-12 pb-3">
-                <label for="birthday">
-                    <?php
-                    echo esc_html($args['label_birthday']);
-                    if ($args['required_birthday']) :
-                        echo $args['required_html'];
-                    endif;
-                    ?>
-                </label>
-                <?php echo get_tcd_user_profile_input_birthday('_birthday', isset($_REQUEST['_birthday']) ? $_REQUEST['_birthday'] : $user->_birthday, $args['required_birthday'], $args['use_confirm'] ? $args['label_birthday'] : null); ?>
+        ?>
+            <div class="row">
+                <div class="col-12 pb-3">
+                    <label for="birthday">
+                        <?php
+                        echo esc_html($args['label_birthday']);
+                        if ($args['required_birthday']) :
+                            echo $args['required_html'];
+                        endif;
+                        ?>
+                    </label>
+                    <?php echo get_tcd_user_profile_input_birthday('_birthday', isset($_REQUEST['_birthday']) ? $_REQUEST['_birthday'] : $user->_birthday, $args['required_birthday'], $args['use_confirm'] ? $args['label_birthday'] : null); ?>
+                </div>
             </div>
-        </div>
-    <?php
+        <?php
             }
 
             if ($args['show_company']) :
-    ?>
-        <tr>
-            <th><label for="company"><?php
-                                        echo esc_html($args['label_company']);
-                                        if ($args['required_company']) :
-                                            echo $args['required_html'];
-                                        endif;
-                                        ?></label></th>
-            <td><input type="text" name="company" value="<?php echo esc_attr(isset($_REQUEST['company']) ? $_REQUEST['company'] : $user->company); ?>" <?php
-                                                                                                                                                        if ($args['required_company']) echo ' required';
-                                                                                                                                                        if ($args['use_confirm']) echo ' data-confirm-label="' . esc_attr($args['label_company']) . '"';
-                                                                                                                                                        ?>></td>
-        </tr>
-    <?php
+        ?>
+            <tr>
+                <th><label for="company"><?php
+                                            echo esc_html($args['label_company']);
+                                            if ($args['required_company']) :
+                                                echo $args['required_html'];
+                                            endif;
+                                            ?></label></th>
+                <td><input type="text" name="company" value="<?php echo esc_attr(isset($_REQUEST['company']) ? $_REQUEST['company'] : $user->company); ?>" <?php
+                                                                                                                                                            if ($args['required_company']) echo ' required';
+                                                                                                                                                            if ($args['use_confirm']) echo ' data-confirm-label="' . esc_attr($args['label_company']) . '"';
+                                                                                                                                                            ?>></td>
+            </tr>
+        <?php
             endif;
 
             if ($args['show_job']) :
-    ?>
-        <tr>
-            <th><label for="job"><?php
-                                    echo esc_html($args['label_job']);
-                                    if ($args['required_job']) :
-                                        echo $args['required_html'];
-                                    endif;
-                                    ?></label></th>
-            <td><input type="text" name="job" value="<?php echo esc_attr(isset($_REQUEST['job']) ? $_REQUEST['job'] : $user->job); ?>" <?php
-                                                                                                                                        if ($args['required_job']) echo ' required';
-                                                                                                                                        if ($args['use_confirm']) echo ' data-confirm-label="' . esc_attr($args['label_job']) . '"';
-                                                                                                                                        ?>></td>
-        </tr>
-    <?php
-            endif;
-    ?>
-
-    <?php
-            if ($args['show_facebook']) :
-    ?>
-        <tr>
-            <th><label for="facebook_url"><?php
-                                            echo esc_html($args['label_facebook']);
-                                            if ($args['required_facebook']) :
-                                                echo $args['required_html'];
-                                            endif;
-                                            ?></label></th>
-            <td><input type="url" name="facebook_url" value="<?php echo esc_attr(isset($_REQUEST['facebook_url']) ? $_REQUEST['facebook_url'] : $user->facebook_url); ?>" <?php
-                                                                                                                                                                            if ($args['required_company']) echo ' facebook';
-                                                                                                                                                                            if ($args['use_confirm']) echo ' data-confirm-label="' . esc_attr($args['label_facebook']) . '"';
-                                                                                                                                                                            ?>></td>
-        </tr>
-    <?php
-            endif;
-
-            if ($args['show_twitter']) :
-    ?>
-        <tr>
-            <th><label for="twitter_url"><?php
-                                            echo esc_html($args['label_twitter']);
-                                            if ($args['required_twitter']) :
-                                                echo $args['required_html'];
-                                            endif;
-                                            ?></label></th>
-            <td><input type="url" name="twitter_url" value="<?php echo esc_attr(isset($_REQUEST['twitter_url']) ? $_REQUEST['twitter_url'] : $user->twitter_url); ?>" <?php
-                                                                                                                                                                        if ($args['required_twitter']) echo ' required';
-                                                                                                                                                                        if ($args['use_confirm']) echo ' data-confirm-label="' . esc_attr($args['label_twitter']) . '"';
-                                                                                                                                                                        ?>></td>
-        </tr>
-    <?php
-            endif;
-
-            if ($args['show_instagram']) :
-    ?>
-        <tr>
-            <th><label for="instagram_url"><?php
-                                            echo esc_html($args['label_instagram']);
-                                            if ($args['required_instagram']) :
-                                                echo $args['required_html'];
-                                            endif;
-                                            ?></label></th>
-            <td><input type="url" name="instagram_url" value="<?php echo esc_attr(isset($_REQUEST['instagram_url']) ? $_REQUEST['instagram_url'] : $user->instagram_url); ?>" <?php
-                                                                                                                                                                                if ($args['required_instagram']) echo ' required';
-                                                                                                                                                                                if ($args['use_confirm']) echo ' data-confirm-label="' . esc_attr($args['label_instagram']) . '"';
-                                                                                                                                                                                ?>></td>
-        </tr>
-    <?php
-            endif;
-
-            if ($args['show_youtube']) :
-    ?>
-        <tr>
-            <th><label for="youtube_url"><?php
-                                            echo esc_html($args['label_youtube']);
-                                            if ($args['required_youtube']) :
-                                                echo $args['required_html'];
-                                            endif;
-                                            ?></label></th>
-            <td><input type="url" name="youtube_url" value="<?php echo esc_attr(isset($_REQUEST['youtube_url']) ? $_REQUEST['youtube_url'] : $user->youtube_url); ?>" <?php
-                                                                                                                                                                        if ($args['required_youtube']) echo ' required';
-                                                                                                                                                                        if ($args['use_confirm']) echo ' data-confirm-label="' . esc_attr($args['label_youtube']) . '"';
-                                                                                                                                                                        ?>></td>
-        </tr>
-    <?php
-            endif;
-
-            if ($args['show_tiktok']) :
-    ?>
-        <tr>
-            <th><label for="tiktok_url"><?php
-                                        echo esc_html($args['label_tiktok']);
-                                        if ($args['required_tiktok']) :
+        ?>
+            <tr>
+                <th><label for="job"><?php
+                                        echo esc_html($args['label_job']);
+                                        if ($args['required_job']) :
                                             echo $args['required_html'];
                                         endif;
                                         ?></label></th>
-            <td><input type="url" name="tiktok_url" value="<?php echo esc_attr(isset($_REQUEST['tiktok_url']) ? $_REQUEST['tiktok_url'] : $user->tiktok_url); ?>" <?php
-                                                                                                                                                                    if ($args['required_tiktok']) echo ' required';
-                                                                                                                                                                    if ($args['use_confirm']) echo ' data-confirm-label="' . esc_attr($args['label_tiktok']) . '"';
-                                                                                                                                                                    ?>></td>
-        </tr>
-    <?php
+                <td><input type="text" name="job" value="<?php echo esc_attr(isset($_REQUEST['job']) ? $_REQUEST['job'] : $user->job); ?>" <?php
+                                                                                                                                            if ($args['required_job']) echo ' required';
+                                                                                                                                            if ($args['use_confirm']) echo ' data-confirm-label="' . esc_attr($args['label_job']) . '"';
+                                                                                                                                            ?>></td>
+            </tr>
+        <?php
+            endif;
+        ?>
+
+        <?php
+            if ($args['show_facebook']) :
+        ?>
+            <tr>
+                <th><label for="facebook_url"><?php
+                                                echo esc_html($args['label_facebook']);
+                                                if ($args['required_facebook']) :
+                                                    echo $args['required_html'];
+                                                endif;
+                                                ?></label></th>
+                <td><input type="url" name="facebook_url" value="<?php echo esc_attr(isset($_REQUEST['facebook_url']) ? $_REQUEST['facebook_url'] : $user->facebook_url); ?>" <?php
+                                                                                                                                                                                if ($args['required_company']) echo ' facebook';
+                                                                                                                                                                                if ($args['use_confirm']) echo ' data-confirm-label="' . esc_attr($args['label_facebook']) . '"';
+                                                                                                                                                                                ?>></td>
+            </tr>
+        <?php
+            endif;
+
+            if ($args['show_twitter']) :
+        ?>
+            <tr>
+                <th><label for="twitter_url"><?php
+                                                echo esc_html($args['label_twitter']);
+                                                if ($args['required_twitter']) :
+                                                    echo $args['required_html'];
+                                                endif;
+                                                ?></label></th>
+                <td><input type="url" name="twitter_url" value="<?php echo esc_attr(isset($_REQUEST['twitter_url']) ? $_REQUEST['twitter_url'] : $user->twitter_url); ?>" <?php
+                                                                                                                                                                            if ($args['required_twitter']) echo ' required';
+                                                                                                                                                                            if ($args['use_confirm']) echo ' data-confirm-label="' . esc_attr($args['label_twitter']) . '"';
+                                                                                                                                                                            ?>></td>
+            </tr>
+        <?php
+            endif;
+
+            if ($args['show_instagram']) :
+        ?>
+            <tr>
+                <th><label for="instagram_url"><?php
+                                                echo esc_html($args['label_instagram']);
+                                                if ($args['required_instagram']) :
+                                                    echo $args['required_html'];
+                                                endif;
+                                                ?></label></th>
+                <td><input type="url" name="instagram_url" value="<?php echo esc_attr(isset($_REQUEST['instagram_url']) ? $_REQUEST['instagram_url'] : $user->instagram_url); ?>" <?php
+                                                                                                                                                                                    if ($args['required_instagram']) echo ' required';
+                                                                                                                                                                                    if ($args['use_confirm']) echo ' data-confirm-label="' . esc_attr($args['label_instagram']) . '"';
+                                                                                                                                                                                    ?>></td>
+            </tr>
+        <?php
+            endif;
+
+            if ($args['show_youtube']) :
+        ?>
+            <tr>
+                <th><label for="youtube_url"><?php
+                                                echo esc_html($args['label_youtube']);
+                                                if ($args['required_youtube']) :
+                                                    echo $args['required_html'];
+                                                endif;
+                                                ?></label></th>
+                <td><input type="url" name="youtube_url" value="<?php echo esc_attr(isset($_REQUEST['youtube_url']) ? $_REQUEST['youtube_url'] : $user->youtube_url); ?>" <?php
+                                                                                                                                                                            if ($args['required_youtube']) echo ' required';
+                                                                                                                                                                            if ($args['use_confirm']) echo ' data-confirm-label="' . esc_attr($args['label_youtube']) . '"';
+                                                                                                                                                                            ?>></td>
+            </tr>
+        <?php
+            endif;
+
+            if ($args['show_tiktok']) :
+        ?>
+            <tr>
+                <th><label for="tiktok_url"><?php
+                                            echo esc_html($args['label_tiktok']);
+                                            if ($args['required_tiktok']) :
+                                                echo $args['required_html'];
+                                            endif;
+                                            ?></label></th>
+                <td><input type="url" name="tiktok_url" value="<?php echo esc_attr(isset($_REQUEST['tiktok_url']) ? $_REQUEST['tiktok_url'] : $user->tiktok_url); ?>" <?php
+                                                                                                                                                                        if ($args['required_tiktok']) echo ' required';
+                                                                                                                                                                        if ($args['use_confirm']) echo ' data-confirm-label="' . esc_attr($args['label_tiktok']) . '"';
+                                                                                                                                                                        ?>></td>
+            </tr>
+        <?php
             endif;
 
             if ($args['show_mail_magazine']) {
-    ?>
+        ?>
 
-        <div class="row">
-            <div class="col-12 pb-3">
-                <label for="mail_magazine">
-                    <?php
-                    echo esc_html($args['label_mail_magazine']);
-                    if ($args['required_mail_magazine']) :
-                        echo $args['required_html'];
-                    endif;
-                    ?>
-                </label>
-                <?php echo get_tcd_user_profile_input_radio('mail_magazine', $receive_options, isset($_REQUEST['mail_magazine']) ? $_REQUEST['mail_magazine'] : $user->mail_magazine, 'yes', $args['use_confirm'] ? $args['label_mail_magazine'] : null); ?>
+            <div class="row">
+                <div class="col-12 pb-3">
+                    <label for="mail_magazine">
+                        <?php
+                        echo esc_html($args['label_mail_magazine']);
+                        if ($args['required_mail_magazine']) :
+                            echo $args['required_html'];
+                        endif;
+                        ?>
+                    </label>
+                    <?php echo get_tcd_user_profile_input_radio('mail_magazine', $receive_options, isset($_REQUEST['mail_magazine']) ? $_REQUEST['mail_magazine'] : $user->mail_magazine, 'yes', $args['use_confirm'] ? $args['label_mail_magazine'] : null); ?>
+                </div>
             </div>
-        </div>
-    <?php
+        <?php
             }
 
             if ($args['show_member_news_notify']) {
-    ?>
-        <div class="row">
-            <div class="col-12 pb-3">
-                <label for="member_news_notify">
-                    <?php
-                    echo esc_html($args['label_member_news_notify']);
-                    if ($args['required_member_news_notify']) :
-                        echo $args['required_html'];
-                    endif;
-                    ?>
-                </label>
-                <?php echo get_tcd_user_profile_input_radio('member_news_notify', $notify_options, isset($_REQUEST['member_news_notify']) ? $_REQUEST['member_news_notify'] : $user->member_news_notify, 'yes', $args['use_confirm'] ? $args['label_member_news_notify'] : null); ?>
+        ?>
+            <div class="row">
+                <div class="col-12 pb-3">
+                    <label for="member_news_notify">
+                        <?php
+                        echo esc_html($args['label_member_news_notify']);
+                        if ($args['required_member_news_notify']) :
+                            echo $args['required_html'];
+                        endif;
+                        ?>
+                    </label>
+                    <?php echo get_tcd_user_profile_input_radio('member_news_notify', $notify_options, isset($_REQUEST['member_news_notify']) ? $_REQUEST['member_news_notify'] : $user->member_news_notify, 'yes', $args['use_confirm'] ? $args['label_member_news_notify'] : null); ?>
+                </div>
             </div>
-        </div>
-    <?php
+        <?php
             }
 
             if ($args['show_social_notify']) {
-    ?>
-        <div class="row">
-            <div class="col-12 pb-3">
-                <label for="social_notify">
-                    <?php
-                    echo esc_html($args['label_social_notify']);
-                    if ($args['required_social_notify']) :
-                        echo $args['required_html'];
-                    endif;
-                    ?>
-                </label>
-                <?php echo get_tcd_user_profile_input_radio('social_notify', $notify_options, isset($_REQUEST['social_notify']) ? $_REQUEST['social_notify'] : $user->social_notify, 'yes', $args['use_confirm'] ? $args['label_social_notify'] : null); ?>
+        ?>
+            <div class="row">
+                <div class="col-12 pb-3">
+                    <label for="social_notify">
+                        <?php
+                        echo esc_html($args['label_social_notify']);
+                        if ($args['required_social_notify']) :
+                            echo $args['required_html'];
+                        endif;
+                        ?>
+                    </label>
+                    <?php echo get_tcd_user_profile_input_radio('social_notify', $notify_options, isset($_REQUEST['social_notify']) ? $_REQUEST['social_notify'] : $user->social_notify, 'yes', $args['use_confirm'] ? $args['label_social_notify'] : null); ?>
+                </div>
             </div>
-        </div>
-    <?php
+        <?php
             }
 
             if ($args['show_messages_notify']) {
-    ?>
+        ?>
 
-        <div class="row">
-            <div class="col-12 pb-3">
-                <label for="messages_notify">
-                    <?php
-                    echo esc_html($args['label_messages_notify']);
-                    if ($args['required_messages_notify']) :
-                        echo $args['required_html'];
-                    endif;
-                    ?>
-                </label>
-                <?php echo get_tcd_user_profile_input_radio('messages_notify', $notify_options, isset($_REQUEST['messages_notify']) ? $_REQUEST['messages_notify'] : $user->messages_notify, 'yes', $args['use_confirm'] ? $args['label_messages_notify'] : null); ?>
+            <div class="row">
+                <div class="col-12 pb-3">
+                    <label for="messages_notify">
+                        <?php
+                        echo esc_html($args['label_messages_notify']);
+                        if ($args['required_messages_notify']) :
+                            echo $args['required_html'];
+                        endif;
+                        ?>
+                    </label>
+                    <?php echo get_tcd_user_profile_input_radio('messages_notify', $notify_options, isset($_REQUEST['messages_notify']) ? $_REQUEST['messages_notify'] : $user->messages_notify, 'yes', $args['use_confirm'] ? $args['label_messages_notify'] : null); ?>
+                </div>
             </div>
-        </div>
-<?php
+    <?php
             }
 
             $html = ob_get_clean();
