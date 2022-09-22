@@ -1673,8 +1673,8 @@ jQuery(function() {
         validateRequest();
     });
 
-    // 予算のフォーカスが外れた場合
-    jQuery("body").on("blur", "#budget", function(e) {
+    // 予算の変更がされた場合
+    jQuery("body").on("change", "#budget", function(e) {
         validateRequest();
     });
 
@@ -1804,48 +1804,25 @@ function validateRequest() {
     }
 
     // 予算の必須チェック
+    var flagBudget = false;
     jQuery('#inputBudget').html('');
     var budget = jQuery('#budget').val();
-
-    var flagBudget = true;
-    var int_pattern = /^\d*$/;
-    if (budget === '') {
+    if (parseInt(budget) <= 0) {
+        flagBudget = true;
         jQuery('#inputBudget').html('予算を入力してください。');
-    } else {
-        // 予算の入力値チェック
-        var chkBudget = int_pattern.test(budget);
-        var minimum_order_price = jQuery('#minimum_order_price').val();
-        if (chkBudget === false || budget <= minimum_order_price) {
-            jQuery('#inputBudget').html('予算の御確認を御願い致します。');
-        } else {
-            flagBudget = false;
-        }
     }
-
 
     // 比較のため現在日時の取得
     var nowDate = new Date();
 
     // 応募期限の必須チェック
     jQuery('#inputAppDeadline').html('');
-    var appDeadlineY = jQuery('#appDeadlineY').val();
-    var appDeadlineM = jQuery('#appDeadlineM').val();
-    var appDeadlineD = jQuery('#appDeadlineD').val();
+    var appDeadline = jQuery('#appDeadline').val();
 
-    var appDeadline;
-    var flagAppDeadline = true;
-    if (appDeadlineY === '' ||
-        appDeadlineM === '' ||
-        appDeadlineD === '') {
-        jQuery('#inputAppDeadline').html('応募期限は必須入力です。');
-    } else {
-        appDeadline = new Date(appDeadlineY, appDeadlineM, appDeadlineD);
-        if (nowDate.getTime() > appDeadline.getTime()) {
-            // 応募期限が過去日の場合
-            jQuery('#inputAppDeadline').html('応募期限の日付を御確認下さい。');
-        } else {
-            flagAppDeadline = false;
-        }
+    var flagAppDeadline = false;
+    if (appDeadline === '') {
+        jQuery('#inputAppDeadline').html('応募期限の日付を御確認下さい。');
+        var flagAppDeadline = true;
     }
 
     // 納品希望日の書式チェック
@@ -1862,12 +1839,6 @@ function validateRequest() {
         desiredDate = new Date(desiredDateY, desiredDateM, desiredDateD);
         if (nowDate.getTime() > desiredDate.getTime()) {
             // 納品希望日が過去日の場合
-            jQuery('#inputDesiredDate').html('納品希望日の日付を御確認下さい。');
-            flagAppDeadline = true;
-        }
-
-        if (desiredDate.getTime() < appDeadline.getTime()) {
-            // 納品希望日が応募期限日より過去の場合
             jQuery('#inputDesiredDate').html('納品希望日の日付を御確認下さい。');
             flagAppDeadline = true;
         }
@@ -1909,16 +1880,6 @@ function validateRequest() {
 function setSelectDate() {
 
     var nowYear = new Date().getFullYear();
-    var hideAppDeadlineY = jQuery('#hideAppDeadlineY').val();
-    var htmlAppDeadlineY = '';
-    for (var year = nowYear; year < nowYear + 3; year++) {
-        if (year == hideAppDeadlineY) {
-            htmlAppDeadlineY += '<option value="' + year + '" selected>' + year + '</option>';
-        } else {
-            htmlAppDeadlineY += '<option value="' + year + '">' + year + '</option>';
-        }
-    }
-    jQuery('#appDeadlineY').html(htmlAppDeadlineY);
 
     var hideDesiredDateY = jQuery('#hideDesiredDateY').val();
     var htmlDesiredDateY = '';
@@ -1932,17 +1893,6 @@ function setSelectDate() {
     }
     jQuery('#desiredDateY').html(htmlDesiredDateY);
 
-    var hideAppDeadlineM = jQuery('#hideAppDeadlineM').val();
-    var htmlAppDeadlineM = '';
-    for (var month = 1; month <= 12; month++) {
-        if (month == hideAppDeadlineM) {
-            htmlAppDeadlineM += '<option value="' + month + '" selected>' + month + '</option>';
-        } else {
-            htmlAppDeadlineM += '<option value="' + month + '">' + month + '</option>';
-        }
-    }
-    jQuery('#appDeadlineM').html(htmlAppDeadlineM);
-
     var hideDesiredDateM = jQuery('#hideDesiredDateM').val();
     var htmlDesiredDateM = '';
     htmlDesiredDateM += '<option value=""></option>';
@@ -1954,17 +1904,6 @@ function setSelectDate() {
         }
     }
     jQuery('#desiredDateM').html(htmlDesiredDateM);
-
-    var hideAppDeadlineD = jQuery('#hideAppDeadlineD').val();
-    var htmlAppDeadlineD = '';
-    for (var day = 1; day <= 31; day++) {
-        if (day == hideAppDeadlineD) {
-            htmlAppDeadlineD += '<option value="' + day + '" selected>' + day + '</option>';
-        } else {
-            htmlAppDeadlineD += '<option value="' + day + '">' + day + '</option>';
-        }
-    }
-    jQuery('#appDeadlineD').html(htmlAppDeadlineD);
 
     var hideDesiredDateD = jQuery('#hideDesiredDateD').val();
     var htmlDesiredDateD = '';
