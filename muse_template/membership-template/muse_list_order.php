@@ -50,6 +50,7 @@ get_header();
                 $profile_image = $profileImageData;
             }
 
+            $budget = get_post_meta($one_order->post_id, 'budget', true);
             $dateTimeClass = new DateTime($one_order->appDeadlineDate);
         ?>
             <div class="row">
@@ -85,7 +86,7 @@ get_header();
                             </div>
                             <div class="row">
                                 <div class="col-3 request-budget px-0 mt-1 ml-3 mr-1">
-                                    <p class="font-weight-bold"><?php echo esc_attr($one_order->budget); ?>円</p>
+                                    <p class="font-weight-bold"><?php echo esc_attr($tcd_membership_vars['array_budget'][$one_order->budget]); ?></p>
                                 </div>
                                 <div class="col-3 subtext request-deadline px-0 mx-1 mt-1">
                                     <p class="font-weight-bold"><?php echo $dateTimeClass->format('Y/m/d'); ?></p>

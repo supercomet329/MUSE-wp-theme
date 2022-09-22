@@ -50,6 +50,7 @@ function tcd_membership_memberpage_init()
 			'oauth_login_google',
 			'oauth_google',
 			'terms',
+			'modify_request',
 		), 
 		'memberpage_guest_types' => array(
 			'login',
